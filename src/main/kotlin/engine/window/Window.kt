@@ -1,16 +1,17 @@
 package engine.window
 
 import org.joml.Vector3f
-import org.lwjgl.glfw.Callbacks
-import org.lwjgl.glfw.GLFW
+import org.lwjgl.glfw.Callbacks.*
+import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
-import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.*
+import org.lwjgl.opengl.GL.*
+import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GLUtil
-import org.lwjgl.opengl.KHRDebug
+import org.lwjgl.opengl.KHRDebug.*
 import org.lwjgl.system.Callback
-import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryStack.*
+import org.lwjgl.system.MemoryUtil.*
 
 object Window {
 
@@ -29,55 +30,57 @@ object Window {
         GLFWErrorCallback.createPrint(System.err).set()
 
         // Now initialize glfw
-        if (!GLFW.glfwInit()) {
+        if (!glfwInit()) {
             throw RuntimeException("Window: Failed to initialize GLFW!")
         }
 
         // Let's just make sure the defaults are there
-        GLFW.glfwDefaultWindowHints()
+        glfwDefaultWindowHints()
 
         // Enable OpenGL debugging
-        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE)
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE)
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE)
-        window = GLFW.glfwCreateWindow(300, 300, "Hello dere!", MemoryUtil.NULL, MemoryUtil.NULL)
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE)
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
+        window = glfwCreateWindow(300, 300, "Hello dere!", NULL, NULL)
 
         // Uh oh
-        if (window == MemoryUtil.NULL) {
+        if (window == NULL) {
             throw RuntimeException("Window: Failed to create the GLFW window!")
         }
 
         // Fancy key callback
-        @Suppress("unused")
-        GLFW.glfwSetKeyCallback(window!!) { window: Long, key: Int, scancode: Int, action: Int, mods: Int ->
+        glfwSetKeyCallback(window!!, fun(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
+            if (key == GLFW_KEY_ESCAPE) {
+
+            }
             println(
-                "Ohai dere"
+                "I AM A WINDOW FEAR ME"
             )
-        }
-        MemoryStack.stackPush().use { stack ->
+        })
+        stackPush().use { stack ->
 
             // These are C pointers
             val windowWidth = stack.mallocInt(1)
             val windowHeight = stack.mallocInt(1)
 
             // Intake refs to these pointers (&windowWidth, etc)
-            GLFW.glfwGetWindowSize(window!!, windowWidth, windowHeight)
+            glfwGetWindowSize(window!!, windowWidth, windowHeight)
 
             // Get the resolution of the primary monitor
-            val videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
+            val videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor())
 
             // Now we can finally center it! Woo
-            GLFW.glfwSetWindowPos(
+            glfwSetWindowPos(
                 window!!,
                 (videoMode!!.width() - windowWidth[0]) / 2,
                 (videoMode.height() - windowHeight[0]) / 2
             )
         }
-        GLFW.glfwMakeContextCurrent(window!!)
-        GLFW.glfwSwapInterval(1)
-        GLFW.glfwShowWindow(window!!)
-        GL.createCapabilities()
-        GL11.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f)
+        glfwMakeContextCurrent(window!!)
+        glfwSwapInterval(1)
+        glfwShowWindow(window!!)
+        createCapabilities()
+        glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f)
 
         // Thanks, TheChubu!
         val callback = GLUtil.setupDebugMessageCallback()
@@ -89,23 +92,27 @@ object Window {
     fun destroy() {
 
         // Now clean the C memory up
-        Callbacks.glfwFreeCallbacks(window!!)
-        GLFW.glfwDestroyWindow(window!!)
-        GLFW.glfwTerminate()
-        GLFW.glfwSetErrorCallback(null)!!.free()
+        glfwFreeCallbacks(window!!)
+        glfwDestroyWindow(window!!)
+        glfwTerminate()
+        glfwSetErrorCallback(null)!!.free()
     }
 
     // I think this one is pretty obvious
     fun shouldClose(): Boolean {
-        return GLFW.glfwWindowShouldClose(window!!)
+        return glfwWindowShouldClose(window!!)
+    }
+
+    fun close() {
+
     }
 
     fun swapBuffers() {
-        GLFW.glfwSwapBuffers(window!!)
+        glfwSwapBuffers(window!!)
     }
 
     fun pollEvents() {
-        GLFW.glfwPollEvents()
+        glfwPollEvents()
 
         // Integrate the clearing of the frame buffer in here because otherwise it gets messy
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
