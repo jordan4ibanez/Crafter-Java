@@ -49,14 +49,16 @@ object Window {
         }
 
         // Fancy key callback
+        @Suppress("unused")
         glfwSetKeyCallback(window!!, fun(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {
             if (key == GLFW_KEY_ESCAPE) {
-
+                print(key)
+                this.close()
             }
-            println(
-                "I AM A WINDOW FEAR ME"
-            )
         })
+
+
+
         stackPush().use { stack ->
 
             // These are C pointers
@@ -84,7 +86,7 @@ object Window {
 
         // Thanks, TheChubu!
         val callback = GLUtil.setupDebugMessageCallback()
-        GL11.glEnable(KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS)
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS)
         debugCallback = GLUtil.setupDebugMessageCallback()
     }
 
@@ -104,7 +106,7 @@ object Window {
     }
 
     fun close() {
-
+        glfwSetWindowShouldClose(window!!, true)
     }
 
     fun swapBuffers() {

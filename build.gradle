@@ -67,13 +67,3 @@ test {
 kotlin {
     jvmToolchain(17)
 }
-compileKotlin {
-//    kotlinOptions {
-//        jvmTarget = "17"
-//    }
-}
-compileTestKotlin {
-//    kotlinOptions {
-//        jvmTarget = "17"
-//    }
-}

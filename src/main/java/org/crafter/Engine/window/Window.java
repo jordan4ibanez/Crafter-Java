@@ -1,4 +1,4 @@
-package org.crafter.Engine;
+package org.crafter.Engine.window;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
