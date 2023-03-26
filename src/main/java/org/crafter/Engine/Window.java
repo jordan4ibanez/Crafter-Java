@@ -6,6 +6,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -58,7 +59,7 @@ public final class Window {
             IntBuffer windowWidth  = stack.mallocInt(1);
             IntBuffer windowHeight = stack.mallocInt(1);
 
-            // Intaking refs to these pointers (&windowWidth, etc)
+            // Intake refs to these pointers (&windowWidth, etc)
             glfwGetWindowSize(window, windowWidth, windowHeight);
 
             // Get the resolution of the primary monitor
@@ -87,10 +88,30 @@ public final class Window {
     public static void destroy() {
 
         // Now clean the C memory up
+        glfwFreeCallbacks(window);
+        glfwDestroyWindow(window);
         glfwTerminate();
         glfwSetErrorCallback(null).free();
 
+    }
 
+    // I think this one is pretty obvious
+    public static boolean shouldClose() {
+        return glfwWindowShouldClose(window);
+    }
+
+    public static void swapBuffers() {
+        glfwSwapBuffers(window);
+    }
+
+    public static void pollEvents() {
+        glfwPollEvents();
+        /*
+         The rest is D code:
+
+         pollMouse();
+         calculateFPS();
+        */
     }
 
 

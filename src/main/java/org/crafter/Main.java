@@ -8,6 +8,13 @@ public class Main {
 
         Window.initialize();
 
+        while(!Window.shouldClose()) {
+            Window.pollEvents();
+
+            System.out.println("hi");
+
+            Window.swapBuffers();
+        }
 
         Window.destroy();
 
