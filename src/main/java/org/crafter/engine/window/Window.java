@@ -103,6 +103,8 @@ public final class Window {
 
         createCapabilities();
 
+        System.out.println(glGetString(GL_VERSION));
+
         glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f);
 
         // Thanks, TheChubu!
