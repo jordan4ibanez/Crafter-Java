@@ -11,8 +11,6 @@ public class Main {
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
-            System.out.println("hi");
-
             Window.swapBuffers();
         }
 

@@ -3,6 +3,8 @@ package org.crafter.Engine;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.KHRDebug;
+import org.lwjgl.system.Callback;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -11,6 +13,7 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GLUtil.setupDebugMessageCallback;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -22,6 +25,9 @@ public final class Window {
 
     // Pointer to the window memory address
     private static long window;
+
+    // The debugging process callbacks
+    private static Callback debugCallback;
 
     // Disallow instantiation of this class
     private Window() {}
@@ -41,6 +47,10 @@ public final class Window {
 
         // Let's just make sure the defaults are there
         glfwDefaultWindowHints();
+
+        // Enable OpenGL debugging
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
@@ -86,6 +96,11 @@ public final class Window {
         createCapabilities();
 
         glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f);
+
+        // Thanks, TheChubu!
+        Callback callback = setupDebugMessageCallback();
+        glEnable(KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        debugCallback = setupDebugMessageCallback();
 
     }
 
