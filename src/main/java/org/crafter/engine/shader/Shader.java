@@ -31,6 +31,16 @@ class Shader {
         link(vertexID, fragmentID);
     }
 
+    // Start the shader program
+    void start() {
+        glUseProgram(programID);
+    }
+
+    // Stop the shader program
+    void stop() {
+        glUseProgram(0);
+    }
+
     // Now bake the whole pipeline into the program
     private void link(int vertexID, int fragmentID) {
         glLinkProgram(programID);
