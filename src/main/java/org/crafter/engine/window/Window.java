@@ -1,4 +1,4 @@
-package org.crafter.engine;
+package org.crafter.engine.window;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -86,6 +86,8 @@ public final class Window {
             GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
             // Now we can finally center it! Woo
+            assert videoMode != null;
+
             glfwSetWindowPos(
                     window,
                     (videoMode.width() - windowWidth.get(0)) / 2,
