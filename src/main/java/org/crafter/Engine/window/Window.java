@@ -54,6 +54,10 @@ public final class Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
+        glfwWindowHint(GLFW_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_VERSION_MINOR, 1);
+
+
         window = glfwCreateWindow(300, 300, "Hello dere!", NULL, NULL);
 
         // Uh oh
