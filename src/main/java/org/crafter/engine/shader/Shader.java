@@ -8,8 +8,10 @@ import static org.lwjgl.opengl.GL20.*;
 /**
  * This is an OpenGL Shader Program!
  * Written as concisely as possible. :)
+ *
+ * You can't actually directly interface with it, you can only talk to these through ShaderStorage!
  */
-public class Shader {
+class Shader {
 
     private final int programID;
 
