@@ -40,3 +40,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+gradle/wrapper/gradle-wrapper.jar
+.idea/workspace.xml
