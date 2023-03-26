@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.crafter'
@@ -14,8 +15,13 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+apply plugin : "java"
+ext {
+    javaMainClass = "org.crafter.Main"
+}
+
 application {
-    mainClass = 'org.crafter.Main'
+    mainClassName = javaMainClass
 }
 
 test {
