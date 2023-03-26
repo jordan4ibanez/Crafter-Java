@@ -17,12 +17,17 @@ public final class ShaderStorage {
     }
 
     // Start a shader
-    public void start(String shaderName) {
+    public static void start(String shaderName) {
         container.get(shaderName).start();
     }
 
     // Stop a shader
-    public void stop(String shaderName) {
+    public static void stop(String shaderName) {
         container.get(shaderName).stop();
+    }
+
+    // Completely obliterates ALL shaders! DO NOT call this before the end of the main loop
+    public static void destroy() {
+        container.forEach( (k, shader) -> shader.destroy() );
     }
 }
