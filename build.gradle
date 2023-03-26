@@ -51,17 +51,21 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
-apply plugin : "java"
-ext {
-    javaMainClass = "org.crafter.Main"
-}
+//apply plugin : "java"
+//ext {
+//    javaMainClass = "org.crafter.Main"
+//}
 
 application {
-    mainClassName = javaMainClass
+//    mainClassName = javaMainClass
+    mainClass.set("MainKt")
 }
 
 test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(19)
 }
 compileKotlin {
 //    kotlinOptions {
