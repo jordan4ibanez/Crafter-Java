@@ -1,6 +1,7 @@
 package org.crafter;
 
-import org.crafter.engine.Window;
+import org.crafter.engine.window.Window;
+import org.crafter.engine.shader.ShaderStorage;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +15,8 @@ public class Main {
             Window.swapBuffers();
         }
 
-        Window.destroy();
+        ShaderStorage.destroy();
 
+        Window.destroy();
     }
 }
