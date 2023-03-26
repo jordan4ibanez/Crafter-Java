@@ -1,5 +1,6 @@
 package org.crafter.Engine;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryStack;
@@ -8,6 +9,8 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL.createCapabilities;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -20,9 +23,10 @@ public final class Window {
     // Pointer to the window memory address
     private static long window;
 
-
     // Disallow instantiation of this class
     private Window() {}
+
+    private static Vector3f clearColor = new Vector3f(0,0,0);
 
 
     // Create the window
@@ -71,16 +75,17 @@ public final class Window {
                     (videoMode.width() - windowWidth.get(0)) / 2,
                     (videoMode.height() - windowHeight.get(0)) / 2
             );
-        } // Out of the stack we go
+        }
 
-        // Omg, my window!
         glfwMakeContextCurrent(window);
 
-        // But slow down there, bub
         glfwSwapInterval(1);
 
-        // Now we can see it, yay!
         glfwShowWindow(window);
+
+        createCapabilities();
+
+        glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f);
 
     }
 
@@ -106,6 +111,9 @@ public final class Window {
 
     public static void pollEvents() {
         glfwPollEvents();
+
+        // Integrate the clearing of the frame buffer in here because otherwise it gets messy
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         /*
          The rest is D code:
 
