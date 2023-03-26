@@ -3,7 +3,6 @@ import org.gradle.internal.os.OperatingSystem
 plugins {
     id 'java'
     id 'application'
-//    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
 }
 
 project.ext.lwjglVersion = "3.3.1"
@@ -20,7 +19,6 @@ switch (OperatingSystem.current()) {
         project.ext.lwjglNatives = "natives-windows"
         break
 }
-
 
 group 'org.crafter'
 version '1.0-SNAPSHOT'
@@ -48,8 +46,12 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
+}
 
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 apply plugin : "java"
@@ -59,12 +61,8 @@ ext {
 
 application {
     mainClassName = javaMainClass
-//    mainClass.set("MainKt")
 }
 
 test {
     useJUnitPlatform()
 }
-//kotlin {
-//    jvmToolchain(17)
-//}
