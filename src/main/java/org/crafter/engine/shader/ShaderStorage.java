@@ -15,4 +15,14 @@ public final class ShaderStorage {
         }
         container.put(shaderName, new Shader(vertexCodeLocation, fragmentCodeLocation));
     }
+
+    // Start a shader
+    public void start(String shaderName) {
+        container.get(shaderName).start();
+    }
+
+    // Stop a shader
+    public void stop(String shaderName) {
+        container.get(shaderName).stop();
+    }
 }
