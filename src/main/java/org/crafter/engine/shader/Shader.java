@@ -13,7 +13,7 @@ public class Shader {
 
     private final int programID;
 
-    // You have to have your code available at construction!
+    // An easy way to create shaders
     Shader (String vertexLocation, String fragmentLocation) {
 
         programID = glCreateProgram();
