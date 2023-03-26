@@ -9,7 +9,6 @@ public class Main {
         Window.initialize();
 
 
-
         Window.destroy();
 
     }
