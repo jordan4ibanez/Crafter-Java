@@ -15,6 +15,8 @@ public class Main {
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
+            ShaderStorage.start("basic");
+
             Window.swapBuffers();
         }
 

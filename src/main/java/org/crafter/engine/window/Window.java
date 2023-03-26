@@ -13,6 +13,7 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.*;
 import static org.lwjgl.opengl.GLUtil.setupDebugMessageCallback;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -72,6 +73,11 @@ public final class Window {
             close();
         });
 
+        // Fancy frame buffer callback
+        glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
+            glViewport(0,0, width, height);
+        });
+
         // This song and dance is to center the window
         try (MemoryStack stack = stackPush()) {
 
@@ -101,6 +107,10 @@ public final class Window {
 
         glfwShowWindow(window);
 
+        startOpenGL();
+    }
+
+    private static void startOpenGL() {
         createCapabilities();
 
         System.out.println(glGetString(GL_VERSION));
@@ -111,6 +121,19 @@ public final class Window {
         Callback callback = setupDebugMessageCallback();
         glEnable(KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS);
         debugCallback = setupDebugMessageCallback();
+
+        // Alpha color blending
+        glEnable(GL_BLEND);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+
+        // Wireframe mode for debugging polygons
+        // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
+        // Enable depth testing
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
 
     }
 
