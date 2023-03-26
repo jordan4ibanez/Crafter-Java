@@ -110,4 +110,13 @@ class Shader {
 
         return code;
     }
+
+    // Completely obliterates the shader program
+    public void destroy() {
+        stop();
+        if (programID != 0) {
+            glDeleteProgram(programID);
+        }
+
+    }
 }
