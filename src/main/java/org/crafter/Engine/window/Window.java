@@ -54,9 +54,10 @@ public final class Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        glfwWindowHint(GLFW_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_VERSION_MINOR, 1);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
         window = glfwCreateWindow(300, 300, "Hello dere!", NULL, NULL);
 
@@ -67,7 +68,8 @@ public final class Window {
 
         // Fancy key callback
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            System.out.println("Ohai dere");
+            System.out.println("Closing!");
+            close();
         });
 
         // This song and dance is to center the window
@@ -139,6 +141,10 @@ public final class Window {
          pollMouse();
          calculateFPS();
         */
+    }
+
+    public static void close() {
+        glfwSetWindowShouldClose(window, true);
     }
 
 
