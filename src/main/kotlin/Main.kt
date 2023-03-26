@@ -1,4 +1,4 @@
-import org.crafter.Engine.Window
+import engine.window.*
 
 class Mane {
     fun hi() {
