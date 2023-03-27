@@ -1,29 +1,11 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'application'
 }
 
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
-
-// Note: This is just kept here in case someone randomly sees this and likes this better
-
-// Modify this to build for other operating systems
-//boolean doOverride = false
-//OperatingSystem override = OperatingSystem.LINUX
-//OperatingSystem selectedOS = doOverride ? override : OperatingSystem.current()
-//
-//switch (selectedOS) {
-//    case OperatingSystem.LINUX:
-//        project.ext.lwjglNatives = "natives-linux"
-//        break
-//    case OperatingSystem.MAC_OS:
-//        project.ext.lwjglNatives = "natives-macos"
-//        break
-//    case OperatingSystem.WINDOWS:
-//        project.ext.lwjglNatives = "natives-windows"
-//        break
-//}
 
 group 'org.crafter'
 version '0.0-PROTOTYPE'
@@ -35,6 +17,7 @@ repositories {
 String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 dependencies {
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
@@ -67,27 +50,17 @@ java {
     }
 }
 
-apply plugin : "java"
-ext {
-    javaMainClass = "org.crafter.Main"
-}
-
-application {
-    mainClassName = javaMainClass
-}
-
 test {
     useJUnitPlatform()
 }
 
-jar {
-    // Don't want duplicate libs
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    manifest {
-        attributes(
-                'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '),
-                'Main-Class': 'org.crafter.Main'
-        )
-    // Now shovel all those natives in there!
-    } from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+application {
+    mainClassName = "org.crafter.Main"
+}
+
+shadowJar {
+    mainClassName = "org.crafter.Main"
+    archiveBaseName.set('Crafter')
+    archiveClassifier.set('')
+    archiveVersion.set('')
 }
