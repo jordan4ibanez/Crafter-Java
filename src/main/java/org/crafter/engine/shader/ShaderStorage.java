@@ -1,5 +1,9 @@
 package org.crafter.engine.shader;
 
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+
 import java.util.HashMap;
 
 public final class ShaderStorage {
@@ -15,6 +19,26 @@ public final class ShaderStorage {
         }
         container.put(shaderName, new Shader(shaderName, vertexCodeLocation, fragmentCodeLocation));
     }
+
+    // Matrix4f uniform setter
+    public static void setUniform(String shaderName, String uniformName, Matrix4f matrix) {
+        checkExistence(shaderName);
+        container.get(shaderName).setUniform(uniformName, matrix);
+    }
+
+    // Vector3f uniform setter
+    public static void setUniform(String shaderName, String uniformName, Vector3f vector) {
+        checkExistence(shaderName);
+        container.get(shaderName).setUniform(uniformName, vector);
+    }
+
+    // Vector2f uniform setter
+    public static void setUniform(String shaderName, String uniformName, Vector2f vector) {
+        checkExistence(shaderName);
+        container.get(shaderName).setUniform(uniformName, vector);
+    }
+
+
 
     // Create one uniform for a shader
     public static void createUniform(String shaderName, String uniformName) {
