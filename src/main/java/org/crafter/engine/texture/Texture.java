@@ -79,15 +79,16 @@ class Texture {
         glBindTexture(GL_TEXTURE_2D, textureID);
     }
 
-    public int getTextureID() {
+    int getTextureID() {
         return textureID;
     }
 
-    public String getName() {
+    // This one is pretty much only for debugging
+    String getName() {
         return name;
     }
 
-    public Vector2i getSize() {
+    Vector2i getSize() {
         return size;
     }
 
