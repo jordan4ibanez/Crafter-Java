@@ -16,6 +16,12 @@ public final class ShaderStorage {
         container.put(shaderName, new Shader(vertexCodeLocation, fragmentCodeLocation));
     }
 
+    public static void createUniform(String shaderName, String uniformName) {
+
+
+    }
+
+
     // Start a shader
     public static void start(String shaderName) {
         container.get(shaderName).start();
@@ -29,5 +35,13 @@ public final class ShaderStorage {
     // Completely obliterates ALL shaders! DO NOT call this before the end of the main loop
     public static void destroy() {
         container.forEach( (k, shader) -> shader.destroy() );
+    }
+
+
+    // Internal check to make sure nothing stupid is happening
+    private static void checkExistence(String shaderName) {
+        if (!container.containsKey(shaderName)) {
+            throw new RuntimeException("ShaderStorage: Tried to access nonexistent shader (" + shaderName + "!");
+        }
     }
 }
