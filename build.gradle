@@ -10,21 +10,21 @@ project.ext.jomlVersion = "1.10.5"
 
 
 // Modify this to build for other operating systems
-boolean doOverride = false
-OperatingSystem override = OperatingSystem.LINUX
-OperatingSystem selectedOS = doOverride ? override : OperatingSystem.current()
-
-switch (selectedOS) {
-    case OperatingSystem.LINUX:
-        project.ext.lwjglNatives = "natives-linux"
-        break
-    case OperatingSystem.MAC_OS:
-        project.ext.lwjglNatives = "natives-macos"
-        break
-    case OperatingSystem.WINDOWS:
-        project.ext.lwjglNatives = "natives-windows"
-        break
-}
+//boolean doOverride = false
+//OperatingSystem override = OperatingSystem.LINUX
+//OperatingSystem selectedOS = doOverride ? override : OperatingSystem.current()
+//
+//switch (selectedOS) {
+//    case OperatingSystem.LINUX:
+//        project.ext.lwjglNatives = "natives-linux"
+//        break
+//    case OperatingSystem.MAC_OS:
+//        project.ext.lwjglNatives = "natives-macos"
+//        break
+//    case OperatingSystem.WINDOWS:
+//        project.ext.lwjglNatives = "natives-windows"
+//        break
+//}
 
 group 'org.crafter'
 version '0.0-PROTOTYPE'
@@ -32,6 +32,8 @@ version '0.0-PROTOTYPE'
 repositories {
     mavenCentral()
 }
+
+String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -45,12 +47,17 @@ dependencies {
     implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-stb"
-    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+
+    for (OS in natives) {
+        println("Adding " + OS)
+
+        runtimeOnly "org.lwjgl:lwjgl::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-assimp::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-glfw::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-openal::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-opengl::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-stb::$OS"
+    }
     implementation "org.joml:joml:${jomlVersion}"
 }
 
