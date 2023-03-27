@@ -31,7 +31,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-stb"
 
     for (OS in natives) {
-        println("Adding " + OS)
+        println("Adding $OS")
 
         runtimeOnly "org.lwjgl:lwjgl::$OS"
         runtimeOnly "org.lwjgl:lwjgl-assimp::$OS"
