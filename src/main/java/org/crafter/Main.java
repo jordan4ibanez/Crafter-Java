@@ -3,8 +3,6 @@ package org.crafter;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -12,6 +10,8 @@ public class Main {
 
 
         ShaderStorage.createShader("basic", "shaders/vertex.vert", "shaders/fragment.frag");
+        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix"});
+
 
         ShaderStorage.start("basic");
 
