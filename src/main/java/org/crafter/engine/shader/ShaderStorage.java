@@ -6,6 +6,11 @@ import org.joml.Vector3f;
 
 import java.util.HashMap;
 
+/**
+ * This is the public interface where all shaders live!
+ *
+ * To talk to a shader, you must talk to the shader storage.
+ */
 public final class ShaderStorage {
     // Here's where all the shaders live!
     private static final HashMap<String, Shader> container = new HashMap<>();
