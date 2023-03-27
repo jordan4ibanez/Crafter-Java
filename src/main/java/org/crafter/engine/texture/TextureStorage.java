@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public final class TextureStorage {
 
-    // Here's where all the texures live!
+    // Here's where all the textures live!
     private static final HashMap<String, Texture> container = new HashMap<>();
 
     private TextureStorage(){}
