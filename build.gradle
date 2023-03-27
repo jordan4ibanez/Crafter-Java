@@ -10,7 +10,7 @@ project.ext.jomlVersion = "1.10.5"
 
 
 // Modify this to build for other operating systems
-boolean doOverride = true
+boolean doOverride = false
 OperatingSystem override = OperatingSystem.LINUX
 OperatingSystem selectedOS = doOverride ? override : OperatingSystem.current()
 
