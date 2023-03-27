@@ -8,7 +8,13 @@ plugins {
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 
-switch (OperatingSystem.current()) {
+
+// Modify this to build for other operating systems
+boolean doOverride = true
+OperatingSystem override = OperatingSystem.LINUX
+OperatingSystem selectedOS = doOverride ? override : OperatingSystem.current()
+
+switch (selectedOS) {
     case OperatingSystem.LINUX:
         project.ext.lwjglNatives = "natives-linux"
         break
