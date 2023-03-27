@@ -59,7 +59,7 @@ public final class Window {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
         // FORCE core 4.1 minimum, but allow driver optimizations
-        glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
+        glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE );
         glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
         window = glfwCreateWindow(300, 300, "Crafter Engine Prototype", NULL, NULL);
