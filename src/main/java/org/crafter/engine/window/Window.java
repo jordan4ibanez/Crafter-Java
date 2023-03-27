@@ -68,7 +68,8 @@ public final class Window {
         // Allow driver to do whatever the heck it wants - This is probably faster
 //        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 //        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-        window = glfwCreateWindow(300, 300, "Hello dere!", NULL, NULL);
+
+        window = glfwCreateWindow(300, 300, "Crafter Engine Prototype", NULL, NULL);
 
         // Uh oh
         if (window == NULL) {
