@@ -14,12 +14,14 @@ import static org.lwjgl.opengl.GL20.*;
  */
 class Shader {
 
+    private final String name;
+
     private final int programID;
 
     private final HashMap<String, Integer> uniforms;
 
     // An easy way to create shaders
-    Shader (String vertexLocation, String fragmentLocation) {
+    Shader (String name, String vertexLocation, String fragmentLocation) {
 
         programID = glCreateProgram();
 
@@ -33,6 +35,8 @@ class Shader {
 
         link(vertexID, fragmentID);
 
+        this.name = name;
+
         // Now that everything is good to go, we create the uniforms map
         uniforms =  new HashMap<>();
     }
@@ -40,9 +44,10 @@ class Shader {
     void createUniform(String name) {
         int location = glGetUniformLocation(programID, name);
         if (location < 0) {
-            throw new RuntimeException("Shader: Could not find uniform (" + name + ")!");
+            throw new RuntimeException("Shader (" + this.name + "): Could not find uniform (" + name + ")!");
         }
         uniforms.put(name, location);
+        System.out.println("Shader (" + this.name + "): created uniform " + name + " successfully!");
     }
 
     // Start the shader program
