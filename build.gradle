@@ -21,7 +21,7 @@ switch (OperatingSystem.current()) {
 }
 
 group 'org.crafter'
-version '1.0-SNAPSHOT'
+version '0.0-PROTOTYPE'
 
 repositories {
     mavenCentral()
@@ -65,4 +65,16 @@ application {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    // Don't want duplicate libs
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '),
+                'Main-Class': 'org.crafter.Main'
+        )
+    // Now shovel all those natives in there!
+    } from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
