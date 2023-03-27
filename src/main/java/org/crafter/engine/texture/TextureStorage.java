@@ -1,5 +1,7 @@
 package org.crafter.engine.texture;
 
+import org.joml.Vector2i;
+
 import java.util.HashMap;
 
 /**
@@ -20,13 +22,22 @@ public final class TextureStorage {
         container.put(fileLocation, new Texture(fileLocation));
     }
 
+    public static void select(String fileLocation) {
+        checkExistence(fileLocation);
+        container.get(fileLocation).select();
+    }
 
+    public static int getID(String fileLocation) {
+        checkExistence(fileLocation);
+        return container.get(fileLocation).getTextureID();
+    }
 
-
-
-
-
-
+    public static Vector2i getSize(String fileLocation) {
+        checkExistence(fileLocation);
+        return container.get(fileLocation).getSize();
+    }
+    
+    // This shall ONLY be called after the main loop is finished!
     public static void destroy() {
         for (Texture texture : container.values()) {
             texture.destroy();
