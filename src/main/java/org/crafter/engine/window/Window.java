@@ -58,8 +58,16 @@ public final class Window {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        // Mesa 22.2.5 doesn't give a poop about this
+//        glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
 
+        glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE );
+
+
+        // Mesa acts weird with this
+        // Allow driver to do whatever the heck it wants - This is probably faster
+//        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+//        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
         window = glfwCreateWindow(300, 300, "Hello dere!", NULL, NULL);
 
         // Uh oh
