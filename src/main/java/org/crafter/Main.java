@@ -22,7 +22,7 @@ public class Main {
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
-            glDrawArrays(GL_TRIANGLES, 0, 9);
+//            glDrawArrays(GL_TRIANGLES, 0, 9);
 
             Window.swapBuffers();
         }
