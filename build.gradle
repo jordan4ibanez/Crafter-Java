@@ -58,6 +58,7 @@ dependencies {
         runtimeOnly "org.lwjgl:lwjgl-opengl::$OS"
         runtimeOnly "org.lwjgl:lwjgl-stb::$OS"
     }
+
     implementation "org.joml:joml:${jomlVersion}"
 }
 
