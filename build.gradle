@@ -1,5 +1,3 @@
-import org.gradle.internal.os.OperatingSystem
-
 plugins {
     id 'java'
     id 'application'
@@ -8,6 +6,7 @@ plugins {
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 
+// Note: This is just kept here in case someone randomly sees this and likes this better
 
 // Modify this to build for other operating systems
 //boolean doOverride = false
