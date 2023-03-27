@@ -97,9 +97,9 @@ public final class Window {
             assert videoMode != null;
 
             glfwSetWindowPos(
-                    window,
-                    (videoMode.width() - windowWidth.get(0)) / 2,
-                    (videoMode.height() - windowHeight.get(0)) / 2
+                window,
+                (videoMode.width() - windowWidth.get(0)) / 2,
+                (videoMode.height() - windowHeight.get(0)) / 2
             );
         }
 
@@ -125,19 +125,19 @@ public final class Window {
         debugCallback = setupDebugMessageCallback();
 
         // Alpha color blending
-//        glEnable(GL_BLEND);
-//        glBlendEquation(GL_FUNC_ADD);
-//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+        glEnable(GL_BLEND);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 
         // Wireframe mode for debugging polygons
-        // glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         // Enable depth testing
-//        glEnable(GL_DEPTH_TEST);
-//        glDepthFunc(GL_LESS);
-//
-//        glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+        glEnable(GL_BLEND);
 
     }
 
