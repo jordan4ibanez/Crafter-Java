@@ -1,6 +1,12 @@
 package org.crafter.engine.shader;
 
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.lwjgl.system.MemoryStack;
+
 import java.io.File;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.util.HashMap;
 
@@ -39,6 +45,36 @@ class Shader {
 
         // Now that everything is good to go, we create the uniforms map
         uniforms =  new HashMap<>();
+    }
+
+    // Matrix4f version of uniform setter
+    void setUniform(String name, Matrix4f matrix) {
+         // Turn this into a C float* (float[16])
+         try (MemoryStack stack = MemoryStack.stackPush()){
+             FloatBuffer buffer = stack.mallocFloat(16);
+             matrix.get(buffer);
+             glUniformMatrix4fv(uniforms.get(name), false, buffer);
+         }
+    }
+
+    // Vector3f version of uniform setter
+    void setUniform(String name, Vector3f vector) {
+        // Turn this into C float* (float[3])
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer buffer = stack.mallocFloat(3);
+            vector.get(buffer);
+            glUniform3fv(uniforms.get(name), buffer);
+        }
+    }
+
+    // Vector2f version of uniform setter
+    void setUniform(String name, Vector2f vector) {
+        // Turn this into C float* (float[2])
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer buffer = stack.mallocFloat(2);
+            vector.get(buffer);
+            glUniform2fv(uniforms.get(name), buffer);
+        }
     }
 
     void createUniform(String name) {
