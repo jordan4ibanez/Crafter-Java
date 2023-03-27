@@ -16,10 +16,20 @@ public final class ShaderStorage {
         container.put(shaderName, new Shader(vertexCodeLocation, fragmentCodeLocation));
     }
 
+    // Create one uniform for a shader
     public static void createUniform(String shaderName, String uniformName) {
-
-
+        checkExistence(shaderName);
+        container.get(shaderName).createUniform(uniformName);
     }
+
+    // Create multiple uniforms for a shader
+    public static void createUniform(String shaderName, String[] uniformNames) {
+        checkExistence(shaderName);
+        for (String name : uniformNames) {
+            container.get(shaderName).createUniform(name);
+        }
+    }
+
 
 
     // Start a shader
