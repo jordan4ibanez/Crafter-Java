@@ -37,6 +37,14 @@ class Shader {
         uniforms =  new HashMap<>();
     }
 
+    void createUniform(String name) {
+        int location = glGetUniformLocation(programID, name);
+        if (location < 0) {
+            throw new RuntimeException("Shader: Could not find uniform (" + name + ")!");
+        }
+        uniforms.put(name, location);
+    }
+
     // Start the shader program
     void start() {
         glUseProgram(programID);
