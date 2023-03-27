@@ -20,10 +20,25 @@ public class Mesh {
 
     private int colorsVboID = INVALID;
 
-    Mesh() {
+    // Not using builder pattern in Java because I'm trying out a new structure implementation
+    Mesh(float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors) {
+
+        checkRequired(positions, textureCoordinates, indices);
+
 
     }
 
 
+    // This is a separate method to improve the constructor readability
+    private void checkRequired(float[] positions, float[] textureCoordinates, int[] indices) {
+        if (positions == null) {
+            throw new RuntimeException("Mesh: Positions parameter CANNOT be null!");
+        } else if (textureCoordinates == null) {
+            throw new RuntimeException("Mesh: Texture coordinates parameter CANNOT be null!");
+        } else if (indices == null) {
+            throw new RuntimeException("Mesh: Indices parameter CANNOT be null!");
+        }
+        // Required data is all there, nice
+    }
 
 }
