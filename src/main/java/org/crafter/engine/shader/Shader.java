@@ -2,6 +2,7 @@ package org.crafter.engine.shader;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -14,6 +15,8 @@ import static org.lwjgl.opengl.GL20.*;
 class Shader {
 
     private final int programID;
+
+    private final HashMap<String, Integer> uniforms;
 
     // An easy way to create shaders
     Shader (String vertexLocation, String fragmentLocation) {
@@ -29,6 +32,9 @@ class Shader {
         final int fragmentID = compileCode(fragmentLocation, GL_FRAGMENT_SHADER);
 
         link(vertexID, fragmentID);
+
+        // Now that everything is good to go, we create the uniforms map
+        uniforms =  new HashMap<>();
     }
 
     // Start the shader program
