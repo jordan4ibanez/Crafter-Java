@@ -5,6 +5,14 @@ package org.crafter.engine.texture;
  */
 class Texture {
 
+    private final int textureID;
+
+    private final String name;
+
+    Texture (String fileLocation) {
+
+
+    }
 
 
 }
