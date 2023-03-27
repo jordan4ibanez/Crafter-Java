@@ -1,9 +1,14 @@
-#version 410
+#version 410 core
 
-layout(location = 0) in vec3 fragColor;
+// Frag is for tri texture mapping.
+// This is just your standard old glsl shader.
 
-layout(location = 0) out vec4 outColor;
+in vec2 outputTextureCoordinate;
+
+out vec4 fragColor;
+
+uniform sampler2D textureSampler;
 
 void main() {
-    outColor = vec4(fragColor, 1.0);
+    fragColor = texture(textureSampler, outputTextureCoordinate);
 }
