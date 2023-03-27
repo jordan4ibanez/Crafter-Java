@@ -13,7 +13,7 @@ public final class ShaderStorage {
         if (container.containsKey(shaderName)) {
             throw new RuntimeException("ShaderStorage: Tried to add " + shaderName + " more than once!");
         }
-        container.put(shaderName, new Shader(vertexCodeLocation, fragmentCodeLocation));
+        container.put(shaderName, new Shader(shaderName, vertexCodeLocation, fragmentCodeLocation));
     }
 
     // Create one uniform for a shader
