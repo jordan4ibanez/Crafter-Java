@@ -56,6 +56,16 @@ public final class ShaderStorage {
         currentShader.setUniform(uniformName, vector);
     }
 
+    // float uniform setter - contextual
+    public static void setUniform(String uniformName, float value) {
+        currentShader.setUniform(uniformName, value);
+    }
+
+    // int uniform setter - contextual
+    public static void setUniform(String uniformName, int value) {
+        currentShader.setUniform(uniformName, value);
+    }
+
 
 
     // Start a shader
