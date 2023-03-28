@@ -60,12 +60,13 @@ public final class ShaderStorage {
 
     // Start a shader
     public static void start(String shaderName) {
+        checkExistence(shaderName);
         currentShader = container.get(shaderName);
         currentShader.start();
     }
 
-    // Stop a shader
-    public static void stop(String shaderName) {
+    // Stop the current running shader - This is probably unneeded but included for completeness
+    public static void stop() {
         currentShader.stop();
         currentShader = null;
     }
