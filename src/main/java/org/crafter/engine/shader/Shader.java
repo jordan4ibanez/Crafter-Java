@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.util.HashMap;
 
@@ -52,6 +53,7 @@ class Shader {
          // Turn this into a C float* (float[16])
          try (MemoryStack stack = MemoryStack.stackPush()){
              FloatBuffer buffer = stack.mallocFloat(16);
+             //! Might have to flip
              matrix.get(buffer);
              glUniformMatrix4fv(uniforms.get(name), false, buffer);
          }
@@ -62,6 +64,7 @@ class Shader {
         // Turn this into C float* (float[3])
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(3);
+            //! Might have to flip
             vector.get(buffer);
             glUniform3fv(uniforms.get(name), buffer);
         }
@@ -72,8 +75,31 @@ class Shader {
         // Turn this into C float* (float[2])
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(2);
+            //! Might have to flip
             vector.get(buffer);
             glUniform2fv(uniforms.get(name), buffer);
+        }
+    }
+
+    // float version of uniform setter
+    void setUniform(String name, float value) {
+        // Turn this into C float* (float)
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer buffer = stack.mallocFloat(1);
+            //! Might NOT have to flip
+            buffer.put(value).flip();
+            glUniform1fv(uniforms.get(name), buffer);
+        }
+    }
+
+    // int version of uniform setter
+    void setUniform(String name, int value) {
+        // Turn this into C int* (int)
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer buffer = stack.mallocInt(1);
+            //! Might NOT have to flip
+            buffer.put(value).flip();
+            glUniform1iv(uniforms.get(name), buffer);
         }
     }
 
