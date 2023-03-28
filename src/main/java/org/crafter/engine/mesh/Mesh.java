@@ -96,10 +96,20 @@ public class Mesh {
         final int returningID;
 
         try {
-            buffer = MemoryUtil.memAllocInt(indicesArray.length);
 
-            
+            returningID = glGenBuffers();
+
+            buffer = MemoryUtil.memAllocInt(indicesArray.length);
+            buffer.put(indicesArray).flip();
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, returningID);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+        } finally {
+            if (buffer != null) {
+                MemoryUtil.memFree(buffer);
+            }
         }
+        return returningID;
     }
 
 
