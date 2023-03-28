@@ -131,9 +131,6 @@ public class Mesh {
         glBindVertexArray(0);
     }
 
-
-
-
     // float[] automator method
     private int uploadFloatArray(float[] floatArray, int glslPosition, int componentsInStructure) {
         // Starts off as: float* var = nullptr;
@@ -288,5 +285,4 @@ public class Mesh {
         }
         // Required data is all there, nice
     }
-
 }
