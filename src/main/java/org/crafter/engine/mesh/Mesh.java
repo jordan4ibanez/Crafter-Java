@@ -36,6 +36,7 @@ public class Mesh {
 
     private final int indicesVboID;
 
+    // Used for render method
     private final int vertexCount;
 
     private final int textureID;
