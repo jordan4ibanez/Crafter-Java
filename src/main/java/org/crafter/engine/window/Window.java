@@ -72,7 +72,12 @@ public final class Window {
         // Passes the data into itself, discard return
         getMonitorSize();
 
-        window = glfwCreateWindow(monitorSize.x / 2, monitorSize.y / 2, "Crafter Engine Prototype", NULL, NULL);
+        // Now we can automatically use that to set the initial window size before any C call is called
+        windowSize.x = monitorSize.x / 2;
+        windowSize.y = monitorSize.y / 2;
+
+        window = glfwCreateWindow(windowSize.x, windowSize.y, "Crafter Engine Prototype", NULL, NULL);
+
 
         // Uh oh
         if (window == NULL) {
@@ -92,28 +97,12 @@ public final class Window {
             glViewport(0,0, width, height);
         });
 
-        // This song and dance is to center the window
-        try (MemoryStack stack = stackPush()) {
-
-            // These are C pointers
-            IntBuffer windowWidth  = stack.mallocInt(1);
-            IntBuffer windowHeight = stack.mallocInt(1);
-
-            // Intake refs to these pointers (&windowWidth, etc)
-            glfwGetWindowSize(window, windowWidth, windowHeight);
-
-            // Get the resolution of the primary monitor
-            GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-            // Now we can finally center it! Woo
-            assert videoMode != null;
-
-            glfwSetWindowPos(
-                window,
-                (videoMode.width() - windowWidth.get(0)) / 2,
-                (videoMode.height() - windowHeight.get(0)) / 2
-            );
-        }
+        // Now center the window
+        glfwSetWindowPos(
+            window,
+            (monitorSize.x - windowSize.x) / 2,
+            (monitorSize.y - windowSize.y) / 2
+        );
 
         glfwMakeContextCurrent(window);
 
@@ -192,6 +181,10 @@ public final class Window {
 
     public static Vector2i getMonitorSize() {
         videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+        if (videoMode == null) {
+            throw new RuntimeException("Window: Error, your monitor returned a NULL video mode!");
+        }
 
         monitorSize.x = videoMode.width();
         monitorSize.y = videoMode.height();
