@@ -86,6 +86,7 @@ public final class ShaderStorage {
         for (Shader shader : container.values()) {
             shader.destroy();
         }
+        container.clear();
     }
 
 

@@ -42,6 +42,7 @@ public final class TextureStorage {
         for (Texture texture : container.values()) {
             texture.destroy();
         }
+        container.clear();
     }
 
     // Internal check to make sure nothing stupid is happening
