@@ -1,5 +1,6 @@
 package org.crafter.engine.mesh;
 
+import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.lwjgl.opengl.GL11C;
 import org.lwjgl.system.MemoryUtil;
@@ -37,7 +38,7 @@ public class Mesh {
     private final int indicesVboID;
 
     // Used for render method
-    private final int vertexCount;
+    private final int indicesCount;
 
     private int textureID;
 
@@ -65,7 +66,7 @@ public class Mesh {
 
         checkRequired(positions, textureCoordinates, indices);
 
-        vertexCount = positions.length / 3;
+        indicesCount = indices.length;
 
         vaoID = glGenVertexArrays();
 
@@ -101,6 +102,33 @@ public class Mesh {
             throw new RuntimeException("Mesh: Tried to hotswap to nonexistent texture (" + newTextureLocation + ") on mesh (" + name + ")!");
         }
         textureID = newTextureID;
+    }
+
+    // Automated internal render method
+    void render() {
+        // All shaders are REQUIRED to have a texture sampler
+        // FIXME: But why are we setting this to 0 over and over?
+        // TEST: Remove this and see if it works on Mesa
+        ShaderStorage.setUniform("textureSampler", 0);
+
+        // Activate Bank 0
+        glActiveTexture(GL_TEXTURE0);
+
+        // Now bind the context of the texture
+        glBindTexture(GL_TEXTURE_2D, textureID);
+
+        // Bind to Vertex Array Object context
+        glBindVertexArray(vaoID);
+
+        // TODO: Test this (this is line mode)
+        // glDrawArrays(GL_LINES, 0, this.indexCount)
+
+        // Draw it - Indices Array starts at 0 (tightly packed)
+        glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+
+        // Optional safety precaution
+        // Unbind Vertex Array Object context
+        glBindVertexArray(0);
     }
 
 
