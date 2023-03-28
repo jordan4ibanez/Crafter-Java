@@ -41,8 +41,8 @@ public class MeshStorage {
 
     // Destroys ALL meshes in the container - Only run this AFTER the main loop has run
     public static void destroyAll() {
-        for (Mesh thisMesh : container.values()) {
-            thisMesh.destroy();
+        for (Mesh mesh : container.values()) {
+            mesh.destroy();
         }
         container.clear();
     }
