@@ -1,14 +1,16 @@
 package org.crafter.engine.mesh;
 
 import org.crafter.engine.texture.TextureStorage;
+import org.lwjgl.opengl.GL11C;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glVertexAttribIPointer;
+import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL30C.glBindVertexArray;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
 
@@ -20,6 +22,10 @@ public class Mesh {
 
     // Reserved invalidation token
     private static final int INVALID = Integer.MAX_VALUE;
+
+    // Reserved mesh name for internal debugging
+    private final String name;
+
 
     // Required VAO, VBO, vertex count, & texture ID
     private final int vaoID;
@@ -41,7 +47,7 @@ public class Mesh {
     private int colorsVboID = INVALID;
 
     // Not using builder pattern in Java because I'm trying out a new structure implementation
-    Mesh(float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
+    Mesh(String name, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
 
         // Before anything is sent to the GPU, let's check that texture
         try {
@@ -50,6 +56,11 @@ public class Mesh {
             // We're going to throw a different, more specific error
             throw new RuntimeException("Mesh: Tried to use a nonexistent texture for a mesh! (" + textureFileLocation + ") does not exist! Did you add it to the TextureStorage?");
         }
+
+        // Assign it the name for debugging
+        this.name = name;
+
+        // Begin OpenGL contextual creation
 
         checkRequired(positions, textureCoordinates, indices);
 
@@ -61,17 +72,18 @@ public class Mesh {
         glBindVertexArray(vaoID);
 
 
-        // Assign all Vertex buffer Objects
+        // Assign REQUIRED Vertex buffer Objects
         positionsVboID = uploadFloatArray(positions, 0, 3);
         textureCoordinatesVboID = uploadFloatArray(textureCoordinates, 1, 2);
         indicesVboID = uploadIndices(indices);
 
+        // Assign OPTIONAL Vertex Buffer Objects
         if (bones != null) {
-            uploadIntArray(bones, 2, 1);
+            bonesVboID = uploadIntArray(bones, 2, 1);
         }
 
         if (colors != null) {
-            uploadFloatArray(colors, 2, 4);
+            colorsVboID = uploadFloatArray(colors, 2, 4);
         }
 
         // Now unbind the Vertex Array Object context
@@ -174,6 +186,51 @@ public class Mesh {
             }
         }
         return returningID;
+    }
+
+    // Completely obliterates this VAO and all VBOs associated with it
+    void destroy() {
+
+        // Bind into Vertex Array Object context
+        glBindVertexArray(vaoID);
+
+        // Destroy REQUIRED Vertex Buffer Objects
+        destroyVBO(positionsVboID, 0, "positions");
+        destroyVBO(textureCoordinatesVboID, 1, "texture coordinates");
+        destroyVBO(indicesVboID, -1, "indices");
+
+        // Destroy OPTIONAL Vertex Buffer Objects
+        if (bonesVboID != INVALID) {
+            destroyVBO(bonesVboID, 2, "bones");
+        }
+
+        if (bonesVboID != INVALID) {
+            destroyVBO(colorsVboID, 2, "colors");
+        }
+
+        // Unbind Vertex Array Object context
+        glBindVertexArray(0);
+
+        // Now destroy Vertex Array Object
+        glDeleteVertexArrays(vaoID);
+        if (glIsVertexArray(vaoID)) {
+            throw new RuntimeException("Mesh: Failed to delete VAO (" + name + ")!");
+        }
+
+        // Complete
+    }
+
+    // Contextual Vertex Buffer Object deletion - GENERIC
+    private void destroyVBO(int vboID, int glslPosition, String vboName) {
+
+        // Indices are assigned to -1, skip
+        if (vboID >= 0) {
+            glDisableVertexAttribArray(glslPosition);
+        }
+        glDeleteBuffers(vboID);
+        if (glIsBuffer(vboID)) {
+            throw new RuntimeException("Mesh (" + name + "): Failed to delete VBO (" + vboName + ")!");
+        }
     }
 
     // This is a separate method to improve the constructor readability
