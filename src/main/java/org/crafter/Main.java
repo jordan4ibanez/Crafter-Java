@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
@@ -29,8 +30,9 @@ public class Main {
 
         }
 
-        TextureStorage.destroy();
-        ShaderStorage.destroy();
+        TextureStorage.destroyAll();
+        MeshStorage.destroyAll();
+        ShaderStorage.destroyAll();
 
         Window.destroy();
     }

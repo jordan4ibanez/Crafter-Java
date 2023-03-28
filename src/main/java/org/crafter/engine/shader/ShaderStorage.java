@@ -82,7 +82,7 @@ public final class ShaderStorage {
     }
 
     // Completely obliterates ALL shaders! ONLY call this after the main loop is finished
-    public static void destroy() {
+    public static void destroyAll() {
         container.forEach( (k, shader) -> shader.destroy() );
     }
 

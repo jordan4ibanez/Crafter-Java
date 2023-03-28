@@ -38,7 +38,7 @@ public final class TextureStorage {
     }
     
     // This shall ONLY be called after the main loop is finished!
-    public static void destroy() {
+    public static void destroyAll() {
         for (Texture texture : container.values()) {
             texture.destroy();
         }
