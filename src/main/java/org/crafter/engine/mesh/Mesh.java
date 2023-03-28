@@ -22,6 +22,9 @@ public class Mesh {
 
     // Required VAO, VBO, & vertex count
     private final int vaoID;
+
+    private final int positionsVboID;
+
     private final int textureCoordinatesVboID;
 
     private final int indicesVboID;
@@ -45,7 +48,20 @@ public class Mesh {
         // Bind into the Vertex Array Object context
         glBindVertexArray(vaoID);
 
-        // Vertex Buffer Objects go here
+
+        // Assign all Vertex buffer Objects
+        positionsVboID = uploadFloatArray(positions, 0, 3);
+        textureCoordinatesVboID = uploadFloatArray(textureCoordinates, 1, 2);
+        indicesVboID = uploadIndices(indices);
+
+        if (bones != null) {
+            uploadIntArray(bones, 2, 1);
+        }
+
+        if (colors != null) {
+            uploadFloatArray(colors, 2, 4);
+        }
+
 
 
         // Now unbind the Vertex Array Object context
@@ -104,13 +120,13 @@ public class Mesh {
 
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
             // Not normalized (false), no stride (0), array starts at index 0 (0)
-            glVertexAttribIPointer(glslPosition, componentsInStructure, GL_FLOAT, 0, 0);
+            glVertexAttribIPointer(glslPosition, componentsInStructure, GL_INT, 0, 0);
 
             // Now unbind the Vertex Buffer Object context
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         } finally {
-            // Free the C float*
+            // Free the C int*
             if (buffer != null) {
                 MemoryUtil.memFree(buffer);
             }
@@ -149,9 +165,6 @@ public class Mesh {
         }
         return returningID;
     }
-
-
-
 
     // This is a separate method to improve the constructor readability
     private void checkRequired(float[] positions, float[] textureCoordinates, int[] indices) {
