@@ -1,5 +1,6 @@
 package org.crafter.engine.window;
 
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -30,10 +31,16 @@ public final class Window {
     // The debugging process callbacks
     private static Callback debugCallback;
 
-    // Disallow instantiation of this class
-    private Window() {}
 
     private static Vector3f clearColor = new Vector3f(0,0,0);
+
+    private static GLFWVidMode videoMode;
+    private static Vector2i monitorSize = new Vector2i();
+
+    private static Vector2i windowSize = new Vector2i();
+
+    // Disallow instantiation of this class
+    private Window() {}
 
 
     // Create the window
@@ -62,7 +69,10 @@ public final class Window {
         glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE );
         glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
-        window = glfwCreateWindow(300, 300, "Crafter Engine Prototype", NULL, NULL);
+        // Passes the data into itself, discard return
+        getMonitorSize();
+
+        window = glfwCreateWindow(monitorSize.x / 2, monitorSize.y / 2, "Crafter Engine Prototype", NULL, NULL);
 
         // Uh oh
         if (window == NULL) {
@@ -75,8 +85,10 @@ public final class Window {
             close();
         });
 
-        // Fancy frame buffer callback
+        // Fancy frame buffer callback - called when window is resized
         glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
+            windowSize.x = width;
+            windowSize.y = height;
             glViewport(0,0, width, height);
         });
 
@@ -172,6 +184,19 @@ public final class Window {
          pollMouse();
          calculateFPS();
         */
+    }
+
+    public static Vector2i getWindowSize() {
+        return windowSize;
+    }
+
+    public static Vector2i getMonitorSize() {
+        videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+        monitorSize.x = videoMode.width();
+        monitorSize.y = videoMode.height();
+
+        return monitorSize;
     }
 
     public static void close() {
