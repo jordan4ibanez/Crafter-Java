@@ -15,7 +15,7 @@ public final class ShaderStorage {
     private static final HashMap<String, Shader> container = new HashMap<>();
 
     // Currently running shader program - Only one can be running at a time, so automate
-    private static String currentShader = null;
+    private static Shader currentShader = null;
 
     private ShaderStorage(){}
 
@@ -26,26 +26,6 @@ public final class ShaderStorage {
         }
         container.put(shaderName, new Shader(shaderName, vertexCodeLocation, fragmentCodeLocation));
     }
-
-    // Matrix4f uniform setter
-    public static void setUniform(String shaderName, String uniformName, Matrix4f matrix) {
-        checkExistence(shaderName);
-        container.get(shaderName).setUniform(uniformName, matrix);
-    }
-
-    // Vector3f uniform setter
-    public static void setUniform(String shaderName, String uniformName, Vector3f vector) {
-        checkExistence(shaderName);
-        container.get(shaderName).setUniform(uniformName, vector);
-    }
-
-    // Vector2f uniform setter
-    public static void setUniform(String shaderName, String uniformName, Vector2f vector) {
-        checkExistence(shaderName);
-        container.get(shaderName).setUniform(uniformName, vector);
-    }
-
-
 
     // Create one uniform for a shader
     public static void createUniform(String shaderName, String uniformName) {
@@ -61,17 +41,32 @@ public final class ShaderStorage {
         }
     }
 
+    // Matrix4f uniform setter - contextual
+    public static void setUniform(String uniformName, Matrix4f matrix) {
+        currentShader.setUniform(uniformName, matrix);
+    }
+
+    // Vector3f uniform setter - contextual
+    public static void setUniform(String uniformName, Vector3f vector) {
+        currentShader.setUniform(uniformName, vector);
+    }
+
+    // Vector2f uniform setter - contextual
+    public static void setUniform(String uniformName, Vector2f vector) {
+        currentShader.setUniform(uniformName, vector);
+    }
+
 
 
     // Start a shader
     public static void start(String shaderName) {
-        container.get(shaderName).start();
-        currentShader = shaderName;
+        currentShader = container.get(shaderName);
+        currentShader.start();
     }
 
     // Stop a shader
     public static void stop(String shaderName) {
-        container.get(shaderName).stop();
+        currentShader.stop();
         currentShader = null;
     }
 
