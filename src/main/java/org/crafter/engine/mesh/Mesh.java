@@ -39,7 +39,7 @@ public class Mesh {
     // Used for render method
     private final int vertexCount;
 
-    private final int textureID;
+    private int textureID;
 
 
     // Optional Vertex Buffer Objects
@@ -90,6 +90,21 @@ public class Mesh {
         // Now unbind the Vertex Array Object context
         glBindVertexArray(0);
     }
+
+    // Allows hot swapping texture for Mesh
+    void swapTexture(String newTextureLocation) {
+        int newTextureID;
+        try {
+            newTextureID = TextureStorage.getID(newTextureLocation);
+        } catch (RuntimeException e) {
+            // Throwing a more contextual error here
+            throw new RuntimeException("Mesh: Tried to hotswap to nonexistent texture (" + newTextureLocation + ") on mesh (" + name + ")!");
+        }
+        textureID = newTextureID;
+    }
+
+
+
 
     // float[] automator method
     private int uploadFloatArray(float[] floatArray, int glslPosition, int componentsInStructure) {
