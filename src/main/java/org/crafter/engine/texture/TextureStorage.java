@@ -15,6 +15,7 @@ public final class TextureStorage {
 
     private TextureStorage(){}
 
+    // Create a new texture
     public static void createTexture(String fileLocation) {
         if (container.containsKey(fileLocation)) {
             throw new RuntimeException("TextureStorage: Tried to add " + fileLocation + " more than once!");
@@ -22,16 +23,19 @@ public final class TextureStorage {
         container.put(fileLocation, new Texture(fileLocation));
     }
 
+    // Bind context to the selected OpenGL texture
     public static void select(String fileLocation) {
         checkExistence(fileLocation);
         container.get(fileLocation).select();
     }
 
+    // Get the OpenGL ID of a texture
     public static int getID(String fileLocation) {
         checkExistence(fileLocation);
         return container.get(fileLocation).getTextureID();
     }
 
+    // Get Vector2i(width, height) of texture - Useful for mapping
     public static Vector2i getSize(String fileLocation) {
         checkExistence(fileLocation);
         return container.get(fileLocation).getSize();
