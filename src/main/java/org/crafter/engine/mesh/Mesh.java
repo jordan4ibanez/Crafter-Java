@@ -2,7 +2,6 @@ package org.crafter.engine.mesh;
 
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
-import org.lwjgl.opengl.GL11C;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
