@@ -14,6 +14,9 @@ public final class ShaderStorage {
     // Here's where all the shaders live!
     private static final HashMap<String, Shader> container = new HashMap<>();
 
+    // Currently running shader program - Only one can be running at a time, so automate
+    private static String currentShader = null;
+
     private ShaderStorage(){}
 
     // Create a new shader for the program
@@ -63,11 +66,13 @@ public final class ShaderStorage {
     // Start a shader
     public static void start(String shaderName) {
         container.get(shaderName).start();
+        currentShader = shaderName;
     }
 
     // Stop a shader
     public static void stop(String shaderName) {
         container.get(shaderName).stop();
+        currentShader = null;
     }
 
     // Completely obliterates ALL shaders! ONLY call this after the main loop is finished
