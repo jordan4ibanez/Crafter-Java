@@ -1,5 +1,6 @@
 package org.crafter.engine.mesh;
 
+import org.crafter.engine.texture.TextureStorage;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
@@ -20,7 +21,7 @@ public class Mesh {
     // Reserved invalidation token
     private static final int INVALID = Integer.MAX_VALUE;
 
-    // Required VAO, VBO, & vertex count
+    // Required VAO, VBO, vertex count, & texture ID
     private final int vaoID;
 
     private final int positionsVboID;
@@ -31,13 +32,24 @@ public class Mesh {
 
     private final int vertexCount;
 
+    private final int textureID;
+
+
     // Optional Vertex Buffer Objects
     private int bonesVboID = INVALID;
 
     private int colorsVboID = INVALID;
 
     // Not using builder pattern in Java because I'm trying out a new structure implementation
-    Mesh(float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors) {
+    Mesh(float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
+
+        // Before anything is sent to the GPU, let's check that texture
+        try {
+            textureID = TextureStorage.getID(textureFileLocation);
+        } catch (RuntimeException e) {
+            // We're going to throw a different, more specific error
+            throw new RuntimeException("Mesh: Tried to use a nonexistent texture for a mesh! (" + textureFileLocation + ") does not exist! Did you add it to the TextureStorage?");
+        }
 
         checkRequired(positions, textureCoordinates, indices);
 
@@ -61,8 +73,6 @@ public class Mesh {
         if (colors != null) {
             uploadFloatArray(colors, 2, 4);
         }
-
-
 
         // Now unbind the Vertex Array Object context
         glBindVertexArray(0);
