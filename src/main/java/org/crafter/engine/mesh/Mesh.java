@@ -151,6 +151,9 @@ public class Mesh {
             // Not normalized (false), no stride (0), array starts at index 0 (0)
             glVertexAttribPointer(glslPosition, componentsInStructure, GL_FLOAT, false, 0, 0);
 
+            // Now enable memory address pointer
+            glEnableVertexAttribArray(glslPosition);
+
             // Now unbind the Vertex Buffer Object context
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -183,6 +186,9 @@ public class Mesh {
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
             // Not normalized (false), no stride (0), array starts at index 0 (0)
             glVertexAttribIPointer(glslPosition, componentsInStructure, GL_INT, 0, 0);
+
+            // Now enable memory address pointer
+            glEnableVertexAttribArray(glslPosition);
 
             // Now unbind the Vertex Buffer Object context
             glBindBuffer(GL_ARRAY_BUFFER, 0);
