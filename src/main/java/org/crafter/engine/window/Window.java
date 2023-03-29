@@ -177,6 +177,10 @@ public final class Window {
         return windowSize;
     }
 
+    public static float getAspectRatio() {
+        return windowSize.x / windowSize.y;
+    }
+
     private static void getMonitorSize() {
         GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         if (videoMode == null) {
