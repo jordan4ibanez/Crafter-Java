@@ -13,6 +13,8 @@ import org.joml.Vector3f;
  */
 public final class Camera {
 
+    // Important note: -Z is facing forwards
+
     // All fields utilize RADIANS
     private static float FOV = 72.0f;
 
