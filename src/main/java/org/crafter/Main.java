@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -14,15 +15,20 @@ public class Main {
         ShaderStorage.createShader("basic", "shaders/vertex.vert", "shaders/fragment.frag");
         ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix"});
 
-
         ShaderStorage.start("basic");
 
-
+        Window.setClearColor(0.75f);
 
 
         while(!Window.shouldClose()) {
 
             Window.pollEvents();
+
+            Window.clearAll();
+
+            Camera.updateCameraMatrix();
+
+
 
 
 
