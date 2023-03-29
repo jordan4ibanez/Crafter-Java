@@ -49,9 +49,9 @@ public final class Camera {
         objectMatrix
                 .identity()
                 .translate(
-                        -position.x + objectPosition.x,
-                        -position.y + objectPosition.y,
-                        -position.z + objectPosition.z
+                        objectPosition.x - position.x,
+                        objectPosition.y - position.y,
+                        objectPosition.z - position.z
                 )
                 .rotateY(-objectRotation.y)
                 .rotateX(-objectRotation.x)
