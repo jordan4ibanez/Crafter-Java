@@ -45,13 +45,13 @@ public final class Camera {
 
     // This updates the objectMatrix exactly as you tell it to
     public static void setObjectMatrix(Vector3f objectPosition, Vector3f objectRotation, Vector3f objectScale) {
-        System.out.println(rotation + " | " + position);
+
         objectMatrix
                 .identity()
                 .translate(
-                        position.x - objectPosition.x,
-                        position.y - objectPosition.y,
-                        position.z - objectPosition.z
+                        -position.x + objectPosition.x,
+                        -position.y + objectPosition.y,
+                        -position.z + objectPosition.z
                 )
                 .rotateY(-objectRotation.y)
                 .rotateX(-objectRotation.x)
