@@ -32,12 +32,11 @@ public final class Window {
     private static Callback debugCallback;
 
 
-    private static Vector3f clearColor = new Vector3f(0,0,0);
+    private static final Vector3f clearColor = new Vector3f(0,0,0);
 
-    private static GLFWVidMode videoMode;
-    private static Vector2i monitorSize = new Vector2i();
+    private static final Vector2i monitorSize = new Vector2i();
 
-    private static Vector2i windowSize = new Vector2i();
+    private static final Vector2i windowSize = new Vector2i();
 
     // Disallow instantiation of this class
     private Window() {}
@@ -69,7 +68,7 @@ public final class Window {
         glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE );
         glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
-        // Passes the data into itself, discard return
+        // Passes the monitor size data into itself
         getMonitorSize();
 
         // Now we can automatically use that to set the initial window size before any C call is called
@@ -77,7 +76,6 @@ public final class Window {
         windowSize.y = monitorSize.y / 2;
 
         window = glfwCreateWindow(windowSize.x, windowSize.y, "Crafter Engine Prototype", NULL, NULL);
-
 
         // Uh oh
         if (window == NULL) {
@@ -179,17 +177,13 @@ public final class Window {
         return windowSize;
     }
 
-    public static Vector2i getMonitorSize() {
-        videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
+    private static void getMonitorSize() {
+        GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         if (videoMode == null) {
             throw new RuntimeException("Window: Error, your monitor returned a NULL video mode!");
         }
-
         monitorSize.x = videoMode.width();
         monitorSize.y = videoMode.height();
-
-        return monitorSize;
     }
 
     public static void close() {
