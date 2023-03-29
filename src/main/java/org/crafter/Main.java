@@ -52,7 +52,7 @@ public class Main {
             Camera.updateCameraMatrix();
 
             Camera.setObjectMatrix(
-                    new Vector3f(0,0,-1),
+                    new Vector3f(-0.5f,0,-1),
                     new Vector3f(0),
                     new Vector3f(1)
             );
