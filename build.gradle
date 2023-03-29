@@ -29,6 +29,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-stb"
+    implementation "org.lwjgl:lwjgl-nuklear"
 
     for (OS in natives) {
         println("Adding $OS")
@@ -39,6 +40,7 @@ dependencies {
         runtimeOnly "org.lwjgl:lwjgl-openal::$OS"
         runtimeOnly "org.lwjgl:lwjgl-opengl::$OS"
         runtimeOnly "org.lwjgl:lwjgl-stb::$OS"
+        runtimeOnly "org.lwjgl:lwjgl-nuklear::$OS"
     }
 
     implementation "org.joml:joml:${jomlVersion}"
