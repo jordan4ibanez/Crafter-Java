@@ -43,7 +43,15 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
+        float rotation = 0.0f;
+
         while(!Window.shouldClose()) {
+
+            rotation += 1;
+
+            if (rotation >= 360) {
+                rotation = 0;
+            }
 
             Window.pollEvents();
 
@@ -52,8 +60,8 @@ public class Main {
             Camera.updateCameraMatrix();
 
             Camera.setObjectMatrix(
-                    new Vector3f(-0.5f,0,-1),
-                    new Vector3f(0),
+                    new Vector3f(0.0f,0,-3),
+                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
                     new Vector3f(1)
             );
 
