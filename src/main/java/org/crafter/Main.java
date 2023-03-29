@@ -5,6 +5,7 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
+import org.w3c.dom.Text;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,12 +14,33 @@ public class Main {
 
 
         ShaderStorage.createShader("basic", "shaders/vertex.vert", "shaders/fragment.frag");
-        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix"});
+        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
 
         ShaderStorage.start("basic");
 
-        Window.setClearColor(0.75f);
+        TextureStorage.createTexture("textures/debug.png");
 
+        MeshStorage.newMesh(
+            "test",
+                new float[]{
+                        0.0f,  0.5f, 0.0f,
+                        -0.5f, -0.5f, 0.0f,
+                        0.5f, -0.5f, 0.0f
+                },
+                new float[] {
+                        0.0f, 0.0f,
+                        0.0f, 1.0f,
+                        1.0f, 1.0f
+                },
+                new int[] {
+                        0,1,2
+                },
+                null,
+                null,
+                "textures/debug.png"
+        );
+
+        Window.setClearColor(0.75f);
 
         while(!Window.shouldClose()) {
 
@@ -28,9 +50,7 @@ public class Main {
 
             Camera.updateCameraMatrix();
 
-
-
-
+            MeshStorage.render("test");
 
             Window.swapBuffers();
 
