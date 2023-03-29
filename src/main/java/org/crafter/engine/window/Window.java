@@ -31,7 +31,7 @@ public final class Window {
     private static Callback debugCallback;
 
 
-    private static final Vector3f clearColor = new Vector3f();
+    private static final Vector3f clearColor = new Vector3f(0,0,0);
 
     private static final Vector2i monitorSize = new Vector2i();
 
