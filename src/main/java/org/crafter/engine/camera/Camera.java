@@ -16,9 +16,9 @@ public final class Camera {
     // Important note: -Z is facing forwards
 
     // All fields utilize RADIANS
-    private static float FOV = 72.0f;
+    private static float FOV = (float)Math.toRadians(60.0);
 
-    private static final float zNear = 0.01f;
+    private static final float zNear = 0.1f;
 
     private static final float zFar = 1000.0f;
 
@@ -38,10 +38,27 @@ public final class Camera {
                 .identity()
                 .perspective(FOV, Window.getAspectRatio(), zNear, zFar)
                 .rotateX(rotation.x)
-                .rotateY(rotation.y)
-                .rotateZ(rotation.z);
+                .rotateY(rotation.y);
 
         ShaderStorage.setUniform("cameraMatrix", cameraMatrix);
+    }
+
+    // This updates the objectMatrix exactly as you tell it to
+    public static void setObjectMatrix(Vector3f objectPosition, Vector3f objectRotation, Vector3f objectScale) {
+        System.out.println(rotation + " | " + position);
+        objectMatrix
+                .identity()
+                .translate(
+                        position.x - objectPosition.x,
+                        position.y - objectPosition.y,
+                        position.z - objectPosition.z
+                )
+                .rotateY(-objectRotation.y)
+                .rotateX(-objectRotation.x)
+                .rotateZ(-objectRotation.z)
+                .scale(objectScale);
+
+        ShaderStorage.setUniform("objectMatrix", objectMatrix);
     }
 
     public static void setPosition(float x, float y, float z) {
