@@ -46,10 +46,7 @@ public class MeshStorage {
         }
         container.clear();
     }
-
-
-
-
+    
     // Helper method for preventing undefined behavior
     private static void checkExistence(String meshName) {
         if (!container.containsKey(meshName)) {
