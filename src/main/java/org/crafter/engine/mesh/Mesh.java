@@ -108,13 +108,13 @@ public class Mesh {
         // All shaders are REQUIRED to have a texture sampler
         // FIXME: But why are we setting this to 0 over and over?
         // TEST: Remove this and see if it works on Mesa
-        ShaderStorage.setUniform("textureSampler", 0);
+//        ShaderStorage.setUniform("textureSampler", 0);
 
         // Activate Bank 0
-        glActiveTexture(GL_TEXTURE0);
+//        glActiveTexture(GL_TEXTURE0);
 
         // Now bind the context of the texture
-        glBindTexture(GL_TEXTURE_2D, textureID);
+//        glBindTexture(GL_TEXTURE_2D, textureID);
 
         // Bind to Vertex Array Object context
         glBindVertexArray(vaoID);

@@ -6,7 +6,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.KHRDebug;
 import org.lwjgl.system.Callback;
-import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
@@ -16,7 +16,6 @@ import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.*;
 import static org.lwjgl.opengl.GLUtil.setupDebugMessageCallback;
-import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
@@ -56,7 +55,7 @@ public final class Window {
         glfwDefaultWindowHints();
 
         // Enable OpenGL debugging
-        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+//        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
@@ -65,8 +64,10 @@ public final class Window {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
         // FORCE core 4.1 minimum, but allow driver optimizations
-        glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE );
-        glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+//        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        // This is for debugging
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
         // Passes the monitor size data into itself
         getMonitorSize();
@@ -157,6 +158,10 @@ public final class Window {
     }
 
     public static void swapBuffers() {
+        IntBuffer x = MemoryUtil.memAllocInt(1);
+        IntBuffer y = MemoryUtil.memAllocInt(1);
+        glfwGetFramebufferSize(window, x, y);
+        System.out.println("FrameBuffer Size: " + x.get() +", " + y.get());
         glfwSwapBuffers(window);
     }
 

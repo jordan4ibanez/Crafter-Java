@@ -15,7 +15,7 @@ public class Main {
 
 
         ShaderStorage.createShader("basic", "shaders/vertex.vert", "shaders/fragment.frag");
-        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
+//        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
 
         ShaderStorage.start("basic");
 
@@ -24,17 +24,17 @@ public class Main {
         MeshStorage.newMesh(
             "test",
                 new float[]{
-                        0.0f,  0.5f, 0.0f,
-                        -0.5f, -0.5f, 0.0f,
-                        0.5f, -0.5f, 0.0f
+                        0.0f,  0.5f, -1.0f,
+                        -0.5f, -0.5f, -1.0f,
+                        0.5f, -0.5f, -1.0f
                 },
                 new float[] {
                         0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f
+                        0.0f, 0.0f,
+                        0.0f, 0.0f
                 },
                 new int[] {
-                        0,1,2
+                        0, 1, 2
                 },
                 null,
                 null,
@@ -43,19 +43,29 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
+//        float rotation = 0.0f;
+
         while(!Window.shouldClose()) {
 
             Window.pollEvents();
 
-            Window.clearAll();
+//            Window.clearAll();
 
-            Camera.updateCameraMatrix();
+//            rotation += 0.9;
+//            if (rotation >= 360) {
+//                rotation = 0;
+//            }
+//            Camera.setRotation(0,rotation,0);
+//
+//            System.out.println(rotation);
 
-            Camera.setObjectMatrix(
-                    new Vector3f(0),
-                    new Vector3f(0),
-                    new Vector3f(1)
-            );
+//            Camera.updateCameraMatrix();
+//
+//            Camera.setObjectMatrix(
+//                    new Vector3f(0, 0, -1.0f),
+//                    new Vector3f(0),
+//                    new Vector3f(1)
+//            );
 
             MeshStorage.render("test");
 
