@@ -178,7 +178,7 @@ public final class Window {
     }
 
     public static float getAspectRatio() {
-        return windowSize.x / windowSize.y;
+        return (float)windowSize.x / (float)windowSize.y;
     }
 
     private static void getMonitorSize() {
