@@ -52,7 +52,6 @@ class Shader {
          // Turn this into a C float* (float[16])
          try (MemoryStack stack = MemoryStack.stackPush()){
              FloatBuffer buffer = stack.mallocFloat(16);
-             //! Might have to flip
              matrix.get(buffer);
              glUniformMatrix4fv(uniforms.get(name), false, buffer);
          }
@@ -63,7 +62,6 @@ class Shader {
         // Turn this into C float* (float[3])
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(3);
-            //! Might have to flip
             vector.get(buffer);
             glUniform3fv(uniforms.get(name), buffer);
         }
@@ -74,7 +72,6 @@ class Shader {
         // Turn this into C float* (float[2])
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(2);
-            //! Might have to flip
             vector.get(buffer);
             glUniform2fv(uniforms.get(name), buffer);
         }
