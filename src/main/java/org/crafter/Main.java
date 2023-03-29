@@ -5,6 +5,7 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.Vector3f;
 import org.w3c.dom.Text;
 
 public class Main {
@@ -49,6 +50,12 @@ public class Main {
             Window.clearAll();
 
             Camera.updateCameraMatrix();
+
+            Camera.setObjectMatrix(
+                    new Vector3f(0),
+                    new Vector3f(0),
+                    new Vector3f(1)
+            );
 
             MeshStorage.render("test");
 
