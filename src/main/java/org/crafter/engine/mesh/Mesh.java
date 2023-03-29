@@ -244,7 +244,7 @@ public class Mesh {
             destroyVBO(bonesVboID, 2, "bones");
         }
 
-        if (bonesVboID != INVALID) {
+        if (colorsVboID != INVALID) {
             destroyVBO(colorsVboID, 2, "colors");
         }
 
@@ -264,7 +264,7 @@ public class Mesh {
     private void destroyVBO(int vboID, int glslPosition, String vboName) {
 
         // Indices are assigned to -1, skip
-        if (vboID >= 0) {
+        if (glslPosition >= 0) {
             glDisableVertexAttribArray(glslPosition);
         }
         glDeleteBuffers(vboID);
