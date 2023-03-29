@@ -217,8 +217,7 @@ public class Mesh {
 
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 
-            // Now unbind the Vertex Buffer Object context
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            // Note: Do note unbind GL_ELEMENT_ARRAY_BUFFER
 
         } finally {
             if (buffer != null) {
