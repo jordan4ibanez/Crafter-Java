@@ -177,6 +177,32 @@ public final class Window {
         return windowSize;
     }
 
+    // RGB version of setting clear color
+    public static void setClearColor(float r, float g, float b) {
+        clearColor.x = r;
+        clearColor.y = g;
+        clearColor.z = b;
+
+        glClearColor(r,g,b,1.0f);
+    }
+
+    // 1D (black to white) setting clear color
+    public static void setClearColor(float intensity) {
+        clearColor.x = intensity;
+        clearColor.y = intensity;
+        clearColor.z = intensity;
+
+        glClearColor(intensity,intensity,intensity,1.0f);
+    }
+
+    public static void clearAll() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public static void clearDepth() {
+        glClear(GL_DEPTH_BUFFER_BIT);
+    }
+
     public static float getAspectRatio() {
         return (float)windowSize.x / (float)windowSize.y;
     }
