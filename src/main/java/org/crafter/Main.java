@@ -6,7 +6,6 @@ import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 import org.joml.Vector3f;
-import org.w3c.dom.Text;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,10 +13,8 @@ public class Main {
         Window.initialize();
 
 
-        ShaderStorage.createShader("basic", "shaders/vertex.vert", "shaders/fragment.frag");
-        ShaderStorage.createUniform("basic", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
-
-        ShaderStorage.start("basic");
+        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
+        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
 
         TextureStorage.createTexture("textures/debug.png");
 
@@ -56,6 +53,10 @@ public class Main {
             Window.pollEvents();
 
             Window.clearAll();
+
+            // Now we're moving into OpenGL shader implementation
+
+            ShaderStorage.start("3d");
 
             Camera.updateCameraMatrix();
 
