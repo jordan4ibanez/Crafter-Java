@@ -16,5 +16,5 @@ void main() {
 //        discard;
 //    }
 
-    fragColor = mix(texture(textureSampler, outputTextureCoordinate), vec4(1,0,0,1), 0.95);
+    fragColor = mix(texture(textureSampler, outputTextureCoordinate), vec4(1,0,0,1), 0.55);
 }
