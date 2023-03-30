@@ -19,10 +19,10 @@ public class Main {
 
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
-        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
+        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
 
         ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/3d_fragment.frag");
-        ShaderStorage.createUniform("2d", new String[]{});
+        ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
 
         TextureStorage.createTexture("textures/debug.png");
 
