@@ -1,6 +1,5 @@
 package org.crafter.engine.gui.razorfont;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
@@ -82,7 +81,7 @@ public final class Font {
     /**
      * The RGBA components of the shadow
      */
-    private static float[] shadowColor = new float[]{0,0,0,1};
+    private static final float[] shadowColor = new float[]{0,0,0,1};
 
     /**
      Are shadows enabled?
@@ -191,7 +190,13 @@ public final class Font {
      * Spacing is how far the letters are from each other. Default: 1.0 pixel
      * spaceCharacterSize is how big the ' ' (space) character is. By default, it's 4 pixels wide.
      */
-    private void createFont(String fileLocation, String name, boolean trimming, float spacing, float spaceCharacterSize) {
+    public static void createFont(String fileLocation, String name, boolean trimming) {
+        createFont(fileLocation, name, true, 1.0f, 4.0f);
+    }
+    public static void createFont(String fileLocation, String name, boolean trimming, float spacing) {
+        createFont(fileLocation, name, true, spacing, 4.0f);
+    }
+    public static void createFont(String fileLocation, String name, boolean trimming, float spacing, float spaceCharacterSize) {
 
         // This is the fix explained above
         initColorArray();
@@ -233,10 +238,10 @@ public final class Font {
      Be careful though, this overwrites the entire color cache
      after the currently rendered character position in memory!
      */
-    void switchColor(float r, float g, float b) {
+    public static void switchColor(float r, float g, float b) {
         switchColor(r,g,b,1);
     }
-    void switchColor(float r, float g, float b, float a) {
+    public static void switchColor(float r, float g, float b, float a) {
         for (int i = colorCount; i < colorCache.length; i += 4) {
             colorCache[i]     = r;
             colorCache[i + 1] = g;
@@ -251,7 +256,7 @@ public final class Font {
      across any font size!
      Remember: Offset will become reset to default when you call renderToCanvas()
      */
-    void setShadowOffset(float x, float y) {
+    public static void setShadowOffset(float x, float y) {
         shadowOffsetX = x / 10.0f;
         shadowOffsetY = y / 10.0f;
     }
@@ -260,10 +265,10 @@ public final class Font {
      Allows you to blanket set the shadow color for the entire canvas after the current character.
      Remember: When you renderToCanvas() shadow colors will default back to black.
      */
-    void switchShadowColor(float r, float g, float b) {
+    public static void switchShadowColor(float r, float g, float b) {
         switchShadowColor(r,g,b,1);
     }
-    void switchShadowColor(float r, float g, float b, float a) {
+    public static void switchShadowColor(float r, float g, float b, float a) {
         shadowColor[0] = r;
         shadowColor[1] = g;
         shadowColor[2] = b;
@@ -276,10 +281,10 @@ public final class Font {
      And run setColorRange(0.5,0.5,0.5, 1, 3, 5)
      Now e and f are gray. Alpha 1.0
      */
-    void setColorRange(int start, int end, float r, float g, float b) {
+    public static void setColorRange(int start, int end, float r, float g, float b) {
         setColorRange(start, end, r,g,b,1);
     }
-    void setColorRange(int start, int end, float r, float g, float b, float a) {
+    public static void setColorRange(int start, int end, float r, float g, float b, float a) {
         for (int i = start * 16; i < end * 16; i += 4) {
             colorCache[i]     = r;
             colorCache[i + 1] = g;
@@ -291,10 +296,10 @@ public final class Font {
     /**
      Allows you to set individual character colors
      */
-    void setColorChar(int charIndex, float r, float g, float b) {
+    public static void setColorChar(int charIndex, float r, float g, float b) {
         setColorChar(charIndex, r,g,b,1);
     }
-    void setColorChar(int charIndex, float r, float g, float b, float a) {
+    public static void setColorChar(int charIndex, float r, float g, float b, float a) {
         final int startIndex = charIndex * 16;
         for (int i = startIndex; i < startIndex + 16; i += 4) {
             colorCache[i]     = r;
@@ -308,7 +313,7 @@ public final class Font {
      Allows you to directly work on vertex position colors in a character.
      Using direct points (verbose)
      */
-    void setColorPoints(
+    public static void setColorPoints(
             int charIndex,
 
             float topLeftR,
@@ -361,7 +366,7 @@ public final class Font {
      Using direct points (tidy).
      float vec is [R,G,B,A]
      */
-    void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
+    public static void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
         final int startIndex = charIndex * 16;
         int externalIndex = 0;
         for(float[] vec4 : new float[][]{topLeft, bottomLeft, bottomRight, topRight}) {
@@ -375,7 +380,7 @@ public final class Font {
         }
     }
     // Allows you to get the max amount of characters allowed in canvas
-    int getMaxChars() {
+    public static int getMaxChars() {
         return CHARACTER_LIMIT;
     }
 
@@ -385,14 +390,14 @@ public final class Font {
      not include spaces and carriage returns. You MUST call renderToCanvas before
      calling this otherwise this will always be 0 when you call it.
      */
-    int getCurrentCharacterIndex() {
+    public static int getCurrentCharacterIndex() {
         return chars;
     }
 
     /**
      Allows you to extract the current font PNG file location automatically
      */
-    String getCurrentFontTextureFileLocation() {
+    public static String getCurrentFontTextureFileLocation() {
         if (currentFont == null) {
             throw new RuntimeException("Font: Can't get a font file location! You didn't select one!");
         }
@@ -407,12 +412,12 @@ public final class Font {
      colors are stored in the same color cache as regular text.
      Remember: When you renderToCanvas() shadows turn off.
      */
-    void enableShadows() {
+    public static void enableShadows() {
         shadowsEnabled = true;
     }
 
     /// Allows you to render to a canvas using top left as a base position
-    void setCanvasSize(float width, float height) {
+    public static void setCanvasSize(float width, float height) {
         // Dividing by 2.0 because my test environment shader renders to center on pos(0,0) top left
         canvasWidth = width / 2.0f;
         canvasHeight = height / 2.0f;
@@ -422,7 +427,7 @@ public final class Font {
      Automatically flushes out the cache, handing the data structure off to
      the delegate function you defined via setRenderFunc()
      */
-    void render() {
+    public static void render() {
         if (renderCall == null) {
             throw new RuntimeException("Font: You did not set a render api call!");
         }
@@ -430,7 +435,7 @@ public final class Font {
     }
 
     /// Flushes out the cache, gives you back a font struct containing the raw data
-    RawData flush() {
+    public static RawData flush() {
 
         fontLock = false;
 
@@ -452,7 +457,7 @@ public final class Font {
     }
 
     /// Allows you to get text size to do interesting things. Returns as RazorTextSize struct
-    Vector2f getTextSize(float fontSize, String text) {
+    public static Vector2f getTextSize(float fontSize, String text) {
         float accumulatorX = 0.0f;
         float accumulatorY = 0.0f;
         // Cache spacing
@@ -510,7 +515,7 @@ public final class Font {
      This is done because all fonts are different. It would create garbage
      data on screen without this.
      */
-    void selectFont(String font) {
+    public static void selectFont(String font) {
 
         if (fontLock) {
             throw new RuntimeException("Font: You must flush() out the cache before selecting a new font!");
@@ -528,14 +533,21 @@ public final class Font {
     }
 
     /**
+     * Get the name of the currently used font
+     */
+    public static String getCurrentFontName() {
+        return currentFontName;
+    }
+
+    /**
      Render to the canvas. Remember: You must run flush() to collect this canvas.
      If rounding is enabled, it will attempt to keep your text aligned with the pixels on screen
      to avoid wavy/blurry/jagged text. This will automatically render shadows for you as well.
      */
-    void renderToCanvas(float posX, float posY, final float fontSize, String text) {
+    public static void renderToCanvas(float posX, float posY, final float fontSize, String text) {
         renderToCanvas(posX, posY, fontSize, text,true);
     }
-    void renderToCanvas(float posX, float posY, final float fontSize, String text, boolean rounding) {
+    public static void renderToCanvas(float posX, float posY, final float fontSize, String text, boolean rounding) {
 
         // Keep square pixels
         if (rounding) {
@@ -657,12 +669,12 @@ public final class Font {
         }
 
         /**
-         Because there is no Z buffer in 2d, OpenGL seems to NOT overwrite pixel data of existing
-         framebuffer pixels. Since this is my testbed, I must assume that this is how
-         Vulkan, Metal, DX, and so-on do this. This is GUARANTEED to not affect software renderers.
-         So we have to do the shadowing AFTER the foreground.
-         We need to poll, THEN disable the shadow variable because without that it would be
-         an infinite recursion, aka a stack overflow.
+         * Because there is no Z buffer in 2d, OpenGL seems to NOT overwrite pixel data of existing
+         * framebuffer pixels. Since this is my testbed, I must assume that this is how
+         * Vulkan, Metal, DX, and so-on do this. This is GUARANTEED to not affect software renderers.
+         * So we have to do the shadowing AFTER the foreground.
+         * We need to poll, THEN disable the shadow variable because without that it would be
+         * an infinite recursion, aka a stack overflow.
          */
         final boolean shadowsWereEnabled = shadowsEnabled;
         shadowsEnabled = false;
@@ -697,7 +709,7 @@ public final class Font {
      Note: This will return cursor position into the beginning index of the background
      of the shadowed text if you're using it for subtraction.
      */
-    int getTextRenderableCharsLength(String input) {
+    public static int getTextRenderableCharsLength(String input) {
         return input.replace(" ", "").replace("\n", "").length();
     }
 
@@ -707,7 +719,7 @@ public final class Font {
      Note: This will return cursor position into the beginning index of the foreground
      of the shadowed text if you're using it for subtraction.
      */
-    int getTextRenderableCharsLengthWithShadows(String input) {
+    public static int getTextRenderableCharsLengthWithShadows(String input) {
         return getTextRenderableCharsLength(input) * 2;
     }
 
@@ -717,7 +729,7 @@ public final class Font {
      Important Note: When renderToCanvas() is called, shadow coloring is turned
      back on because it can become a confusing nightmare if not done like this.
      */
-    void disableShadowColoring() {
+    public static void disableShadowColoring() {
         shadowColoringEnabled = false;
     }
 
@@ -729,7 +741,7 @@ public final class Font {
      your current index into the string by this size.
      Note: This is in pixel coordinates.
      */
-    void moveChar(int index, float posX, float posY) {
+    public static void moveChar(int index, float posX, float posY) {
         // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
 
         // Move to cursor position in vertexCache
@@ -752,14 +764,14 @@ public final class Font {
         vertexCache[baseIndex + 7] -= posY; // Y
     }
     /**
-     Rotate a character around the centerpoint of it's face.
+     Rotate a character around the center point of its face.
      Note: This defaults to radians by default.
      Note: If you use moveChar() with this, you MUST do moveChar() first!
      */
-    void rotateChar(int index, float rotation) {
+    public static void rotateChar(int index, float rotation) {
         rotateChar(index,rotation,false);
     }
-    void rotateChar(int index, float rotation, boolean isDegrees) {
+    public static void rotateChar(int index, float rotation, boolean isDegrees) {
 
         // Degrees are annoying
         if (isDegrees) {
@@ -775,7 +787,7 @@ public final class Font {
         // Move to cursor position in vertexCache
         final int baseIndex = index * 8;
 
-        // Convert to 3d to suppliment to 4x4 matrix
+        // Convert to 3d to supplement to 4x4 matrix
         Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
         Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
         Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
@@ -827,7 +839,7 @@ public final class Font {
 
     // ========================= BEGIN GRAPHICS ENCODING ==============================
 
-    private void encodeGraphics(FontData fontObject, boolean trimming, float spacing, float spaceCharacterSize) {
+    private static void encodeGraphics(FontData fontObject, boolean trimming, float spacing, float spaceCharacterSize) {
 
         // Store all this on the stack
 
@@ -961,7 +973,7 @@ public final class Font {
 
     // ========================== BEGIN JSON DECODING ==================================
     // Run through the required data to assemble a font object
-    private void parseJson(FontData fontObject, final String jsonLocation) {
+    private static void parseJson(FontData fontObject, final String jsonLocation) {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -1025,7 +1037,7 @@ public final class Font {
 
     // ========================== BEGIN API AGNOSTIC CALLS ============================
     // Attempts to automate the api RAW call
-    private void tryCallingRAWApi(String fileLocation) {
+    private static void tryCallingRAWApi(String fileLocation) {
         if (rawUpload == null) {
             return;
         }
@@ -1042,7 +1054,7 @@ public final class Font {
     }
 
     // Attempts to automate the api String call
-    private void tryCallingStringApi(String fileLocation) {
+    private static void tryCallingStringApi(String fileLocation) {
         if (stringUpload == null) {
             return;
         }
@@ -1056,7 +1068,7 @@ public final class Font {
 
 
     // Makes sure there's data where there should be
-    private void checkFilesExist(String pngLocation, String jsonLocation) {
+    private static void checkFilesExist(String pngLocation, String jsonLocation) {
         if (!new File(pngLocation).exists()) {
             throw new RuntimeException("Font: Texture (" + pngLocation + ") does not exist!");
         }
