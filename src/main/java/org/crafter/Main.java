@@ -5,6 +5,7 @@ import org.crafter.engine.gui.razorfont.Font;
 import org.crafter.engine.gui.razorfont.FontLoadingCalls;
 import org.crafter.engine.gui.razorfont.RawData;
 import org.crafter.engine.gui.razorfont.RenderCall;
+import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -20,14 +21,24 @@ public class Main {
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
         ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
 
+        ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/3d_fragment.frag");
+        ShaderStorage.createUniform("2d", new String[]{});
+
         TextureStorage.createTexture("textures/debug.png");
 
         Font.setFontStringCall(TextureStorage::createTexture);
-        Font.setRenderCall(new RenderCall() {
-            @Override
-            public void draw(RawData rawData) {
-
-            }
+        Font.setRenderCall(rawData -> {
+            Mesh tempObject = new Mesh(
+                    null,
+                    rawData.vertexPositions,
+                    rawData.textureCoordinates,
+                    rawData.indices,
+                    null,
+                    null,
+                    Font.getCurrentFontTextureFileLocation()
+            );
+            tempObject.render();
+            tempObject.destroy();
         });
         Font.createFont("fonts/totally_original", "mc", true);
 
@@ -53,6 +64,8 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
+        Font.selectFont("mc");
+
         float rotation = 0.0f;
 
         while(!Window.shouldClose()) {
@@ -69,6 +82,8 @@ public class Main {
 
             // Now we're moving into OpenGL shader implementation
 
+            // 3d
+
             ShaderStorage.start("3d");
 
             Camera.updateCameraMatrix();
@@ -80,6 +95,12 @@ public class Main {
             );
 
             MeshStorage.render("test");
+
+            // 2d
+
+            ShaderStorage.start("2d");
+
+
 
             Window.swapBuffers();
 
