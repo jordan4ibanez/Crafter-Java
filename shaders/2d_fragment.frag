@@ -34,8 +34,8 @@ void main() {
         //!
         //! Performance is based on your hardware platform
         //! No one shot solution for optimization woo
-        gl_FragDepth = 1.0;
-        // discard;
+//        gl_FragDepth = 1.0;
+         discard;
     }
 
     // Now we must colorize the rgba while also keeping the original alpha
