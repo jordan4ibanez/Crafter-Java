@@ -1,0 +1,13 @@
+{
+    "pallet_width": 81,
+    "pallet_height": 90,
+
+    "border": 1,
+    
+    "rows": 9,
+
+    "character_width": 8,
+    "charactert_height": 8,
+
+    "character_map": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?%|:;_-*^,.\"'#$&@+=/(){}"
+}

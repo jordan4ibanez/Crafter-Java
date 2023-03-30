@@ -1,0 +1,7 @@
+test_font: jordan4ibanez was here (I made this masterpiece) cc0
+
+MC: https://www.fontspace.com/minecraft-font-f28180 (Public domain)
+Ran through this: https://cloudconvert.com/otf-to-ttf
+Then it was ran through this: https://snowb.org/
+Then jordan4ibanez individually shoveled the letters into the grid using GIMP.
+Then I made it it's own json thing, amazing.
