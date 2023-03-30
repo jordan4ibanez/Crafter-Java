@@ -816,6 +816,133 @@ public final class Font {
     }
 
 
+    // ============================ END GRAPHICS DISPATCH =============================
+
+    // ========================= BEGIN GRAPHICS ENCODING ==============================
+
+    private void encodeGraphics(FontData fontObject, boolean trimming, float spacing, float spaceCharacterSize) {
+
+        // Store all this on the stack
+
+        // Total image size
+        final float palletWidth = fontObject.palletWidth;
+        final float palletHeight = fontObject.palletHeight;
+
+        // How many characters (width, then height)
+        final int rows = fontObject.rows;
+
+        // How wide and tall are the characters in pixels
+        final int characterWidth = fontObject.characterWidth;
+        final int characterHeight = fontObject.charactertHeight;
+
+        // The border between the characters in pixels
+        final int border = fontObject.border;
+
+        // Store font spacing here as it's a one shot operation
+        fontObject.spacing = spacing / characterWidth;
+
+        // Store space character width as it's a one shot operation
+        fontObject.spaceCharacterSize = spaceCharacterSize / characterWidth;
+
+        // Cache a raw true color image for trimming if requested
+        final TrueColorImage tempImageObject = trimming == false ? null : readPng(fontObject.fileLocation).getAsTrueColorImage();
+
+        foreach (size_t i, final(dchar) value; fontObject.rawMap) {
+
+            // Starts off as a normal monospace size
+            int thisCharacterWidth = characterWidth;
+
+            // Turn off annoying casting suggestions
+        final int index = cast(int) i;
+
+            // Now get where the typewriter is
+        final int currentRow = index % rows;
+        final int currentColum = index / rows;
+
+            // Now get literal pixel position (top left)
+            int intPosX = (characterWidth + border) * currentRow;
+            int intPosY = (characterHeight + border) * currentColum;
+
+            // left  top,
+            // left  bottom,
+            // right bottom,
+            // right top
+
+            // Now calculate limiters
+            // +1 on max because the GL texture stops on the top left of the point in the texture pixel
+            int minX = intPosX;
+            int maxX = intPosX + characterWidth + 1;
+
+        final int minY = intPosY;
+        final int maxY = intPosY + characterHeight + 1;
+
+            // Now trim it if requested
+            if (trimming) {
+
+                // Create temp workers
+                int newMinX = minX;
+                int newMaxX = maxX;
+
+                // Trim left side
+                outer1: foreach(x; minX..maxX) {
+                    newMinX = x;
+                    foreach (y; minY..maxY) {
+                        // This is ubyte (0-255)
+                        if (tempImageObject.getPixel(x,y).a > 0) {
+                            break outer1;
+                        }
+                    }
+                }
+
+                // Trim right side
+                outer2: foreach_reverse(x; minX..maxX) {
+                    // +1 because of the reason stated above assigning minX and maxX
+                    newMaxX = x + 1;
+                    foreach (y; minY..maxY) {
+                        // This is ubyte (0-255)
+                        if (tempImageObject.getPixel(x,y).a > 0) {
+                            break outer2;
+                        }
+                    }
+                }
+
+                // I was going to throw a blank space check, but maybe someone has a reason for that
+
+                minX = newMinX;
+                maxX = newMaxX;
+
+                thisCharacterWidth = maxX - minX;
+
+            }
+
+            // Now shovel it into a raw array so we can easily use it - iPos stands for Integral Positions
+            // -1 on maxY because the position was overshot, now we reverse it
+            int[] iPos = [
+            minX, minY,     // Top left
+                    minX, maxY - 1, // Bottom left
+                    maxX, maxY - 1, // Bottom right
+                    maxX, minY,    // Top right
+
+                    thisCharacterWidth, // Width
+        ];
+
+            // Now calculate REAL graphical texture map
+            float[9] glPositions  = [
+            iPos[0] / palletWidth, iPos[1] / palletHeight,
+                    iPos[2] / palletWidth, iPos[3] / palletHeight,
+                    iPos[4] / palletWidth, iPos[5] / palletHeight,
+                    iPos[6] / palletWidth, iPos[7] / palletHeight,
+
+                    // Now store char width - Find the new float size by comparing it to original
+                    // Will simply be 1.0 with monospaced fonts
+                    cast(float)iPos[8] / cast(float)characterWidth
+        ];
+
+            // Now dump it into the dictionary
+            fontObject.map[value] = glPositions;
+        }
+    }
+    // ========================= END GRAPICS ENCODING ================================
 
 
     private Font(){}
