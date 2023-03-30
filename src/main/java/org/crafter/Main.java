@@ -101,7 +101,7 @@ public class Main {
 
             // 2d
 
-            Window.clearDepth();
+            Window.clearDepthBuffer();
 
             Font.updateCanvasSize();
 

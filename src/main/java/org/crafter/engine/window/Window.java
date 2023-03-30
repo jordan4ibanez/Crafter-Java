@@ -199,7 +199,7 @@ public final class Window {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public static void clearDepth() {
+    public static void clearDepthBuffer() {
         glClear(GL_DEPTH_BUFFER_BIT);
     }
 
