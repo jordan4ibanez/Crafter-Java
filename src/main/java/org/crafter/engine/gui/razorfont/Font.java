@@ -9,6 +9,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.io.File;
 import java.util.*;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
@@ -196,7 +197,7 @@ public final class Font {
         initColorArray();
 
         // Are we using the fileLocation as the key, or did they specify a name?
-        final String key = name == "" ? fileLocation : name;
+        final String key = Objects.equals(name, "") ? fileLocation : name;
 
         final String pngLocation = fileLocation + ".png";
         final String jsonLocation = fileLocation + ".json";
@@ -218,7 +219,7 @@ public final class Font {
         parseJson(fontObject, jsonLocation);
 
         // Now encode the linear string as a keymap of raw graphics positions
-        encodeGraphics(fontObject, kerning, trimming, spacing, spaceCharacterSize);
+        encodeGraphics(fontObject, trimming, spacing, spaceCharacterSize);
 
         // Finally add it into the library
         fonts.put(name, fontObject);
@@ -1020,6 +1021,51 @@ public final class Font {
 
 
     //============================ END JSON DECODING ==================================
+
+
+    // ========================== BEGIN API AGNOSTIC CALLS ============================
+    // Attempts to automate the api RAW call
+    private void tryCallingRAWApi(String fileLocation) {
+        if (rawUpload == null) {
+            return;
+        }
+
+        RawTextureObject tempImageObject = new RawTextureObject(fileLocation);
+
+        final int width = tempImageObject.getWidth();
+        final int height = tempImageObject.getHeight();
+
+        rawUpload.fontLoadCallRaw(tempImageObject.getBuffer(), width, height);
+
+        // Garbage collected :P
+        tempImageObject.destroy();
+    }
+
+    // Attempts to automate the api String call
+    private void tryCallingStringApi(String fileLocation) {
+        if (stringUpload == null) {
+            return;
+        }
+
+        stringUpload.fontLoadCallString(fileLocation);
+    }
+
+    // ======================= END API AGNOSTIC CALLS ================================
+
+    // ===================== BEGIN ETC FUNCTIONS ===============================
+
+
+    // Makes sure there's data where there should be
+    private void checkFilesExist(String pngLocation, String jsonLocation) {
+        if (!new File(pngLocation).exists()) {
+            throw new RuntimeException("Font: Texture (" + pngLocation + ") does not exist!");
+        }
+        if (!new File(jsonLocation).exists()) {
+            throw new RuntimeException("Font: Data (" + jsonLocation + ") does not exist!");
+        }
+    }
+
+    // ===================== END ETC FUNCTIONS =====================================
 
 
     private Font(){}
