@@ -1,5 +1,6 @@
 package org.crafter.engine.gui.razorfont;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -40,8 +41,8 @@ public final class Font {
      * With this you can shovel one giant lump of data into a vao or whatever you're using.
      * This is optional though, you can do whatever you want!
      */
-    private static double canvasWidth  = -1;
-    private static double canvasHeight = -1;
+    private static float canvasWidth  = -1;
+    private static float canvasHeight = -1;
 
     /**
      * These store constant data that is highly repetitive
@@ -123,7 +124,7 @@ public final class Font {
     private static boolean fontLock = false;
 
     // Stores all fonts
-    private static final HashMap<String, FontData> razorFonts = new HashMap<>();
+    private static final HashMap<String, FontData> fonts = new HashMap<>();
 
     // Allows an automatic upload into whatever render target (OpenGL, Vulkan, Metal, DX) as a string file location
     private static FontLoadingCalls.StringCall stringUpload;
@@ -166,6 +167,277 @@ public final class Font {
         if (renderCall != null) {
             throw new RuntimeException("Font: Tried to set the render api call more than once!");
         }
+    }
+
+    /**
+     * Create a font from your PNG JSON pairing in the directory.
+     * You do not specify an extension.
+     * So if you have: cool.png and cool.json
+     * You would call this as: createFont("fonts/cool")
+     * Name is an optional. You will call into Razor Font by this name.
+     * If you do not specify a name, you must call into Razor Font by the fileLocation, literal.
+     * If you turn on trimming, your font will go from monospace to proportional.
+     * Spacing is how far the letters are from each other. Default: 1.0 pixel
+     * spaceCharacterSize is how big the ' ' (space) character is. By default, it's 4 pixels wide.
+     */
+    private void createFont(String fileLocation, String name, boolean trimming, float spacing, float spaceCharacterSize) {
+
+        // This is the fix explained above
+        initColorArray();
+
+        // Are we using the fileLocation as the key, or did they specify a name?
+        final String key = name == "" ? fileLocation : name;
+
+        final String pngLocation = fileLocation + ".png";
+        final String jsonLocation = fileLocation + ".json";
+
+        // Make sure the files exist
+        checkFilesExist(pngLocation, jsonLocation);
+
+        // Automate existing engine integration
+        tryCallingRAWApi(pngLocation);
+        tryCallingStringApi(pngLocation);
+
+        // Create the Font object
+        FontData fontObject = new FontData();
+
+        // Store the file location in the object
+        fontObject.fileLocation = pngLocation;
+
+        // Now parse the json, and pass it into object
+        parseJson(fontObject, jsonLocation);
+
+        // Now encode the linear string as a keymap of raw graphics positions
+        encodeGraphics(fontObject, kerning, trimming, spacing, spaceCharacterSize);
+
+        // Finally add it into the library
+        fonts.put(name, fontObject);
+
+    }
+
+    // ============================ BEGIN GRAPHICS DISPATCH ===========================
+
+    /**
+     Allows you to blanket set the color for the entire canvas.
+     Be careful though, this overwrites the entire color cache
+     after the currently rendered character position in memory!
+     */
+    void switchColor(float r, float g, float b) {
+        switchColor(r,g,b,1);
+    }
+    void switchColor(float r, float g, float b, float a) {
+        for (int i = colorCount; i < colorCache.length; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+    /**
+     Allows you to set the offet of the text shadowing.
+     This is RELATIVE via the font size so it will remain consistent
+     across any font size!
+     Remember: Offset will become reset to default when you call renderToCanvas()
+     */
+    void setShadowOffset(float x, float y) {
+        shadowOffsetX = x / 10.0f;
+        shadowOffsetY = y / 10.0f;
+    }
+
+    /**
+     Allows you to blanket set the shadow color for the entire canvas after the current character.
+     Remember: When you renderToCanvas() shadow colors will default back to black.
+     */
+    void switchShadowColor(float r, float g, float b) {
+        switchShadowColor(r,g,b,1);
+    }
+    void switchShadowColor(float r, float g, float b, float a) {
+        shadowColor[0] = r;
+        shadowColor[1] = g;
+        shadowColor[2] = b;
+        shadowColor[3] = a;
+    }
+
+    /**
+     Allows you to blanket a range of characters in the canvas with a color.
+     So if you have: abcdefg
+     And run setColorRange(0.5,0.5,0.5, 1, 3, 5)
+     Now e and f are gray. Alpha 1.0
+     */
+    void setColorRange(int start, int end, float r, float g, float b) {
+        setColorRange(start, end, r,g,b,1);
+    }
+    void setColorRange(int start, int end, float r, float g, float b, float a) {
+        for (int i = start * 16; i < end * 16; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+    /**
+     Allows you to set individual character colors
+     */
+    void setColorChar(int charIndex, float r, float g, float b) {
+        setColorChar(charIndex, r,g,b,1);
+    }
+    void setColorChar(int charIndex, float r, float g, float b, float a) {
+        final int startIndex = charIndex * 16;
+        for (int i = startIndex; i < startIndex + 16; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+    /**
+     Allows you to directly work on vertex position colors in a character.
+     Using direct points (verbose)
+     */
+    void setColorPoints(
+            int charIndex,
+
+            float topLeftR,
+            float topLeftG,
+            float topLeftB,
+            float topLeftA,
+
+            float bottomLeftR,
+            float bottomLeftG,
+            float bottomLeftB,
+            float bottomLeftA,
+
+            float bottomRightR,
+            float bottomRightG,
+            float bottomRightB,
+            float bottomRightA,
+
+            float topRightR,
+            float topRightG,
+            float topRightB,
+            float topRightA
+    ) {
+        final int startIndex = charIndex * 16;
+
+        // It's already immensely verbose, let's just add on to this verbosity
+
+        colorCache[startIndex]      = topLeftR;
+        colorCache[startIndex + 1]  = topLeftG;
+        colorCache[startIndex + 2]  = topLeftB;
+        colorCache[startIndex + 3]  = topLeftA;
+
+        colorCache[startIndex + 4]  = bottomLeftR;
+        colorCache[startIndex + 5]  = bottomLeftG;
+        colorCache[startIndex + 6]  = bottomLeftB;
+        colorCache[startIndex + 7]  = bottomLeftA;
+
+        colorCache[startIndex + 8]  = bottomRightR;
+        colorCache[startIndex + 9]  = bottomRightG;
+        colorCache[startIndex + 10] = bottomRightB;
+        colorCache[startIndex + 11] = bottomRightA;
+
+        colorCache[startIndex + 12] = topRightR;
+        colorCache[startIndex + 13] = topRightG;
+        colorCache[startIndex + 14] = topRightB;
+        colorCache[startIndex + 15] = topRightA;
+    }
+
+    /**
+     Allows you to directly work on vertex position colors in a character.
+     Using direct points (tidy).
+     float vec is [R,G,B,A]
+     */
+    void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
+        final int startIndex = charIndex * 16;
+        int externalIndex = 0;
+        for(float[] vec4 : new float[][]{topLeft, bottomLeft, bottomRight, topRight}) {
+            int index = 0;
+            for (float value : vec4) {
+                colorCache[startIndex + (externalIndex * 4) + index] = value;
+                index++;
+            }
+            externalIndex++;
+
+        }
+    }
+    // Allows you to get the max amount of characters allowed in canvas
+    int getMaxChars() {
+        return CHARACTER_LIMIT;
+    }
+
+
+    /**
+     Allows you to index the current amount of characters on the canvas. This does
+     not include spaces and carriage returns. You MUST call renderToCanvas before
+     calling this otherwise this will always be 0 when you call it.
+     */
+    int getCurrentCharacterIndex() {
+        return chars;
+    }
+
+    /**
+     Allows you to extract the current font PNG file location automatically
+     */
+    String getCurrentFontTextureFileLocation() {
+        if (currentFont == null) {
+            throw new RuntimeException("Font: Can't get a font file location! You didn't select one!");
+        }
+        return currentFont.fileLocation;
+    }
+
+    /**
+     Turns on shadowing.
+     Remember: This creates twice as many characters because
+     you have to render a background, then a foreground.
+     You can also do some crazy stuff with shadows because the shadow
+     colors are stored in the same color cache as regular text.
+     Remember: When you renderToCanvas() shadows turn off.
+     */
+    void enableShadows() {
+        shadowsEnabled = true;
+    }
+
+    /// Allows you to render to a canvas using top left as a base position
+    void setCanvasSize(float width, float height) {
+        // Dividing by 2.0 because my test environment shader renders to center on pos(0,0) top left
+        canvasWidth = width / 2.0f;
+        canvasHeight = height / 2.0f;
+    }
+
+    /**
+     Automatically flushes out the cache, handing the data structure off to
+     the delegate function you defined via setRenderFunc()
+     */
+    void render() {
+        if (renderCall == null) {
+            throw new RuntimeException("Font: You did not set a render api call!");
+        }
+        renderCall.draw(flush());
+    }
+
+    /// Flushes out the cache, gives you back a font struct containing the raw data
+    RawData flush() {
+
+        fontLock = false;
+
+        RawData returningStruct = new RawData(
+                Arrays.copyOfRange(vertexCache, 0, vertexCount),
+                Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
+                Arrays.copyOfRange(indicesCache, 0, indicesCount),
+                Arrays.copyOfRange(colorCache, 0, colorCount)
+        );
+
+        // Reset the counters
+        vertexCount = 0;
+        textureCoordinateCount = 0;
+        indicesCount = 0;
+        colorCount = 0;
+        chars = 0;
+
+        return returningStruct;
     }
 
 
