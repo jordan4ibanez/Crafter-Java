@@ -18,10 +18,10 @@ public class Main {
         Window.initialize();
 
 
-        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
-        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
+//        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
+//        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
 
-        ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/3d_fragment.frag");
+        ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
 
         TextureStorage.createTexture("textures/debug.png");
@@ -87,29 +87,34 @@ public class Main {
 
             // 3d
 
-            ShaderStorage.start("3d");
+//            ShaderStorage.start("3d");
 
-            Camera.updateCameraMatrix();
+//            Camera.updateCameraMatrix();
 
-            Camera.setObjectMatrix(
-                    new Vector3f(0.0f,0,-3),
-                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
-                    new Vector3f(1)
-            );
+//            Camera.setObjectMatrix(
+//                    new Vector3f(0.0f,0,-3),
+//                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
+//                    new Vector3f(1)
+//            );
 
-            MeshStorage.render("test");
+//            MeshStorage.render("test");
 
             // 2d
 
-            Window.clearDepthBuffer();
-
-            Font.updateCanvasSize();
+//            Window.clearDepthBuffer();
 
             ShaderStorage.start("2d");
 
-            Font.renderToCanvas(0.0f, 0.0f, 20.0f, "hi there");
+            Camera.updateGuiCameraMatrix();
 
-            Font.render();
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100);
+
+            MeshStorage.render("test");
+
+//            Font.updateCanvasSize();
+//            Font.renderToCanvas(0.0f, 0.0f, 20.0f, "hi there");
+//
+//            Font.render();
 
 
 
