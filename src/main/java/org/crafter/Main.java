@@ -1,18 +1,15 @@
 package org.crafter;
 
 import org.crafter.engine.camera.Camera;
-import org.crafter.engine.gui.razorfont.Font;
-import org.crafter.engine.gui.razorfont.FontLoadingCalls;
-import org.crafter.engine.gui.razorfont.RawData;
-import org.crafter.engine.gui.razorfont.RenderCall;
+import org.crafter.engine.gui.font.Font;
+import org.crafter.engine.gui.font.FontLoadingCalls;
+import org.crafter.engine.gui.font.RawData;
+import org.crafter.engine.gui.font.RenderCall;
 import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
-import org.joml.Vector3f;
-
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
