@@ -291,11 +291,9 @@ public final class Font {
                     (float)iPos[8] / (float)characterWidth
             };
 
-
-            if (String.valueOf(value).equals("h")) {
-                System.out.println(Arrays.toString(glPositions));
-                System.out.println("int pos: " + intPosX + " " + intPosY);
-            }
+            
+//            System.out.println(Arrays.toString(glPositions));
+//            System.out.println("Letter: " + value + " int pos: " + intPosX + " " + intPosY);
 
             // Now dump it into the dictionary
             fontObject.map.put(String.valueOf(value), glPositions);
@@ -357,7 +355,7 @@ public final class Font {
                 }
                 case "character_map" -> {
                     assert (type == JsonNodeType.STRING);
-                    fontObject.rawMap = value.toString();
+                    fontObject.rawMap = value.asText();
                 }
                 default -> {
                 } // Unknown
