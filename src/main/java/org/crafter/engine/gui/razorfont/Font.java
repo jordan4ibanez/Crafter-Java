@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.utility.RawTextureObject;
+import org.crafter.engine.window.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 
 import java.io.File;
@@ -416,11 +418,14 @@ public final class Font {
         shadowsEnabled = true;
     }
 
-    /// Allows you to render to a canvas using top left as a base position
-    public static void setCanvasSize(float width, float height) {
+    // Allows you to render to a canvas using top left as a base position
+    // This is now modified to be less UNIXy, calling straight into the Window class
+    public static void updateCanvasSize(/*float width, float height*/) {
         // Dividing by 2.0 because my test environment shader renders to center on pos(0,0) top left
-        canvasWidth = width / 2.0f;
-        canvasHeight = height / 2.0f;
+        Vector2i windowSize =  Window.getWindowSize();
+
+        canvasWidth  = (float)windowSize.x / 2.0f;
+        canvasHeight = (float)windowSize.y / 2.0f;
     }
 
     /**
