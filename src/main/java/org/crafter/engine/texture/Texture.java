@@ -1,5 +1,6 @@
 package org.crafter.engine.texture;
 
+import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Vector2i;
 import org.lwjgl.system.MemoryStack;
 
@@ -26,19 +27,9 @@ class Texture {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.name = fileLocation;
 
-            IntBuffer width  = stack.mallocInt(1);
-            IntBuffer height = stack.mallocInt(1);
+            RawTextureObject rawData = new RawTextureObject(fileLocation);
 
-            IntBuffer channels = stack.mallocInt(1);
-
-            // Desired channels = 4 = R,G,B,A
-            ByteBuffer buffer = stbi_load(fileLocation, width, height, channels, 4);
-
-            if (buffer == null) {
-                throw new RuntimeException("Texture: Failed to load (" + fileLocation + ")! Error: " + stbi_failure_reason());
-            }
-
-            size = new Vector2i(width.get(0), height.get(0));
+            size = new Vector2i(rawData.getWidth(), rawData.getHeight());
 
             // Begin OpenGL upload
 
@@ -60,7 +51,7 @@ class Texture {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, rawData.getBuffer());
 
             // If this gets called, the driver is probably borked
             if (!glIsTexture(textureID)) {
@@ -71,7 +62,8 @@ class Texture {
 
             // End OpenGL upload
 
-            stbi_image_free(buffer);
+            // Free the C memory
+            rawData.destroy();
         }
     }
 
