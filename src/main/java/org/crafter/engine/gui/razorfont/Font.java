@@ -1,6 +1,8 @@
 package org.crafter.engine.gui.razorfont;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -680,6 +682,137 @@ public final class Font {
         shadowColoringEnabled = true;
         // Switch back to black because this also can become a confusing nightmare
         switchShadowColor(0,0,0);
+    }
+
+    /**
+     Processes your input string, then sends you how long it would be when rendering.
+     Helpful for repositioning your "cursor" in the texture cache!
+     Note: This will return cursor position into the beginning index of the background
+     of the shadowed text if you're using it for subtraction.
+     */
+    int getTextRenderableCharsLength(String input) {
+        return input.replace(" ", "").replace("\n", "").length();
+    }
+
+    /**
+     Processes your input text string with shadows to see how long it would be when rendering.
+     Helpful for positioning your "cursor" in the texture cache!
+     Note: This will return cursor position into the beginning index of the foreground
+     of the shadowed text if you're using it for subtraction.
+     */
+    int getTextRenderableCharsLengthWithShadows(String input) {
+        return getTextRenderableCharsLength(input) * 2;
+    }
+
+    /**
+     Allows you to disable shadow coloring for a teeny tiny bit of performance
+     when you're doing cool custom shadow coloring!
+     Important Note: When renderToCanvas() is called, shadow coloring is turned
+     back on because it can become a confusing nightmare if not done like this.
+     */
+    void disableShadowColoring() {
+        shadowColoringEnabled = false;
+    }
+
+
+    /**
+     Allows you to manually move around characters.
+     Note: You can manually move around shadows by getting the
+     renderable text size before turning on shadows, then offset
+     your current index into the string by this size.
+     Note: This is in pixel coordinates.
+     */
+    void moveChar(int index, float posX, float posY) {
+        // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
+
+        // Move to cursor position in vertexCache
+        final int baseIndex = index * 8;
+
+        // Top left
+        vertexCache[baseIndex    ] += posX; // X
+        vertexCache[baseIndex + 1] -= posY; // Y
+
+        // Bottom left
+        vertexCache[baseIndex + 2] += posX; // X
+        vertexCache[baseIndex + 3] -= posY; // Y
+
+        // Bottom right
+        vertexCache[baseIndex + 4] += posX; // X
+        vertexCache[baseIndex + 5] -= posY; // Y
+
+        // Top right
+        vertexCache[baseIndex + 6] += posX; // X
+        vertexCache[baseIndex + 7] -= posY; // Y
+    }
+    /**
+     Rotate a character around the centerpoint of it's face.
+     Note: This defaults to radians by default.
+     Note: If you use moveChar() with this, you MUST do moveChar() first!
+     */
+    void rotateChar(int index, float rotation) {
+        rotateChar(index,rotation,false);
+    }
+    void rotateChar(int index, float rotation, boolean isDegrees) {
+
+        // Degrees are annoying
+        if (isDegrees) {
+            final float radToDegrees = 180.0f / (float)Math.PI;
+            rotation *= radToDegrees;
+        }
+
+        /**
+         This is written out even more verbosely than moveChar()
+         so you can see why you must do moveChar() first.
+         */
+
+        // Move to cursor position in vertexCache
+        final int baseIndex = index * 8;
+
+        // Convert to 3d to suppliment to 4x4 matrix
+        Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
+        Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
+        Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
+        Vector3f topRight    = new Vector3f(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
+
+        Vector3f centerPoint = new Vector3f((topLeft.x + topRight.x) / 2.0f,  (topLeft.y + bottomLeft.y) / 2.0f, 0);
+
+        Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
+        Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
+        Vector3f bottomRighttDiff = new Vector3f(bottomRight).sub(centerPoint);
+        Vector3f topRighttDiff    = new Vector3f(topRight)   .sub(centerPoint);
+
+        // These calculations also store the new data in the variables we created above
+        // We must center the coordinates into real coordinates
+
+        new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRighttDiff).getTranslation(bottomRight);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(topRighttDiff)   .getTranslation(topRight);
+
+
+        topLeft.x += centerPoint.x;
+        topLeft.y += centerPoint.y;
+
+        bottomLeft.x += centerPoint.x;
+        bottomLeft.y += centerPoint.y;
+
+        bottomRight.x += centerPoint.x;
+        bottomRight.y += centerPoint.y;
+
+        topRight.x += centerPoint.x;
+        topRight.y += centerPoint.y;
+
+        vertexCache[baseIndex    ] = topLeft.x;
+        vertexCache[baseIndex + 1] = topLeft.y;
+
+        vertexCache[baseIndex + 2] = bottomLeft.x;
+        vertexCache[baseIndex + 3] = bottomLeft.y;
+
+        vertexCache[baseIndex + 4] = bottomRight.x;
+        vertexCache[baseIndex + 5] = bottomRight.y;
+
+        vertexCache[baseIndex + 6] = topRight.x;
+        vertexCache[baseIndex + 7] = topRight.y;
     }
 
 
