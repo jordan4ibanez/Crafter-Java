@@ -107,7 +107,7 @@ class Shader {
             throw new RuntimeException("Shader (" + this.name + "): Could not find uniform (" + name + ")!");
         }
         uniforms.put(name, location);
-        System.out.println("Shader (" + this.name + "): created uniform " + name + " successfully!");
+        System.out.println("Shader (" + this.name + "): created uniform (" + name + ") successfully!");
     }
 
     // Start the shader program
