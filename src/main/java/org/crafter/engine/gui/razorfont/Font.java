@@ -1,5 +1,7 @@
 package org.crafter.engine.gui.razorfont;
 
+import java.util.HashMap;
+
 /**
  * This is my RazorFont library translated from D.
  * Various things have changed in this, simplification is a main goal.
@@ -121,7 +123,7 @@ public final class Font {
     private static boolean fontLock = false;
 
     // Stores all fonts
-    private static final ArrayMap<String, RazorFont> razorFonts = new ArrayMap<String, RazorFont>();
+    private static final HashMap<String, RazorFont> razorFonts = new HashMap<>();
 
     // Allows an automatic upload into whatever render target (OpenGL, Vulkan, Metal, DX) as a string file location
     private static FontLoadingCalls.StringCall stringUpload;
@@ -162,7 +164,7 @@ public final class Font {
      */
     public static void setRenderCall(RenderCall newRenderCall) {
         if (renderCall != null) {
-            throw new RuntimeException("Font: Tried to set the render api call more than once!")
+            throw new RuntimeException("Font: Tried to set the render api call more than once!");
         }
     }
 
