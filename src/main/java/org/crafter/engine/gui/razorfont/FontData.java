@@ -64,4 +64,9 @@ class FontData {
     FontData() {
         map = new HashMap<>();
     }
+
+    // Debug util
+    public String getAsString(){
+        return "Pallet: " + palletHeight + " " + palletWidth + " | Rows" + rows;
+    }
 }
