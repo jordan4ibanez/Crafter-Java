@@ -13,11 +13,11 @@ public class MeshStorage {
     private MeshStorage(){};
 
     // Create a new mesh
-    public static void newMesh(String meshName, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
+    public static void newMesh(String meshName, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation, boolean is2d) {
         if (container.containsKey(meshName)) {
             throw new RuntimeException("MeshStorage: Tried to create mesh (" + meshName + ") more than once!");
         }
-        container.put(meshName, new Mesh(meshName, positions, textureCoordinates, indices, bones, colors, textureFileLocation));
+        container.put(meshName, new Mesh(meshName, positions, textureCoordinates, indices, bones, colors, textureFileLocation, is2d));
     }
 
     // Swap a mesh's texture
