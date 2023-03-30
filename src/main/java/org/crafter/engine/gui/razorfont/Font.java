@@ -1,5 +1,6 @@
 package org.crafter.engine.gui.razorfont;
 
+import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -845,19 +846,20 @@ public final class Font {
         fontObject.spaceCharacterSize = spaceCharacterSize / characterWidth;
 
         // Cache a raw true color image for trimming if requested
-        final TrueColorImage tempImageObject = trimming == false ? null : readPng(fontObject.fileLocation).getAsTrueColorImage();
+        final RawTextureObject tempImageObject = !trimming ? null : new RawTextureObject(fontObject.fileLocation);
 
-        foreach (size_t i, final(dchar) value; fontObject.rawMap) {
+        int index = -1;
+        for (char value : fontObject.rawMap.toCharArray()) {
+
+            index++;
 
             // Starts off as a normal monospace size
             int thisCharacterWidth = characterWidth;
 
-            // Turn off annoying casting suggestions
-        final int index = cast(int) i;
 
             // Now get where the typewriter is
-        final int currentRow = index % rows;
-        final int currentColum = index / rows;
+            final int currentRow = index % rows;
+            final int currentColum = index / rows;
 
             // Now get literal pixel position (top left)
             int intPosX = (characterWidth + border) * currentRow;
@@ -873,8 +875,8 @@ public final class Font {
             int minX = intPosX;
             int maxX = intPosX + characterWidth + 1;
 
-        final int minY = intPosY;
-        final int maxY = intPosY + characterHeight + 1;
+            final int minY = intPosY;
+            final int maxY = intPosY + characterHeight + 1;
 
             // Now trim it if requested
             if (trimming) {
@@ -884,23 +886,23 @@ public final class Font {
                 int newMaxX = maxX;
 
                 // Trim left side
-                outer1: foreach(x; minX..maxX) {
+                outer1: for (int x = minX; x < maxX; x++){
                     newMinX = x;
-                    foreach (y; minY..maxY) {
+                    for (int y = minY; y < maxY; y++) {
                         // This is ubyte (0-255)
-                        if (tempImageObject.getPixel(x,y).a > 0) {
+                        if (tempImageObject.getPixel(x,y).w > 0) {
                             break outer1;
                         }
                     }
                 }
 
                 // Trim right side
-                outer2: foreach_reverse(x; minX..maxX) {
+                outer2: for (int x = maxX; x >= minX; x--) {
                     // +1 because of the reason stated above assigning minX and maxX
                     newMaxX = x + 1;
-                    foreach (y; minY..maxY) {
+                    for (int y = minY; y < maxY; y++) {
                         // This is ubyte (0-255)
-                        if (tempImageObject.getPixel(x,y).a > 0) {
+                        if (tempImageObject.getPixel(x,y).w > 0) {
                             break outer2;
                         }
                     }
@@ -915,31 +917,31 @@ public final class Font {
 
             }
 
-            // Now shovel it into a raw array so we can easily use it - iPos stands for Integral Positions
+            // Now shovel it into a raw array, so we can easily use it - iPos stands for Integral Positions
             // -1 on maxY because the position was overshot, now we reverse it
-            int[] iPos = [
-            minX, minY,     // Top left
+            int[] iPos = {
+                    minX, minY,     // Top left
                     minX, maxY - 1, // Bottom left
                     maxX, maxY - 1, // Bottom right
                     maxX, minY,    // Top right
 
-                    thisCharacterWidth, // Width
-        ];
+                    thisCharacterWidth // Width
+            };
 
             // Now calculate REAL graphical texture map
-            float[9] glPositions  = [
-            iPos[0] / palletWidth, iPos[1] / palletHeight,
+            float[] glPositions  = {
+                    iPos[0] / palletWidth, iPos[1] / palletHeight,
                     iPos[2] / palletWidth, iPos[3] / palletHeight,
                     iPos[4] / palletWidth, iPos[5] / palletHeight,
                     iPos[6] / palletWidth, iPos[7] / palletHeight,
 
                     // Now store char width - Find the new float size by comparing it to original
                     // Will simply be 1.0 with monospaced fonts
-                    cast(float)iPos[8] / cast(float)characterWidth
-        ];
+                    (float)iPos[8] / (float)characterWidth
+            };
 
             // Now dump it into the dictionary
-            fontObject.map[value] = glPositions;
+            fontObject.map.put(String.valueOf(value), glPositions);
         }
     }
     // ========================= END GRAPICS ENCODING ================================
