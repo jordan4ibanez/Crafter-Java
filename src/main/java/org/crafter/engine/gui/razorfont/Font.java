@@ -952,6 +952,62 @@ public final class Font {
     // ========================= END GRAPHICS ENCODING ================================
 
 
+
+    // ========================== BEGIN JSON DECODING ==================================
+    // Run through the required data to assemble a font object
+    private void parseJson(FontData fontObject, final String jsonLocation) {
+
+        void[] rawData = read(jsonLocation);
+
+        string jsonString = cast(string)rawData;
+        JSONValue jsonData = parseJSON(jsonString);
+
+        foreach (string key,JSONValue value; jsonData.objectNoRef) {
+            switch(key) {
+                case "pallet_width": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.palletWidth = cast(int)value.integer;
+                    break;
+                }
+                case "pallet_height": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.palletHeight = cast(int)value.integer;
+                    break;
+                }
+                case "border": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.border = cast(int)value.integer;
+                    break;
+                }
+                case "rows": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.rows = cast(int)value.integer;
+                    break;
+                }
+                case "character_width": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.characterWidth = cast(int)value.integer;
+                    break;
+                }
+                case "charactert_height": {
+                    assert(value.type == JSONType.integer);
+                    fontObject.charactertHeight = cast(int)value.integer;
+                    break;
+                }
+                case "character_map": {
+                    assert(value.type == JSONType.string);
+                    fontObject.rawMap = value.str;
+                    break;
+                }
+                default: // Unknown
+            }
+        }
+    }
+
+
+    //============================ END JSON DECODING ==================================
+
+
     private Font(){}
 
 
