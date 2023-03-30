@@ -60,4 +60,8 @@ class FontData {
 
     // Stores the map raw as a linear array before processed
     String rawMap;
+
+    FontData() {
+        map = new HashMap<>();
+    }
 }
