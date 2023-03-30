@@ -1,12 +1,17 @@
 package org.crafter.engine.gui.razorfont;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
+
+import static org.crafter.engine.utility.FileReader.getFileString;
 
 /**
  * This is my RazorFont library translated from D.
@@ -957,49 +962,58 @@ public final class Font {
     // Run through the required data to assemble a font object
     private void parseJson(FontData fontObject, final String jsonLocation) {
 
-        void[] rawData = read(jsonLocation);
+        ObjectMapper mapper = new ObjectMapper();
 
-        string jsonString = cast(string)rawData;
-        JSONValue jsonData = parseJSON(jsonString);
+        JsonNode nodes;
 
-        foreach (string key,JSONValue value; jsonData.objectNoRef) {
-            switch(key) {
-                case "pallet_width": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.palletWidth = cast(int)value.integer;
-                    break;
+        try {
+            nodes = mapper.readTree(getFileString(jsonLocation));
+        } catch (Exception e) {
+            throw new RuntimeException("Font: ERROR loading! " + e);
+        }
+
+
+        // Crawl up the JSON tree
+
+        System.out.println("JSON MAPPER NEED TO BE TESTED!!!");
+
+        for (JsonNode rawNode : nodes) {
+
+            String key = rawNode.fieldNames().next();
+
+            JsonNodeType rawType = rawNode.getNodeType();
+
+            switch (key) {
+                case "pallet_width" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.palletWidth = rawNode.asInt();
                 }
-                case "pallet_height": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.palletHeight = cast(int)value.integer;
-                    break;
+                case "pallet_height" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.palletHeight = rawNode.asInt();
                 }
-                case "border": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.border = cast(int)value.integer;
-                    break;
+                case "border" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.border = rawNode.asInt();
                 }
-                case "rows": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.rows = cast(int)value.integer;
-                    break;
+                case "rows" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.rows = rawNode.asInt();
                 }
-                case "character_width": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.characterWidth = cast(int)value.integer;
-                    break;
+                case "character_width" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.characterWidth = rawNode.asInt();
                 }
-                case "charactert_height": {
-                    assert(value.type == JSONType.integer);
-                    fontObject.charactertHeight = cast(int)value.integer;
-                    break;
+                case "character_height" -> {
+                    assert (rawType == JsonNodeType.NUMBER);
+                    fontObject.charactertHeight = rawNode.asInt();
                 }
-                case "character_map": {
-                    assert(value.type == JSONType.string);
-                    fontObject.rawMap = value.str;
-                    break;
+                case "character_map" -> {
+                    assert (rawType == JsonNodeType.STRING);
+                    fontObject.rawMap = rawType.toString();
                 }
-                default: // Unknown
+                default -> {
+                } // Unknown
             }
         }
     }
