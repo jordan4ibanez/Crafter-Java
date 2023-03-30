@@ -98,7 +98,14 @@ public class Main {
 
             // 2d
 
+            Window.clearDepth();
+
+            Font.updateCanvasSize();
+
             ShaderStorage.start("2d");
+
+            Font.renderToCanvas(0.0f, 0.0f, 20.0f, "hi there");
+
 
 
 
