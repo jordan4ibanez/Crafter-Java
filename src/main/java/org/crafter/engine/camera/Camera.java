@@ -78,13 +78,13 @@ public final class Camera {
     }
 
     public static void setGuiObjectMatrix(float posX, float posY) {
-        setGuiObjectMatrix(posX, posY, 1);
+        setGuiObjectMatrix(posX, posY, 1, 1);
     }
-    public static void setGuiObjectMatrix(float posX, float posY, float scale) {
+    public static void setGuiObjectMatrix(float posX, float posY, float scaleX, float scaleY) {
         guiObjectMatrix
                 .identity()
                 .translate(posX, posY, 0)
-                .scale(scale);
+                .scale(scaleX, scaleY, 1);
         ShaderStorage.setUniform("objectMatrix", guiObjectMatrix);
     }
 
