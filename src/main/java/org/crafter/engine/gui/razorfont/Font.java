@@ -915,7 +915,7 @@ public final class Font {
                 }
 
                 // Trim right side
-                outer2: for (int x = maxX; x >= minX; x--) {
+                outer2: for (int x = maxX - 1; x >= minX; x--) {
                     // +1 because of the reason stated above assigning minX and maxX
                     newMaxX = x + 1;
                     for (int y = minY; y < maxY; y++) {
@@ -985,45 +985,47 @@ public final class Font {
             throw new RuntimeException("Font: ERROR loading! " + e);
         }
 
-
         // Crawl up the JSON tree
 
         System.out.println("JSON MAPPER NEED TO BE TESTED!!!");
 
-        for (JsonNode rawNode : nodes) {
+        Iterator<String> keys = nodes.fieldNames();
 
-            String key = rawNode.fieldNames().next();
+        for (Iterator<JsonNode> it = nodes.elements(); it.hasNext(); ) {
 
-            JsonNodeType rawType = rawNode.getNodeType();
+            String key = keys.next();
+            JsonNode value = it.next();
+
+            JsonNodeType type = value.getNodeType();
 
             switch (key) {
                 case "pallet_width" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.palletWidth = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.palletWidth = value.asInt();
                 }
                 case "pallet_height" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.palletHeight = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.palletHeight = value.asInt();
                 }
                 case "border" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.border = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.border = value.asInt();
                 }
                 case "rows" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.rows = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.rows = value.asInt();
                 }
                 case "character_width" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.characterWidth = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.characterWidth = value.asInt();
                 }
                 case "character_height" -> {
-                    assert (rawType == JsonNodeType.NUMBER);
-                    fontObject.charactertHeight = rawNode.asInt();
+                    assert (type == JsonNodeType.NUMBER);
+                    fontObject.charactertHeight = value.asInt();
                 }
                 case "character_map" -> {
-                    assert (rawType == JsonNodeType.STRING);
-                    fontObject.rawMap = rawType.toString();
+                    assert (type == JsonNodeType.STRING);
+                    fontObject.rawMap = value.toString();
                 }
                 default -> {
                 } // Unknown
