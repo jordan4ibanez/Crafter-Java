@@ -987,8 +987,6 @@ public final class Font {
 
         // Crawl up the JSON tree
 
-        System.out.println("JSON MAPPER NEED TO BE TESTED!!!");
-
         Iterator<String> keys = nodes.fieldNames();
 
         for (Iterator<JsonNode> it = nodes.elements(); it.hasNext(); ) {
