@@ -147,40 +147,8 @@ public final class Font {
     // Allows an automate render into whatever render target (OpenGL, Vulkan, Metal, DX) simply by calling render()
     private static RenderCall renderCall;
 
-    /**
-     * Allows automatic render target (OpenGL, Vulkan, Metal, DX) passthrough instantiation.
-     * This can basically pass a file location off to your rendering engine and autoload it into memory.
-     */
-    public static void setFontStringCall(FontLoadingCalls.StringCall stringCall) {
-        if (stringUpload != null) {
-            throw new RuntimeException("Font: Tried to set the string api integration function more than once!");
-        }
-        stringUpload = stringCall;
-    }
 
-    /**
-     * Allows automatic render target (OpenGL, Vulkan, Metal, DX) DIRECT instantiation.
-     * This allows the render engine to AUTOMATICALLY upload the image as RAW data.
-     * byte[] = raw data. int = width. int = height.
-     */
-    public static void setFontRawCall(FontLoadingCalls.RawCall rawCall) {
-        if (rawUpload != null) {
-            throw new RuntimeException("Font: Tried to set the raw api integration function more than once!");
-        }
-        rawUpload = rawCall;
-    }
 
-    /**
-     * Allows automatic render target (OpenGL, Vulkan, Metal, DX) DIRECT rendering via RazorFont.
-     * You can simply call render() on the library, and it will automatically do whatever you
-     * tell it to with this delegate function. This will also automatically run flush().
-     */
-    public static void setRenderCall(RenderCall newRenderCall) {
-        if (renderCall != null) {
-            throw new RuntimeException("Font: Tried to set the render api call more than once!");
-        }
-        renderCall = newRenderCall;
-    }
 
     /**
      * Create a font from your PNG JSON pairing in the directory.
@@ -203,9 +171,6 @@ public final class Font {
 
         // This is the fix explained above
         initColorArray();
-
-        // Are we using the fileLocation as the key, or did they specify a name?
-//        final String key = Objects.equals(name, "") ? fileLocation : name;
 
         final String pngLocation = fileLocation + ".png";
         final String jsonLocation = fileLocation + ".json";
@@ -234,223 +199,22 @@ public final class Font {
 
     }
 
-    // ============================ BEGIN GRAPHICS DISPATCH ===========================
-
-    /**
-     Allows you to blanket set the color for the entire canvas.
-     Be careful though, this overwrites the entire color cache
-     after the currently rendered character position in memory!
-     */
-    public static void switchColor(float r, float g, float b) {
-        switchColor(r,g,b,1);
-    }
-    public static void switchColor(float r, float g, float b, float a) {
-        for (int i = colorCount; i < colorCache.length; i += 4) {
-            colorCache[i]     = r;
-            colorCache[i + 1] = g;
-            colorCache[i + 2] = b;
-            colorCache[i + 3] = a;
-        }
-    }
-
-    /**
-     Allows you to set the offet of the text shadowing.
-     This is RELATIVE via the font size so it will remain consistent
-     across any font size!
-     Remember: Offset will become reset to default when you call renderToCanvas()
-     */
-    public static void setShadowOffset(float x, float y) {
-        shadowOffsetX = x / 10.0f;
-        shadowOffsetY = y / 10.0f;
-    }
-
-    /**
-     Allows you to blanket set the shadow color for the entire canvas after the current character.
-     Remember: When you renderToCanvas() shadow colors will default back to black.
-     */
-    public static void switchShadowColor(float r, float g, float b) {
-        switchShadowColor(r,g,b,1);
-    }
-    public static void switchShadowColor(float r, float g, float b, float a) {
-        shadowColor[0] = r;
-        shadowColor[1] = g;
-        shadowColor[2] = b;
-        shadowColor[3] = a;
-    }
-
-    /**
-     Allows you to blanket a range of characters in the canvas with a color.
-     So if you have: abcdefg
-     And run setColorRange(0.5,0.5,0.5, 1, 3, 5)
-     Now e and f are gray. Alpha 1.0
-     */
-    public static void setColorRange(int start, int end, float r, float g, float b) {
-        setColorRange(start, end, r,g,b,1);
-    }
-    public static void setColorRange(int start, int end, float r, float g, float b, float a) {
-        for (int i = start * 16; i < end * 16; i += 4) {
-            colorCache[i]     = r;
-            colorCache[i + 1] = g;
-            colorCache[i + 2] = b;
-            colorCache[i + 3] = a;
-        }
-    }
-
-    /**
-     Allows you to set individual character colors
-     */
-    public static void setColorChar(int charIndex, float r, float g, float b) {
-        setColorChar(charIndex, r,g,b,1);
-    }
-    public static void setColorChar(int charIndex, float r, float g, float b, float a) {
-        final int startIndex = charIndex * 16;
-        for (int i = startIndex; i < startIndex + 16; i += 4) {
-            colorCache[i]     = r;
-            colorCache[i + 1] = g;
-            colorCache[i + 2] = b;
-            colorCache[i + 3] = a;
-        }
-    }
-
-    /**
-     Allows you to directly work on vertex position colors in a character.
-     Using direct points (verbose)
-     */
-    public static void setColorPoints(
-            int charIndex,
-
-            float topLeftR,
-            float topLeftG,
-            float topLeftB,
-            float topLeftA,
-
-            float bottomLeftR,
-            float bottomLeftG,
-            float bottomLeftB,
-            float bottomLeftA,
-
-            float bottomRightR,
-            float bottomRightG,
-            float bottomRightB,
-            float bottomRightA,
-
-            float topRightR,
-            float topRightG,
-            float topRightB,
-            float topRightA
-    ) {
-        final int startIndex = charIndex * 16;
-
-        // It's already immensely verbose, let's just add on to this verbosity
-
-        colorCache[startIndex]      = topLeftR;
-        colorCache[startIndex + 1]  = topLeftG;
-        colorCache[startIndex + 2]  = topLeftB;
-        colorCache[startIndex + 3]  = topLeftA;
-
-        colorCache[startIndex + 4]  = bottomLeftR;
-        colorCache[startIndex + 5]  = bottomLeftG;
-        colorCache[startIndex + 6]  = bottomLeftB;
-        colorCache[startIndex + 7]  = bottomLeftA;
-
-        colorCache[startIndex + 8]  = bottomRightR;
-        colorCache[startIndex + 9]  = bottomRightG;
-        colorCache[startIndex + 10] = bottomRightB;
-        colorCache[startIndex + 11] = bottomRightA;
-
-        colorCache[startIndex + 12] = topRightR;
-        colorCache[startIndex + 13] = topRightG;
-        colorCache[startIndex + 14] = topRightB;
-        colorCache[startIndex + 15] = topRightA;
-    }
-
-    /**
-     Allows you to directly work on vertex position colors in a character.
-     Using direct points (tidy).
-     float vec is [R,G,B,A]
-     */
-    public static void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
-        final int startIndex = charIndex * 16;
-        int externalIndex = 0;
-        for(float[] vec4 : new float[][]{topLeft, bottomLeft, bottomRight, topRight}) {
-            int index = 0;
-            for (float value : vec4) {
-                colorCache[startIndex + (externalIndex * 4) + index] = value;
-                index++;
-            }
-            externalIndex++;
-
-        }
-    }
-    // Allows you to get the max amount of characters allowed in canvas
-    public static int getMaxChars() {
-        return CHARACTER_LIMIT;
-    }
 
 
-    /**
-     Allows you to index the current amount of characters on the canvas. This does
-     not include spaces and carriage returns. You MUST call renderToCanvas before
-     calling this otherwise this will always be 0 when you call it.
-     */
-    public static int getCurrentCharacterIndex() {
-        return chars;
-    }
-
-    /**
-     Allows you to extract the current font PNG file location automatically
-     */
-    public static String getCurrentFontTextureFileLocation() {
-        if (currentFont == null) {
-            throw new RuntimeException("Font: Can't get a font file location! You didn't select one!");
-        }
-        return currentFont.fileLocation;
-    }
-
-    /**
-     Turns on shadowing.
-     Remember: This creates twice as many characters because
-     you have to render a background, then a foreground.
-     You can also do some crazy stuff with shadows because the shadow
-     colors are stored in the same color cache as regular text.
-     Remember: When you renderToCanvas() shadows turn off.
-     */
-    public static void enableShadows() {
-        shadowsEnabled = true;
-    }
-
-    // Allows you to render to a canvas using top left as a base position
-    // This is now modified to be less UNIXy, calling straight into the Window class
-//    public static void updateCanvasSize(/*float width, float height*/) {
-        // Dividing by 2.0 because my test environment shader renders to center on pos(0,0) top left
-//        Vector2i windowSize =  Window.getWindowSize();
-
-//        canvasWidth  = (float)windowSize.x / 2.0f;
-//        canvasHeight = (float)windowSize.y / 2.0f;
-//    }
-
-    /**
-     Automatically flushes out the cache, handing the data structure off to
-     the delegate function you defined via setRenderFunc()
-     */
-    public static void render() {
-        if (renderCall == null) {
-            throw new RuntimeException("Font: You did not set a render api call!");
-        }
-        renderCall.draw(flush());
-    }
 
     /// Flushes out the cache, gives you back a font struct containing the raw data
-    public static RawData flush() {
+    public static void flush() {
 
         fontLock = false;
 
-        RawData returningStruct = new RawData(
-                Arrays.copyOfRange(vertexCache, 0, vertexCount),
-                Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
-                Arrays.copyOfRange(indicesCache, 0, indicesCount),
-                Arrays.copyOfRange(colorCache, 0, colorCount)
-        );
+        // This will now be the rendering call
+
+//        RawData returningStruct = new RawData(
+//                Arrays.copyOfRange(vertexCache, 0, vertexCount),
+//                Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
+//                Arrays.copyOfRange(indicesCache, 0, indicesCount),
+//                Arrays.copyOfRange(colorCache, 0, colorCount)
+//        );
 
         // Reset the counters
         vertexCount = 0;
@@ -459,61 +223,10 @@ public final class Font {
         colorCount = 0;
         chars = 0;
 
-        return returningStruct;
+        // return returningStruct;
     }
 
-    /// Allows you to get text size to do interesting things. Returns as RazorTextSize struct
-    public static Vector2f getTextSize(float fontSize, String text) {
-        float accumulatorX = 0.0f;
-        float accumulatorY = 0.0f;
-        // Cache spacing
-        final float spacing = currentFont.spacing * fontSize;
-        // Cache space (' ') character
-        final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
 
-        // Can't get the size if there's no font!
-        if (currentFont == null) {
-            throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! " +
-                    "You must select a font before getting the size of text with it!");
-        }
-
-        for (char character : text.toCharArray()) {
-
-            String currentStringChar = String.valueOf(character);
-
-            // Skip space
-            if (character == ' ') {
-                accumulatorX += spaceCharacterSize;
-                continue;
-            }
-            // Move down 1 space Y
-            if (character == '\n') {
-                accumulatorY += fontSize;
-                continue;
-            }
-
-            // Skip unknown character
-            if (!currentFont.map.containsKey(currentStringChar)) {
-                continue;
-            }
-
-            // Font stores character width in index 9 (8 [0 count])
-            accumulatorX += (currentFont.map.get(currentStringChar)[8] * fontSize) + spacing;
-        }
-
-        // Add a last bit of the height offset
-        accumulatorY += fontSize;
-        // Remove the last bit of spacing
-        accumulatorX -= spacing;
-
-        // Finally, if shadowing is enabled, add in shadowing offset
-        if (shadowsEnabled) {
-            accumulatorX += (shadowOffsetX * fontSize);
-            accumulatorY += (shadowOffsetY * fontSize);
-        }
-
-        return new Vector2f(accumulatorX, accumulatorY);
-    }
 
     /**
      Selects and caches the font of your choosing.
@@ -538,18 +251,9 @@ public final class Font {
         fontLock = true;
     }
 
-    /**
-     * Get the name of the currently used font
-     */
-    public static String getCurrentFontName() {
-        return currentFontName;
-    }
 
-    /**
-     Render to the canvas. Remember: You must run flush() to collect this canvas.
-     If rounding is enabled, it will attempt to keep your text aligned with the pixels on screen
-     to avoid wavy/blurry/jagged text. This will automatically render shadows for you as well.
-     */
+
+
     public static void renderToCanvas(float posX, float posY, final float fontSize, String text) {
         renderToCanvas(posX, posY, fontSize, text,true);
     }
