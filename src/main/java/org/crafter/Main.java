@@ -3,6 +3,8 @@ package org.crafter;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.razorfont.Font;
 import org.crafter.engine.gui.razorfont.FontLoadingCalls;
+import org.crafter.engine.gui.razorfont.RawData;
+import org.crafter.engine.gui.razorfont.RenderCall;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -21,6 +23,12 @@ public class Main {
         TextureStorage.createTexture("textures/debug.png");
 
         Font.setFontStringCall(TextureStorage::createTexture);
+        Font.setRenderCall(new RenderCall() {
+            @Override
+            public void draw(RawData rawData) {
+
+            }
+        });
         Font.createFont("fonts/totally_original", "mc", true);
 
         MeshStorage.newMesh(
