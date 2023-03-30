@@ -48,7 +48,7 @@ public class Mesh {
     private int colorsVboID = INVALID;
 
     // Not using builder pattern in Java because I'm trying out a new structure implementation
-    public Mesh(String name, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
+    public Mesh(String name, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation, boolean is2d) {
 
         // Before anything is sent to the GPU, let's check that texture
         try {
@@ -74,7 +74,7 @@ public class Mesh {
 
 
         // Assign REQUIRED Vertex buffer Objects
-        positionsVboID = uploadFloatArray(positions, 0, 3);
+        positionsVboID = uploadFloatArray(positions, 0, is2d ? 2 : 3);
         textureCoordinatesVboID = uploadFloatArray(textureCoordinates, 1, 2);
         indicesVboID = uploadIndices(indices);
 
