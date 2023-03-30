@@ -1,5 +1,7 @@
 package org.crafter.engine.gui.razorfont;
 
+import org.joml.Vector2f;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -438,6 +440,246 @@ public final class Font {
         chars = 0;
 
         return returningStruct;
+    }
+
+    /// Allows you to get text size to do interesting things. Returns as RazorTextSize struct
+    Vector2f getTextSize(float fontSize, String text) {
+        float accumulatorX = 0.0f;
+        float accumulatorY = 0.0f;
+        // Cache spacing
+        final float spacing = currentFont.spacing * fontSize;
+        // Cache space (' ') character
+        final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
+
+        // Can't get the size if there's no font!
+        if (currentFont == null) {
+            throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! " +
+                    "You must select a font before getting the size of text with it!");
+        }
+
+        for (char character : text.toCharArray()) {
+
+            String currentStringChar = String.valueOf(character);
+
+            // Skip space
+            if (character == ' ') {
+                accumulatorX += spaceCharacterSize;
+                continue;
+            }
+            // Move down 1 space Y
+            if (character == '\n') {
+                accumulatorY += fontSize;
+                continue;
+            }
+
+            // Skip unknown character
+            if (!currentFont.map.containsKey(currentStringChar)) {
+                continue;
+            }
+
+            // Font stores character width in index 9 (8 [0 count])
+            accumulatorX += (currentFont.map.get(currentStringChar)[8] * fontSize) + spacing;
+        }
+
+        // Add a last bit of the height offset
+        accumulatorY += fontSize;
+        // Remove the last bit of spacing
+        accumulatorX -= spacing;
+
+        // Finally, if shadowing is enabled, add in shadowing offset
+        if (shadowsEnabled) {
+            accumulatorX += (shadowOffsetX * fontSize);
+            accumulatorY += (shadowOffsetY * fontSize);
+        }
+
+        return new Vector2f(accumulatorX, accumulatorY);
+    }
+
+    /**
+     Selects and caches the font of your choosing.
+     Remember: You must flush the cache before choosing a new font.
+     This is done because all fonts are different. It would create garbage
+     data on screen without this.
+     */
+    void selectFont(String font) {
+
+        if (fontLock) {
+            throw new RuntimeException("Font: You must flush() out the cache before selecting a new font!");
+        }
+
+        // Can't render if that font doesn't exist
+        if (!fonts.containsKey(font)) {
+            throw new RuntimeException("Font: Error! " + font + " is not a registered font!");
+        }
+
+        // Now store and lock
+        currentFont = fonts.get(font);
+        currentFontName = font;
+        fontLock = true;
+    }
+
+    /**
+     Render to the canvas. Remember: You must run flush() to collect this canvas.
+     If rounding is enabled, it will attempt to keep your text aligned with the pixels on screen
+     to avoid wavy/blurry/jagged text. This will automatically render shadows for you as well.
+     */
+    void renderToCanvas(float posX, float posY, final float fontSize, String text) {
+        renderToCanvas(posX, posY, fontSize, text,true);
+    }
+    void renderToCanvas(float posX, float posY, final float fontSize, String text, boolean rounding) {
+
+        // Keep square pixels
+        if (rounding) {
+            posX = Math.round(posX);
+            posY = Math.round(posY);
+        }
+
+        // Can't render if no font is selected
+        if (currentFont == null) {
+            throw new RuntimeException("Font: Tried to render without selecting a font! " +
+                    "You must select a font before rendering to canvas!");
+        }
+
+        // Can't render to canvas if there IS no canvas
+        if (canvasWidth == -1 && canvasHeight == -1) {
+            throw new RuntimeException("Font: You have to set the canvas size to render to it!");
+        }
+
+        // Store how far the arm has moved to the right
+        float typeWriterArmX = 0.0f;
+        // Store how far the arm has moved down
+        float typeWriterArmY = 0.0f;
+
+        // Top left of canvas is root position (X: 0, y: 0)
+        final float positionX = posX - canvasWidth;
+        final float positionY = posY - canvasHeight;
+
+            // Cache spacing
+        final float spacing = currentFont.spacing * fontSize;
+
+            // Cache space (' ') character
+        final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
+
+        int key = -1;
+        for (char character; text.toCharArray()) {
+            key++;
+
+            // Skip space
+            if (character == ' ') {
+                typeWriterArmX += spaceCharacterSize;
+                continue;
+            }
+            // Move down 1 space Y and to space 0 X
+            if (character == '\n') {
+                typeWriterArmY += fontSize;
+                typeWriterArmX = 0.0f;
+                continue;
+            }
+
+            String stringCharacter = String.valueOf(character);
+
+            // Skip unknown character
+            if (!currentFont.map.containsKey(stringCharacter)) {
+                continue;
+            }
+
+            // Font stores character width in index 9 (8 [0 count])
+            float[] rawData = currentFont.map.get(stringCharacter);
+
+            float[] textureData = Arrays.copyOfRange(rawData, 0, 8);
+
+            //Now dispatch into the cache
+            if (8 >= 0) System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
+
+            // This is the width of the character
+            // Keep on the stack
+            float characterWidth = rawData[8];
+
+            // Keep this on the stack
+            float[] rawVertex = RAW_VERTEX;
+
+
+            // ( 0 x 1 y 2 x 3 y ) <- left side ( 4 x 5 y 6 x 7 y ) <- right side is goal
+            // Now apply trimming
+            for (int i = 4; i < 8; i += 2) {
+                rawVertex[i] = characterWidth;
+            }
+
+            // Now scale
+            for (int i = 0; i < rawVertex.length; i++) {
+                rawVertex[i] *= fontSize;
+            }
+
+            // Shifting
+            for (int i = 0; i < 8; i += 2) {
+                // Now shift right
+                rawVertex[i] += typeWriterArmX + positionX;
+                // Now shift down
+                rawVertex[i + 1] += typeWriterArmY + positionY;
+            }
+
+            typeWriterArmX += (characterWidth * fontSize) + spacing;
+
+            // vertexData ~= rawVertex;
+            // Now dispatch into the cache
+            if (8 >= 0) System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8);
+
+
+            int[] rawIndices = RAW_INDICES;
+
+            for (int i = 0; i < rawIndices.length; i++) {
+                rawIndices[i] += vertexCount / 2;
+            }
+
+            // Now dispatch into the cache
+            if (6 >= 0) System.arraycopy(rawIndices, 0, indicesCache, indicesCount, 6);
+
+            // Now hold cursor position (count) in arrays
+            vertexCount  += 8;
+            textureCoordinateCount += 8;
+            indicesCount += 6;
+            colorCount += 16;
+            // This one is characters literal
+            chars++;
+
+            if (vertexCount >= CHARACTER_LIMIT || indicesCount >= CHARACTER_LIMIT) {
+                throw new RuntimeException("Font: Exceeded character limit! Character limit is: " + CHARACTER_LIMIT);
+            }
+        }
+
+        /**
+         Because there is no Z buffer in 2d, OpenGL seems to NOT overwrite pixel data of existing
+         framebuffer pixels. Since this is my testbed, I must assume that this is how
+         Vulkan, Metal, DX, and so-on do this. This is GUARANTEED to not affect software renderers.
+         So we have to do the shadowing AFTER the foreground.
+         We need to poll, THEN disable the shadow variable because without that it would be
+         an infinite recursion, aka a stack overflow.
+         */
+        const bool shadowsWereEnabled = shadowsEnabled;
+        shadowsEnabled = false;
+        if (shadowsWereEnabled) {
+        const int textLength = getTextRenderableCharsLength(text);
+        const int currentIndex = getCurrentCharacterIndex();
+            if (shadowColoringEnabled) {
+                setColorRange(
+                        currentIndex,
+                        currentIndex + textLength,
+                        shadowColor[0],
+                        shadowColor[1],
+                        shadowColor[2],
+                        shadowColor[3]
+                );
+            }
+            renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
+
+            shadowOffsetX = 0.05;
+            shadowOffsetY = 0.05;
+        }
+
+        // Turn this back on because it can become a confusing nightmare
+        shadowColoringEnabled = true;
+        // Switch back to black because this also can become a confusing nightmare
+        switchShadowColor(0,0,0);
     }
 
 
