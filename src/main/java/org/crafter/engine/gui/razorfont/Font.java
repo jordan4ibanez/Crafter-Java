@@ -561,7 +561,7 @@ public final class Font {
         final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
 
         int key = -1;
-        for (char character; text.toCharArray()) {
+        for (char character : text.toCharArray()) {
             key++;
 
             // Skip space
@@ -589,7 +589,7 @@ public final class Font {
             float[] textureData = Arrays.copyOfRange(rawData, 0, 8);
 
             //Now dispatch into the cache
-            if (8 >= 0) System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
+            System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
 
             // This is the width of the character
             // Keep on the stack
@@ -622,7 +622,7 @@ public final class Font {
 
             // vertexData ~= rawVertex;
             // Now dispatch into the cache
-            if (8 >= 0) System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8);
+            System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8);
 
 
             int[] rawIndices = RAW_INDICES;
@@ -632,7 +632,7 @@ public final class Font {
             }
 
             // Now dispatch into the cache
-            if (6 >= 0) System.arraycopy(rawIndices, 0, indicesCache, indicesCount, 6);
+            System.arraycopy(rawIndices, 0, indicesCache, indicesCount, 6);
 
             // Now hold cursor position (count) in arrays
             vertexCount  += 8;
@@ -655,11 +655,11 @@ public final class Font {
          We need to poll, THEN disable the shadow variable because without that it would be
          an infinite recursion, aka a stack overflow.
          */
-        const bool shadowsWereEnabled = shadowsEnabled;
+        final boolean shadowsWereEnabled = shadowsEnabled;
         shadowsEnabled = false;
         if (shadowsWereEnabled) {
-        const int textLength = getTextRenderableCharsLength(text);
-        const int currentIndex = getCurrentCharacterIndex();
+            final int textLength = getTextRenderableCharsLength(text);
+            final int currentIndex = getCurrentCharacterIndex();
             if (shadowColoringEnabled) {
                 setColorRange(
                         currentIndex,
@@ -672,8 +672,8 @@ public final class Font {
             }
             renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
 
-            shadowOffsetX = 0.05;
-            shadowOffsetY = 0.05;
+            shadowOffsetX = 0.05f;
+            shadowOffsetY = 0.05f;
         }
 
         // Turn this back on because it can become a confusing nightmare
