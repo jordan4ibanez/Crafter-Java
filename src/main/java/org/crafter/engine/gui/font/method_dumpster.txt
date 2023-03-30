@@ -284,6 +284,7 @@
                 accumulatorX += (currentFont.map.get(currentStringChar)[8] * fontSize) + spacing;
             }
 
+
             // Add a last bit of the height offset
             accumulatorY += fontSize;
             // Remove the last bit of spacing
