@@ -179,6 +179,7 @@ public final class Font {
         if (renderCall != null) {
             throw new RuntimeException("Font: Tried to set the render api call more than once!");
         }
+        renderCall = newRenderCall;
     }
 
     /**
