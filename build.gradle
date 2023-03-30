@@ -29,7 +29,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-stb"
-    implementation "org.json:json:20230227"
+    
 
     for (OS in natives) {
         println("Adding $OS")
