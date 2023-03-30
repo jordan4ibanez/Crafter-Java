@@ -1,4 +1,4 @@
-package org.crafter.engine.gui.razorfont;
+package org.crafter.engine.gui.font;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

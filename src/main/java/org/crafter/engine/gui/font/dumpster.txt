@@ -1,4 +1,4 @@
-package org.crafter.engine.gui.razorfont;
+package org.crafter.engine.gui.font;
 
 
 import java.nio.ByteBuffer;
@@ -26,7 +26,7 @@ public interface FontLoadingCalls {
 
 ------------------------------------------------
 
-package org.crafter.engine.gui.razorfont;
+package org.crafter.engine.gui.font;
 
 public interface RenderCall {
     /**
@@ -40,7 +40,7 @@ public interface RenderCall {
 -----------------------------------------------------
 
 
-package org.crafter.engine.gui.razorfont;
+package org.crafter.engine.gui.font;
 
 public class RawData {
     /// A simple struct to get the font data for the shader
