@@ -1,6 +1,7 @@
 package org.crafter;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.razorfont.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -17,6 +18,8 @@ public class Main {
         ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix", "textureSampler"});
 
         TextureStorage.createTexture("textures/debug.png");
+
+        Font.createFont("fonts/totally_original", "mc", true);
 
         MeshStorage.newMesh(
             "test",
