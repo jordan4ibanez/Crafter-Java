@@ -14,7 +14,7 @@ uniform sampler2D textureSampler;
 void main() {
 
     // Store what the pixel would have been colored and alphad on the vertex position
-    vec4 pixelColor = texture(textureSampler, outputTextureCoordinate);
+    vec4 pixelColor = texture2D(textureSampler, outputTextureCoordinate);
 
     // If the alpha of the text is less than the set alpha, use the set alpha
     // We do this because gl can't tell the difference between blank space and
