@@ -4,14 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.utility.RawTextureObject;
-import org.crafter.engine.window.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.joml.Vector3f;
 
 import java.io.File;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Objects;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
 
@@ -48,13 +50,13 @@ public final class Font {
     private static int colorCount             = 0;
     private static int chars                  = 0;
 
-    /**
-     * This allows batch rendering to a "canvas" ala vertex positionining
+    /*
+     * This allows batch rendering to a "canvas" ala vertex positioning
      * With this you can shovel one giant lump of data into a vao or whatever you're using.
      * This is optional though, you can do whatever you want!
      */
-    private static float canvasWidth  = -1;
-    private static float canvasHeight = -1;
+//    private static float canvasWidth  = -1;
+//    private static float canvasHeight = -1;
 
     /**
      * These store constant data that is highly repetitive
@@ -421,13 +423,13 @@ public final class Font {
 
     // Allows you to render to a canvas using top left as a base position
     // This is now modified to be less UNIXy, calling straight into the Window class
-    public static void updateCanvasSize(/*float width, float height*/) {
+//    public static void updateCanvasSize(/*float width, float height*/) {
         // Dividing by 2.0 because my test environment shader renders to center on pos(0,0) top left
-        Vector2i windowSize =  Window.getWindowSize();
+//        Vector2i windowSize =  Window.getWindowSize();
 
-        canvasWidth  = (float)windowSize.x / 2.0f;
-        canvasHeight = (float)windowSize.y / 2.0f;
-    }
+//        canvasWidth  = (float)windowSize.x / 2.0f;
+//        canvasHeight = (float)windowSize.y / 2.0f;
+//    }
 
     /**
      Automatically flushes out the cache, handing the data structure off to
@@ -568,9 +570,9 @@ public final class Font {
         }
 
         // Can't render to canvas if there IS no canvas
-        if (canvasWidth == -1 && canvasHeight == -1) {
-            throw new RuntimeException("Font: You have to set the canvas size to render to it!");
-        }
+//        if (canvasWidth == -1 && canvasHeight == -1) {
+//            throw new RuntimeException("Font: You have to set the canvas size to render to it!");
+//        }
 
         // Store how far the arm has moved to the right
         float typeWriterArmX = 0.0f;
@@ -578,8 +580,8 @@ public final class Font {
         float typeWriterArmY = 0.0f;
 
         // Top left of canvas is root position (X: 0, y: 0)
-        final float positionX = posX - canvasWidth;
-        final float positionY = posY - canvasHeight;
+        final float positionX = posX;
+        final float positionY = posY;
 
             // Cache spacing
         final float spacing = currentFont.spacing * fontSize;
@@ -587,9 +589,7 @@ public final class Font {
             // Cache space (' ') character
         final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
 
-        int key = -1;
         for (char character : text.toCharArray()) {
-            key++;
 
             // Skip space
             if (character == ' ') {
@@ -623,7 +623,7 @@ public final class Font {
             float characterWidth = rawData[8];
 
             // Keep this on the stack
-            float[] rawVertex = RAW_VERTEX;
+            float[] rawVertex = Arrays.copyOf(RAW_VERTEX, RAW_VERTEX.length);
 
 
             // ( 0 x 1 y 2 x 3 y ) <- left side ( 4 x 5 y 6 x 7 y ) <- right side is goal
@@ -652,7 +652,7 @@ public final class Font {
             System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8);
 
 
-            int[] rawIndices = RAW_INDICES;
+            int[] rawIndices = Arrays.copyOf(RAW_INDICES, RAW_INDICES.length);
 
             for (int i = 0; i < rawIndices.length; i++) {
                 rawIndices[i] += vertexCount / 2;
@@ -674,7 +674,7 @@ public final class Font {
             }
         }
 
-        /**
+        /*
          * Because there is no Z buffer in 2d, OpenGL seems to NOT overwrite pixel data of existing
          * framebuffer pixels. Since this is my testbed, I must assume that this is how
          * Vulkan, Metal, DX, and so-on do this. This is GUARANTEED to not affect software renderers.
@@ -785,7 +785,7 @@ public final class Font {
             rotation *= radToDegrees;
         }
 
-        /**
+        /*
          This is written out even more verbosely than moveChar()
          so you can see why you must do moveChar() first.
          */
@@ -872,6 +872,10 @@ public final class Font {
         // Cache a raw true color image for trimming if requested
         final RawTextureObject tempImageObject = !trimming ? null : new RawTextureObject(fontObject.fileLocation);
 
+        if (tempImageObject != null) {
+            tempImageObject.debugSpam();
+        }
+
         int index = -1;
         for (char value : fontObject.rawMap.toCharArray()) {
 
@@ -899,7 +903,6 @@ public final class Font {
             int minX = intPosX;
             int maxX = intPosX + characterWidth + 1;
 
-            final int minY = intPosY;
             final int maxY = intPosY + characterHeight + 1;
 
             // Now trim it if requested
@@ -912,7 +915,7 @@ public final class Font {
                 // Trim left side
                 outer1: for (int x = minX; x < maxX; x++){
                     newMinX = x;
-                    for (int y = minY; y < maxY; y++) {
+                    for (int y = intPosY; y < maxY; y++) {
                         // This is ubyte (0-255)
                         if (tempImageObject.getPixel(x,y).w > 0) {
                             break outer1;
@@ -924,7 +927,7 @@ public final class Font {
                 outer2: for (int x = maxX - 1; x >= minX; x--) {
                     // +1 because of the reason stated above assigning minX and maxX
                     newMaxX = x + 1;
-                    for (int y = minY; y < maxY; y++) {
+                    for (int y = intPosY; y < maxY; y++) {
                         // This is ubyte (0-255)
                         if (tempImageObject.getPixel(x,y).w > 0) {
                             break outer2;
@@ -944,10 +947,10 @@ public final class Font {
             // Now shovel it into a raw array, so we can easily use it - iPos stands for Integral Positions
             // -1 on maxY because the position was overshot, now we reverse it
             int[] iPos = {
-                    minX, minY,     // Top left
+                    minX, intPosY,     // Top left
                     minX, maxY - 1, // Bottom left
                     maxX, maxY - 1, // Bottom right
-                    maxX, minY,    // Top right
+                    maxX, intPosY,    // Top right
 
                     thisCharacterWidth // Width
             };
