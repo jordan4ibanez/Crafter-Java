@@ -59,7 +59,11 @@ public class RawTextureObject {
 
         // Let's do a little safety check first
         if (x < 0 || x >= width || y < 0 || y >= height) {
-            throw new RuntimeException("RawTextureObject: ERROR! Accessed out of bounds!");
+            throw new RuntimeException(
+                    "RawTextureObject: ERROR! Accessed out of bounds!\n" +
+                    "Size of texture: " + width + ", " + height + "\n" +
+                    "Attempt: " +  x + ", " + y
+            );
         }
 
         // Always 4 channel, so we need to treat each 4 channel as 1
