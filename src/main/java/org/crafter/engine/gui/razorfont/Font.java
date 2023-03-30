@@ -943,8 +943,13 @@ public final class Font {
             // Now dump it into the dictionary
             fontObject.map.put(String.valueOf(value), glPositions);
         }
+
+        // Now clean up that buffer object wrapper if it exists
+        if (tempImageObject != null) {
+            tempImageObject.destroy();
+        }
     }
-    // ========================= END GRAPICS ENCODING ================================
+    // ========================= END GRAPHICS ENCODING ================================
 
 
     private Font(){}
