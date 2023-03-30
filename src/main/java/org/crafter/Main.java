@@ -117,12 +117,14 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 1, -1);
+//            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
 
-            MeshStorage.render("test");
+//            MeshStorage.render("test");
+
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
 
 //            Font.updateCanvasSize();
-            Font.renderToCanvas(0, 0, 30.0f, "a");
+            Font.renderToCanvas(0, 0, 30.0f, "abcd");
 
             Font.render();
 
