@@ -114,7 +114,7 @@ public final class Font {
      Just remember, you must flush or this is going to throw an error because
      it would create garbage text data without a lock when swapping golfballs, aka fonts.
      */
-    private static RazorFont currentFont = null;
+    private static FontData currentFont = null;
 
     // This stores the current font name as a string
     private static String currentFontName;
@@ -123,7 +123,7 @@ public final class Font {
     private static boolean fontLock = false;
 
     // Stores all fonts
-    private static final HashMap<String, RazorFont> razorFonts = new HashMap<>();
+    private static final HashMap<String, FontData> razorFonts = new HashMap<>();
 
     // Allows an automatic upload into whatever render target (OpenGL, Vulkan, Metal, DX) as a string file location
     private static FontLoadingCalls.StringCall stringUpload;

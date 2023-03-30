@@ -3,9 +3,9 @@ package org.crafter.engine.gui.razorfont;
 import java.util.HashMap;
 
 /**
- * RazorFont is simply a data container class.
+ * FontData is simply a data container class for fonts. Amazing.
  */
-class RazorFont {
+class FontData {
 
     // Font base pallet width (in pixels)
     int palletWidth  = 0;
