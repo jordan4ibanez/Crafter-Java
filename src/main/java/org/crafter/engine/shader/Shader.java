@@ -1,5 +1,6 @@
 package org.crafter.engine.shader;
 
+import org.crafter.engine.utility.FileReader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -11,6 +12,7 @@ import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.util.HashMap;
 
+import static org.crafter.engine.utility.FileReader.getFileString;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
@@ -167,25 +169,6 @@ class Shader {
         glAttachShader(programID, shaderID);
 
         return shaderID;
-    }
-
-    // Internal auto checker to load file
-    private String getFileString(String fileLocation) {
-        // Check if it exists
-        File file = new File(fileLocation);
-        if (!file.exists()) {
-            throw new RuntimeException("Shader: File " + fileLocation + " does not exist!");
-        }
-
-        // Now try to read it
-        String code;
-        try {
-            code = Files.readString(file.toPath());
-        } catch (Exception errorString) {
-            throw new RuntimeException("Shader: Failed to read file " + fileLocation + "! Error: " + errorString);
-        }
-
-        return code;
     }
 
     // Completely obliterates the shader program
