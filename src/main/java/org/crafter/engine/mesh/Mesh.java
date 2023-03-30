@@ -48,7 +48,7 @@ public class Mesh {
     private int colorsVboID = INVALID;
 
     // Not using builder pattern in Java because I'm trying out a new structure implementation
-    Mesh(String name, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
+    public Mesh(String name, float[] positions, float[] textureCoordinates, int[] indices, int[] bones, float[] colors, String textureFileLocation) {
 
         // Before anything is sent to the GPU, let's check that texture
         try {
@@ -104,7 +104,7 @@ public class Mesh {
     }
 
     // Automated internal render method
-    void render() {
+    public void render() {
         // All shaders are REQUIRED to have a texture sampler
         // FIXME: But why are we setting this to 0 over and over?
         // TEST: Remove this and see if it works on Mesa
@@ -234,7 +234,7 @@ public class Mesh {
     }
 
     // Completely obliterates this VAO and all VBOs associated with it
-    void destroy() {
+    public void destroy() {
 
         // Bind into Vertex Array Object context
         glBindVertexArray(vaoID);
