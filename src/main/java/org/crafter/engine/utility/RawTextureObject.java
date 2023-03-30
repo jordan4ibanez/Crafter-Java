@@ -1,5 +1,6 @@
 package org.crafter.engine.utility;
 
+import org.joml.Vector4i;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -48,6 +49,35 @@ public class RawTextureObject {
 
     public ByteBuffer getBuffer() {
         return buffer;
+    }
+
+    /**
+     * x is left to right
+     * y is top to bottom
+     */
+    public Vector4i getPixel(int x, int y) {
+
+        // Let's do a little safety check first
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new RuntimeException("RawTextureObject: ERROR! Accessed out of bounds!");
+        }
+
+        // Always 4 channel, so we need to treat each 4 channel as 1
+        int tempWidth = width * 4;
+        int tempHeight = height * 4;
+
+        // Bytebuffer is in ubytes in C
+
+        // Use data pack algorithm to grab that pixel
+        int index = (y * width + x) * 4;
+
+        // Now return it as a JOML vec4i
+        return new Vector4i(
+                buffer.get(index),
+                buffer.get(index + 1),
+                buffer.get(index + 2),
+                buffer.get(index + 3)
+        );
     }
 
     public void destroy() {
