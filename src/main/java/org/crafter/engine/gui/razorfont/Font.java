@@ -9,11 +9,9 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Objects;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
 
@@ -207,7 +205,7 @@ public final class Font {
         initColorArray();
 
         // Are we using the fileLocation as the key, or did they specify a name?
-        final String key = Objects.equals(name, "") ? fileLocation : name;
+//        final String key = Objects.equals(name, "") ? fileLocation : name;
 
         final String pngLocation = fileLocation + ".png";
         final String jsonLocation = fileLocation + ".json";
@@ -569,11 +567,6 @@ public final class Font {
                     "You must select a font before rendering to canvas!");
         }
 
-        // Can't render to canvas if there IS no canvas
-//        if (canvasWidth == -1 && canvasHeight == -1) {
-//            throw new RuntimeException("Font: You have to set the canvas size to render to it!");
-//        }
-
         // Store how far the arm has moved to the right
         float typeWriterArmX = 0.0f;
         // Store how far the arm has moved down
@@ -611,16 +604,19 @@ public final class Font {
             }
 
             // Font stores character width in index 9 (8 [0 count])
-            float[] rawData = currentFont.map.get(stringCharacter);
+            float[] textureData = Arrays.copyOfRange(currentFont.map.get(stringCharacter), 0, 9);
 
-            float[] textureData = Arrays.copyOfRange(rawData, 0, 8);
+//            System.out.println(stringCharacter);
+//            if (stringCharacter.equals("h")) {
+//                System.out.println(Arrays.toString(currentFont.map.get(stringCharacter)));
+//            }
 
             //Now dispatch into the cache
             System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
 
             // This is the width of the character
             // Keep on the stack
-            float characterWidth = rawData[8];
+            float characterWidth = textureData[8];
 
             // Keep this on the stack
             float[] rawVertex = Arrays.copyOf(RAW_VERTEX, RAW_VERTEX.length);
@@ -858,7 +854,7 @@ public final class Font {
 
         // How wide and tall are the characters in pixels
         final int characterWidth = fontObject.characterWidth;
-        final int characterHeight = fontObject.charactertHeight;
+        final int characterHeight = fontObject.characterHeight;
 
         // The border between the characters in pixels
         final int border = fontObject.border;
@@ -967,6 +963,12 @@ public final class Font {
                     (float)iPos[8] / (float)characterWidth
             };
 
+
+            if (String.valueOf(value).equals("h")) {
+                System.out.println(Arrays.toString(glPositions));
+                System.out.println("int pos: " + intPosX + " " + intPosY);
+            }
+
             // Now dump it into the dictionary
             fontObject.map.put(String.valueOf(value), glPositions);
         }
@@ -1028,7 +1030,7 @@ public final class Font {
                 }
                 case "character_height" -> {
                     assert (type == JsonNodeType.NUMBER);
-                    fontObject.charactertHeight = value.asInt();
+                    fontObject.characterHeight = value.asInt();
                 }
                 case "character_map" -> {
                     assert (type == JsonNodeType.STRING);
