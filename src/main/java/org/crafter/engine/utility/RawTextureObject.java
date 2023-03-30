@@ -85,7 +85,8 @@ public class RawTextureObject {
     }
 
     public void destroy() {
-        System.out.println("RawTextureObject: Freed memory of C int*!");
+        // This is useful for debugging
+        // System.out.println("RawTextureObject: Freed memory of C int*!");
         stbi_image_free(buffer);
     }
 
