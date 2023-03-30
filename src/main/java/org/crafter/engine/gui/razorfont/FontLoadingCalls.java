@@ -1,6 +1,7 @@
 package org.crafter.engine.gui.razorfont;
 
 
+import java.nio.ByteBuffer;
 
 public interface FontLoadingCalls {
 
@@ -18,6 +19,6 @@ public interface FontLoadingCalls {
          * This allows the render engine to AUTOMATICALLY upload the image as RAW data.
          * byte[] = raw data. int = width. int = height.
          */
-        void fontLoadCallRaw(byte[] raw, int width, int height);
+        void fontLoadCallRaw(ByteBuffer raw, int width, int height);
     }
 }
