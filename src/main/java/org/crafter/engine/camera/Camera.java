@@ -2,9 +2,9 @@ package org.crafter.engine.camera;
 
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
-import org.joml.Matrix4f;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
+import org.joml.*;
+
+import java.lang.Math;
 
 /**
  * For now - There can only be one camera.
@@ -24,7 +24,11 @@ public final class Camera {
 
     private static final Matrix4f cameraMatrix = new Matrix4f();
 
+    private static final Matrix4f guiCameraMatrix = new Matrix4f();
+
     private static final Matrix4f objectMatrix = new Matrix4f();
+
+    private static final Matrix4f guiObjectMatrix = new Matrix4f();
 
     private static final Vector3f position = new Vector3f();
 
@@ -43,6 +47,18 @@ public final class Camera {
         ShaderStorage.setUniform("cameraMatrix", cameraMatrix);
     }
 
+    // This automatically updates the 2dCameraMatrix
+    public static void updateGuiCameraMatrix() {
+        float windowWidth = (float)Window.getWindowWidth();
+        float windowHeight = (float)Window.getWindowHeight();
+
+        guiCameraMatrix
+                .identity()
+                .setOrtho2D(0, windowWidth, 0, windowHeight);
+
+        ShaderStorage.setUniform("cameraMatrix", guiCameraMatrix);
+    }
+
     // This updates the objectMatrix exactly as you tell it to
     public static void setObjectMatrix(Vector3f objectPosition, Vector3f objectRotation, Vector3f objectScale) {
 
@@ -59,6 +75,17 @@ public final class Camera {
                 .scale(objectScale);
 
         ShaderStorage.setUniform("objectMatrix", objectMatrix);
+    }
+
+    public static void setGuiObjectMatrix(float posX, float posY) {
+        setGuiObjectMatrix(posX, posY, 1);
+    }
+    public static void setGuiObjectMatrix(float posX, float posY, float scale) {
+        guiObjectMatrix
+                .identity()
+                .translate(posX, posY, 0)
+                .scale(scale);
+        ShaderStorage.setUniform("objectMatrix", guiObjectMatrix);
     }
 
     public static void setPosition(float x, float y, float z) {
