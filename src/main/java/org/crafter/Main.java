@@ -109,6 +109,7 @@ public class Main {
 
             Font.renderToCanvas(0.0f, 0.0f, 20.0f, "hi there");
 
+            Font.render();
 
 
 
