@@ -27,6 +27,9 @@ public class Main {
         TextureStorage.createTexture("textures/debug.png");
 
         Font.setFontStringCall(TextureStorage::createTexture);
+        /**
+         * Idea: put this into the mesh package, static class, reuse the poop out of tempObject
+         */
         Font.setRenderCall(rawData -> {
             Mesh tempObject = new Mesh(
                     null,
