@@ -36,6 +36,9 @@ public final class ShaderStorage {
     // Create multiple uniforms for a shader
     public static void createUniform(String shaderName, String[] uniformNames) {
         checkExistence(shaderName);
+        if (uniformNames.length == 0) {
+            throw new RuntimeException("ShaderStorage: ERROR! You called createUniform with an empty array!");
+        }
         for (String name : uniformNames) {
             container.get(shaderName).createUniform(name);
         }
