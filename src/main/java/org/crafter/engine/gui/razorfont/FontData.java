@@ -25,7 +25,7 @@ class FontData {
 
     // Character pallet (individual) in pixels
     int characterWidth   = 0;
-    int charactertHeight = 0;
+    int characterHeight = 0;
 
     // Readonly specifier if trimming was enabled
     boolean trimmedX = false;
