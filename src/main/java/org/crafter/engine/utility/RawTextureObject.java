@@ -73,7 +73,7 @@ public class RawTextureObject {
         // Bytebuffer is in ubytes in C
 
         // Use data pack algorithm to grab that pixel
-        int index = (y * width) + (x * 4);
+        int index = (x * width) + (y * 4);
 
         // Now return it as a JOML vec4i
         return new Vector4i(
