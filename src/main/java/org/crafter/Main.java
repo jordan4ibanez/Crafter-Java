@@ -12,6 +12,8 @@ import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 import org.joml.Vector3f;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -31,6 +33,11 @@ public class Main {
          * Idea: put this into the mesh package, static class, reuse the poop out of tempObject
          */
         Font.setRenderCall(rawData -> {
+
+//            float[] rawDataTest = Arrays.copyOfRange(rawData.textureCoordinates, 0, 8);
+//
+//            System.out.println(Arrays.toString(rawDataTest));
+
             Mesh tempObject = new Mesh(
                     null,
                     rawData.vertexPositions,
@@ -38,12 +45,14 @@ public class Main {
                     rawData.indices,
                     null,
                     null,
-                    Font.getCurrentFontTextureFileLocation()
+                    Font.getCurrentFontTextureFileLocation(),
+                    true
             );
             tempObject.render();
             tempObject.destroy();
         });
-        Font.createFont("fonts/totally_original", "mc", true);
+
+        Font.createFont("fonts/totally_original", "mc", false);
 
         MeshStorage.newMesh(
             "test",
@@ -62,7 +71,8 @@ public class Main {
                 },
                 null,
                 null,
-                "textures/debug.png"
+                "textures/debug.png",
+                false
         );
 
         Window.setClearColor(0.75f);
@@ -107,14 +117,14 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100);
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 1, -1);
 
             MeshStorage.render("test");
 
 //            Font.updateCanvasSize();
-//            Font.renderToCanvas(0.0f, 0.0f, 20.0f, "hi there");
-//
-//            Font.render();
+            Font.renderToCanvas(0, 0, 30.0f, "a");
+
+            Font.render();
 
 
 
