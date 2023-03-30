@@ -797,16 +797,16 @@ public final class Font {
 
         Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
         Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
-        Vector3f bottomRighttDiff = new Vector3f(bottomRight).sub(centerPoint);
-        Vector3f topRighttDiff    = new Vector3f(topRight)   .sub(centerPoint);
+        Vector3f bottomRightDiff = new Vector3f(bottomRight).sub(centerPoint);
+        Vector3f topRightDiff    = new Vector3f(topRight)   .sub(centerPoint);
 
         // These calculations also store the new data in the variables we created above
         // We must center the coordinates into real coordinates
 
         new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
         new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
-        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRighttDiff).getTranslation(bottomRight);
-        new Matrix4f().rotate(rotation, 0,0,1).translate(topRighttDiff)   .getTranslation(topRight);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRightDiff) .getTranslation(bottomRight);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(topRightDiff)    .getTranslation(topRight);
 
 
         topLeft.x += centerPoint.x;
