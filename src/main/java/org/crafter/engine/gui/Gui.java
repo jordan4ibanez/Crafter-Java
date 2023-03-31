@@ -39,7 +39,8 @@ public class GUI {
     // What the element does with mouse input
     private void collisionDetect() {
 
-        System.out.println("GUI: Still needs the static mouse class to pass in it's click data!");
+//        System.out.println("GUI: Still needs the static mouse class to pass in it's click data!");
+        // FIXME: USE THE MOUSE CLASS HERE
         boolean mouseClicked = false;
 
         for (GUIElement element : container.values()) {
@@ -64,7 +65,8 @@ public class GUI {
     }
 
     private void keyInput() {
-        System.out.println("GUI: Still needs the static keyboard class to pass in it's typing data!");
+//        System.out.println("GUI: Still needs the static keyboard class to pass in it's typing data!");
+        //FIXME: USE THE KEYBOARD CLASS HERE
         int keyboardKey = 1;
 
         for (GUIElement element : container.values()) {
