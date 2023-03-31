@@ -75,6 +75,27 @@ public final class Font {
 
     private static final HashMap<String, FontData> fonts = new HashMap<>();
 
+
+    /**
+     * This is a very simple fix for static memory arrays being filled with no.
+     * A simple on switch for initialization.
+     * To use RazorFont, you must create a font, so it runs this in there.
+     */
+    private static boolean initializedColorArray = false;
+    private static void initColorArray() {
+        if (initializedColorArray) {
+            return;
+        }
+        initializedColorArray = true;
+        for (int i = 0; i < 16 * CHARACTER_LIMIT; i += 4) {
+            colorCache[i]     = 0;
+            colorCache[i + 1] = 0;
+            colorCache[i + 2] = 0;
+            colorCache[i + 3] = 1;
+        }
+    }
+
+
     private static void uploadFontTexture(String fileLocation) {
         TextureStorage.createTexture(fileLocation);
     }
@@ -87,6 +108,9 @@ public final class Font {
         createFont(fileLocation, name, trimming, spacing, 4.0f);
     }
     public static void createFont(String fileLocation, String name, boolean trimming, float spacing, float spaceCharacterSize) {
+
+        // This fills the color buffer's initial values to black
+        initColorArray();
 
         final String pngLocation = fileLocation + ".png";
         final String jsonLocation = fileLocation + ".json";
@@ -152,6 +176,9 @@ public final class Font {
     }
 
     public static void switchShadowColor(float r, float g, float b) {
+        if (shadowsEnabled) {
+
+        }
         switchShadowColor(r,g,b,1);
     }
     public static void switchShadowColor(float r, float g, float b, float a) {
@@ -457,9 +484,12 @@ public final class Font {
     }
 
     public static void drawText(float posX, float posY, final float fontSize, String text) {
-        drawText(posX, posY, fontSize, text,true);
+        drawText(posX, posY, fontSize, text,true, true);
     }
     public static void drawText(float posX, float posY, final float fontSize, String text, boolean rounding) {
+        drawText(posX, posY, fontSize, text, rounding, true );
+    }
+    public static void drawText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
 
         // Keep square pixels
         if (rounding) {
@@ -510,13 +540,6 @@ public final class Font {
 
             // Font stores character width in index 9 (8 [0 count])
             float[] textureData = Arrays.copyOfRange(currentFont.map.get(stringCharacter), 0, 9);
-
-//            System.out.println(Arrays.toString(textureData));
-
-            //            System.out.println(stringCharacter);
-            //            if (stringCharacter.equals("h")) {
-            //                System.out.println(Arrays.toString(currentFont.map.get(stringCharacter)));
-            //            }
 
             //Now dispatch into the cache
             System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
@@ -587,32 +610,34 @@ public final class Font {
          */
         final boolean shadowsWereEnabled = shadowsEnabled;
         shadowsEnabled = false;
-        //        if (shadowsWereEnabled) {
-        //            final int textLength = getTextLength(text);
-        //            final int currentIndex = getCurrentCharacterIndex();
-        //            if (shadowColoringEnabled) {
-        //                setColorRange(
-        //                        currentIndex,
-        //                        currentIndex + textLength,
-        //                        shadowColor[0],
-        //                        shadowColor[1],
-        //                        shadowColor[2],
-        //                        shadowColor[3]
-        //                );
-        //            }
-        //            renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
-        //
-        //            shadowOffsetX = 0.05f;
-        //            shadowOffsetY = 0.05f;
-        //        }
+        if (shadowsWereEnabled) {
+            final int textLength = getTextLength(text);
+            final int currentIndex = getCurrentCharacterIndex();
+            if (shadowColoringEnabled) {
+                setColorRange(
+                        currentIndex,
+                        currentIndex + textLength,
+                        shadowColor[0],
+                        shadowColor[1],
+                        shadowColor[2],
+                        shadowColor[3]
+                );
+            }
+            drawText(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false,false);
+
+            shadowOffsetX = 0.05f;
+            shadowOffsetY = 0.05f;
+        }
 
         // Turn this back on because it can become a confusing nightmare
         shadowColoringEnabled = true;
         // Switch back to black because this also can become a confusing nightmare
-        //        switchShadowColor(0,0,0);
+        switchShadowColor(0,0,0);
 
-        // Now render it
-        render();
+        // Now render it if told to do so
+        if (instantRender) {
+            render();
+        }
     }
 
     // ^ v Keep these two next to each other, easier to understand
