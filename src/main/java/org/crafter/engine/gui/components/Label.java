@@ -12,7 +12,7 @@ public class Label extends GUIElement {
     private float fontSize;
 
     public Label(String name, String data, float fontSize, Alignment alignment) {
-        super(name, false,false, false, false, true, alignment);
+        super(name, alignment);
         this.data = data;
         this.fontSize = fontSize;
 
@@ -20,26 +20,6 @@ public class Label extends GUIElement {
          * Offset input is how far off it is from the root
          * Then required offset is an internal function that calls into the font library to find the text size so it stays locked to it's position
          */
-    }
-
-    @Override
-    public void onStep(GUI gui) {
-        System.out.println("I'm on step woo");
-    }
-
-    @Override
-    public void onHover(GUI gui) {
-
-    }
-
-    @Override
-    public void onClick(GUI gui) {
-
-    }
-
-    @Override
-    public void onKeyInput(GUI gui, int keyboardKey) {
-
     }
 
     @Override

@@ -1,30 +1,29 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.GUI;
+import org.crafter.engine.gui.actions.Click;
+import org.crafter.engine.gui.actions.Hover;
+import org.crafter.engine.gui.actions.KeyInput;
+import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.alignment.Alignment;
 import org.joml.Vector2f;
 
 public abstract class GUIElement {
     protected final String _name;
 
-    protected boolean _onStep;
-    protected boolean _click;
-    protected boolean _hover;
-    protected boolean _keyInput;
+    protected OnStep _onStep = null;
+    protected Click _click = null;
+    protected Hover _hover = null;
+    protected KeyInput _keyInput = null;
 
-    protected boolean _collide;
+    protected boolean _collide = false;
 
     protected Alignment _alignment;
 
     protected Vector2f _offset;
 
-    protected GUIElement(String name, boolean collideable, boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
+    protected GUIElement(String name, Alignment alignment) {
         this._name = name;
-        this._collide = collideable;
-        this._click = clickable;
-        this._hover = hoverable;
-        this._keyInput = keyInputable;
-        this._onStep = onStepable;
         this._alignment = alignment;
     }
 
@@ -37,21 +36,34 @@ public abstract class GUIElement {
     }
 
     public final boolean onStepable() {
-        return _onStep;
+        return _onStep != null;
     }
 
     public final boolean hoverable() {
-        return _hover;
+        return _hover != null;
     }
     public final boolean clickable() {
-        return _click;
+        return _click != null;
     }
     public final boolean keyInputable() {
-        return _keyInput;
+        return _keyInput != null;
     }
 
     public final boolean collideable() {
         return _collide;
+    }
+
+    public final void addOnStepCallback(OnStep onStep) {
+        this._onStep = onStep;
+    }
+    public final void addHoverCallback(Hover hover) {
+        this._hover = hover;
+    }
+    public final void addClickCallback(Click click) {
+        this._click = click;
+    }
+    public final void addKeyInputCallback(KeyInput keyInput) {
+        this._keyInput = keyInput;
     }
 
     public String name() {
@@ -59,11 +71,27 @@ public abstract class GUIElement {
     }
 
     // What the GUI element can do when nothing is happening, cool effect, etc
-    public abstract void onStep(GUI gui);
+    public void onStep(GUI gui) {
+        if (this.onStepable()) {
+            this._onStep.action(gui);
+        }
+    }
 
-    public abstract void onHover(GUI gui);
-    public abstract void onClick(GUI gui);
-    public abstract void onKeyInput(GUI gui, int keyboardKey /*Replace with real input*/);
+    public void onHover(GUI gui) {
+        if (this.hoverable()) {
+            this._hover.action(gui);
+        }
+    }
+    public void onClick(GUI gui) {
+        if (this.clickable()) {
+            this._click.action(gui);
+        }
+    }
+    public void onKeyInput(GUI gui, int keyboardKey /*Replace with real input*/) {
+        if (this.keyInputable()) {
+            this._keyInput.action(gui,keyboardKey);
+        }
+    }
 
     public abstract void render();
 
