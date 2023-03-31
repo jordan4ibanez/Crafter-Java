@@ -11,7 +11,7 @@ public class Label extends GUIElement {
 
     private float fontSize;
 
-    Label(String name, String data, float fontSize, Alignment alignment) {
+    public Label(String name, String data, float fontSize, Alignment alignment) {
         super(name, false, false, false, false, alignment);
         this.data = data;
         this.fontSize = fontSize;

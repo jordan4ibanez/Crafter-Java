@@ -11,11 +11,11 @@ import java.util.HashMap;
  */
 public class GUI {
 
-    private HashMap<String, GUIElement> container;
+    private final HashMap<String, GUIElement> container = new HashMap<>();
 
     private String currentlyFocused;
 
-    GUI addGUIElement(String elementName, GUIElement element) {
+    public GUI addGUIElement(String elementName, GUIElement element) {
         checkDuplicates(elementName);
         container.put(elementName, element);
         return this;
