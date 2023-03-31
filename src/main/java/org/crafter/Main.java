@@ -99,8 +99,9 @@ public class Main {
             Camera.setGuiObjectMatrix(0,0);
 
 
-            Font.switchColor(1,0,0);
-            Font.switchShadowColor(0,1,0);
+            Font.setShadowOffset(0.5f, 0.5f);
+            Font.switchColor(1f,1f,1f);
+            Font.switchShadowColor(0,0,0);
 
             Font.drawText(textCenterOnWindow.x, textCenterOnWindow.y, 42.0f, text);
 
