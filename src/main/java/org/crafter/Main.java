@@ -59,7 +59,7 @@ public class Main {
 
         float rotation = 0.0f;
 
-        GUI gui = new GUI()
+        GUI gui = new GUI();
 
         while(!Window.shouldClose()) {
 
