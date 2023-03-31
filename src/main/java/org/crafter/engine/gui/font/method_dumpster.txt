@@ -246,58 +246,7 @@
     }
 
      /// Allows you to get text size to do interesting things. Returns as RazorTextSize struct
-        public static Vector2f getTextSize(float fontSize, String text) {
-            float accumulatorX = 0.0f;
-            float accumulatorY = 0.0f;
-            // Cache spacing
-            final float spacing = currentFont.spacing * fontSize;
-            // Cache space (' ') character
-            final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
 
-            // Can't get the size if there's no font!
-            if (currentFont == null) {
-                throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! " +
-                        "You must select a font before getting the size of text with it!");
-            }
-
-            for (char character : text.toCharArray()) {
-
-                String currentStringChar = String.valueOf(character);
-
-                // Skip space
-                if (character == ' ') {
-                    accumulatorX += spaceCharacterSize;
-                    continue;
-                }
-                // Move down 1 space Y
-                if (character == '\n') {
-                    accumulatorY += fontSize;
-                    continue;
-                }
-
-                // Skip unknown character
-                if (!currentFont.map.containsKey(currentStringChar)) {
-                    continue;
-                }
-
-                // Font stores character width in index 9 (8 [0 count])
-                accumulatorX += (currentFont.map.get(currentStringChar)[8] * fontSize) + spacing;
-            }
-
-
-            // Add a last bit of the height offset
-            accumulatorY += fontSize;
-            // Remove the last bit of spacing
-            accumulatorX -= spacing;
-
-            // Finally, if shadowing is enabled, add in shadowing offset
-            if (shadowsEnabled) {
-                accumulatorX += (shadowOffsetX * fontSize);
-                accumulatorY += (shadowOffsetY * fontSize);
-            }
-
-            return new Vector2f(accumulatorX, accumulatorY);
-        }
 
             /**
              * Get the name of the currently used font
@@ -389,40 +338,6 @@
          vertexCache[baseIndex + 6] = topRight.x;
          vertexCache[baseIndex + 7] = topRight.y;
      }
-
-
-// ========================== BEGIN API AGNOSTIC CALLS ============================
-    // Attempts to automate the api RAW call
-    private static void tryCallingRAWApi(String fileLocation) {
-        if (rawUpload == null) {
-            return;
-        }
-
-        RawTextureObject tempImageObject = new RawTextureObject(fileLocation);
-
-        final int width = tempImageObject.getWidth();
-        final int height = tempImageObject.getHeight();
-
-        rawUpload.fontLoadCallRaw(tempImageObject.getBuffer(), width, height);
-
-        // Garbage collected :P
-        tempImageObject.destroy();
-    }
-
-    // Attempts to automate the api String call
-    private static void tryCallingStringApi(String fileLocation) {
-        if (stringUpload == null) {
-            return;
-        }
-
-        stringUpload.fontLoadCallString(fileLocation);
-    }
-
-    // ======================= END API AGNOSTIC CALLS ================================
-
-
-
-
 
 
             public static int getTextLengthWithShadows(String input) {

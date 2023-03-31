@@ -116,7 +116,7 @@ public final class Font {
     public static void selectFont(String font) {
 
         if (fontLock) {
-            throw new RuntimeException("Font: You must flush() out the cache before selecting a new font!");
+            throw new RuntimeException("Font: You must render text to clear out the cache before selecting a new font!");
         }
 
         // Can't render if that font doesn't exist
@@ -126,8 +126,62 @@ public final class Font {
 
         // Now store and lock
         currentFont = fonts.get(font);
-//        currentFontName = font;
         fontLock = true;
+    }
+
+    public static Vector2f getTextSize(float fontSize, String text) {
+        float accumulatorX = 0.0f;
+        float accumulatorY = 0.0f;
+
+        // Can't get the size if there's no font!
+        if (currentFont == null) {
+            throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! " +
+                    "You must select a font before getting the size of text with it!");
+        }
+
+        // Cache spacing
+        final float spacing = currentFont.spacing * fontSize;
+        // Cache space (' ') character
+        final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
+
+        for (char character : text.toCharArray()) {
+
+            String currentStringChar = String.valueOf(character);
+
+            // Skip space
+            if (character == ' ') {
+                accumulatorX += spaceCharacterSize;
+                continue;
+            }
+            // Move down 1 space Y
+            if (character == '\n') {
+                accumulatorY += fontSize;
+                continue;
+            }
+
+            // Skip unknown character
+            if (!currentFont.map.containsKey(currentStringChar)) {
+                continue;
+            }
+
+            // Font stores character width in index 9 (8 [0 count])
+            final float characterWidth = currentFont.map.get(currentStringChar)[8];
+            accumulatorX += (characterWidth * fontSize) + spacing;
+        }
+
+
+        // Add a last bit of the height offset
+        accumulatorY += fontSize;
+        // Remove the last bit of spacing
+        accumulatorX -= spacing;
+
+        // Finally, if shadowing is enabled, add in shadowing offset
+        if (shadowsEnabled) {
+            accumulatorX += (shadowOffsetX * fontSize);
+            accumulatorY += (shadowOffsetY * fontSize);
+        }
+
+        return new Vector2f(accumulatorX, accumulatorY);
     }
 
 
@@ -293,6 +347,8 @@ public final class Font {
         // Now render it
         render();
     }
+
+    // ^ v Keep these two next to each other, easier to understand
 
     /// Flushes out the cache, gives you back a font struct containing the raw data
     private static void render() {
