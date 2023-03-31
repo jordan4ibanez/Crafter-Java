@@ -57,8 +57,18 @@ public class Main {
 
         GUIStorage.addGUI("test",
              new GUI()
-                .addGUIElement("test", new Label("test", "test", 30, Alignment.TOP_LEFT)
-                        .addOnStepCallback(gui -> System.out.println("hi"))
+                .addGUIElement(
+                        "test",
+                        new Label("test", "test", 30, Alignment.TOP_LEFT)
+                                .addOnStepCallback((gui, element) -> System.out.println("hi"))
+                )
+                .addGUIElement(
+                        "test2",
+                        new Label("test2", "hi", 33, Alignment.BOTTOM_CENTER)
+                                .addOnStepCallback((gui, element) -> {
+                                    System.out.println("I'm " + element.name());
+
+                                })
                 )
         );
 
