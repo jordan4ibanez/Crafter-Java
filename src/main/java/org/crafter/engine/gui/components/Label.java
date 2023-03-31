@@ -5,12 +5,12 @@ import org.crafter.engine.gui.actions.GUIElement;
 /**
  * Holds text data in memory.
  */
-public class Text extends GUIElement {
+public class Label extends GUIElement {
     private String data;
 
     private float fontSize;
 
-    Text (String data, float fontSize) {
+    Label(String data, float fontSize) {
         super(null, null, null);
         this.data = data;
         this.fontSize = fontSize;
