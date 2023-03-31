@@ -9,6 +9,7 @@ import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4i;
 
 import java.io.File;
 import java.util.*;
@@ -380,26 +381,38 @@ public final class Font {
                 int newMinX = minX;
                 int newMaxX = maxX;
 
+                boolean found = false;
                 // Trim left side
-                outer1: for (int x = minX; x < maxX; x++){
+                for (int x = minX; x < maxX; x++) {
                     newMinX = x;
                     for (int y = intPosY; y < maxY; y++) {
+
+                        Vector4i temp = tempImageObject.getPixel(x, y);
                         // This is ubyte (0-255)
-                        if (tempImageObject.getPixel(x,y).w > 0) {
-                            break outer1;
+                        if (tempImageObject.getPixel(x, y).w > 0) {
+                            found = true;
+                            break;
                         }
+                    }
+                    if (found) {
+                        break;
                     }
                 }
 
+                found = false;
+
                 // Trim right side
-                outer2: for (int x = maxX - 1; x >= minX; x--) {
+                for (int x = maxX - 1; x >= minX; x--) {
                     // +1 because of the reason stated above assigning minX and maxX
                     newMaxX = x + 1;
                     for (int y = intPosY; y < maxY; y++) {
                         // This is ubyte (0-255)
-                        if (tempImageObject.getPixel(x,y).w > 0) {
-                            break outer2;
+                        if (tempImageObject.getPixel(x, y).w > 0) {
+                            found = true;
                         }
+                    }
+                    if (found) {
+                        break;
                     }
                 }
 
@@ -434,8 +447,6 @@ public final class Font {
                     // Will simply be 1.0 with monospaced fonts
                     (float)iPos[8] / (float)characterWidth
             };
-
-            System.out.println("GLPOSITION " + Arrays.toString(glPositions));
 
 
 //            System.out.println(Arrays.toString(glPositions));
