@@ -1,6 +1,5 @@
 package org.crafter.engine.gui.components;
 
-import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.alignment.Alignment;
 
 /**

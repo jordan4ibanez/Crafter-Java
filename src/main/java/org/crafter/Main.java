@@ -12,6 +12,12 @@ import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 
 public class Main {
+
+    private static final String DEVELOPMENT_CYCLE = "Pre-Alpha";
+
+    private static final String VERSION = "v0.0.0";
+
+    private static final String VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION;
     public static void main(String[] args) {
 
         Window.initialize();
@@ -55,24 +61,15 @@ public class Main {
         float rotation = 0.0f;
 
 
-        GUIStorage.addGUI("test",
+        GUIStorage.addGUI("inGame",
              new GUI()
                 .addGUIElement(
-                        "test",
-                        new Label("test", "test", 30, Alignment.TOP_LEFT)
-                                .addOnStepCallback((gui, element) -> System.out.println("hi"))
-                )
-                .addGUIElement(
-                        "test2",
-                        new Label("test2", "hi", 33, Alignment.BOTTOM_CENTER)
-                                .addOnStepCallback((gui, element) -> {
-                                    System.out.println("I'm " + element.name());
-
-                                })
+                        "versionInfo",
+                        new Label("versionInfo", VERSION_INFO, 30, Alignment.TOP_LEFT)
                 )
         );
 
-        GUIStorage.selectGUI("test");
+        GUIStorage.selectGUI("inGame");
 
         while(!Window.shouldClose()) {
 
@@ -87,9 +84,10 @@ public class Main {
 
             GUIStorage.process();
 
+            Window.clearAll();
 
+            GUIStorage.render();
 
-//            Window.clearAll();
 //
 //            // Now we're moving into OpenGL shader implementation
 //

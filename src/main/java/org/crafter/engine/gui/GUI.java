@@ -64,6 +64,12 @@ public class GUI {
         }
     }
 
+    public void render() {
+        for (GUIElement element : container.values()) {
+            element.render();
+        }
+    }
+
     private void keyInput() {
 //        System.out.println("GUI: Still needs the static keyboard class to pass in it's typing data!");
         //FIXME: USE THE KEYBOARD CLASS HERE

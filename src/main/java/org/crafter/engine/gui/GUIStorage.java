@@ -17,7 +17,11 @@ public final class GUIStorage {
         selectedGUI.doLogic();
     }
 
-
+    // Renders all methods of all elements of the selected GUI
+    public static void render() {
+        selectedGUINullCheck("render");
+        selectedGUI.render();
+    }
 
     public static void addGUI(String guiName, GUI newGUI) {
         checkDuplicates(guiName);
