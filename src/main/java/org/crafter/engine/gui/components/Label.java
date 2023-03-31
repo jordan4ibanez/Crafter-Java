@@ -11,15 +11,15 @@ public class Label extends GUIElement {
 
     private float fontSize;
 
-    Label(String data, float fontSize, Alignment alignment) {
-        super(false, false, false, false, alignment);
+    Label(String name, String data, float fontSize, Alignment alignment) {
+        super(name, false, false, false, false, alignment);
         this.data = data;
         this.fontSize = fontSize;
     }
 
     @Override
     public void onStep(GUI gui) {
-
+        System.out.println("I'm on step woo");
     }
 
     @Override

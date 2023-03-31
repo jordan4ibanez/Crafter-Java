@@ -5,8 +5,8 @@ import org.crafter.engine.gui.alignment.Alignment;
 
 public class Button extends GUIElement {
 
-    public Button(Alignment alignment) {
-        super(true, true, false, true, alignment);
+    public Button(String name, Alignment alignment) {
+        super(name, true, true, false, true, alignment);
     }
 
     @Override

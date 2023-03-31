@@ -5,6 +5,7 @@ import org.crafter.engine.gui.alignment.Alignment;
 import org.joml.Vector2f;
 
 public abstract class GUIElement {
+    protected String _name;
     protected boolean _click;
     protected boolean _hover;
     protected boolean _keyInput;
@@ -13,7 +14,8 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    protected GUIElement(boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
+    protected GUIElement(String name, boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
+        this._name = name;
         this._click = clickable;
         this._hover = hoverable;
         this._keyInput = keyInputable;
@@ -37,6 +39,10 @@ public abstract class GUIElement {
     }
     public final boolean keyInputable() {
         return _keyInput;
+    }
+
+    public String name() {
+        return _name;
     }
 
     // What the GUI element can do when nothing is happening, cool effect, etc
