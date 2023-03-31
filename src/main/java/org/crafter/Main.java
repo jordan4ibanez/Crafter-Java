@@ -7,6 +7,7 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Main {
@@ -95,16 +96,23 @@ public class Main {
 
             // Font
 
+            // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789!?%|:;_-*^,.\"'#$&@+=/(){}"
+
+            Font.enableShadows();
+            String text = "hello\nthere";
+
+            Vector2f textSize = Font.getTextSize(42.0f, text);
+
             Camera.setGuiObjectMatrix(0,0);
 
 //            Font.switchShadowColor(1,0,0);
             Font.switchColor(1,0,0);
 
-            Font.enableShadows();
-
             Font.switchShadowColor(0,1,0);
 
-            Font.drawText(0, 0, 42.0f, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789!?%|:;_-*^,.\"'#$&@+=/(){}");
+//            System.out.println(textSize.x);
+
+            Font.drawText(Window.getWindowWidth() - textSize.x, 0, 42.0f, text);
 
             Window.swapBuffers();
 
