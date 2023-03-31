@@ -89,23 +89,23 @@ public abstract class GUIElement {
     // What the GUI element can do when nothing is happening, cool effect, etc
     public void onStep(GUI gui) {
         if (this.onStepable()) {
-            this._onStep.action(gui);
+            this._onStep.action(gui, this);
         }
     }
 
     public void onHover(GUI gui) {
         if (this.hoverable()) {
-            this._hover.action(gui);
+            this._hover.action(gui, this);
         }
     }
     public void onClick(GUI gui) {
         if (this.clickable()) {
-            this._click.action(gui);
+            this._click.action(gui, this);
         }
     }
     public void onKeyInput(GUI gui, int keyboardKey /*Replace with real input*/) {
         if (this.keyInputable()) {
-            this._keyInput.action(gui,keyboardKey);
+            this._keyInput.action(gui,this, keyboardKey);
         }
     }
 
