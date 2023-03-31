@@ -90,29 +90,19 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-//            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100, -100);
-
-//            MeshStorage.render("test");
-
-            // Font
-
-            // "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789!?%|:;_-*^,.\"'#$&@+=/(){}"
 
             Font.enableShadows();
             String text = "hello\nthere";
 
-            Vector2f textSize = Font.getTextSize(42.0f, text);
+            Vector2f textCenterOnWindow = Window.getWindowCenter().sub(Font.getTextCenter(42.0f, text));
 
             Camera.setGuiObjectMatrix(0,0);
 
-//            Font.switchShadowColor(1,0,0);
-            Font.switchColor(1,0,0);
 
+            Font.switchColor(1,0,0);
             Font.switchShadowColor(0,1,0);
 
-//            System.out.println(textSize.x);
-
-            Font.drawText(Window.getWindowWidth() - textSize.x, 0, 42.0f, text);
+            Font.drawText(textCenterOnWindow.x, textCenterOnWindow.y, 42.0f, text);
 
             Window.swapBuffers();
 
