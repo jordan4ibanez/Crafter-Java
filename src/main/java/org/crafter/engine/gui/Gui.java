@@ -74,7 +74,9 @@ public class GUI {
         }
     }
 
-
+    public String getCurrentlyFocused() {
+        return currentlyFocused;
+    }
 
     private void existenceCheck(String elementName) {
         if (!container.containsKey(elementName)) {
