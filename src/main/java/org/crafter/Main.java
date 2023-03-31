@@ -1,7 +1,11 @@
 package org.crafter;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.actions.Click;
+import org.crafter.engine.gui.actions.Hover;
+import org.crafter.engine.gui.actions.KeyInput;
 import org.crafter.engine.gui.alignment.Alignment;
+import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
@@ -54,6 +58,13 @@ public class Main {
 
         float rotation = 0.0f;
 
+        Button testButton = new Button(
+                () -> System.out.println("click"),
+                () -> System.out.println("hover"),
+                () -> System.out.println("type"),
+                Alignment.BOTTOM_CENTER
+        );
+
         while(!Window.shouldClose()) {
 
 
@@ -65,46 +76,46 @@ public class Main {
 
             Window.pollEvents();
 
-            Window.clearAll();
-
-            // Now we're moving into OpenGL shader implementation
-
-            // 3d
-
-            ShaderStorage.start("3d");
-
-            Camera.updateCameraMatrix();
-
-            Camera.setObjectMatrix(
-                    new Vector3f(0.0f,0,-3),
-                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
-                    new Vector3f(1)
-            );
-
-            MeshStorage.render("test");
-
-            // 2d
-
-            Window.clearDepthBuffer();
-
-            ShaderStorage.start("2d");
-
-            Camera.updateGuiCameraMatrix();
-
-
-            Font.enableShadows();
-            String text = "hello\nthere";
-
-            Vector2f textCenterOnWindow = Window.getWindowCenter().sub(Font.getTextCenter(42.0f, text));
-
-            Camera.setGuiObjectMatrix(0,0);
-
-
-            Font.setShadowOffset(0.5f, 0.5f);
-            Font.switchColor(1f,1f,1f);
-            Font.switchShadowColor(0,0,0);
-
-            Font.drawText(textCenterOnWindow.x, textCenterOnWindow.y, 42.0f, text);
+//            Window.clearAll();
+//
+//            // Now we're moving into OpenGL shader implementation
+//
+//            // 3d
+//
+//            ShaderStorage.start("3d");
+//
+//            Camera.updateCameraMatrix();
+//
+//            Camera.setObjectMatrix(
+//                    new Vector3f(0.0f,0,-3),
+//                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
+//                    new Vector3f(1)
+//            );
+//
+//            MeshStorage.render("test");
+//
+//            // 2d
+//
+//            Window.clearDepthBuffer();
+//
+//            ShaderStorage.start("2d");
+//
+//            Camera.updateGuiCameraMatrix();
+//
+//
+//            Font.enableShadows();
+//            String text = "hello\nthere";
+//
+//            Vector2f textCenterOnWindow = Window.getWindowCenter().sub(Font.getTextCenter(42.0f, text));
+//
+//            Camera.setGuiObjectMatrix(0,0);
+//
+//
+//            Font.setShadowOffset(0.5f, 0.5f);
+//            Font.switchColor(1f,1f,1f);
+//            Font.switchShadowColor(0,0,0);
+//
+//            Font.drawText(textCenterOnWindow.x, textCenterOnWindow.y, 42.0f, text);
 
             Window.swapBuffers();
 
