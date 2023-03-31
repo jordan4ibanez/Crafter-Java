@@ -88,12 +88,13 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, 10);
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100, -100);
 
-//            MeshStorage.render("test");
+            MeshStorage.render("test");
 
-//            Font.updateCanvasSize();
-            Font.drawText(0, 0, 30.0f, "a");
+            Camera.setGuiObjectMatrix(0,0);
+
+            Font.drawText(0, 0, 30.0f, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?%|:;_-*^,.\"'#$&@+=/(){}");
 
             Window.swapBuffers();
 
