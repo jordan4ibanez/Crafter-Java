@@ -6,11 +6,13 @@ import org.joml.Vector2f;
 
 public abstract class GUIElement {
     protected String _name;
+
+    protected boolean _onStep;
     protected boolean _click;
     protected boolean _hover;
     protected boolean _keyInput;
 
-    protected boolean _onStep;
+    protected boolean _collide;
 
     protected Alignment _alignment;
 
@@ -41,6 +43,10 @@ public abstract class GUIElement {
         return _keyInput;
     }
 
+    public final boolean collideable() {
+        return _collide;
+    }
+
     public String name() {
         return _name;
     }
@@ -48,9 +54,11 @@ public abstract class GUIElement {
     // What the GUI element can do when nothing is happening, cool effect, etc
     public abstract void onStep(GUI gui);
 
-    public abstract void hover(GUI gui);
-    public abstract void click(GUI gui);
-    public abstract void keyInput(GUI gui);
+    public abstract void onHover(GUI gui);
+    public abstract void onClick(GUI gui);
+    public abstract void onKeyInput(GUI gui);
 
     public abstract void render();
+
+    public abstract boolean collisionDetect();
 }

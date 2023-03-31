@@ -11,6 +11,12 @@ public final class GUIStorage {
     private GUIStorage(){};
 
 
+    public static void onStep() {
+        selectedGUINullCheck("onStep");
+        selectedGUI.onStep();
+    }
+
+
 
     public static void addGUI(String guiName, GUI newGUI) {
         checkDuplicates(guiName);
@@ -22,6 +28,11 @@ public final class GUIStorage {
         selectedGUI = container.get(guiName);
     }
 
+    private static void selectedGUINullCheck(String inputFunction) {
+        if (selectedGUI == null) {
+            throw new RuntimeException("GUIStorage: ERROR! You must select a GUI before you attempt to run (" + inputFunction + ")!");
+        }
+    }
 
     private static void existenceCheck(String guiName) {
         if (!container.containsKey(guiName)) {

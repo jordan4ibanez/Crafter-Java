@@ -23,9 +23,13 @@ public class GUI {
 
     public void onStep() {
         for (GUIElement element : container.values()) {
-            element.onStep(this);
+            if (element.onStepable()) {
+                element.onStep(this);
+            }
         }
     }
+
+    public void
 
     private void existenceCheck(String elementName) {
         if (!container.containsKey(elementName)) {

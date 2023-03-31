@@ -15,23 +15,30 @@ public class Button extends GUIElement {
     }
 
     @Override
-    public void hover(GUI gui) {
+    public void onHover(GUI gui) {
 
     }
 
     @Override
-    public void click(GUI gui) {
+    public void onClick(GUI gui) {
 
     }
 
     @Override
-    public void keyInput(GUI gui) {
+    public void onKeyInput(GUI gui) {
 
     }
 
     @Override
     public void render() {
 
+    }
+
+    @Override
+    public boolean collisionDetect() {
+
+        // This needs a return
+        return false;
     }
 
 }
