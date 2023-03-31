@@ -2,9 +2,6 @@ package org.crafter;
 
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.font.Font;
-import org.crafter.engine.gui.font.FontLoadingCalls;
-import org.crafter.engine.gui.font.RawData;
-import org.crafter.engine.gui.font.RenderCall;
 import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
@@ -24,30 +21,6 @@ public class Main {
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
 
         TextureStorage.createTexture("textures/debug.png");
-
-        Font.setFontStringCall(TextureStorage::createTexture);
-        /**
-         * Idea: put this into the mesh package, static class, reuse the poop out of tempObject
-         */
-        Font.setRenderCall(rawData -> {
-
-//            float[] rawDataTest = Arrays.copyOfRange(rawData.textureCoordinates, 0, 8);
-//
-//            System.out.println(Arrays.toString(rawDataTest));
-
-            Mesh tempObject = new Mesh(
-                    null,
-                    rawData.vertexPositions,
-                    rawData.textureCoordinates,
-                    rawData.indices,
-                    null,
-                    null,
-                    Font.getCurrentFontTextureFileLocation(),
-                    true
-            );
-            tempObject.render();
-            tempObject.destroy();
-        });
 
         Font.createFont("fonts/totally_original", "mc", false);
 
@@ -79,6 +52,7 @@ public class Main {
         float rotation = 0.0f;
 
         while(!Window.shouldClose()) {
+
 
             rotation += 1;
 
@@ -114,18 +88,12 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-//            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
 
 //            MeshStorage.render("test");
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
-
 //            Font.updateCanvasSize();
-            Font.renderToCanvas(0, 0, 30.0f, "abcd");
-
-            Font.render();
-
-
+            Font.drawText(0, 0, 30.0f, "a");
 
             Window.swapBuffers();
 
