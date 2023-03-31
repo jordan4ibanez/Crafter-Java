@@ -1,5 +1,6 @@
 package org.crafter.engine.window;
 
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -177,8 +178,11 @@ public final class Window {
         return new Vector2i(windowSize);
     }
 
-    public static Vector2i getWindowCenter() {
-        new Vector2i(getWindowWidth() / 2, getWindowHeight() / 2);
+    /**
+     * This is a float because it's a literal window center. Floaty.
+     */
+    public static Vector2f getWindowCenter() {
+        return new Vector2f(getWindowWidth() / 2.0f, getWindowHeight() / 2.0f);
     }
 
     public static int getWindowWidth() {
