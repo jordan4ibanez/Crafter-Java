@@ -88,7 +88,7 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, -10);
+            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 10, 10);
 
 //            MeshStorage.render("test");
 
