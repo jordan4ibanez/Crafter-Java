@@ -61,7 +61,7 @@ public class Main {
 
 
         GUIStorage.addGUI("inGame",
-             new GUI()
+             new GUI("inGame")
                 .addGUIElement(
                         "versionInfo",
                         new Label("versionInfo", VERSION_INFO, 30, Alignment.TOP_LEFT, null)
@@ -69,6 +69,8 @@ public class Main {
         );
 
         GUIStorage.selectGUI("inGame");
+
+        GUIStorage.setFontSize("blah");
 
         while(!Window.shouldClose()) {
 

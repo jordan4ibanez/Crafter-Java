@@ -33,6 +33,11 @@ public final class GUIStorage {
         selectedGUI = container.get(guiName);
     }
 
+    public static void setFontSize(String elementName) {
+        selectedGUINullCheck("setFontSize");
+        selectedGUI.setFontSize(elementName);
+    }
+
     private static void selectedGUINullCheck(String inputFunction) {
         if (selectedGUI == null) {
             throw new RuntimeException("GUIStorage: ERROR! You must select a GUI before you attempt to run (" + inputFunction + ")!");

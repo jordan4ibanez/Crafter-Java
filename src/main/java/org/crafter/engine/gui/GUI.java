@@ -12,9 +12,15 @@ import java.util.HashMap;
  */
 public class GUI {
 
+    private final String name;
+
     private final HashMap<String, GUIElement> container = new HashMap<>();
 
     private String currentlyFocused;
+
+    public GUI(String name) {
+        this.name = name;
+    }
 
     public GUI addGUIElement(String elementName, GUIElement element) {
         checkDuplicates(elementName);
@@ -72,6 +78,7 @@ public class GUI {
     }
 
     public void setFontSize(String elementName) {
+        existenceCheck(elementName);
         GUIElement gottenElement = container.get(elementName);
         if (gottenElement.getClass() == Label.class) {
             System.out.println("This is correct");
@@ -98,12 +105,12 @@ public class GUI {
 
     private void existenceCheck(String elementName) {
         if (!container.containsKey(elementName)) {
-            throw new RuntimeException("GUI: ERROR! Tried to select nonexistent element (" + elementName + ")!");
+            throw new RuntimeException("GUI: ERROR! Tried to select nonexistent element (" + elementName + ") in GUI (" + name + ")!");
         }
     }
     private void checkDuplicates(String elementName) {
         if (container.containsKey(elementName)) {
-            throw new RuntimeException("GUI: ERROR! Tried to add in element (" + elementName + ") more than once!");
+            throw new RuntimeException("GUI: ERROR! Tried to add in element (" + elementName + ") more than once in GUI (" + name + "!");
         }
     }
 

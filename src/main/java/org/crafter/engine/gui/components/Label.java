@@ -37,7 +37,7 @@ public class Label extends GUIElement {
 
     @Override
     public void render() {
-        System.out.println("rendering: " + this.name());
+//        System.out.println("rendering: " + this.name());
 
     }
 
