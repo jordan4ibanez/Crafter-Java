@@ -54,7 +54,8 @@ public final class Camera {
 
         guiCameraMatrix
                 .identity()
-                .setOrtho2D(0, windowWidth, 0, windowHeight);
+                // Top left is the base position, like Love2D
+                .setOrtho2D(0, windowWidth, windowHeight, 0);
 
         ShaderStorage.setUniform("cameraMatrix", guiCameraMatrix);
     }
