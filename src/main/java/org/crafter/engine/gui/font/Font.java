@@ -129,6 +129,9 @@ public final class Font {
         fontLock = true;
     }
 
+    public static void disableShadowColoring() {
+        shadowColoringEnabled = false;
+    }
     public static void enableShadows() {
         shadowsEnabled = true;
     }
@@ -146,6 +149,175 @@ public final class Font {
 
     public static int getMaxChars() {
         return CHARACTER_LIMIT;
+    }
+
+    public static void switchShadowColor(float r, float g, float b) {
+        switchShadowColor(r,g,b,1);
+    }
+    public static void switchShadowColor(float r, float g, float b, float a) {
+        shadowColor[0] = r;
+        shadowColor[1] = g;
+        shadowColor[2] = b;
+        shadowColor[3] = a;
+    }
+
+    /**
+     * Allows you to blanket set the color for the entire canvas.
+     * Be careful though, this overwrites the entire color cache
+     * after the currently rendered character position in memory!
+     */
+    public static void switchColor(float r, float g, float b) {
+        switchColor(r,g,b,1);
+    }
+    public static void switchColor(float r, float g, float b, float a) {
+        for (int i = colorCount; i < colorCache.length; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+
+
+
+    /**
+     * Allows you to set the offet of the text shadowing.
+     * This is RELATIVE via the font size, so it will remain consistent
+     * across any font size!
+     * Remember: Offset will become reset to default when you call renderToCanvas()
+     */
+
+    public static void setShadowOffset(float x, float y) {
+        shadowOffsetX = x / 10.0f;
+        shadowOffsetY = y / 10.0f;
+    }
+
+    /**
+     * Allows you to blanket a range of characters in the canvas with a color.
+     * So if you have: abcdefg
+     * And run setColorRange(0.5,0.5,0.5, 1, 3, 5)
+     * Now e and f are gray. Alpha 1.0
+     */
+    public static void setColorRange(int start, int end, float r, float g, float b) {
+        setColorRange(start, end, r,g,b,1);
+    }
+    public static void setColorRange(int start, int end, float r, float g, float b, float a) {
+        for (int i = start * 16; i < end * 16; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+    /**
+     * Allows you to set individual character colors
+     */
+    public static void setColorChar(int charIndex, float r, float g, float b) {
+        setColorChar(charIndex, r,g,b,1);
+    }
+    public static void setColorChar(int charIndex, float r, float g, float b, float a) {
+        final int startIndex = charIndex * 16;
+        for (int i = startIndex; i < startIndex + 16; i += 4) {
+            colorCache[i]     = r;
+            colorCache[i + 1] = g;
+            colorCache[i + 2] = b;
+            colorCache[i + 3] = a;
+        }
+    }
+
+    /**
+     * Rotate a character around the center point of its face.
+     * Note: This defaults to radians by default.
+     * Note: If you use moveChar() with this, you MUST do moveChar() first!
+     */
+    public static void rotateChar(int index, float rotation) {
+        rotateChar(index,rotation,false);
+    }
+    public static void rotateChar(int index, float rotation, boolean isDegrees) {
+
+        // Degrees are annoying
+        if (isDegrees) {
+            rotation = (float)Math.toRadians(rotation);
+        }
+
+         /*
+          This is written out even more verbosely than moveChar()
+          so you can see why you must do moveChar() first.
+          */
+
+        // Move to cursor position in vertexCache
+        final int baseIndex = index * 8;
+
+        // Convert to 3d to supplement to 4x4 matrix
+        Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
+        Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
+        Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
+        Vector3f topRight    = new Vector3f(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
+
+        Vector3f centerPoint = new Vector3f((topLeft.x + topRight.x) / 2.0f,  (topLeft.y + bottomLeft.y) / 2.0f, 0);
+
+        Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
+        Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
+        Vector3f bottomRightDiff = new Vector3f(bottomRight).sub(centerPoint);
+        Vector3f topRightDiff    = new Vector3f(topRight)   .sub(centerPoint);
+
+        // These calculations also store the new data in the variables we created above
+        // We must center the coordinates into real coordinates
+
+        new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRightDiff) .getTranslation(bottomRight);
+        new Matrix4f().rotate(rotation, 0,0,1).translate(topRightDiff)    .getTranslation(topRight);
+
+
+        topLeft.x += centerPoint.x;
+        topLeft.y += centerPoint.y;
+
+        bottomLeft.x += centerPoint.x;
+        bottomLeft.y += centerPoint.y;
+
+        bottomRight.x += centerPoint.x;
+        bottomRight.y += centerPoint.y;
+
+        topRight.x += centerPoint.x;
+        topRight.y += centerPoint.y;
+
+        vertexCache[baseIndex    ] = topLeft.x;
+        vertexCache[baseIndex + 1] = topLeft.y;
+
+        vertexCache[baseIndex + 2] = bottomLeft.x;
+        vertexCache[baseIndex + 3] = bottomLeft.y;
+
+        vertexCache[baseIndex + 4] = bottomRight.x;
+        vertexCache[baseIndex + 5] = bottomRight.y;
+
+        vertexCache[baseIndex + 6] = topRight.x;
+        vertexCache[baseIndex + 7] = topRight.y;
+    }
+
+    public static void moveChar(int index, float posX, float posY) {
+        // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
+
+        // Move to cursor position in vertexCache
+        final int baseIndex = index * 8;
+
+        // Top left
+        vertexCache[baseIndex    ] += posX; // X
+        vertexCache[baseIndex + 1] -= posY; // Y
+
+        // Bottom left
+        vertexCache[baseIndex + 2] += posX; // X
+        vertexCache[baseIndex + 3] -= posY; // Y
+
+        // Bottom right
+        vertexCache[baseIndex + 4] += posX; // X
+        vertexCache[baseIndex + 5] -= posY; // Y
+
+        // Top right
+        vertexCache[baseIndex + 6] += posX; // X
+        vertexCache[baseIndex + 7] -= posY; // Y
     }
 
     /**
@@ -277,7 +449,9 @@ public final class Font {
         return new Vector2f(accumulatorX, accumulatorY);
     }
 
-
+    public static int getTextLengthWithShadows(String input) {
+        return getTextLength(input) * 2;
+    }
     public static int getTextLength(String input) {
         return input.replace(" ", "").replace("\n", "").length();
     }
