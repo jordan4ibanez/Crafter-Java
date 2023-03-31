@@ -15,7 +15,9 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    protected GUIElement() {}
+    protected GUIElement(Alignment alignment) {
+        this._alignment = alignment;
+    }
 
     Vector2f alignment() {
         return new Vector2f(_alignment.value());
