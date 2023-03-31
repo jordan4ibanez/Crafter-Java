@@ -53,17 +53,33 @@ public abstract class GUIElement {
         return _collide;
     }
 
-    public final void addOnStepCallback(OnStep onStep) {
+    public final GUIElement addOnStepCallback(OnStep onStep) {
+        if (onStepable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element (" + this._name + ")!");
+        }
         this._onStep = onStep;
+        return this;
     }
-    public final void addHoverCallback(Hover hover) {
+    public final GUIElement addHoverCallback(Hover hover) {
+        if (hoverable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (hover) more than once in element (" + this._name + ")!");
+        }
         this._hover = hover;
+        return this;
     }
-    public final void addClickCallback(Click click) {
+    public final GUIElement addClickCallback(Click click) {
+        if (clickable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (click) more than once in element (" + this._name + ")!");
+        }
         this._click = click;
+        return this;
     }
-    public final void addKeyInputCallback(KeyInput keyInput) {
+    public final GUIElement addKeyInputCallback(KeyInput keyInput) {
+        if (keyInputable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element (" + this._name + ")!");
+        }
         this._keyInput = keyInput;
+        return this;
     }
 
     public String name() {
