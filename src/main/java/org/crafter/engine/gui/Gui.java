@@ -11,15 +11,25 @@ import java.util.HashMap;
  */
 public class GUI {
 
-    private HashMap<String, GUIElement> elementHashMap;
+    private HashMap<String, GUIElement> container;
 
     private String currentlyFocused;
 
+    GUI addGUIElement(String elementName, GUIElement element) {
+        checkDuplicates(elementName);
 
+        return this;
+    }
 
-
-
-
-
+    private void existenceCheck(String elementName) {
+        if (!container.containsKey(elementName)) {
+            throw new RuntimeException("GUI: ERROR! Tried to select nonexistent element (" + elementName + ")!");
+        }
+    }
+    private void checkDuplicates(String elementName) {
+        if (container.containsKey(elementName)) {
+            throw new RuntimeException("GUI: ERROR! Tried to add in element (" + elementName + ") more than once!");
+        }
+    }
 
 }
