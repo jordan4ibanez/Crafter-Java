@@ -258,71 +258,79 @@ public final class Font {
      * Rotate a character around the center point of its face.
      * Note: This defaults to radians by default.
      * Note: If you use moveChar() with this, you MUST do moveChar() first!
+     *
+     * FIXME: This needs to be rewritten
      */
-    public static void rotateChar(int index, float rotation) {
-        rotateChar(index,rotation,false);
-    }
-    public static void rotateChar(int index, float rotation, boolean isDegrees) {
-
-        // Degrees are annoying
-        if (isDegrees) {
-            rotation = (float)Math.toRadians(rotation);
-        }
-
-         /*
-          This is written out even more verbosely than moveChar()
-          so you can see why you must do moveChar() first.
-          */
-
-        // Move to cursor position in vertexCache
-        final int baseIndex = index * 8;
-
-        // Convert to 3d to supplement to 4x4 matrix
-        Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
-        Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
-        Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
-        Vector3f topRight    = new Vector3f(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
-
-        Vector3f centerPoint = new Vector3f((topLeft.x + topRight.x) / 2.0f,  (topLeft.y + bottomLeft.y) / 2.0f, 0);
-
-        Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
-        Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
-        Vector3f bottomRightDiff = new Vector3f(bottomRight).sub(centerPoint);
-        Vector3f topRightDiff    = new Vector3f(topRight)   .sub(centerPoint);
-
-        // These calculations also store the new data in the variables we created above
-        // We must center the coordinates into real coordinates
-
-        new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
-        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
-        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRightDiff) .getTranslation(bottomRight);
-        new Matrix4f().rotate(rotation, 0,0,1).translate(topRightDiff)    .getTranslation(topRight);
-
-
-        topLeft.x += centerPoint.x;
-        topLeft.y += centerPoint.y;
-
-        bottomLeft.x += centerPoint.x;
-        bottomLeft.y += centerPoint.y;
-
-        bottomRight.x += centerPoint.x;
-        bottomRight.y += centerPoint.y;
-
-        topRight.x += centerPoint.x;
-        topRight.y += centerPoint.y;
-
-        vertexCache[baseIndex    ] = topLeft.x;
-        vertexCache[baseIndex + 1] = topLeft.y;
-
-        vertexCache[baseIndex + 2] = bottomLeft.x;
-        vertexCache[baseIndex + 3] = bottomLeft.y;
-
-        vertexCache[baseIndex + 4] = bottomRight.x;
-        vertexCache[baseIndex + 5] = bottomRight.y;
-
-        vertexCache[baseIndex + 6] = topRight.x;
-        vertexCache[baseIndex + 7] = topRight.y;
-    }
+//    public static void rotateChar(int index, float rotation) {
+//        rotateChar(index,rotation,false);
+//    }
+//    public static void rotateChar(int index, float rotation, boolean isDegrees) {
+//
+//        // Degrees are annoying
+//        if (isDegrees) {
+//            rotation = (float)Math.toRadians(rotation);
+//        }
+//
+//         /*
+//          This is written out even more verbosely than moveChar()
+//          so you can see why you must do moveChar() first.
+//          */
+//
+//        // Move to cursor position in vertexCache
+//        final int baseIndex = index * 8;
+//
+//        // Convert to 3d to supplement to 4x4 matrix
+//        Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
+//        Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
+//        Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
+//        Vector3f topRight    = new Vector3f(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
+//
+//        Vector3f centerPoint = new Vector3f((topLeft.x + topRight.x) / 2.0f,  (topLeft.y + bottomLeft.y) / 2.0f, 0);
+//
+//        System.out.println("---------");
+//
+//        System.out.println(topLeft.x + ", " + topLeft.y);
+//
+//        Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
+//        Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
+//        Vector3f bottomRightDiff  = new Vector3f(bottomRight).sub(centerPoint);
+//        Vector3f topRightDiff     = new Vector3f(topRight)   .sub(centerPoint);
+//
+//        // These calculations also store the new data in the variables we created above
+//        // We must center the coordinates into real coordinates
+//
+//        new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
+//        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
+//        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRightDiff) .getTranslation(bottomRight);
+//        new Matrix4f().rotate(rotation, 0,0,1).translate(topRightDiff)    .getTranslation(topRight);
+//
+//        System.out.println(topLeft.x + ", " + topLeft.y);
+//
+//
+//        topLeft.x += centerPoint.x;
+//        topLeft.y += centerPoint.y;
+//
+//        bottomLeft.x += centerPoint.x;
+//        bottomLeft.y += centerPoint.y;
+//
+//        bottomRight.x += centerPoint.x;
+//        bottomRight.y += centerPoint.y;
+//
+//        topRight.x += centerPoint.x;
+//        topRight.y += centerPoint.y;
+//
+//        vertexCache[baseIndex    ] = topLeft.x;
+//        vertexCache[baseIndex + 1] = topLeft.y;
+//
+//        vertexCache[baseIndex + 2] = bottomLeft.x;
+//        vertexCache[baseIndex + 3] = bottomLeft.y;
+//
+//        vertexCache[baseIndex + 4] = bottomRight.x;
+//        vertexCache[baseIndex + 5] = bottomRight.y;
+//
+//        vertexCache[baseIndex + 6] = topRight.x;
+//        vertexCache[baseIndex + 7] = topRight.y;
+//    }
 
     public static void moveChar(int index, float posX, float posY) {
         // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
