@@ -129,6 +129,99 @@ public final class Font {
         fontLock = true;
     }
 
+    public static void enableShadows() {
+        shadowsEnabled = true;
+    }
+
+    public static String getCurrentFontTextureFileLocation() {
+        if (currentFont == null) {
+            throw new RuntimeException("Font: Can't get a font file location! You didn't select one!");
+        }
+        return currentFont.fileLocation;
+    }
+
+    public static int getCurrentCharacterIndex() {
+        return chars;
+    }
+
+    public static int getMaxChars() {
+        return CHARACTER_LIMIT;
+    }
+
+    /**
+     * Allows you to directly work on vertex position colors in a character.
+     * Using direct points (tidy).
+     * float vec is [R,G,B,A]
+     */
+    public static void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
+        final int startIndex = charIndex * 16;
+        int externalIndex = 0;
+        for(float[] vec4 : new float[][]{topLeft, bottomLeft, bottomRight, topRight}) {
+            int index = 0;
+            for (float value : vec4) {
+                colorCache[startIndex + (externalIndex * 4) + index] = value;
+                index++;
+            }
+            externalIndex++;
+
+        }
+    }
+
+    /**
+     * Allows you to directly work on vertex position colors in a character.
+     * Using direct points (verbose)
+     */
+    public static void setColorPoints(
+            int charIndex,
+
+            float topLeftR,
+            float topLeftG,
+            float topLeftB,
+            float topLeftA,
+
+            float bottomLeftR,
+            float bottomLeftG,
+            float bottomLeftB,
+            float bottomLeftA,
+
+            float bottomRightR,
+            float bottomRightG,
+            float bottomRightB,
+            float bottomRightA,
+
+            float topRightR,
+            float topRightG,
+            float topRightB,
+            float topRightA
+    ) {
+        final int startIndex = charIndex * 16;
+
+        // It's already immensely verbose, let's just add on to this verbosity
+
+        colorCache[startIndex]      = topLeftR;
+        colorCache[startIndex + 1]  = topLeftG;
+        colorCache[startIndex + 2]  = topLeftB;
+        colorCache[startIndex + 3]  = topLeftA;
+
+        colorCache[startIndex + 4]  = bottomLeftR;
+        colorCache[startIndex + 5]  = bottomLeftG;
+        colorCache[startIndex + 6]  = bottomLeftB;
+        colorCache[startIndex + 7]  = bottomLeftA;
+
+        colorCache[startIndex + 8]  = bottomRightR;
+        colorCache[startIndex + 9]  = bottomRightG;
+        colorCache[startIndex + 10] = bottomRightB;
+        colorCache[startIndex + 11] = bottomRightA;
+
+        colorCache[startIndex + 12] = topRightR;
+        colorCache[startIndex + 13] = topRightG;
+        colorCache[startIndex + 14] = topRightB;
+        colorCache[startIndex + 15] = topRightA;
+    }
+
+
+
+
     public static Vector2f getTextSize(float fontSize, String text) {
         float accumulatorX = 0.0f;
         float accumulatorY = 0.0f;
