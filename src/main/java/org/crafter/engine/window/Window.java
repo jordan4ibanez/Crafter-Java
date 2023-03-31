@@ -188,9 +188,15 @@ public final class Window {
     public static int getWindowWidth() {
         return windowSize.x;
     }
-
     public static int getWindowHeight() {
         return windowSize.y;
+    }
+
+    public static float getWindowCenterX() {
+        return windowSize.x / 2.0f;
+    }
+    public static float getWindowCenterY() {
+        return windowSize.y / 2.0f;
     }
 
     // RGB version of setting clear color
