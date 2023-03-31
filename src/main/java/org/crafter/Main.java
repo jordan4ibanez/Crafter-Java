@@ -89,11 +89,20 @@ public class Main {
 
             Camera.updateGuiCameraMatrix();
 
-            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100, -100);
+//            Camera.setGuiObjectMatrix(Window.getWindowWidth() / 2.0f,Window.getWindowHeight() / 2.0f, 100, -100);
 
-            MeshStorage.render("test");
+//            MeshStorage.render("test");
+
+            // Font
 
             Camera.setGuiObjectMatrix(0,0);
+
+//            Font.switchShadowColor(1,0,0);
+            Font.switchColor(1,0,0);
+
+            Font.enableShadows();
+
+            Font.switchShadowColor(0,1,0);
 
             Font.drawText(0, 0, 42.0f, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789!?%|:;_-*^,.\"'#$&@+=/(){}");
 
