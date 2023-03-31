@@ -13,7 +13,7 @@ public final class GUIStorage {
 
     // Process runs all methods of all elements of the selected GUI
     public static void process() {
-        selectedGUINullCheck("onStep");
+        selectedGUINullCheck("process");
         selectedGUI.doLogic();
     }
 
