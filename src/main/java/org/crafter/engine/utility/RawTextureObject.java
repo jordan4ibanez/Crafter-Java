@@ -67,13 +67,12 @@ public class RawTextureObject {
         }
 
         // Always 4 channel, so we need to treat each 4 channel as 1
-//        int tempWidth = width * 4;
-//        int tempHeight = height * 4;
+        int tempWidth = width * 4;
 
         // Bytebuffer is in ubytes in C
 
         // Use data pack algorithm to grab that pixel
-        int index = (x * width) + (y * 4);
+        int index = (x * tempWidth) + (y * 4);
 
         // Now return it as a JOML vec4i
         return new Vector4i(
