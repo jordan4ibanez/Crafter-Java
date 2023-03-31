@@ -5,7 +5,7 @@ import org.crafter.engine.gui.alignment.Alignment;
 import org.joml.Vector2f;
 
 public abstract class GUIElement {
-    protected String _name;
+    protected final String _name;
 
     protected boolean _onStep;
     protected boolean _click;
@@ -16,8 +16,9 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    protected GUIElement(String name, boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
+    protected GUIElement(String name, boolean collideable, boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
         this._name = name;
+        this._collide = collideable;
         this._click = clickable;
         this._hover = hoverable;
         this._keyInput = keyInputable;

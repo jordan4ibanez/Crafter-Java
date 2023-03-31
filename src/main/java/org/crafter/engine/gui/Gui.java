@@ -29,7 +29,15 @@ public class GUI {
         }
     }
 
-    public void
+    public void collisionDetect() {
+        for (GUIElement element : container.values()) {
+            if (element.collideable()) {
+                if (element.collisionDetect()) {
+                    currentlyFocused = element.name();
+                }
+            }
+        }
+    }
 
     private void existenceCheck(String elementName) {
         if (!container.containsKey(elementName)) {
