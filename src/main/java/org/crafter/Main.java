@@ -1,6 +1,9 @@
 package org.crafter;
 
 import org.crafter.engine.gui.GUI;
+import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.alignment.Alignment;
+import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
@@ -50,7 +53,16 @@ public class Main {
 
         float rotation = 0.0f;
 
-        GUI gui = new GUI();
+
+        GUIStorage.addGUI("test",
+             new GUI()
+                .addGUIElement("test", new Label(
+                    "test", "test", 30, Alignment.TOP_LEFT
+                    )
+                )
+        );
+
+        GUIStorage.selectGUI("test");
 
         while(!Window.shouldClose()) {
 
@@ -62,6 +74,10 @@ public class Main {
             }
 
             Window.pollEvents();
+
+            GUIStorage.onStep();
+
+
 
 //            Window.clearAll();
 //
