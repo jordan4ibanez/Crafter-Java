@@ -17,8 +17,14 @@ public class GUI {
 
     GUI addGUIElement(String elementName, GUIElement element) {
         checkDuplicates(elementName);
-
+        container.put(elementName, element);
         return this;
+    }
+
+    public void onStep() {
+        for (GUIElement element : container.values()) {
+            element.onStep(this);
+        }
     }
 
     private void existenceCheck(String elementName) {
