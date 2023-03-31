@@ -85,7 +85,7 @@ public class Main {
 
             Window.pollEvents();
 
-            GUIStorage.onStep();
+            GUIStorage.process();
 
 
 
