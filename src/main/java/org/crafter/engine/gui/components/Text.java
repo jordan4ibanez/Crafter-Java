@@ -11,6 +11,7 @@ public class Text extends GUIElement {
     private float fontSize;
 
     Text (String data, float fontSize) {
+        super(null, null, null);
         this.data = data;
         this.fontSize = fontSize;
     }
