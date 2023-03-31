@@ -22,7 +22,7 @@ public class Main {
 
         TextureStorage.createTexture("textures/debug.png");
 
-        Font.createFont("fonts/totally_original", "mc", false);
+        Font.createFont("fonts/totally_original", "mc", true);
 
         MeshStorage.newMesh(
             "test",
