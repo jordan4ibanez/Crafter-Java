@@ -1,6 +1,7 @@
 package org.crafter;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.actions.Hover;
 import org.crafter.engine.gui.actions.KeyInput;
@@ -58,12 +59,7 @@ public class Main {
 
         float rotation = 0.0f;
 
-        Button testButton = new Button(
-                () -> System.out.println("click"),
-                () -> System.out.println("hover"),
-                () -> System.out.println("type"),
-                Alignment.BOTTOM_CENTER
-        );
+        GUI gui = new GUI()
 
         while(!Window.shouldClose()) {
 
