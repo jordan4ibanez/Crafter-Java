@@ -2,6 +2,7 @@ package org.crafter;
 
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.alignment.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
@@ -56,9 +57,8 @@ public class Main {
 
         GUIStorage.addGUI("test",
              new GUI()
-                .addGUIElement("test", new Label(
-                    "test", "test", 30, Alignment.TOP_LEFT
-                    )
+                .addGUIElement("test", new Label("test", "test", 30, Alignment.TOP_LEFT)
+                        .addOnStepCallback(gui -> System.out.println("hi"))
                 )
         );
 
