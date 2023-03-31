@@ -1,5 +1,7 @@
 package org.crafter.engine.gui.actions;
 
+import org.crafter.engine.gui.GUI;
+
 public interface Click {
-    void action();
+    void action(GUI gui);
 }
