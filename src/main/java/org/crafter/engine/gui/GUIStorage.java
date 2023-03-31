@@ -30,7 +30,7 @@ public final class GUIStorage {
     }
     private static void checkDuplicates(String guiName) {
         if (container.containsKey(guiName)) {
-            throw new RuntimeException("GUIStorage: ERROR! Tried to add in (" + guiName + ") more than once!");
+            throw new RuntimeException("GUIStorage: ERROR! Tried to add in GUI (" + guiName + ") more than once!");
         }
     }
 }
