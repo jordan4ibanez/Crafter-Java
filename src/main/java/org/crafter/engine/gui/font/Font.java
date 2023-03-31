@@ -376,8 +376,6 @@ public final class Font {
             // Now trim it if requested
             if (trimming) {
 
-                System.out.println("THIS IS TRIMMING AHHHH");
-
                 // Create temp workers
                 int newMinX = minX;
                 int newMaxX = maxX;
