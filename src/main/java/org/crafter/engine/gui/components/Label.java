@@ -44,6 +44,7 @@ public class Label extends GUIElement {
 
     @Override
     public boolean collisionDetect() {
+        // Does nothing
         return false;
     }
 }
