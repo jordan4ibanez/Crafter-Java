@@ -7,6 +7,7 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.Vector3f;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,8 +15,8 @@ public class Main {
         Window.initialize();
 
 
-//        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
-//        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
+        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
+        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
 
         ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
@@ -68,21 +69,21 @@ public class Main {
 
             // 3d
 
-//            ShaderStorage.start("3d");
+            ShaderStorage.start("3d");
 
-//            Camera.updateCameraMatrix();
+            Camera.updateCameraMatrix();
 
-//            Camera.setObjectMatrix(
-//                    new Vector3f(0.0f,0,-3),
-//                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
-//                    new Vector3f(1)
-//            );
+            Camera.setObjectMatrix(
+                    new Vector3f(0.0f,0,-3),
+                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
+                    new Vector3f(1)
+            );
 
-//            MeshStorage.render("test");
+            MeshStorage.render("test");
 
             // 2d
 
-//            Window.clearDepthBuffer();
+            Window.clearDepthBuffer();
 
             ShaderStorage.start("2d");
 
