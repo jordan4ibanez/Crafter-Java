@@ -9,48 +9,30 @@ import org.crafter.engine.gui.alignment.Alignment;
 import org.joml.Vector2f;
 
 public abstract class GUIElement {
-    private Hover _hover;
-    private Click _click;
-    private KeyInput _keyInput;
+    protected boolean _click;
+    protected boolean _hover;
+    protected boolean _keyInput;
 
-    private Alignment _alignment;
+    protected Alignment _alignment;
 
-    private GUIElement(){}
-    protected GUIElement(Hover hover, Click click, KeyInput keyInput, Alignment alignment) {
-        _hover = hover;
-        _click = click;
-        _keyInput = keyInput;
-        _alignment = alignment;
-    }
+    protected GUIElement() {}
 
     Vector2f alignment() {
         return new Vector2f(_alignment.value());
     }
     public final boolean hoverable() {
-        return _hover != null;
+        return _hover;
     }
     public final boolean clickable() {
-        return _click != null;
+        return _click;
     }
     public final boolean keyInputable() {
-        return _keyInput != null;
+        return _keyInput;
     }
 
-    public final void hover(GUI gui) {
-        if (hoverable()) {
-            _hover.action(gui);
-        }
-    }
-    public final void click(GUI gui) {
-        if (clickable()) {
-            _click.action(gui);
-        }
-    }
-    public final void keyInput(GUI gui) {
-        if (keyInputable()) {
-            _keyInput.action(gui);
-        }
-    }
+    public abstract void hover(GUI gui);
+    public abstract void click(GUI gui);
+    public abstract void keyInput(GUI gui);
 
     public abstract void render();
 }
