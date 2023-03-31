@@ -6,12 +6,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.utility.RawTextureObject;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4i;
+import org.joml.*;
 
 import java.io.File;
+import java.lang.Math;
 import java.util.*;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
@@ -427,7 +425,12 @@ public final class Font {
     }
 
 
-
+    public static Vector2f getTextCenter(float fontSize, String text) {
+        Vector2f textSize = getTextSize(fontSize, text);
+        textSize.x /= 2.0f;
+        textSize.y /= 2.0f;
+        return textSize;
+    }
 
     public static Vector2f getTextSize(float fontSize, String text) {
         float maxWidth = 0;
