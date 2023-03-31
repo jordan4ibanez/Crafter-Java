@@ -1,20 +1,11 @@
 package org.crafter;
 
-import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.actions.Click;
-import org.crafter.engine.gui.actions.Hover;
-import org.crafter.engine.gui.actions.KeyInput;
-import org.crafter.engine.gui.alignment.Alignment;
-import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.font.Font;
-import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 public class Main {
     public static void main(String[] args) {

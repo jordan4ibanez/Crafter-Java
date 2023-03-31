@@ -1,9 +1,6 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.actions.Click;
-import org.crafter.engine.gui.actions.Hover;
-import org.crafter.engine.gui.actions.KeyInput;
 import org.crafter.engine.gui.alignment.Alignment;
 
 public class Button extends GUIElement {
@@ -14,7 +11,7 @@ public class Button extends GUIElement {
 
     @Override
     public void onStep(GUI gui) {
-        
+
     }
 
     @Override
