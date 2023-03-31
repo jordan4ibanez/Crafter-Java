@@ -15,6 +15,11 @@ public class Label extends GUIElement {
         super(name, false,false, false, false, true, alignment);
         this.data = data;
         this.fontSize = fontSize;
+
+        /**
+         * Offset input is how far off it is from the root
+         * Then required offset is an internal function that calls into the font library to find the text size so it stays locked to it's position
+         */
     }
 
     @Override
