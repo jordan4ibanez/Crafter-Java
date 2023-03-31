@@ -16,6 +16,8 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
+    protected Vector2f _offset;
+
     protected GUIElement(String name, boolean collideable, boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
         this._name = name;
         this._collide = collideable;
@@ -28,6 +30,10 @@ public abstract class GUIElement {
 
     Vector2f alignment() {
         return new Vector2f(_alignment.value());
+    }
+
+    Vector2f offset() {
+        return new Vector2f(_offset);
     }
 
     public final boolean onStepable() {
