@@ -94,7 +94,7 @@ public class Main {
 
             Camera.setGuiObjectMatrix(0,0);
 
-            Font.drawText(0, 0, 30.0f, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?%|:;_-*^,.\"'#$&@+=/(){}");
+            Font.drawText(0, 0, 42.0f, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\n0123456789!?%|:;_-*^,.\"'#$&@+=/(){}");
 
             Window.swapBuffers();
 
