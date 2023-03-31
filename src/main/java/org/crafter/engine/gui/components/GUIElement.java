@@ -32,6 +32,9 @@ public abstract class GUIElement {
         return _keyInput;
     }
 
+    // What the GUI element can do when nothing is happening, cool effect, etc
+    public abstract void onStep(GUI gui);
+
     public abstract void hover(GUI gui);
     public abstract void click(GUI gui);
     public abstract void keyInput(GUI gui);
