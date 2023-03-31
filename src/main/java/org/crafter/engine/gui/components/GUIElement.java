@@ -1,5 +1,6 @@
 package org.crafter.engine.gui.components;
 
+import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.actions.Hover;
 import org.crafter.engine.gui.actions.KeyInput;
@@ -31,19 +32,19 @@ public abstract class GUIElement {
     public final boolean keyInputable() {
         return _keyInput != null;
     }
-    public final void hover() {
+    public final void hover(GUI gui) {
         if (hoverable()) {
-            _hover.action();
+            _hover.action(gui);
         }
     }
-    public final void click() {
+    public final void click(GUI gui) {
         if (clickable()) {
-            _click.action();
+            _click.action(gui);
         }
     }
-    public final void keyInput() {
+    public final void keyInput(GUI gui) {
         if (keyInputable()) {
-            _keyInput.action();
+            _keyInput.action(gui);
         }
     }
 }
