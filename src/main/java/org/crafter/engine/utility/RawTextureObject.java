@@ -72,15 +72,20 @@ public class RawTextureObject {
         // Bytebuffer is in ubytes in C
 
         // Use data pack algorithm to grab that pixel
-        int index = (x * tempWidth) + (y * 4);
+        int index = (y * tempWidth) + (x * 4);
 
         // Now return it as a JOML vec4i
-        return new Vector4i(
-                buffer.getInt(index),
-                buffer.getInt(index + 1),
-                buffer.getInt(index + 2),
-                buffer.getInt(index + 3)
+        Vector4i output = new Vector4i(
+                // & 0xff to make it a true ubyte in java's int, otherwise, it's garbage data
+                buffer.getInt(index) & 0xff,
+                buffer.getInt(index + 1) & 0xff,
+                buffer.getInt(index + 2) & 0xff,
+                buffer.getInt(index + 3) & 0xff
         );
+
+//         System.out.println(output.x + ", " + output.y + ", " + output.z + ", " + output.w);
+
+        return output;
     }
 
     public void destroy() {
