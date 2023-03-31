@@ -30,10 +30,20 @@ public class GUI {
     }
 
     public void collisionDetect() {
+
+        System.out.println("GUI: Still needs the static mouse class to pass in it's click data!");
+        boolean mouseClicked = false;
+
         for (GUIElement element : container.values()) {
             if (element.collideable()) {
                 if (element.collisionDetect()) {
+                    if (mouseClicked) {
+                        element.onClick(this);
+                    } else {
+                        element.onHover(this);
+                    }
                     currentlyFocused = element.name();
+                    break;
                 }
             }
         }
