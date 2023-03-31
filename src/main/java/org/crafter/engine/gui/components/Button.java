@@ -25,7 +25,7 @@ public class Button extends GUIElement {
     }
 
     @Override
-    public void onKeyInput(GUI gui) {
+    public void onKeyInput(GUI gui, int keyboardKey) {
 
     }
 

@@ -21,7 +21,14 @@ public class GUI {
         return this;
     }
 
-    public void onStep() {
+    public void doLogic() {
+        onStep();
+        collisionDetect();
+        keyInput();
+    }
+
+    // What the element does with no input
+    private void onStep() {
         for (GUIElement element : container.values()) {
             if (element.onStepable()) {
                 element.onStep(this);
@@ -29,7 +36,8 @@ public class GUI {
         }
     }
 
-    public void collisionDetect() {
+    // What the element does with mouse input
+    private void collisionDetect() {
 
         System.out.println("GUI: Still needs the static mouse class to pass in it's click data!");
         boolean mouseClicked = false;
@@ -42,12 +50,31 @@ public class GUI {
                     } else {
                         element.onHover(this);
                     }
-                    currentlyFocused = element.name();
+
+                    // Prevent any weird behavior with this simple check
+                    String newFocus = element.name();
+                    existenceCheck(newFocus);
+                    currentlyFocused = newFocus;
+
+                    System.out.println("new focused element is: " + newFocus);
                     break;
                 }
             }
         }
     }
+
+    private void keyInput() {
+        System.out.println("GUI: Still needs the static keyboard class to pass in it's typing data!");
+        int keyboardKey = 1;
+
+        for (GUIElement element : container.values()) {
+            if (element.keyInputable()) {
+                element.onKeyInput(this, keyboardKey);
+            }
+        }
+    }
+
+
 
     private void existenceCheck(String elementName) {
         if (!container.containsKey(elementName)) {

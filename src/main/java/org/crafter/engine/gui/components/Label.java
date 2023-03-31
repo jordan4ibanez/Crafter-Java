@@ -33,7 +33,7 @@ public class Label extends GUIElement {
     }
 
     @Override
-    public void onKeyInput(GUI gui) {
+    public void onKeyInput(GUI gui, int keyboardKey) {
 
     }
 

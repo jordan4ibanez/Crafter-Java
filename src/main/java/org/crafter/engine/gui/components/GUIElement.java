@@ -57,7 +57,7 @@ public abstract class GUIElement {
 
     public abstract void onHover(GUI gui);
     public abstract void onClick(GUI gui);
-    public abstract void onKeyInput(GUI gui);
+    public abstract void onKeyInput(GUI gui, int keyboardKey /*Replace with real input*/);
 
     public abstract void render();
 

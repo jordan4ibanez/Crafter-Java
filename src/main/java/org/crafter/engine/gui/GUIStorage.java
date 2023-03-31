@@ -13,7 +13,7 @@ public final class GUIStorage {
 
     public static void onStep() {
         selectedGUINullCheck("onStep");
-        selectedGUI.onStep();
+        selectedGUI.doLogic();
     }
 
 
