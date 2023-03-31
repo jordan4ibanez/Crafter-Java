@@ -9,15 +9,26 @@ public abstract class GUIElement {
     protected boolean _hover;
     protected boolean _keyInput;
 
+    protected boolean _onStep;
+
     protected Alignment _alignment;
 
-    protected GUIElement(Alignment alignment) {
+    protected GUIElement(boolean clickable, boolean hoverable, boolean keyInputable, boolean onStepable, Alignment alignment) {
+        this._click = clickable;
+        this._hover = hoverable;
+        this._keyInput = keyInputable;
+        this._onStep = onStepable;
         this._alignment = alignment;
     }
 
     Vector2f alignment() {
         return new Vector2f(_alignment.value());
     }
+
+    public final boolean onStepable() {
+        return _onStep;
+    }
+
     public final boolean hoverable() {
         return _hover;
     }
