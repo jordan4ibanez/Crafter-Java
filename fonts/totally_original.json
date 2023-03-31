@@ -9,7 +9,5 @@
     "character_width": 8,
     "character_height": 8,
 
-    "character_map": "a",
-
-    "temp": "bcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?%|:;_-*^,.\"'#$&@+=/(){}"
+    "character_map": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?%|:;_-*^,.\"'#$&@+=/(){}"
 }
