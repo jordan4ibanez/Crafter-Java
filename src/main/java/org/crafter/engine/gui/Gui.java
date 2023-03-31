@@ -1,6 +1,6 @@
 package org.crafter.engine.gui;
 
-import org.crafter.engine.gui.actions.GUIElement;
+import org.crafter.engine.gui.components.GUIElement;
 
 import java.util.HashMap;
 
