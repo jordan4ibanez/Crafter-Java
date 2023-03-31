@@ -13,18 +13,13 @@ public abstract class GUIElement {
     private Click _click;
     private KeyInput _keyInput;
 
-    private Render _render;
-
     private Alignment _alignment;
+
     private GUIElement(){}
-    protected GUIElement(Hover hover, Click click, KeyInput keyInput, Render render, Alignment alignment) {
-        if (render == null) {
-            throw new RuntimeException("GUIElement: Render interface CANNOT be (null)!");
-        }
+    protected GUIElement(Hover hover, Click click, KeyInput keyInput, Alignment alignment) {
         _hover = hover;
         _click = click;
         _keyInput = keyInput;
-        _render = render;
         _alignment = alignment;
     }
 
@@ -57,7 +52,5 @@ public abstract class GUIElement {
         }
     }
 
-    public final void render() {
-        _render.action();
-    }
+    public abstract void render();
 }
