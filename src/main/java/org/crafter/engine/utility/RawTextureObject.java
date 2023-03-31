@@ -67,25 +67,21 @@ public class RawTextureObject {
         }
 
         // Always 4 channel, so we need to treat each 4 channel as 1
-        int tempWidth = width * 4;
+        final int tempWidth = width * 4;
 
         // Bytebuffer is in ubytes in C
 
         // Use data pack algorithm to grab that pixel
-        int index = (y * tempWidth) + (x * 4);
+        final int index = (y * tempWidth) + (x * 4);
 
         // Now return it as a JOML vec4i
-        Vector4i output = new Vector4i(
+        return new Vector4i(
                 // & 0xff to make it a true ubyte in java's int, otherwise, it's garbage data
                 buffer.getInt(index) & 0xff,
                 buffer.getInt(index + 1) & 0xff,
                 buffer.getInt(index + 2) & 0xff,
                 buffer.getInt(index + 3) & 0xff
         );
-
-//         System.out.println(output.x + ", " + output.y + ", " + output.z + ", " + output.w);
-
-        return output;
     }
 
     public void destroy() {
