@@ -1,7 +1,6 @@
 package org.crafter.engine.gui.components;
 
-import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.alignment.Alignment;
+import org.crafter.engine.gui.enumerators.Alignment;
 
 public class Button extends GUIElement {
 

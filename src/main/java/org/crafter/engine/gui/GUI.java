@@ -1,6 +1,7 @@
 package org.crafter.engine.gui;
 
 import org.crafter.engine.gui.components.GUIElement;
+import org.crafter.engine.gui.components.Label;
 
 import java.util.HashMap;
 
@@ -67,6 +68,15 @@ public class GUI {
     public void render() {
         for (GUIElement element : container.values()) {
             element.render();
+        }
+    }
+
+    public void setFontSize(String elementName) {
+        GUIElement gottenElement = container.get(elementName);
+        if (gottenElement.getClass() == Label.class) {
+            System.out.println("This is correct");
+        } else {
+            System.out.println("this is WRONG BABY!");
         }
     }
 

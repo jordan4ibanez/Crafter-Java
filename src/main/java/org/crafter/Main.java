@@ -2,8 +2,7 @@ package org.crafter;
 
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
-import org.crafter.engine.gui.actions.OnStep;
-import org.crafter.engine.gui.alignment.Alignment;
+import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -65,7 +64,7 @@ public class Main {
              new GUI()
                 .addGUIElement(
                         "versionInfo",
-                        new Label("versionInfo", VERSION_INFO, 30, Alignment.TOP_LEFT)
+                        new Label("versionInfo", VERSION_INFO, 30, Alignment.TOP_LEFT, null)
                 )
         );
 

@@ -1,4 +1,4 @@
-package org.crafter.engine.gui.alignment;
+package org.crafter.engine.gui.enumerators;
 
 import org.joml.Vector2f;
 

@@ -5,7 +5,7 @@ import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.actions.Hover;
 import org.crafter.engine.gui.actions.KeyInput;
 import org.crafter.engine.gui.actions.OnStep;
-import org.crafter.engine.gui.alignment.Alignment;
+import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
 
 public abstract class GUIElement {
