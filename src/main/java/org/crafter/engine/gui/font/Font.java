@@ -3,15 +3,15 @@ package org.crafter.engine.gui.font;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import org.crafter.engine.mesh.Mesh;
+import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
 
@@ -74,20 +74,16 @@ public final class Font {
 
     private static final HashMap<String, FontData> fonts = new HashMap<>();
 
-    private static void uploadFontTexture() {
-        System.out.println("you forgot to make the upload call");
-    };
-
-    private static void render() {
-        System.out.println("You forgot to make the render call");
-    };
+    private static void uploadFontTexture(String fileLocation) {
+        TextureStorage.createTexture(fileLocation);
+    }
 
 
     public static void createFont(String fileLocation, String name, boolean trimming) {
-        createFont(fileLocation, name, true, 1.0f, 4.0f);
+        createFont(fileLocation, name, trimming, 1.0f, 4.0f);
     }
     public static void createFont(String fileLocation, String name, boolean trimming, float spacing) {
-        createFont(fileLocation, name, true, spacing, 4.0f);
+        createFont(fileLocation, name, trimming, spacing, 4.0f);
     }
     public static void createFont(String fileLocation, String name, boolean trimming, float spacing, float spaceCharacterSize) {
 
@@ -98,8 +94,7 @@ public final class Font {
         checkFilesExist(pngLocation, jsonLocation);
 
         // Automate existing engine integration
-//        tryCallingRAWApi(pngLocation);
-//        tryCallingStringApi(pngLocation);
+        uploadFontTexture(pngLocation);
 
         // Create the Font object
         FontData fontObject = new FontData();
@@ -115,34 +110,6 @@ public final class Font {
 
         // Finally add it into the library
         fonts.put(name, fontObject);
-
-    }
-
-
-
-
-    /// Flushes out the cache, gives you back a font struct containing the raw data
-    public static void flush() {
-
-        fontLock = false;
-
-        // This will now be the rendering call
-
-//        RawData returningStruct = new RawData(
-//                Arrays.copyOfRange(vertexCache, 0, vertexCount),
-//                Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
-//                Arrays.copyOfRange(indicesCache, 0, indicesCount),
-//                Arrays.copyOfRange(colorCache, 0, colorCount)
-//        );
-
-        // Reset the counters
-        vertexCount = 0;
-        textureCoordinateCount = 0;
-        indicesCount = 0;
-        colorCount = 0;
-        chars = 0;
-
-        // return returningStruct;
     }
 
     public static void selectFont(String font) {
@@ -165,6 +132,187 @@ public final class Font {
 
     public static int getTextLength(String input) {
         return input.replace(" ", "").replace("\n", "").length();
+    }
+
+    public static void drawText(float posX, float posY, final float fontSize, String text) {
+        drawText(posX, posY, fontSize, text,true);
+    }
+    public static void drawText(float posX, float posY, final float fontSize, String text, boolean rounding) {
+
+        // Keep square pixels
+        if (rounding) {
+            posX = Math.round(posX);
+            posY = Math.round(posY);
+        }
+
+        // Can't render if no font is selected
+        if (currentFont == null) {
+            throw new RuntimeException("Font: Tried to render without selecting a font! You must select a font before rendering to canvas!");
+        }
+
+        // Store how far the arm has moved to the right
+        float typeWriterArmX = 0.0f;
+        // Store how far the arm has moved down
+        float typeWriterArmY = 0.0f;
+
+        // Top left of canvas is root position (X: 0, y: 0)
+        final float positionX = posX;
+        final float positionY = posY;
+
+        // Cache spacing
+        final float spacing = currentFont.spacing * fontSize;
+
+        // Cache space (' ') character
+        final float spaceCharacterSize = currentFont.spaceCharacterSize * fontSize;
+
+        for (char character : text.toCharArray()) {
+
+            // Skip space
+            if (character == ' ') {
+                typeWriterArmX += spaceCharacterSize;
+                continue;
+            }
+            // Move down 1 space Y and to space 0 X
+            if (character == '\n') {
+                typeWriterArmY += fontSize;
+                typeWriterArmX = 0.0f;
+                continue;
+            }
+
+            String stringCharacter = String.valueOf(character);
+
+            // Skip unknown character
+            if (!currentFont.map.containsKey(stringCharacter)) {
+                continue;
+            }
+
+            // Font stores character width in index 9 (8 [0 count])
+            float[] textureData = Arrays.copyOfRange(currentFont.map.get(stringCharacter), 0, 9);
+
+//            System.out.println(Arrays.toString(textureData));
+
+            //            System.out.println(stringCharacter);
+            //            if (stringCharacter.equals("h")) {
+            //                System.out.println(Arrays.toString(currentFont.map.get(stringCharacter)));
+            //            }
+
+            //Now dispatch into the cache
+            System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8);
+
+            // This is the width of the character
+            // Keep on the stack
+            float characterWidth = textureData[8];
+
+            // Keep this on the stack
+            float[] rawVertex = Arrays.copyOf(RAW_VERTEX, RAW_VERTEX.length);
+
+
+            // ( 0 x 1 y 2 x 3 y ) <- left side ( 4 x 5 y 6 x 7 y ) <- right side is goal
+            // Now apply trimming
+            for (int i = 4; i < 8; i += 2) {
+                rawVertex[i] = characterWidth;
+            }
+
+            // Now scale
+            for (int i = 0; i < rawVertex.length; i++) {
+                rawVertex[i] *= fontSize;
+            }
+
+            // Shifting
+            for (int i = 0; i < 8; i += 2) {
+                // Now shift right
+                rawVertex[i] += typeWriterArmX + positionX;
+                // Now shift down
+                rawVertex[i + 1] += typeWriterArmY + positionY;
+            }
+
+            typeWriterArmX += (characterWidth * fontSize) + spacing;
+
+            // vertexData ~= rawVertex;
+            // Now dispatch into the cache
+            System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8);
+
+
+            int[] rawIndices = Arrays.copyOf(RAW_INDICES, RAW_INDICES.length);
+
+            for (int i = 0; i < rawIndices.length; i++) {
+                rawIndices[i] += vertexCount / 2;
+            }
+
+            // Now dispatch into the cache
+            System.arraycopy(rawIndices, 0, indicesCache, indicesCount, 6);
+
+            // Now hold cursor position (count) in arrays
+            vertexCount  += 8;
+            textureCoordinateCount += 8;
+            indicesCount += 6;
+            colorCount += 16;
+            // This one is characters literal
+            chars++;
+
+            if (vertexCount >= CHARACTER_LIMIT || indicesCount >= CHARACTER_LIMIT) {
+                throw new RuntimeException("Font: Exceeded character limit! Character limit is: " + CHARACTER_LIMIT);
+            }
+        }
+
+        /*
+         * Because there is no Z buffer in 2d, OpenGL seems to NOT overwrite pixel data of existing
+         * framebuffer pixels. Since this is my testbed, I must assume that this is how
+         * Vulkan, Metal, DX, and so-on do this. This is GUARANTEED to not affect software renderers.
+         * So we have to do the shadowing AFTER the foreground.
+         * We need to poll, THEN disable the shadow variable because without that it would be
+         * an infinite recursion, aka a stack overflow.
+         */
+        final boolean shadowsWereEnabled = shadowsEnabled;
+        shadowsEnabled = false;
+        //        if (shadowsWereEnabled) {
+        //            final int textLength = getTextLength(text);
+        //            final int currentIndex = getCurrentCharacterIndex();
+        //            if (shadowColoringEnabled) {
+        //                setColorRange(
+        //                        currentIndex,
+        //                        currentIndex + textLength,
+        //                        shadowColor[0],
+        //                        shadowColor[1],
+        //                        shadowColor[2],
+        //                        shadowColor[3]
+        //                );
+        //            }
+        //            renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
+        //
+        //            shadowOffsetX = 0.05f;
+        //            shadowOffsetY = 0.05f;
+        //        }
+
+        // Turn this back on because it can become a confusing nightmare
+        shadowColoringEnabled = true;
+        // Switch back to black because this also can become a confusing nightmare
+        //        switchShadowColor(0,0,0);
+
+        // Now render it
+        render();
+    }
+
+    /// Flushes out the cache, gives you back a font struct containing the raw data
+    private static void render() {
+        Mesh tempObject = new Mesh(
+                null,
+                Arrays.copyOfRange(vertexCache, 0, vertexCount),
+                Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
+                Arrays.copyOfRange(indicesCache, 0, indicesCount),
+                null,
+                Arrays.copyOfRange(colorCache, 0, colorCount),
+                currentFont.fileLocation,
+                true
+        );
+        tempObject.render();
+        tempObject.destroy();
+
+        vertexCount = 0;
+        textureCoordinateCount = 0;
+        indicesCount = 0;
+        colorCount = 0;
+        chars = 0;
     }
 
 
@@ -195,10 +343,6 @@ public final class Font {
 
         // Cache a raw true color image for trimming if requested
         final RawTextureObject tempImageObject = !trimming ? null : new RawTextureObject(fontObject.fileLocation);
-
-        if (tempImageObject != null) {
-            tempImageObject.debugSpam();
-        }
 
         int index = -1;
         for (char value : fontObject.rawMap.toCharArray()) {
@@ -231,6 +375,8 @@ public final class Font {
 
             // Now trim it if requested
             if (trimming) {
+
+                System.out.println("THIS IS TRIMMING AHHHH");
 
                 // Create temp workers
                 int newMinX = minX;
@@ -291,7 +437,9 @@ public final class Font {
                     (float)iPos[8] / (float)characterWidth
             };
 
-            
+            System.out.println("GLPOSITION " + Arrays.toString(glPositions));
+
+
 //            System.out.println(Arrays.toString(glPositions));
 //            System.out.println("Letter: " + value + " int pos: " + intPosX + " " + intPosY);
 
