@@ -24,4 +24,11 @@ public enum Alignment {
     public Vector2f value() {
         return this.value;
     }
+
+    public float getX() {
+        return this.value.x;
+    }
+    public float getY() {
+        return this.value.y;
+    }
 }
