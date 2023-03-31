@@ -174,7 +174,11 @@ public final class Window {
     }
 
     public static Vector2i getWindowSize() {
-        return windowSize;
+        return new Vector2i(windowSize);
+    }
+
+    public static Vector2i getWindowCenter() {
+        new Vector2i(getWindowWidth() / 2, getWindowHeight() / 2);
     }
 
     public static int getWindowWidth() {
