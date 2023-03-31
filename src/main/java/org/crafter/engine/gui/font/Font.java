@@ -422,13 +422,13 @@ public final class Font {
 
 
     public static Vector2f getTextSize(float fontSize, String text) {
-        float accumulatorX = 0.0f;
-        float accumulatorY = 0.0f;
+        float maxWidth = 0;
+        float currentWidth = 0;
+        float currentHeight = 0.0f;
 
         // Can't get the size if there's no font!
         if (currentFont == null) {
-            throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! " +
-                    "You must select a font before getting the size of text with it!");
+            throw new RuntimeException("Razor Font: Tried to get text size without selecting a font! You must select a font before getting the size of text with it!");
         }
 
         // Cache spacing
@@ -442,12 +442,16 @@ public final class Font {
 
             // Skip space
             if (character == ' ') {
-                accumulatorX += spaceCharacterSize;
+                currentWidth += spaceCharacterSize;
                 continue;
             }
             // Move down 1 space Y
             if (character == '\n') {
-                accumulatorY += fontSize;
+                if (currentWidth > maxWidth) {
+                    maxWidth = currentWidth;
+                }
+                currentWidth = 0;
+                currentHeight += fontSize;
                 continue;
             }
 
@@ -458,22 +462,27 @@ public final class Font {
 
             // Font stores character width in index 9 (8 [0 count])
             final float characterWidth = currentFont.map.get(currentStringChar)[8];
-            accumulatorX += (characterWidth * fontSize) + spacing;
+            currentWidth += (characterWidth * fontSize) + spacing;
+        }
+
+        // Now we need the check one more time, because most strings don't end with a carriage return
+        if (currentWidth > maxWidth) {
+            maxWidth = currentWidth;
         }
 
 
         // Add a last bit of the height offset
-        accumulatorY += fontSize;
+        currentHeight += fontSize;
         // Remove the last bit of spacing
-        accumulatorX -= spacing;
+        maxWidth -= spacing;
 
         // Finally, if shadowing is enabled, add in shadowing offset
         if (shadowsEnabled) {
-            accumulatorX += (shadowOffsetX * fontSize);
-            accumulatorY += (shadowOffsetY * fontSize);
+            maxWidth += (shadowOffsetX * fontSize);
+            currentHeight += (shadowOffsetY * fontSize);
         }
 
-        return new Vector2f(accumulatorX, accumulatorY);
+        return new Vector2f(maxWidth, currentHeight);
     }
 
     public static int getTextLengthWithShadows(String input) {
