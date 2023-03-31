@@ -84,11 +84,6 @@ public class RawTextureObject {
         );
     }
 
-    public void debugSpam() {
-        System.out.println(buffer.toString());
-    }
-
-
     public void destroy() {
         // This is useful for debugging
         // System.out.println("RawTextureObject: Freed memory of C int*!");
