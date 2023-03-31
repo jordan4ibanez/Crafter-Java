@@ -17,7 +17,7 @@ public abstract class GUIElement {
         _alignment = alignment;
     }
     Vector2f alignment() {
-        return _alignment.value();
+        return new Vector2f(_alignment.value());
     }
     public final boolean hoverable() {
         return _hover != null;
