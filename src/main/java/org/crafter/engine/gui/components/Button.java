@@ -6,11 +6,7 @@ import org.crafter.engine.gui.actions.Hover;
 import org.crafter.engine.gui.actions.KeyInput;
 
 public class Button extends GUIElement {
-
-    private Button(){}
-
     public Button(Hover hover, Click click, KeyInput keyInput) {
         super(hover, click, keyInput);
     }
-
 }
