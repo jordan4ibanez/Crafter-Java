@@ -1,6 +1,7 @@
 package org.crafter;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.alignment.Alignment;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
