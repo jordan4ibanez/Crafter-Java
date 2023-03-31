@@ -18,12 +18,12 @@ public abstract class GUIElement {
     private Alignment _alignment;
     private GUIElement(){}
     protected GUIElement(Hover hover, Click click, KeyInput keyInput, Render render, Alignment alignment) {
-        _hover = hover;
-        _click = click;
-        _keyInput = keyInput;
         if (render == null) {
             throw new RuntimeException("GUIElement: Render interface CANNOT be (null)!");
         }
+        _hover = hover;
+        _click = click;
+        _keyInput = keyInput;
         _render = render;
         _alignment = alignment;
     }
