@@ -54,4 +54,9 @@ public class Button extends GUIElement implements Text {
         System.out.println("internal on step");
     }
 
+    @Override
+    protected void recalculatePosition() {
+
+    }
+
 }

@@ -23,7 +23,7 @@ public abstract class GUIElement {
     protected Alignment _alignment;
 
     // Centering vector is the size of the element, so it can remain in its position with alignment
-    protected Vector2f _centeringVector;
+    protected final Vector2f _centeringVector = new Vector2f(0,0);
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
@@ -136,4 +136,7 @@ public abstract class GUIElement {
     protected abstract void recalculateMesh();
 
     public abstract void internalOnStep();
+
+    // Enforce recalculation, it's very important to keep gui elements in correct position
+    protected abstract void recalculatePosition();
 }

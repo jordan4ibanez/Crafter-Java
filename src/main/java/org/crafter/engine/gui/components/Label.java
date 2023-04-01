@@ -75,7 +75,7 @@ public class Label extends GUIElement implements Text {
 
         String newUUID = Font.grabText(this.fontSize, this.textData);
 
-        this._centeringVector = Font.getTextCenter(this.fontSize, this.textData);
+        this._centeringVector.set(Font.getTextCenter(this.fontSize, this.textData));
 
         this.setMeshUUID(newUUID);
     }
@@ -83,7 +83,12 @@ public class Label extends GUIElement implements Text {
     @Override
     public void internalOnStep() {
         if (Window.wasResized()) {
-            System.out.println("Window was resized!");
+            this.recalculatePosition();
         }
+    }
+
+    @Override
+    protected void recalculatePosition() {
+        System.out.println("Recalculation!");
     }
 }
