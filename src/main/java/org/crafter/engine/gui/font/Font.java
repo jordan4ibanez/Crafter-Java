@@ -218,6 +218,7 @@ public final class Font {
         shadowOffsetY = y / 10.0f;
     }
 
+
     /**
      * Allows you to blanket a range of characters in the canvas with a color.
      * So if you have: abcdefg
@@ -234,194 +235,6 @@ public final class Font {
             colorCache[i + 2] = b;
             colorCache[i + 3] = a;
         }
-    }
-
-    /**
-     * Allows you to set individual character colors
-     */
-    public static void setColorChar(int charIndex, float r, float g, float b) {
-        setColorChar(charIndex, r,g,b,1);
-    }
-    public static void setColorChar(int charIndex, float r, float g, float b, float a) {
-        final int startIndex = charIndex * 16;
-        for (int i = startIndex; i < startIndex + 16; i += 4) {
-            colorCache[i]     = r;
-            colorCache[i + 1] = g;
-            colorCache[i + 2] = b;
-            colorCache[i + 3] = a;
-        }
-    }
-
-    /**
-     * Rotate a character around the center point of its face.
-     * Note: This defaults to radians by default.
-     * Note: If you use moveChar() with this, you MUST do moveChar() first!
-     *
-     * FIXME: This needs to be rewritten
-     */
-//    public static void rotateChar(int index, float rotation) {
-//        rotateChar(index,rotation,false);
-//    }
-//    public static void rotateChar(int index, float rotation, boolean isDegrees) {
-//
-//        // Degrees are annoying
-//        if (isDegrees) {
-//            rotation = (float)Math.toRadians(rotation);
-//        }
-//
-//         /*
-//          This is written out even more verbosely than moveChar()
-//          so you can see why you must do moveChar() first.
-//          */
-//
-//        // Move to cursor position in vertexCache
-//        final int baseIndex = index * 8;
-//
-//        // Convert to 3d to supplement to 4x4 matrix
-//        Vector3f topLeft     = new Vector3f(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
-//        Vector3f bottomLeft  = new Vector3f(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
-//        Vector3f bottomRight = new Vector3f(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
-//        Vector3f topRight    = new Vector3f(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
-//
-//        Vector3f centerPoint = new Vector3f((topLeft.x + topRight.x) / 2.0f,  (topLeft.y + bottomLeft.y) / 2.0f, 0);
-//
-//        System.out.println("---------");
-//
-//        System.out.println(topLeft.x + ", " + topLeft.y);
-//
-//        Vector3f topLeftDiff      = new Vector3f(topLeft)    .sub(centerPoint);
-//        Vector3f bottomLeftDiff   = new Vector3f(bottomLeft) .sub(centerPoint);
-//        Vector3f bottomRightDiff  = new Vector3f(bottomRight).sub(centerPoint);
-//        Vector3f topRightDiff     = new Vector3f(topRight)   .sub(centerPoint);
-//
-//        // These calculations also store the new data in the variables we created above
-//        // We must center the coordinates into real coordinates
-//
-//        new Matrix4f().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
-//        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
-//        new Matrix4f().rotate(rotation, 0,0,1).translate(bottomRightDiff) .getTranslation(bottomRight);
-//        new Matrix4f().rotate(rotation, 0,0,1).translate(topRightDiff)    .getTranslation(topRight);
-//
-//        System.out.println(topLeft.x + ", " + topLeft.y);
-//
-//
-//        topLeft.x += centerPoint.x;
-//        topLeft.y += centerPoint.y;
-//
-//        bottomLeft.x += centerPoint.x;
-//        bottomLeft.y += centerPoint.y;
-//
-//        bottomRight.x += centerPoint.x;
-//        bottomRight.y += centerPoint.y;
-//
-//        topRight.x += centerPoint.x;
-//        topRight.y += centerPoint.y;
-//
-//        vertexCache[baseIndex    ] = topLeft.x;
-//        vertexCache[baseIndex + 1] = topLeft.y;
-//
-//        vertexCache[baseIndex + 2] = bottomLeft.x;
-//        vertexCache[baseIndex + 3] = bottomLeft.y;
-//
-//        vertexCache[baseIndex + 4] = bottomRight.x;
-//        vertexCache[baseIndex + 5] = bottomRight.y;
-//
-//        vertexCache[baseIndex + 6] = topRight.x;
-//        vertexCache[baseIndex + 7] = topRight.y;
-//    }
-
-    public static void moveChar(int index, float posX, float posY) {
-        // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
-
-        // Move to cursor position in vertexCache
-        final int baseIndex = index * 8;
-
-        // Top left
-        vertexCache[baseIndex    ] += posX; // X
-        vertexCache[baseIndex + 1] -= posY; // Y
-
-        // Bottom left
-        vertexCache[baseIndex + 2] += posX; // X
-        vertexCache[baseIndex + 3] -= posY; // Y
-
-        // Bottom right
-        vertexCache[baseIndex + 4] += posX; // X
-        vertexCache[baseIndex + 5] -= posY; // Y
-
-        // Top right
-        vertexCache[baseIndex + 6] += posX; // X
-        vertexCache[baseIndex + 7] -= posY; // Y
-    }
-
-    /**
-     * Allows you to directly work on vertex position colors in a character.
-     * Using direct points (tidy).
-     * float vec is [R,G,B,A]
-     */
-    public static void setColorPoints(int charIndex, float[] topLeft, float[] bottomLeft, float[] bottomRight, float[] topRight) {
-        final int startIndex = charIndex * 16;
-        int externalIndex = 0;
-        for(float[] vec4 : new float[][]{topLeft, bottomLeft, bottomRight, topRight}) {
-            int index = 0;
-            for (float value : vec4) {
-                colorCache[startIndex + (externalIndex * 4) + index] = value;
-                index++;
-            }
-            externalIndex++;
-
-        }
-    }
-
-    /**
-     * Allows you to directly work on vertex position colors in a character.
-     * Using direct points (verbose)
-     */
-    public static void setColorPoints(
-            int charIndex,
-
-            float topLeftR,
-            float topLeftG,
-            float topLeftB,
-            float topLeftA,
-
-            float bottomLeftR,
-            float bottomLeftG,
-            float bottomLeftB,
-            float bottomLeftA,
-
-            float bottomRightR,
-            float bottomRightG,
-            float bottomRightB,
-            float bottomRightA,
-
-            float topRightR,
-            float topRightG,
-            float topRightB,
-            float topRightA
-    ) {
-        final int startIndex = charIndex * 16;
-
-        // It's already immensely verbose, let's just add on to this verbosity
-
-        colorCache[startIndex]      = topLeftR;
-        colorCache[startIndex + 1]  = topLeftG;
-        colorCache[startIndex + 2]  = topLeftB;
-        colorCache[startIndex + 3]  = topLeftA;
-
-        colorCache[startIndex + 4]  = bottomLeftR;
-        colorCache[startIndex + 5]  = bottomLeftG;
-        colorCache[startIndex + 6]  = bottomLeftB;
-        colorCache[startIndex + 7]  = bottomLeftA;
-
-        colorCache[startIndex + 8]  = bottomRightR;
-        colorCache[startIndex + 9]  = bottomRightG;
-        colorCache[startIndex + 10] = bottomRightB;
-        colorCache[startIndex + 11] = bottomRightA;
-
-        colorCache[startIndex + 12] = topRightR;
-        colorCache[startIndex + 13] = topRightG;
-        colorCache[startIndex + 14] = topRightB;
-        colorCache[startIndex + 15] = topRightA;
     }
 
 
@@ -503,13 +316,14 @@ public final class Font {
         return input.replace(" ", "").replace("\n", "").length();
     }
 
-    public static void drawText(float posX, float posY, final float fontSize, String text) {
-        drawText(posX, posY, fontSize, text,true, true);
+    // This now gives you back a mesh
+    public static Mesh grabText(float posX, float posY, final float fontSize, String text) {
+        return grabText(posX, posY, fontSize, text,true, true);
     }
-    public static void drawText(float posX, float posY, final float fontSize, String text, boolean rounding) {
-        drawText(posX, posY, fontSize, text, rounding, true );
+    public static Mesh grabText(float posX, float posY, final float fontSize, String text, boolean rounding) {
+        return grabText(posX, posY, fontSize, text, rounding, true );
     }
-    public static void drawText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
+    public static Mesh grabText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
 
         // Keep square pixels
         if (rounding) {
@@ -643,7 +457,7 @@ public final class Font {
                         shadowColor[3]
                 );
             }
-            drawText(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false,false);
+            grabText(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false,false);
 
             shadowOffsetX = 0.05f;
             shadowOffsetY = 0.05f;
@@ -656,14 +470,16 @@ public final class Font {
 
         // Now render it if told to do so
         if (instantRender) {
-            render();
+            return generateMesh();
         }
+
+        return null;
     }
 
     // ^ v Keep these two next to each other, easier to understand
 
     /// Flushes out the cache, gives you back a font struct containing the raw data
-    private static void render() {
+    private static Mesh generateMesh() {
         Mesh tempObject = new Mesh(
                 null,
                 Arrays.copyOfRange(vertexCache, 0, vertexCount),
@@ -674,14 +490,16 @@ public final class Font {
                 currentFont.fileLocation,
                 true
         );
-        tempObject.render();
-        tempObject.destroy();
+//        tempObject.render();
+//        tempObject.destroy();
 
         vertexCount = 0;
         textureCoordinateCount = 0;
         indicesCount = 0;
         colorCount = 0;
         chars = 0;
+
+        return tempObject;
     }
 
 
