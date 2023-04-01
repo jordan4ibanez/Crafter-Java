@@ -479,7 +479,7 @@ public final class Font {
 
     // ^ v Keep these two next to each other, easier to understand
 
-    /// Flushes out the cache, gives you back a font struct containing the raw data
+    /// Flushes out the cache, gives you back a font struct containing the MeshStorage UUID string
     private static String generateMesh() {
 
         String uuid = UUID.randomUUID().toString();
