@@ -74,7 +74,7 @@ public class Label extends GUIElement implements Text {
         Font.switchColor(1,0,0);
 
 
-        String newUUID = Font.grabText(0,0, this.fontSize, this.textData);
+        String newUUID = Font.grabText(this.fontSize, this.textData);
 
         this.setMeshUUID(newUUID);
     }
