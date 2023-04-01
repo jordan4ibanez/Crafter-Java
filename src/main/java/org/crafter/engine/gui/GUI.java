@@ -1,8 +1,10 @@
 package org.crafter.engine.gui;
 
+import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -77,14 +79,34 @@ public class GUI {
         }
     }
 
-    public void setFontSize(String elementName) {
+    public void setFontSize(String elementName, float fontSize) {
         existenceCheck(elementName);
         GUIElement gottenElement = container.get(elementName);
-        if (gottenElement.getClass() == Label.class) {
-            System.out.println("This is correct");
-        } else {
-            System.out.println("this is WRONG BABY!");
+
+        if (gottenElement instanceof Label) {
+            ((Label) gottenElement).setFontSize(fontSize);
+            return;
+        } else if (gottenElement instanceof Button) {
+            ((Button) gottenElement).setFontSize(fontSize);
+            return;
         }
+
+        incompatibleThrow(gottenElement, "setFontSize");
+    }
+
+    public void setText(String elementName, String textData) {
+        existenceCheck(elementName);
+        GUIElement gottenElement = container.get(elementName);
+
+        if (gottenElement instanceof Label) {
+            ((Label) gottenElement).setText(textData);
+            return;
+        } else if (gottenElement instanceof Button) {
+            ((Button) gottenElement).setText(textData);
+            return;
+        }
+
+        incompatibleThrow(gottenElement, "setText");
     }
 
     private void keyInput() {
@@ -101,6 +123,10 @@ public class GUI {
 
     public String getCurrentlyFocused() {
         return currentlyFocused;
+    }
+
+    private void incompatibleThrow(GUIElement element, String methodName) {
+        throw new RuntimeException("GUI: Error! Element (" + element.name() + ") does not implement method (" + methodName + ")! It is type (" + element.getClass().toString() + ")!");
     }
 
     private void existenceCheck(String elementName) {

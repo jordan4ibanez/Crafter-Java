@@ -33,9 +33,14 @@ public final class GUIStorage {
         selectedGUI = container.get(guiName);
     }
 
-    public static void setFontSize(String elementName) {
+    public static void setFontSize(String elementName, float fontSize) {
         selectedGUINullCheck("setFontSize");
-        selectedGUI.setFontSize(elementName);
+        selectedGUI.setFontSize(elementName, fontSize);
+    }
+
+    public static void setText(String elementName, String textData) {
+        selectedGUINullCheck("setFontSize");
+        selectedGUI.setText(elementName, textData);
     }
 
     private static void selectedGUINullCheck(String inputFunction) {

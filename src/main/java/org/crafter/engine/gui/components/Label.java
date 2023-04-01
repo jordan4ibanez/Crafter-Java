@@ -1,6 +1,7 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.gui.implementations.Text;
 import org.joml.Vector2f;
 
 import java.util.Objects;
@@ -8,16 +9,15 @@ import java.util.Objects;
 /**
  * Holds text data in memory.
  */
-public class Label extends GUIElement {
-    private String data;
+public class Label extends GUIElement implements Text {
 
-    private float fontSize;
+    private float fontSize = 24.0f;
 
-    Vector2f offset;
+    private Vector2f offset;
 
-    public Label(String name, String data, float fontSize, Alignment alignment, Vector2f offset) {
+    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
-        this.data = data;
+        this.setText(textData);
         this.fontSize = fontSize;
 
         /**
@@ -27,12 +27,19 @@ public class Label extends GUIElement {
         this.offset = Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0));
     }
 
+    @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
+        System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
     }
 
-    public void setData(String newData) {
-        this.data = newData;
+    @Override
+    public void setText(String textData) {
+
+    }
+
+    private void recalculate() {
+        System.out.println("generating a new mesh");
     }
 
     @Override

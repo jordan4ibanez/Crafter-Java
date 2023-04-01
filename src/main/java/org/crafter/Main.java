@@ -70,7 +70,7 @@ public class Main {
 
         GUIStorage.selectGUI("inGame");
 
-        GUIStorage.setFontSize("blah");
+        GUIStorage.setFontSize("versionInfo", 32);
 
         while(!Window.shouldClose()) {
 
