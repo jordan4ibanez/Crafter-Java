@@ -81,9 +81,9 @@ public class Label extends GUIElement implements Text {
 
         this._centeringVector.set(Font.getTextCenter(this.fontSize, this.textData));
 
-        System.out.println(_centeringVector.x + ", " + _centeringVector.y);
-
         this.setMeshUUID(newUUID);
+
+        this.recalculatePosition();
     }
 
     @Override
@@ -95,6 +95,8 @@ public class Label extends GUIElement implements Text {
 
     @Override
     protected void recalculatePosition() {
+
+        Window.getWindowCenter().sub(_centeringVector.x / 2.0f, _centeringVector.y / 2.0f);
         System.out.println("Recalculation!");
     }
 }

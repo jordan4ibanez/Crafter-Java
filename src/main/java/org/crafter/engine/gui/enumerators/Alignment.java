@@ -22,7 +22,7 @@ public enum Alignment {
     }
 
     public Vector2f value() {
-        return this.value;
+        return new Vector2f(this.value);
     }
 
     public float getX() {
