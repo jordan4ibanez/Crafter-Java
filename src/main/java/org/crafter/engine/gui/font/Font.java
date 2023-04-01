@@ -460,8 +460,8 @@ public final class Font {
             }
             grabText(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false,false);
 
-            shadowOffsetX = 0.05f;
-            shadowOffsetY = 0.05f;
+//            shadowOffsetX = 0.05f;
+//            shadowOffsetY = 0.05f;
         }
 
         // Turn this back on because it can become a confusing nightmare
