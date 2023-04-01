@@ -3,6 +3,8 @@ package org.crafter.engine.gui;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
+import org.crafter.engine.shader.ShaderStorage;
+import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 
 import java.util.Arrays;
@@ -83,6 +85,9 @@ public class GUI {
     }
 
     public void render() {
+        // Fancy way to automate the gui instantiation in OpenGL
+        Window.clearDepthBuffer();
+        ShaderStorage.start("2d");
         for (GUIElement element : container.values()) {
             element.render();
         }
