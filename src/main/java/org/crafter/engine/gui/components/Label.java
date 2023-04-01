@@ -73,8 +73,9 @@ public class Label extends GUIElement implements Text {
         Font.enableShadows();
         Font.switchColor(1,0,0);
 
-
         String newUUID = Font.grabText(this.fontSize, this.textData);
+
+        this._centeringVector = Font.getTextCenter(this.fontSize, this.textData);
 
         this.setMeshUUID(newUUID);
     }

@@ -22,7 +22,8 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    protected Vector2f centeringVector;
+    // Centering vector is the size of the element so it can remain in it's position with alignment
+    protected Vector2f _centeringVector;
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
