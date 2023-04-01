@@ -14,20 +14,20 @@ public class Button extends GUIElement implements Text {
     public Button(String name, Alignment alignment) {
         super(name, alignment);
 
-        recalculateTexture();
+        recalculateMesh();
     }
 
 
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
-        recalculateTexture();
+        recalculateMesh();
     }
 
     @Override
     public void setText(String textData) {
         this.textData = textData;
-        recalculateTexture();
+        recalculateMesh();
     }
 
 
@@ -45,7 +45,7 @@ public class Button extends GUIElement implements Text {
     }
 
     @Override
-    protected void recalculateTexture() {
+    protected void recalculateMesh() {
         System.out.println("Button: generating a new mesh");
     }
 

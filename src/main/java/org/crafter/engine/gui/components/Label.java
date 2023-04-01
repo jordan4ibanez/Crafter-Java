@@ -28,20 +28,20 @@ public class Label extends GUIElement implements Text {
          */
         this.setOffset(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
 
-        recalculateTexture();
+        recalculateMesh();
     }
 
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
          System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
-        recalculateTexture();
+        recalculateMesh();
     }
 
     @Override
     public void setText(String textData) {
         this.textData = textData;
-        recalculateTexture();
+        recalculateMesh();
     }
 
 
@@ -60,8 +60,10 @@ public class Label extends GUIElement implements Text {
     }
 
     @Override
-    protected void recalculateTexture() {
+    protected void recalculateMesh() {
         System.out.println("Label: generating a new mesh");
+        if (_meshUUID != null) {
+        }
     }
 
     @Override

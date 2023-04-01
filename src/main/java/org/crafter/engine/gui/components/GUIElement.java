@@ -11,7 +11,7 @@ import org.joml.Vector2f;
 public abstract class GUIElement {
     protected final String _name;
 
-    protected String _textureUUID = null;
+    protected String _meshUUID = null;
 
     protected OnStep _onStep = null;
     protected Click _click = null;
@@ -30,12 +30,12 @@ public abstract class GUIElement {
     }
 
 
-    String getTextureUUID() {
-        return _textureUUID;
+    String getMeshUUID() {
+        return _meshUUID;
     }
 
-    void setTextureUUID(String textureUUID) {
-        this._textureUUID = textureUUID;
+    void setMeshUUID(String meshUUID) {
+        this._meshUUID = meshUUID;
     }
 
     Vector2f alignment() {
@@ -130,7 +130,7 @@ public abstract class GUIElement {
 
     public abstract boolean collisionDetect();
 
-    protected abstract void recalculateTexture();
+    protected abstract void recalculateMesh();
 
     public abstract void internalOnStep();
 }
