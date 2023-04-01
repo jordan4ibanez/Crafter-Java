@@ -57,6 +57,8 @@ public class Main {
 
         Font.selectFont("mc");
 
+        Font.setShadowOffset(0.75f,0.75f);
+
         float rotation = 0.0f;
 
 
@@ -70,10 +72,8 @@ public class Main {
 
         GUIStorage.selectGUI("inGame");
 
-        GUIStorage.setFontSize("versionInfo", 32);
 
         while(!Window.shouldClose()) {
-
 
             rotation += 1;
 

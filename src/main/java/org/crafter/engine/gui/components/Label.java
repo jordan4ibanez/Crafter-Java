@@ -5,6 +5,7 @@ import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.Objects;
 
@@ -18,6 +19,8 @@ public class Label extends GUIElement implements Text {
     private float fontSize = 24.0f;
 
     private Vector2f textCentering;
+
+    private Vector3f color;
 
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
