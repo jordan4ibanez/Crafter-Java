@@ -318,19 +318,10 @@ public final class Font {
     }
 
     // This now gives you back a mesh UUID in the storage container
-    public static String grabText(float posX, float posY, final float fontSize, String text) {
-        return grabText(posX, posY, fontSize, text,true, true);
+    public static String grabText(final float fontSize, String text) {
+        return grabText(0,0,fontSize, text, true );
     }
-    public static String grabText(float posX, float posY, final float fontSize, String text, boolean rounding) {
-        return grabText(posX, posY, fontSize, text, rounding, true );
-    }
-    public static String grabText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
-
-        // Keep square pixels
-        if (rounding) {
-            posX = Math.round(posX);
-            posY = Math.round(posY);
-        }
+    private static String grabText(float posX, float posY, final float fontSize, String text, boolean returnMesh) {
 
         // Can't render if no font is selected
         if (currentFont == null) {
@@ -341,10 +332,6 @@ public final class Font {
         float typeWriterArmX = 0.0f;
         // Store how far the arm has moved down
         float typeWriterArmY = 0.0f;
-
-        // Top left of canvas is root position (X: 0, y: 0)
-        final float positionX = posX;
-        final float positionY = posY;
 
         // Cache spacing
         final float spacing = currentFont.spacing * fontSize;
@@ -401,9 +388,9 @@ public final class Font {
             // Shifting
             for (int i = 0; i < 8; i += 2) {
                 // Now shift right
-                rawVertex[i] += typeWriterArmX + positionX;
+                rawVertex[i] += typeWriterArmX + posX;
                 // Now shift down
-                rawVertex[i + 1] += typeWriterArmY + positionY;
+                rawVertex[i + 1] += typeWriterArmY + posY;
             }
 
             typeWriterArmX += (characterWidth * fontSize) + spacing;
@@ -458,10 +445,8 @@ public final class Font {
                         shadowColor[3]
                 );
             }
-            grabText(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false,false);
+            grabText((shadowOffsetX * fontSize), (shadowOffsetY * fontSize), fontSize, text, false);
 
-//            shadowOffsetX = 0.05f;
-//            shadowOffsetY = 0.05f;
         }
 
         // Turn this back on because it can become a confusing nightmare
@@ -470,7 +455,7 @@ public final class Font {
         switchShadowColor(0,0,0);
 
         // Now render it if told to do so
-        if (instantRender) {
+        if (returnMesh) {
             return generateMesh();
         }
 
