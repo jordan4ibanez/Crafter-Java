@@ -40,10 +40,7 @@ public class Label extends GUIElement implements Text {
         recalculate();
     }
 
-    @Override
-    protected void recalculate() {
-        System.out.println("Label: generating a new mesh");
-    }
+
 
     @Override
     public void render() {
@@ -55,5 +52,10 @@ public class Label extends GUIElement implements Text {
     public boolean collisionDetect() {
         // Does nothing
         return false;
+    }
+
+    @Override
+    protected void recalculate() {
+        System.out.println("Label: generating a new mesh");
     }
 }

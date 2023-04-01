@@ -27,10 +27,6 @@ public class Button extends GUIElement implements Text {
         recalculate();
     }
 
-    @Override
-    protected void recalculate() {
-        System.out.println("Button: generating a new mesh");
-    }
 
 
     @Override
@@ -43,6 +39,11 @@ public class Button extends GUIElement implements Text {
 
         // This needs a return
         return false;
+    }
+
+    @Override
+    protected void recalculate() {
+        System.out.println("Button: generating a new mesh");
     }
 
 }
