@@ -1,9 +1,11 @@
 package org.crafter.engine.gui.components;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
+import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -23,14 +25,16 @@ public class Label extends GUIElement implements Text {
 
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
-        this.setText(textData);
+
+        this.textData = textData;
         this.fontSize = fontSize;
 
         /**
          * Offset input is how far off it is from the root
          * Then required offset is an internal function that calls into the font library to find the text size so it stays locked to it's position
          */
-        this.setOffset(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
+
+        this._offset.set(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
 
         recalculateMesh();
     }
@@ -52,7 +56,7 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public void render() {
-//        System.out.println("rendering: " + this.name());
+        Camera.setGuiObjectMatrix(_renderPosition.x, _renderPosition.y);
         MeshStorage.render(this._meshUUID);
     }
 
@@ -76,6 +80,8 @@ public class Label extends GUIElement implements Text {
         String newUUID = Font.grabText(this.fontSize, this.textData);
 
         this._centeringVector.set(Font.getTextCenter(this.fontSize, this.textData));
+
+        System.out.println(_centeringVector.x + ", " + _centeringVector.y);
 
         this.setMeshUUID(newUUID);
     }
