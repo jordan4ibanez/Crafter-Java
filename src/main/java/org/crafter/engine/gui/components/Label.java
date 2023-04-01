@@ -15,6 +15,8 @@ public class Label extends GUIElement implements Text {
 
     private float fontSize = 24.0f;
 
+    private Vector2f textCentering;
+
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
         this.setText(textData);
@@ -43,6 +45,7 @@ public class Label extends GUIElement implements Text {
     }
 
 
+
     @Override
     public void render() {
 //        System.out.println("rendering: " + this.name());
@@ -51,6 +54,7 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public boolean collisionDetect() {
+        System.out.println("collision detection");
         // Does nothing
         return false;
     }
@@ -58,5 +62,10 @@ public class Label extends GUIElement implements Text {
     @Override
     protected void recalculateTexture() {
         System.out.println("Label: generating a new mesh");
+    }
+
+    @Override
+    public void internalOnStep() {
+        System.out.println("internal on step");
     }
 }

@@ -131,4 +131,6 @@ public abstract class GUIElement {
     public abstract boolean collisionDetect();
 
     protected abstract void recalculateTexture();
+
+    public abstract void internalOnStep();
 }

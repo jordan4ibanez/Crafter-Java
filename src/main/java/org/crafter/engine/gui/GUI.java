@@ -32,9 +32,17 @@ public class GUI {
     }
 
     public void doLogic() {
+        internalOnStep();
         onStep();
         collisionDetect();
         keyInput();
+    }
+
+    // This is what the class does on step, it's hardcoded
+    private void internalOnStep() {
+        for (GUIElement element : container.values()) {
+            element.internalOnStep();
+        }
     }
 
     // What the element does with no input

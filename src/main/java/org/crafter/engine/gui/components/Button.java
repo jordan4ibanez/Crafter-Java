@@ -5,6 +5,7 @@ import org.crafter.engine.gui.implementations.Text;
 
 public class Button extends GUIElement implements Text {
 
+    private Label text;
 
     private String textData = "";
 
@@ -46,6 +47,11 @@ public class Button extends GUIElement implements Text {
     @Override
     protected void recalculateTexture() {
         System.out.println("Button: generating a new mesh");
+    }
+
+    @Override
+    public void internalOnStep() {
+        System.out.println("internal on step");
     }
 
 }
