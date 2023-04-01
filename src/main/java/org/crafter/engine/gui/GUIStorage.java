@@ -35,6 +35,11 @@ public final class GUIStorage {
         selectedGUI = container.get(guiName);
     }
 
+    public static String getCurrentlyFocused() {
+        selectedGUINullCheck("getCurrentlyFocused");
+        return selectedGUI.getCurrentlyFocused();
+    }
+
     public static void setOffset(String elementName, Vector2f offset) {
         selectedGUINullCheck("setOffset");
         selectedGUI.setOffset(elementName, offset);

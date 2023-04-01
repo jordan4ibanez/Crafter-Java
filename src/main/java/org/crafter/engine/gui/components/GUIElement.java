@@ -11,6 +11,8 @@ import org.joml.Vector2f;
 public abstract class GUIElement {
     protected final String _name;
 
+    protected String _textureUUID = null;
+
     protected OnStep _onStep = null;
     protected Click _click = null;
     protected Hover _hover = null;
@@ -25,6 +27,15 @@ public abstract class GUIElement {
     protected GUIElement(String name, Alignment alignment) {
         this._name = name;
         this._alignment = alignment;
+    }
+
+
+    String getTextureUUID() {
+        return _textureUUID;
+    }
+
+    String setTextureUUID(String textureUUID) {
+        this._textureUUID = textureUUID;
     }
 
     Vector2f alignment() {

@@ -18,11 +18,17 @@ public class Button extends GUIElement implements Text {
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
+        recalculate();
     }
 
     @Override
     public void setText(String textData) {
         this.textData = textData;
+        recalculate();
+    }
+
+    private void recalculate() {
+        System.out.println("generating a new mesh");
     }
 
 

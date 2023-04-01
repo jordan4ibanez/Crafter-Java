@@ -32,12 +32,14 @@ public class Label extends GUIElement implements Text {
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
-        System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
+        // System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
+        recalculate();
     }
 
     @Override
     public void setText(String textData) {
-        this.textData
+        this.textData = textData;
+        recalculate();
     }
 
     private void recalculate() {
