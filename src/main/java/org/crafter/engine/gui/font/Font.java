@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.mesh.Mesh;
+import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.utility.RawTextureObject;
 import org.joml.*;
@@ -316,14 +317,14 @@ public final class Font {
         return input.replace(" ", "").replace("\n", "").length();
     }
 
-    // This now gives you back a mesh
-    public static Mesh grabText(float posX, float posY, final float fontSize, String text) {
+    // This now gives you back a mesh UUID in the storage container
+    public static String grabText(float posX, float posY, final float fontSize, String text) {
         return grabText(posX, posY, fontSize, text,true, true);
     }
-    public static Mesh grabText(float posX, float posY, final float fontSize, String text, boolean rounding) {
+    public static String grabText(float posX, float posY, final float fontSize, String text, boolean rounding) {
         return grabText(posX, posY, fontSize, text, rounding, true );
     }
-    public static Mesh grabText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
+    public static String grabText(float posX, float posY, final float fontSize, String text, boolean rounding, boolean instantRender) {
 
         // Keep square pixels
         if (rounding) {
@@ -479,9 +480,12 @@ public final class Font {
     // ^ v Keep these two next to each other, easier to understand
 
     /// Flushes out the cache, gives you back a font struct containing the raw data
-    private static Mesh generateMesh() {
-        Mesh tempObject = new Mesh(
-                null,
+    private static String generateMesh() {
+
+        String uuid = UUID.randomUUID().toString();
+
+        MeshStorage.newMesh(
+                uuid,
                 Arrays.copyOfRange(vertexCache, 0, vertexCount),
                 Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
                 Arrays.copyOfRange(indicesCache, 0, indicesCount),
@@ -489,6 +493,7 @@ public final class Font {
                 Arrays.copyOfRange(colorCache, 0, colorCount),
                 currentFont.fileLocation,
                 true
+
         );
 //        tempObject.render();
 //        tempObject.destroy();
@@ -499,7 +504,7 @@ public final class Font {
         colorCount = 0;
         chars = 0;
 
-        return tempObject;
+        return uuid;
     }
 
 
