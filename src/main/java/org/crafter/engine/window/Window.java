@@ -7,9 +7,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.KHRDebug;
 import org.lwjgl.system.Callback;
-import org.lwjgl.system.MemoryStack;
-
-import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -17,7 +14,6 @@ import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL14.*;
 import static org.lwjgl.opengl.GLUtil.setupDebugMessageCallback;
-import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
@@ -31,6 +27,8 @@ public final class Window {
 
     // The debugging process callbacks
     private static Callback debugCallback;
+
+    private static boolean _wasResized = false;
 
 
     private static final Vector3f clearColor = new Vector3f();
@@ -93,6 +91,7 @@ public final class Window {
         glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
             windowSize.x = width;
             windowSize.y = height;
+            _wasResized = true;
             glViewport(0,0, width, height);
         });
 
@@ -157,8 +156,13 @@ public final class Window {
         return glfwWindowShouldClose(window);
     }
 
+    public static boolean wasResized() {
+        return _wasResized;
+    }
+
     public static void swapBuffers() {
         glfwSwapBuffers(window);
+        _wasResized = false;
     }
 
     public static void pollEvents() {
