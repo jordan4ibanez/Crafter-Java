@@ -4,6 +4,7 @@ import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
+import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -17,8 +18,6 @@ public class Label extends GUIElement implements Text {
     private String textData = "";
 
     private float fontSize = 24.0f;
-
-    private Vector2f textCentering;
 
     private Vector3f color;
 
@@ -53,7 +52,7 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public void render() {
-        System.out.println("rendering: " + this.name());
+//        System.out.println("rendering: " + this.name());
         MeshStorage.render(this._meshUUID);
     }
 
@@ -74,7 +73,7 @@ public class Label extends GUIElement implements Text {
         Font.enableShadows();
         Font.switchColor(1,0,0);
 
-        //FIXME: This should not be asking for position!!
+
         String newUUID = Font.grabText(0,0, this.fontSize, this.textData);
 
         this.setMeshUUID(newUUID);
@@ -82,6 +81,8 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public void internalOnStep() {
-//        System.out.println("internal on step");
+        if (Window.wasResized()) {
+            System.out.println("Window was resized!");
+        }
     }
 }
