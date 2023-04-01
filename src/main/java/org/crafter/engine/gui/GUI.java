@@ -3,6 +3,7 @@ package org.crafter.engine.gui;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
+import org.joml.Vector2f;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +78,11 @@ public class GUI {
         for (GUIElement element : container.values()) {
             element.render();
         }
+    }
+
+    public void setOffset(String elementName, Vector2f offset) {
+        existenceCheck(elementName);
+        container.get(elementName).setOffset(offset);
     }
 
     public void setFontSize(String elementName, float fontSize) {

@@ -11,6 +11,8 @@ import java.util.Objects;
  */
 public class Label extends GUIElement implements Text {
 
+    private String textData = "";
+
     private float fontSize = 24.0f;
 
     private Vector2f offset;
@@ -35,7 +37,7 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public void setText(String textData) {
-
+        this.textData
     }
 
     private void recalculate() {

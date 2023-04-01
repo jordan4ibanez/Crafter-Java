@@ -6,9 +6,9 @@ import org.crafter.engine.gui.implementations.Text;
 public class Button extends GUIElement implements Text {
 
 
-    private String textData;
+    private String textData = "";
 
-    private float fontSize;
+    private float fontSize = 24.0f;
 
     public Button(String name, Alignment alignment) {
         super(name, alignment);

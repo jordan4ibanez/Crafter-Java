@@ -53,6 +53,7 @@ public abstract class GUIElement {
         return _collide;
     }
 
+    // Callbacks are only available on element creation
     public final GUIElement addOnStepCallback(OnStep onStep) {
         if (onStepable()) {
             throw new RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element (" + this._name + ")!");
@@ -80,6 +81,11 @@ public abstract class GUIElement {
         }
         this._keyInput = keyInput;
         return this;
+    }
+
+    public final void setOffset(Vector2f offset) {
+        this._offset.x = offset.x;
+        this._offset.y = offset.y;
     }
 
     public String name() {
