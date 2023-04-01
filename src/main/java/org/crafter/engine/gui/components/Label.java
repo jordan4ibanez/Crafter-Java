@@ -15,8 +15,6 @@ public class Label extends GUIElement implements Text {
 
     private float fontSize = 24.0f;
 
-    private Vector2f offset;
-
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
         this.setText(textData);
@@ -26,7 +24,7 @@ public class Label extends GUIElement implements Text {
          * Offset input is how far off it is from the root
          * Then required offset is an internal function that calls into the font library to find the text size so it stays locked to it's position
          */
-        this.offset = Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0));
+        this.setOffset(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
     }
 
     @Override
@@ -42,8 +40,9 @@ public class Label extends GUIElement implements Text {
         recalculate();
     }
 
-    private void recalculate() {
-        System.out.println("generating a new mesh");
+    @Override
+    protected void recalculate() {
+        System.out.println("Label: generating a new mesh");
     }
 
     @Override

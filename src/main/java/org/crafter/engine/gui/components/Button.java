@@ -27,8 +27,9 @@ public class Button extends GUIElement implements Text {
         recalculate();
     }
 
-    private void recalculate() {
-        System.out.println("generating a new mesh");
+    @Override
+    protected void recalculate() {
+        System.out.println("Button: generating a new mesh");
     }
 
 

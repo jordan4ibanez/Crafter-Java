@@ -22,7 +22,7 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    protected Vector2f _offset;
+    protected final Vector2f _offset = new Vector2f(0,0);
 
     protected GUIElement(String name, Alignment alignment) {
         this._name = name;
@@ -34,7 +34,7 @@ public abstract class GUIElement {
         return _textureUUID;
     }
 
-    String setTextureUUID(String textureUUID) {
+    void setTextureUUID(String textureUUID) {
         this._textureUUID = textureUUID;
     }
 
@@ -129,4 +129,6 @@ public abstract class GUIElement {
     public abstract void render();
 
     public abstract boolean collisionDetect();
+
+    protected abstract void recalculate();
 }
