@@ -25,21 +25,22 @@ public class Label extends GUIElement implements Text {
          * Then required offset is an internal function that calls into the font library to find the text size so it stays locked to it's position
          */
         this.setOffset(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
+
+        recalculateTexture();
     }
 
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
-        // System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
-        recalculate();
+         System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
+        recalculateTexture();
     }
 
     @Override
     public void setText(String textData) {
         this.textData = textData;
-        recalculate();
+        recalculateTexture();
     }
-
 
 
     @Override
@@ -55,7 +56,7 @@ public class Label extends GUIElement implements Text {
     }
 
     @Override
-    protected void recalculate() {
+    protected void recalculateTexture() {
         System.out.println("Label: generating a new mesh");
     }
 }
