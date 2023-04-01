@@ -1,7 +1,9 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
+import org.crafter.engine.mesh.MeshStorage;
 import org.joml.Vector2f;
 
 import java.util.Objects;
@@ -48,26 +50,35 @@ public class Label extends GUIElement implements Text {
 
     @Override
     public void render() {
-//        System.out.println("rendering: " + this.name());
-
+        System.out.println("rendering: " + this.name());
+        MeshStorage.render(this._meshUUID);
     }
 
     @Override
     public boolean collisionDetect() {
-        System.out.println("collision detection");
+//        System.out.println("collision detection");
         // Does nothing
         return false;
     }
 
     @Override
     protected void recalculateMesh() {
-        System.out.println("Label: generating a new mesh");
+//        System.out.println("Label: generating a new mesh");
         if (_meshUUID != null) {
+            MeshStorage.destroy(_meshUUID);
         }
+
+        Font.enableShadows();
+        Font.switchColor(1,0,0);
+
+        //FIXME: This should not be asking for position!!
+        String newUUID = Font.grabText(0,0, this.fontSize, this.textData);
+
+        this.setMeshUUID(newUUID);
     }
 
     @Override
     public void internalOnStep() {
-        System.out.println("internal on step");
+//        System.out.println("internal on step");
     }
 }

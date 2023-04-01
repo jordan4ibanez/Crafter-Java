@@ -1,5 +1,6 @@
 package org.crafter.engine.gui;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
@@ -88,7 +89,9 @@ public class GUI {
         // Fancy way to automate the gui instantiation in OpenGL
         Window.clearDepthBuffer();
         ShaderStorage.start("2d");
+        Camera.updateGuiCameraMatrix();
         for (GUIElement element : container.values()) {
+            Camera.setGuiObjectMatrix(0,0);
             element.render();
         }
     }
