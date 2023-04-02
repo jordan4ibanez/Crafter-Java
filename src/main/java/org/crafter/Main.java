@@ -2,7 +2,9 @@ package org.crafter;
 
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.components.Button;
+import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
@@ -70,6 +72,7 @@ public class Main {
                     .addGUIElement(
                             "buttonTest",
                             new Button("buttonTest","I am a button!", 52, Alignment.CENTER, null)
+                                    .addClickCallback((gui, element) -> System.out.println("click clack"))
                     )
                      .addGUIElement(
                              "sassyButton",
