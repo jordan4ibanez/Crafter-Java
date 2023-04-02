@@ -26,7 +26,7 @@ public class Label extends GUIElement implements Text {
 
     private final Vector3f shadowColor = new Vector3f(0,0,0);
 
-    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
+    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor) {
         super(name, alignment);
 
         this.textData = textData;
@@ -38,6 +38,14 @@ public class Label extends GUIElement implements Text {
          */
 
         this._offset.set(Objects.requireNonNullElseGet(offset, () -> new Vector2f(0, 0)));
+
+        if (foreGroundColor != null) {
+            this.foreGroundColor.set(foreGroundColor);
+        }
+
+        if (shadowColor != null) {
+            this.shadowColor.set(shadowColor);
+        }
 
         recalculateMesh();
     }
@@ -106,8 +114,7 @@ public class Label extends GUIElement implements Text {
 
     @Override
     protected void recalculatePosition() {
-        System.out.println(getCenteringVector().x + ", " + getCenteringVector().y);
         this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getCenteringVector().mul(_alignment.value())).add(offset()));
-        System.out.println("Recalculation!");
+        System.out.println("Label (" + this.name() + ") RENDER POSITION: " + _renderPosition.x + ", " + _renderPosition.y);
     }
 }
