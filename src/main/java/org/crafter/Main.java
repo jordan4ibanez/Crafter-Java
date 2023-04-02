@@ -71,7 +71,7 @@ public class Main {
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest","I am a button", 50, Alignment.CENTER, null, 3)
+                            new Button("buttonTest","I am a button", 50, Alignment.CENTER, null)
                     )
         );
 

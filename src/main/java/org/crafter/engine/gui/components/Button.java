@@ -7,17 +7,20 @@ import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 public class Button extends Text {
 
-    private float padding;
+    // We want these to be constant throughout the entire game, class members only
+
+    public static final float padding = 10.0f;
+    public static final float pixelEdge = 1.0f;
+    public static final float borderScale = 2.0f;
 
     private String buttonBackGroundTexture = null;
 
 
 
-    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset, float padding) {
+    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, textData, fontSize, alignment, offset);
 
         recalculateMesh();
@@ -45,11 +48,13 @@ public class Button extends Text {
             MeshStorage.destroy(buttonBackGroundTexture);
         }
 
-        buttonBackGroundTexture = ButtonMeshFactory.generateMesh();
+        Vector2f textSize = Font.getTextSize(this.fontSize, this.textData);
+
+        buttonBackGroundTexture = ButtonMeshFactory.generateMesh(textSize);
         _meshUUID = Font.grabText(this.fontSize, this.textData);
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
-        this.setSize(Font.getTextSize(this.fontSize, this.textData).add(new Vector2f(padding * 2)));
+        this.setSize(textSize.add(new Vector2f(padding * 2)));
 
         this.recalculatePosition();
     }
