@@ -10,8 +10,6 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 public class Main {
 
