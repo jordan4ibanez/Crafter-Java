@@ -9,7 +9,8 @@ public final class ButtonMeshFactory {
      * It's sole existence is to generate the mesh for the Button component.
      * This keeps the Button class clean as a whistle.
      */
-    public void generateMesh() {
+    public static String generateMesh() {
         System.out.println("todo");
+        return "test";
     }
 }
