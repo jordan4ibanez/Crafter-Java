@@ -3,6 +3,7 @@ package org.crafter.engine.gui.components;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.factories.ButtonMeshFactory;
 import org.crafter.engine.gui.implementations.Text;
+import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -11,9 +12,11 @@ public class Button extends Text {
 
     private float padding;
 
-    private final Vector2f size = new Vector2f(0,0);
+    private String buttonBackGroundTexture = null;
 
-    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor) {
+
+
+    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor, float padding) {
         super(name, textData, fontSize, alignment, offset);
 
         recalculateMesh();
@@ -34,6 +37,12 @@ public class Button extends Text {
 
     @Override
     protected void recalculateMesh() {
+        if (_meshUUID != null) {
+            MeshStorage.destroy(_meshUUID);
+        }
+        if (buttonBackGroundTexture != null) {
+            MeshStorage.destroy(buttonBackGroundTexture);
+        }
         ButtonMeshFactory.generateMesh();
     }
 
