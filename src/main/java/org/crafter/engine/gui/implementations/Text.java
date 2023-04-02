@@ -5,4 +5,8 @@ public interface Text {
     void setFontSize(float fontSize);
 
     void setText(String textData);
+
+    class TextData {
+
+    }
 }

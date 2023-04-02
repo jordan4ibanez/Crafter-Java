@@ -13,7 +13,8 @@ public enum Alignment {
 
     BOTTOM_LEFT(new Vector2f(0.0f,1.0f)),
     BOTTOM_CENTER(new Vector2f(0.5f,1.0f)),
-    BOTTOM_RIGHT(new Vector2f(1.0f,1.0f));
+    BOTTOM_RIGHT(new Vector2f(1.0f,1.0f)),
+    DEFAULT(TOP_LEFT.value());
 
     final Vector2f value;
 

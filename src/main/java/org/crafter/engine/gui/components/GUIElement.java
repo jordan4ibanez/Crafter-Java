@@ -30,6 +30,12 @@ public abstract class GUIElement {
     protected final Vector2f _renderPosition = new Vector2f(0,0);
 
     protected GUIElement(String name, Alignment alignment) {
+        if (name == null) {
+            throw new RuntimeException("GUIElement: name CANNOT be null!");
+        }
+        if (alignment == null) {
+            throw new RuntimeException("GUIElement: alignment CANNOT be null!");
+        }
         this._name = name;
         this._alignment = alignment;
     }
