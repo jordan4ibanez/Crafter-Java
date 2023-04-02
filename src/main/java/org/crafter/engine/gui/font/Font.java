@@ -421,24 +421,24 @@ public final class Font {
          * an infinite recursion, aka a stack overflow.
          */
 
-        final int textLength = getTextLength(text);
-        final int currentIndex = getCurrentCharacterIndex();
-
-        setColorRange(
-                currentIndex,
-                currentIndex + textLength,
-                shadowColor[0],
-                shadowColor[1],
-                shadowColor[2],
-                shadowColor[3]
-        );
-        grabText((shadowOffsetX * fontSize), (shadowOffsetY * fontSize), fontSize, text, false);
-
-        // Switch back to black because this also can become a confusing nightmare
-        switchShadowColor(0,0,0);
-
-        // Now render it if told to do so
         if (returnMesh) {
+            final int textLength = getTextLength(text);
+            final int currentIndex = getCurrentCharacterIndex();
+
+            setColorRange(
+                    currentIndex,
+                    currentIndex + textLength,
+                    shadowColor[0],
+                    shadowColor[1],
+                    shadowColor[2],
+                    shadowColor[3]
+            );
+            grabText((shadowOffsetX * fontSize), (shadowOffsetY * fontSize), fontSize, text, false);
+
+            switchShadowColor(0,0,0);
+
+            // Now render it if told to do so
+
             return generateMesh();
         }
 
