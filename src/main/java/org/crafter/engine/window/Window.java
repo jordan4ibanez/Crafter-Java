@@ -1,5 +1,6 @@
 package org.crafter.engine.window;
 
+import org.crafter.engine.controls.Mouse;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -86,6 +87,9 @@ public final class Window {
             System.out.println("Closing!");
             close();
         });
+
+        // Enable Mouse's static class
+        Mouse.initialize();
 
         // Fancy frame buffer callback - called when window is resized
         glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
@@ -246,5 +250,8 @@ public final class Window {
         glfwSetWindowShouldClose(window, true);
     }
 
-
+    // This is for internal usage only, to stop this class from becoming a MEGA class
+    public static long getWindowPointer() {
+        return window;
+    }
 }
