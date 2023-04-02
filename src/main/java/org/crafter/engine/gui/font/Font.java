@@ -64,10 +64,6 @@ public final class Font {
 
     private static final float[] shadowColor = new float[]{0,0,0,1};
 
-    private static boolean shadowsEnabled = false;
-
-    private static boolean shadowColoringEnabled = true;
-
     private static FontData currentFont = null;
 
     private static boolean fontLock = false;
@@ -152,13 +148,6 @@ public final class Font {
         fontLock = true;
     }
 
-    public static void disableShadowColoring() {
-        shadowColoringEnabled = false;
-    }
-    public static void enableShadows() {
-        shadowsEnabled = true;
-    }
-
     public static String getCurrentFontTextureFileLocation() {
         if (currentFont == null) {
             throw new RuntimeException("Font: Can't get a font file location! You didn't select one!");
@@ -174,10 +163,10 @@ public final class Font {
         return CHARACTER_LIMIT;
     }
 
+    public static void switchShadowColor(Vector3f c) {
+        switchShadowColor(c.x, c.y, c.z);
+    }
     public static void switchShadowColor(float r, float g, float b) {
-        if (shadowsEnabled) {
-
-        }
         switchShadowColor(r,g,b,1);
     }
     public static void switchShadowColor(float r, float g, float b, float a) {
@@ -192,6 +181,10 @@ public final class Font {
      * Be careful though, this overwrites the entire color cache
      * after the currently rendered character position in memory!
      */
+
+    public static void switchColor(Vector3f c) {
+        switchColor(c.x, c.y, c.z);
+    }
     public static void switchColor(float r, float g, float b) {
         switchColor(r,g,b,1);
     }
@@ -301,11 +294,8 @@ public final class Font {
         // Remove the last bit of spacing
         maxWidth -= spacing;
 
-        // Finally, if shadowing is enabled, add in shadowing offset
-        if (shadowsEnabled) {
-            maxWidth += (shadowOffsetX * fontSize);
-            currentHeight += (shadowOffsetY * fontSize);
-        }
+        maxWidth += (shadowOffsetX * fontSize);
+        currentHeight += (shadowOffsetY * fontSize);
 
         return new Vector2f(maxWidth, currentHeight);
     }
@@ -430,27 +420,20 @@ public final class Font {
          * We need to poll, THEN disable the shadow variable because without that it would be
          * an infinite recursion, aka a stack overflow.
          */
-        final boolean shadowsWereEnabled = shadowsEnabled;
-        shadowsEnabled = false;
-        if (shadowsWereEnabled) {
-            final int textLength = getTextLength(text);
-            final int currentIndex = getCurrentCharacterIndex();
-            if (shadowColoringEnabled) {
-                setColorRange(
-                        currentIndex,
-                        currentIndex + textLength,
-                        shadowColor[0],
-                        shadowColor[1],
-                        shadowColor[2],
-                        shadowColor[3]
-                );
-            }
-            grabText((shadowOffsetX * fontSize), (shadowOffsetY * fontSize), fontSize, text, false);
 
-        }
+        final int textLength = getTextLength(text);
+        final int currentIndex = getCurrentCharacterIndex();
 
-        // Turn this back on because it can become a confusing nightmare
-        shadowColoringEnabled = true;
+        setColorRange(
+                currentIndex,
+                currentIndex + textLength,
+                shadowColor[0],
+                shadowColor[1],
+                shadowColor[2],
+                shadowColor[3]
+        );
+        grabText((shadowOffsetX * fontSize), (shadowOffsetY * fontSize), fontSize, text, false);
+
         // Switch back to black because this also can become a confusing nightmare
         switchShadowColor(0,0,0);
 
