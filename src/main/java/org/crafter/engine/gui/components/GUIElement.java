@@ -22,8 +22,8 @@ public abstract class GUIElement {
 
     protected Alignment _alignment;
 
-    // Centering vector is the size of the element, so it can remain in its position with alignment
-    protected final Vector2f _centeringVector = new Vector2f(0,0);
+    // Size is the width and height of the element
+    protected final Vector2f _size = new Vector2f(0,0);
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
@@ -31,16 +31,16 @@ public abstract class GUIElement {
 
     protected GUIElement(String name, Alignment alignment, Vector2f offset) {
         if (name == null) {
-            throw new RuntimeException("GUIElement: name CANNOT be null!");
+            throw new RuntimeException("GUIElement : name CANNOT be null!");
         }
         if (alignment == null) {
-            throw new RuntimeException("GUIElement: alignment CANNOT be null!");
+            throw new RuntimeException("GUIElement(" + name + "): alignment CANNOT be null!");
         }
         /*
          * Offset input is how far off it is from the root alignment.
          */
         if (offset == null) {
-            throw new RuntimeException("GUIElement: offset CANNOT be null!");
+            throw new RuntimeException("GUIElement (" + name + "): offset CANNOT be null!");
         }
         this._name = name;
         this._alignment = alignment;
@@ -65,12 +65,12 @@ public abstract class GUIElement {
         return new Vector2f(_offset.x, -_offset.y);
     }
 
-    protected Vector2f getCenteringVector() {
-        return new Vector2f(_centeringVector);
+    protected Vector2f getSize() {
+        return new Vector2f(_size);
     }
 
-    protected void setCenteringVector(Vector2f newVector) {
-        this._centeringVector.set(newVector);
+    protected void setSize(Vector2f newVector) {
+        this._size.set(newVector);
     }
 
 
