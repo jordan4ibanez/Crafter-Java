@@ -29,7 +29,7 @@ public abstract class GUIElement {
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
-    protected final Vector2f _renderPosition = new Vector2f(0,0);
+    protected final Vector2f _position = new Vector2f(0,0);
 
     protected GUIElement(String name, Alignment alignment, Vector2f offset) {
         if (name == null) {

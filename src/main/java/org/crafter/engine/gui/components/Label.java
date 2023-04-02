@@ -7,7 +7,6 @@ import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 /**
  * Holds text data in memory.
@@ -22,7 +21,7 @@ public class Label extends Text {
 
     @Override
     public void render() {
-        Camera.setGuiObjectMatrix(_renderPosition.x, _renderPosition.y);
+        Camera.setGuiObjectMatrix(_position.x, _position.y);
         MeshStorage.render(this._meshUUID);
     }
 
@@ -58,7 +57,7 @@ public class Label extends Text {
 
     @Override
     protected void recalculatePosition() {
-        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Label (" + this.name() + ") RENDER POSITION: " + _renderPosition.x + ", " + _renderPosition.y);
+        this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
+        System.out.println("Label (" + this.name() + ") RENDER POSITION: " + _position.x + ", " + _position.y);
     }
 }

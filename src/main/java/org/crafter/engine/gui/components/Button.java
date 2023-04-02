@@ -69,8 +69,8 @@ public class Button extends Text {
 
     @Override
     protected void recalculatePosition() {
-        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Button (" + this.name() + ") RENDER POSITION: " + _renderPosition.x + ", " + _renderPosition.y);
+        this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
+        System.out.println("Button (" + this.name() + ") RENDER POSITION: " + _position.x + ", " + _position.y);
     }
 
 }
