@@ -42,22 +42,40 @@ public final class Mouse {
         int rightButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_RIGHT);
 
         if (leftButtonState == GLFW_PRESS) {
-            if (!leftWasHeld) {
-                leftClick = true;
-                System.out.println("left click!");
-            } else {
-                leftClick = false;
-            }
-            // Now disable click on next step
-            if (leftHeld) {
-                leftWasHeld = true;
-            }
             leftHeld = true;
+            leftClick = !leftWasHeld;
+            leftWasHeld = true;
+        } else if (leftButtonState == GLFW_RELEASE) {
+            leftClick = false;
+            leftHeld = false;
+            leftWasHeld = false;
         }
 
-
-
+        if (rightButtonState == GLFW_PRESS) {
+            rightHeld = true;
+            rightClick = !rightWasHeld;
+            rightWasHeld = true;
+        } else if (rightButtonState == GLFW_RELEASE) {
+            rightClick = false;
+            rightHeld = false;
+            rightWasHeld = false;
+        }
     }
+
+    public static boolean leftClick() {
+        return leftClick;
+    }
+    public static boolean rightClick() {
+        return rightClick;
+    }
+
+    public static boolean leftHeld() {
+        return leftHeld;
+    }
+    public static boolean rightHeld() {
+        return rightHeld;
+    }
+
 
     public static void capture() {
         glfwSetInputMode(Window.getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
