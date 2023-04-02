@@ -16,7 +16,7 @@ public class Button extends Text {
     public static final float pixelEdge = 1.0f;
     public static final float borderScale = 2.0f;
 
-    private String buttonBackGroundTexture = null;
+    private String buttonBackGroundMeshUUID = null;
 
 
 
@@ -44,13 +44,13 @@ public class Button extends Text {
         if (_meshUUID != null) {
             MeshStorage.destroy(_meshUUID);
         }
-        if (buttonBackGroundTexture != null) {
-            MeshStorage.destroy(buttonBackGroundTexture);
+        if (buttonBackGroundMeshUUID != null) {
+            MeshStorage.destroy(buttonBackGroundMeshUUID);
         }
 
         Vector2f textSize = Font.getTextSize(this.fontSize, this.textData);
 
-        buttonBackGroundTexture = ButtonMeshFactory.generateMesh(textSize);
+        buttonBackGroundMeshUUID = ButtonMeshFactory.generateMesh(textSize);
         _meshUUID = Font.grabText(this.fontSize, this.textData);
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y

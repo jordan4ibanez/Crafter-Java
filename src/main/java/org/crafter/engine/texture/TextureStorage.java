@@ -1,5 +1,6 @@
 package org.crafter.engine.texture;
 
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 import java.util.HashMap;
@@ -39,6 +40,12 @@ public final class TextureStorage {
     public static Vector2i getSize(String fileLocation) {
         checkExistence(fileLocation);
         return container.get(fileLocation).getSize();
+    }
+
+    // Get Vector2f(width, height) of texture - Useful for mapping
+    public static Vector2f getFloatingSize(String fileLocation) {
+        checkExistence(fileLocation);
+        return container.get(fileLocation).getFloatingSize();
     }
     
     // This shall ONLY be called after the main loop is finished!

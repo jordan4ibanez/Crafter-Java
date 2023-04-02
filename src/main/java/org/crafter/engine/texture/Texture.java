@@ -1,6 +1,7 @@
 package org.crafter.engine.texture;
 
 import org.crafter.engine.utility.RawTextureObject;
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.lwjgl.system.MemoryStack;
 
@@ -23,6 +24,8 @@ class Texture {
 
     private final Vector2i size;
 
+    private final Vector2f floatingSize;
+
     Texture (String fileLocation) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             this.name = fileLocation;
@@ -30,6 +33,7 @@ class Texture {
             RawTextureObject rawData = new RawTextureObject(fileLocation);
 
             size = new Vector2i(rawData.getWidth(), rawData.getHeight());
+            floatingSize = new Vector2f(rawData.getWidth(), rawData.getHeight());
 
             // Begin OpenGL upload
 
@@ -81,7 +85,11 @@ class Texture {
     }
 
     Vector2i getSize() {
-        return size;
+        return new Vector2i(size);
+    }
+
+    Vector2f getFloatingSize() {
+        return new Vector2f(floatingSize);
     }
 
     void destroy() {
