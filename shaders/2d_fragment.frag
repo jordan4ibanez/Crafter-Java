@@ -10,18 +10,29 @@ out vec4 fragColor;
 
 uniform sampler2D textureSampler;
 
+const bool isButton = false;
 
 void main() {
 
     vec4 pixelColor = texture(textureSampler, outputTextureCoordinate);
 
-    float alpha = newColoring.w < pixelColor.w ? newColoring.w : pixelColor.w;
+    vec4 rgba;
 
-    if (alpha <= 0.0) {
-         discard;
+
+    if (newColoring.x + newColoring.y + newColoring.z + newColoring.w == 0.0) {
+
+        rgba = pixelColor;
+
+    } else {
+
+        float alpha = newColoring.w < pixelColor.w ? newColoring.w : pixelColor.w;
+
+        if (alpha <= 0.0) {
+            discard;
+        }
+
+        rgba = vec4 (newColoring.x, newColoring.y, newColoring.z, alpha);
     }
-
-    vec4 rgba = vec4 (newColoring.x, newColoring.y, newColoring.z, alpha);
 
     fragColor = rgba;
 }
