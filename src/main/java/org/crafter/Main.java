@@ -35,7 +35,7 @@ public class Main {
         TextureStorage.createTexture("textures/button.png");
 
         Font.createFont("fonts/totally_original", "mc", true);
-        Font.setShadowOffset(0.9f,0.9f);
+        Font.setShadowOffset(0.75f,0.75f);
 
         MeshStorage.newMesh(
             "test",
@@ -71,8 +71,12 @@ public class Main {
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest","I am a button", 50, Alignment.CENTER, null)
+                            new Button("buttonTest","I am a button", 52, Alignment.CENTER, null)
                     )
+                     .addGUIElement(
+                             "sassyButton",
+                             new Button("sassyButton","Get your buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
+                     )
         );
 
         GUIStorage.selectGUI("inGame");

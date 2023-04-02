@@ -13,7 +13,7 @@ public class Button extends Text {
 
     // We want these to be constant throughout the entire game, class members only
 
-    public static final float padding = 10.0f;
+    public static final float padding = 16.0f;
     public static final float pixelEdge = 1.0f;
     public static final float borderScale = 2.0f;
 
@@ -31,6 +31,8 @@ public class Button extends Text {
 
     @Override
     public void render() {
+        Camera.setGuiObjectMatrix(_position.x + padding, _position.y + padding);
+        MeshStorage.render(this._meshUUID);
         Camera.setGuiObjectMatrix(_position.x, _position.y);
         MeshStorage.render(this.buttonBackGroundMeshUUID);
     }
