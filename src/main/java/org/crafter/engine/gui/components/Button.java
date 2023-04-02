@@ -1,19 +1,26 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.gui.factories.ButtonMeshFactory;
 import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.window.Window;
+import org.joml.Vector2f;
 
 public class Button extends GUIElement implements Text {
 
-    private Label text;
+    private Label text = null;
 
-    private String textData = "";
+    private float padding;
 
-    private float fontSize = 24.0f;
+    private final Vector2f size = new Vector2f(0,0);
 
-    public Button(String name, Alignment alignment) {
+    public Button(String name, Alignment alignment, Label text, int padding) {
         super(name, alignment);
+        if (text == null) {
+            throw new RuntimeException("Button: ERROR in (" + this.name() + ")! Text cannot be null!");
+        }
+        this.text = text;
+        this.padding = padding;
 
         recalculateMesh();
     }
@@ -21,13 +28,13 @@ public class Button extends GUIElement implements Text {
 
     @Override
     public void setFontSize(float fontSize) {
-        this.fontSize = fontSize;
+        this.text.setFontSize(fontSize);
         recalculateMesh();
     }
 
     @Override
     public void setText(String textData) {
-        this.textData = textData;
+        this.text.setText(textData);
         recalculateMesh();
     }
 
@@ -40,19 +47,17 @@ public class Button extends GUIElement implements Text {
 
     @Override
     public boolean collisionDetect() {
-
         // This needs a return
         return false;
     }
 
     @Override
     protected void recalculateMesh() {
-        System.out.println("Button: generating a new mesh");
+        ButtonMeshFactory.generateMesh();
     }
 
     @Override
     public void internalOnStep() {
-        System.out.println("internal on step");
         if (Window.wasResized()) {
             System.out.println("Button: Window resized!");
             recalculatePosition();
