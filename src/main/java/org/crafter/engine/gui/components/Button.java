@@ -1,5 +1,6 @@
 package org.crafter.engine.gui.components;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.factories.ButtonMeshFactory;
 import org.crafter.engine.gui.font.Font;
@@ -30,7 +31,8 @@ public class Button extends Text {
 
     @Override
     public void render() {
-
+        Camera.setGuiObjectMatrix(_position.x, _position.y);
+        MeshStorage.render(this.buttonBackGroundMeshUUID);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class Button extends Text {
     @Override
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Button (" + this.name() + ") RENDER POSITION: " + _position.x + ", " + _position.y);
+        System.out.println("Button (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 
 }
