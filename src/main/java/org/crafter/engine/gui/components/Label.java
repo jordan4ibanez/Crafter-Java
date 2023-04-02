@@ -9,8 +9,6 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import java.util.Objects;
-
 /**
  * Holds text data in memory.
  */
@@ -54,7 +52,7 @@ public class Label extends Text {
 
         String newUUID = Font.grabText(this.fontSize, this.textData);
 
-        setCenteringVector(Font.getTextSize(this.fontSize, this.textData));
+        setSize(Font.getTextSize(this.fontSize, this.textData));
 
         this.setMeshUUID(newUUID);
 
@@ -70,7 +68,7 @@ public class Label extends Text {
 
     @Override
     protected void recalculatePosition() {
-        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getCenteringVector().mul(_alignment.value())).add(offset()));
+        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
         System.out.println("Label (" + this.name() + ") RENDER POSITION: " + _renderPosition.x + ", " + _renderPosition.y);
     }
 }
