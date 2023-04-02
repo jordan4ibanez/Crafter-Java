@@ -48,7 +48,8 @@ public abstract class GUIElement {
     }
 
     Vector2f offset() {
-        return new Vector2f(_offset);
+        // I like to have +y be up when setting offset, so I made it like this
+        return new Vector2f(_offset.x, -_offset.y);
     }
 
     Vector2f getCenteringVector() {
