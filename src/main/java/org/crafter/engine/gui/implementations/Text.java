@@ -7,9 +7,9 @@ import org.joml.Vector3f;
 
 public abstract class Text extends GUIElement {
 
-    protected String textData = "";
+    protected String textData;
 
-    protected float fontSize = 24.0f;
+    protected float fontSize;
 
     protected final Vector3f foreGroundColor = new Vector3f(1,1,1);
 
