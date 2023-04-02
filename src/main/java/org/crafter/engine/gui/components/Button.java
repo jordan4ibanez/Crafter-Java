@@ -9,34 +9,13 @@ import org.joml.Vector3f;
 
 public class Button extends Text {
 
-    private String textData;
-
-    private float fontSize = 24.0f;
-
     private float padding;
-
-    private final Vector3f foreGroundColor = new Vector3f(1,1,1);
-
-    private final Vector3f shadowColor = new Vector3f(0,0,0);
 
     private final Vector2f size = new Vector2f(0,0);
 
-    public Button(String name,  String textData, float fontSize, Alignment alignment) {
-        super(name, textData, fontSize, alignment);
+    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor) {
+        super(name, textData, fontSize, alignment, offset);
 
-        recalculateMesh();
-    }
-
-
-    @Override
-    public void setFontSize(float fontSize) {
-        this.fontSize = fontSize;
-        recalculateMesh();
-    }
-
-    @Override
-    public void setText(String textData) {
-        this.textData = textData;
         recalculateMesh();
     }
 

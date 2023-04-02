@@ -29,15 +29,22 @@ public abstract class GUIElement {
 
     protected final Vector2f _renderPosition = new Vector2f(0,0);
 
-    protected GUIElement(String name, Alignment alignment) {
+    protected GUIElement(String name, Alignment alignment, Vector2f offset) {
         if (name == null) {
             throw new RuntimeException("GUIElement: name CANNOT be null!");
         }
         if (alignment == null) {
             throw new RuntimeException("GUIElement: alignment CANNOT be null!");
         }
+        /*
+         * Offset input is how far off it is from the root alignment.
+         */
+        if (offset == null) {
+            throw new RuntimeException("GUIElement: offset CANNOT be null!");
+        }
         this._name = name;
         this._alignment = alignment;
+        this._offset.set(offset);
     }
 
 
