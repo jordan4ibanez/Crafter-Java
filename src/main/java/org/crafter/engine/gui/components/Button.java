@@ -2,6 +2,7 @@ package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.implementations.Text;
+import org.crafter.engine.window.Window;
 
 public class Button extends GUIElement implements Text {
 
@@ -52,11 +53,15 @@ public class Button extends GUIElement implements Text {
     @Override
     public void internalOnStep() {
         System.out.println("internal on step");
+        if (Window.wasResized()) {
+            System.out.println("Button: Window resized!");
+            recalculatePosition();
+        }
     }
 
     @Override
     protected void recalculatePosition() {
-
+        System.out.println("recalculating");
     }
 
 }
