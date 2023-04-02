@@ -58,6 +58,6 @@ public class Label extends Text {
     @Override
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Label (" + this.name() + ") RENDER POSITION: " + _position.x + ", " + _position.y);
+        System.out.println("Label (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 }
