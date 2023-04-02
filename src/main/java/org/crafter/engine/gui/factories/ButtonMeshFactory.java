@@ -221,6 +221,8 @@ public final class ButtonMeshFactory {
                 32, 33, 34, 34, 35, 32
         };
 
+        float[] colors = new float[144];
+
         String uuid = UUID.randomUUID().toString();
 
         MeshStorage.newMesh(
@@ -229,7 +231,7 @@ public final class ButtonMeshFactory {
                 textureCoords,
                 indices,
                 null,
-                null,
+                colors,
                 "textures/button.png",
                 true
         );
