@@ -168,7 +168,7 @@ public final class Window {
     }
 
     public static void pollEvents() {
-        
+        // Remember: glfwPollEvents must go first, or everything else Mouse and Keyboard WILL break
         glfwPollEvents();
 
         Mouse.poll();
