@@ -12,7 +12,7 @@ public final class Keyboard {
     // Might need to make this a linked list, then reconstruct into array when polled, then clear
     private static char lastKey = '\0';
 
-    // This will need to warm up, but it will quickly build itself up to O(1) notation
+    // This will need to warm up, but it will quickly build itself down to O(1) notation
     private final static HashMap<Integer, Integer> keyInputMap = new HashMap<>();
 
     private Keyboard(){}
