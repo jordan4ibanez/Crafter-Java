@@ -8,6 +8,8 @@ import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
 
+import java.util.Objects;
+
 public abstract class GUIElement {
     protected final String _name;
 
@@ -33,18 +35,15 @@ public abstract class GUIElement {
         if (name == null) {
             throw new RuntimeException("GUIElement : name CANNOT be null!");
         }
-        if (alignment == null) {
-            throw new RuntimeException("GUIElement(" + name + "): alignment CANNOT be null!");
-        }
+        this._name = name;
+
+        _alignment = Objects.requireNonNullElse(alignment, Alignment.DEFAULT);
         /*
          * Offset input is how far off it is from the root alignment.
          */
-        if (offset == null) {
-            throw new RuntimeException("GUIElement (" + name + "): offset CANNOT be null!");
+        if (offset != null) {
+            _offset.set(offset);
         }
-        this._name = name;
-        this._alignment = alignment;
-        this._offset.set(offset);
     }
 
 

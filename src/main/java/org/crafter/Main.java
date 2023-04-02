@@ -69,11 +69,11 @@ public class Main {
              new GUI("inGame")
                     .addGUIElement(
                             "versionInfo",
-                            new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_LEFT, new Vector2f(0,0))
+                            new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_LEFT, null)
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest","I am a button", 50, Alignment.CENTER, new Vector2f(0,0), 3)
+                            new Button("buttonTest","I am a button", 50, Alignment.CENTER, null, 3)
                     )
         );
 
