@@ -23,7 +23,7 @@ public abstract class GUIElement {
     protected Alignment _alignment;
 
     // Centering vector is the size of the element, so it can remain in its position with alignment
-    private final Vector2f _centeringVector = new Vector2f(0,0);
+    protected final Vector2f _centeringVector = new Vector2f(0,0);
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
@@ -41,28 +41,28 @@ public abstract class GUIElement {
     }
 
 
-    String getMeshUUID() {
+    protected String getMeshUUID() {
         return _meshUUID;
     }
 
-    void setMeshUUID(String meshUUID) {
+    protected void setMeshUUID(String meshUUID) {
         this._meshUUID = meshUUID;
     }
 
-    Vector2f alignment() {
+    protected Vector2f alignment() {
         return new Vector2f(_alignment.value());
     }
 
-    Vector2f offset() {
+    protected Vector2f offset() {
         // I like to have +y be up when setting offset, so I made it like this
         return new Vector2f(_offset.x, -_offset.y);
     }
 
-    Vector2f getCenteringVector() {
+    protected Vector2f getCenteringVector() {
         return new Vector2f(_centeringVector);
     }
 
-    void setCenteringVector(Vector2f newVector) {
+    protected void setCenteringVector(Vector2f newVector) {
         this._centeringVector.set(newVector);
     }
 

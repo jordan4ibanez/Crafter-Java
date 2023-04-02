@@ -7,7 +7,7 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-public class Button extends GUIElement implements Text {
+public class Button extends Text {
 
     private String textData;
 
@@ -21,13 +21,8 @@ public class Button extends GUIElement implements Text {
 
     private final Vector2f size = new Vector2f(0,0);
 
-    public Button(String name, Alignment alignment, String text, int padding) {
-        super(name, alignment);
-        if (text == null) {
-            throw new RuntimeException("Button: ERROR in (" + this.name() + ")! Text cannot be null!");
-        }
-        this.textData = text;
-        this.padding = padding;
+    public Button(String name,  String textData, float fontSize, Alignment alignment) {
+        super(name, textData, fontSize, alignment);
 
         recalculateMesh();
     }
@@ -35,13 +30,13 @@ public class Button extends GUIElement implements Text {
 
     @Override
     public void setFontSize(float fontSize) {
-        this.text.setFontSize(fontSize);
+        this.fontSize = fontSize;
         recalculateMesh();
     }
 
     @Override
     public void setText(String textData) {
-        this.text.setText(textData);
+        this.textData = textData;
         recalculateMesh();
     }
 

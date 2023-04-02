@@ -16,18 +16,12 @@ import java.util.Objects;
 /**
  * Holds text data in memory.
  */
-public class Label extends GUIElement implements Text {
+public class Label extends Text {
 
-    private String textData = "";
 
-    private float fontSize = 24.0f;
-
-    private final Vector3f foreGroundColor = new Vector3f(1,1,1);
-
-    private final Vector3f shadowColor = new Vector3f(0,0,0);
 
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor) {
-        super(name, alignment);
+        super(name,  textData, fontSize, alignment);
 
         this.textData = textData;
         this.fontSize = fontSize;
