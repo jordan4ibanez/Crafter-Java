@@ -1,5 +1,6 @@
 package org.crafter.engine.window;
 
+import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -82,14 +83,11 @@ public final class Window {
             throw new RuntimeException("Window: Failed to create the GLFW window!");
         }
 
-        // Fancy key callback
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            System.out.println("Closing!");
-            close();
-        });
-
         // Enable Mouse's static class
         Mouse.initialize();
+
+        // Enable Keyboard's static class
+        Keyboard.initialize();
 
         // Fancy frame buffer callback - called when window is resized
         glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
