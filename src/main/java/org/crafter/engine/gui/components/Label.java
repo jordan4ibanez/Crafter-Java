@@ -42,6 +42,14 @@ public class Label extends GUIElement implements Text {
         recalculateMesh();
     }
 
+    public void setForeGroundColor(float r, float g, float b) {
+        this.foreGroundColor.set(r,g,b);
+    }
+
+    public void setShadowColor(float r, float b, float g) {
+        this.shadowColor.set(r,g,b);
+    }
+
     @Override
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
@@ -99,7 +107,7 @@ public class Label extends GUIElement implements Text {
     @Override
     protected void recalculatePosition() {
         System.out.println(getCenteringVector().x + ", " + getCenteringVector().y);
-        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getCenteringVector().mul(_alignment.value())));
+        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getCenteringVector().mul(_alignment.value())).add(offset()));
         System.out.println("Recalculation!");
     }
 }
