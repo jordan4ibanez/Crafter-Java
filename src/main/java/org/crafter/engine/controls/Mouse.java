@@ -36,7 +36,10 @@ public final class Mouse {
         });
     }
 
-    // This needs to be polled like this to simultaneously poll mouse button down & held
+    /**
+     * This needs to be polled like this to simultaneously poll mouse button down & held.
+     * This is automatically called in Window.pollEvents()
+     */
     public static void poll() {
         int leftButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_LEFT);
         int rightButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_RIGHT);
