@@ -55,6 +55,9 @@ public class Button extends Text {
         Vector2f textSize = Font.getTextSize(this.fontSize, this.textData);
 
         buttonBackGroundMeshUUID = ButtonMeshFactory.generateMesh(textSize);
+
+        Font.switchColor(foreGroundColor);
+        Font.switchShadowColor(shadowColor);
         _meshUUID = Font.grabText(this.fontSize, this.textData);
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
