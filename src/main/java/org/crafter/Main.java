@@ -32,8 +32,11 @@ public class Main {
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
 
         TextureStorage.createTexture("textures/debug.png");
+        TextureStorage.createTexture("textures/button.png");
 
         Font.createFont("fonts/totally_original", "mc", true);
+        Font.selectFont("mc");
+        Font.setShadowOffset(0.9f,0.9f);
 
         MeshStorage.newMesh(
             "test",
@@ -57,10 +60,6 @@ public class Main {
         );
 
         Window.setClearColor(0.75f);
-
-        Font.selectFont("mc");
-
-        Font.setShadowOffset(0.9f,0.9f);
 
         float rotation = 0.0f;
 
