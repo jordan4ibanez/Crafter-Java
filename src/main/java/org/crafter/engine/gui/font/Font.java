@@ -59,6 +59,8 @@ public final class Font {
             2,3,0
     };
 
+    private static boolean firstFont = true;
+
     private static float shadowOffsetX = 0.05f;
     private static float shadowOffsetY = 0.05f;
 
@@ -130,6 +132,12 @@ public final class Font {
 
         // Finally add it into the library
         fonts.put(name, fontObject);
+
+        // If it's the first font, automatically select it
+        if (firstFont) {
+            selectFont(name);
+            firstFont = false;
+        }
     }
 
     public static void selectFont(String font) {

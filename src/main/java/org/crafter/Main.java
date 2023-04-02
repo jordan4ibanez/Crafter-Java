@@ -35,7 +35,6 @@ public class Main {
         TextureStorage.createTexture("textures/button.png");
 
         Font.createFont("fonts/totally_original", "mc", true);
-        Font.selectFont("mc");
         Font.setShadowOffset(0.9f,0.9f);
 
         MeshStorage.newMesh(
