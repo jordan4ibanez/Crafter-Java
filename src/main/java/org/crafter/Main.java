@@ -57,7 +57,7 @@ public class Main {
 
         Font.selectFont("mc");
 
-        Font.setShadowOffset(0.75f,0.75f);
+        Font.setShadowOffset(0.9f,0.9f);
 
         float rotation = 0.0f;
 
@@ -66,7 +66,7 @@ public class Main {
              new GUI("inGame")
                 .addGUIElement(
                         "versionInfo",
-                        new Label("versionInfo", VERSION_INFO, 30, Alignment.TOP_LEFT, null)
+                        new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_RIGHT, null)
                 )
         );
 

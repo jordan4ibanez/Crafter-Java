@@ -23,7 +23,7 @@ public abstract class GUIElement {
     protected Alignment _alignment;
 
     // Centering vector is the size of the element, so it can remain in its position with alignment
-    protected final Vector2f _centeringVector = new Vector2f(0,0);
+    private final Vector2f _centeringVector = new Vector2f(0,0);
 
     protected final Vector2f _offset = new Vector2f(0,0);
 
@@ -50,6 +50,16 @@ public abstract class GUIElement {
     Vector2f offset() {
         return new Vector2f(_offset);
     }
+
+    Vector2f getCenteringVector() {
+        return new Vector2f(_centeringVector);
+    }
+
+    void setCenteringVector(Vector2f newVector) {
+        this._centeringVector.set(newVector);
+    }
+
+
 
     public final boolean onStepable() {
         return _onStep != null;

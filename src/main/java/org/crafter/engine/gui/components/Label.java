@@ -8,6 +8,7 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 import java.util.Objects;
@@ -21,7 +22,9 @@ public class Label extends GUIElement implements Text {
 
     private float fontSize = 24.0f;
 
-    private Vector3f color;
+    private final Vector3f foreGroundColor = new Vector3f(1,1,1);
+
+    private final Vector3f shadowColor = new Vector3f(0,0,0);
 
     public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, alignment);
@@ -74,12 +77,12 @@ public class Label extends GUIElement implements Text {
             MeshStorage.destroy(_meshUUID);
         }
 
-        Font.enableShadows();
-        Font.switchColor(1,0,0);
+        Font.switchColor(foreGroundColor);
+        Font.switchShadowColor(shadowColor);
 
         String newUUID = Font.grabText(this.fontSize, this.textData);
 
-        this._centeringVector.set(Font.getTextCenter(this.fontSize, this.textData));
+        setCenteringVector(Font.getTextSize(this.fontSize, this.textData));
 
         this.setMeshUUID(newUUID);
 
@@ -95,8 +98,8 @@ public class Label extends GUIElement implements Text {
 
     @Override
     protected void recalculatePosition() {
-
-        Window.getWindowCenter().sub(_centeringVector.x / 2.0f, _centeringVector.y / 2.0f);
+        System.out.println(getCenteringVector().x + ", " + getCenteringVector().y);
+        this._renderPosition.set(_alignment.value().mul(Window.getWindowSize()).sub(getCenteringVector().mul(_alignment.value())));
         System.out.println("Recalculation!");
     }
 }

@@ -178,8 +178,8 @@ public final class Window {
         */
     }
 
-    public static Vector2i getWindowSize() {
-        return new Vector2i(windowSize);
+    public static Vector2f getWindowSize() {
+        return new Vector2f(windowSize);
     }
 
     /**
