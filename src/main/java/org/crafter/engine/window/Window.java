@@ -168,9 +168,12 @@ public final class Window {
     }
 
     public static void pollEvents() {
+        
         glfwPollEvents();
 
         Mouse.poll();
+
+        Keyboard.pollQuitHack();
 
         // Integrate the clearing of the frame buffer in here because otherwise it gets messy
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -30,6 +30,15 @@ public final class Keyboard {
         });
     }
 
+    /**
+     * (FIXME) Remember: Remove this
+     */
+    public static void pollQuitHack() {
+        if (isKeyDown(GLFW_KEY_ESCAPE)) {
+            Window.close();
+        }
+    }
+
     public static boolean hasTyped() {
         return lastKey != '\0';
     }
