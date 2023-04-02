@@ -71,11 +71,11 @@ public class Main {
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest","I am a button", 52, Alignment.CENTER, null)
+                            new Button("buttonTest","I am a button!", 52, Alignment.CENTER, null)
                     )
                      .addGUIElement(
                              "sassyButton",
-                             new Button("sassyButton","Get your buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
+                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
                      )
         );
 
