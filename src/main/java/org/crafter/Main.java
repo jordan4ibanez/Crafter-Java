@@ -2,6 +2,7 @@ package org.crafter;
 
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
@@ -10,6 +11,7 @@ import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public class Main {
 
@@ -65,19 +67,14 @@ public class Main {
 
         GUIStorage.addGUI("inGame",
              new GUI("inGame")
-//                .addGUIElement(
-//                        "versionInfo",
-//                        new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_RIGHT, null)
-//                )
-                     .addGUIElement("1", new Label("1", "O", 40, Alignment.TOP_LEFT, new Vector2f(0,0)))
-                     .addGUIElement("2", new Label("2", "M", 40, Alignment.TOP_CENTER, new Vector2f(0,0)))
-                     .addGUIElement("3", new Label("3", "G", 40, Alignment.TOP_RIGHT, new Vector2f(0,0)))
-                     .addGUIElement("4", new Label("4", "It", 40, Alignment.CENTER_LEFT, new Vector2f(0,0)))
-                     .addGUIElement("5", new Label("5", "actually", 40, Alignment.CENTER, new Vector2f(0,0)))
-                     .addGUIElement("6", new Label("6", "works!", 40, Alignment.CENTER_RIGHT, new Vector2f(0,0)))
-                     .addGUIElement("7", new Label("7", "I can't", 40, Alignment.BOTTOM_LEFT, new Vector2f(0,0)))
-                     .addGUIElement("8", new Label("8", "believe", 40, Alignment.BOTTOM_CENTER, new Vector2f(0,0)))
-                     .addGUIElement("9", new Label("9", "it!", 40, Alignment.BOTTOM_RIGHT, new Vector2f(0,0)))
+                    .addGUIElement(
+                            "versionInfo",
+                            new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_LEFT, null, null, null)
+                    )
+                    .addGUIElement(
+                            "buttonTest",
+                            new Button("buttonTest",Alignment.CENTER)
+                    )
         );
 
         GUIStorage.selectGUI("inGame");
