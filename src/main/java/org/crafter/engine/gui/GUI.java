@@ -158,7 +158,7 @@ public class GUI {
     }
     private void checkDuplicates(String elementName) {
         if (container.containsKey(elementName)) {
-            throw new RuntimeException("GUI: ERROR! Tried to add in element (" + elementName + ") more than once in GUI (" + name + "!");
+            throw new RuntimeException("GUI: ERROR! Tried to add in element (" + elementName + ") more than once in GUI (" + name + ")!");
         }
     }
 
