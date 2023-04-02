@@ -14,16 +14,8 @@ import org.joml.Vector3f;
  */
 public class Label extends Text {
 
-    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset, Vector3f foreGroundColor, Vector3f shadowColor) {
+    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name,  textData, fontSize, alignment, offset);
-
-        if (foreGroundColor != null) {
-            this.foreGroundColor.set(foreGroundColor);
-        }
-
-        if (shadowColor != null) {
-            this.shadowColor.set(shadowColor);
-        }
 
         recalculateMesh();
     }
@@ -50,11 +42,9 @@ public class Label extends Text {
         Font.switchColor(foreGroundColor);
         Font.switchShadowColor(shadowColor);
 
-        String newUUID = Font.grabText(this.fontSize, this.textData);
+        this.setMeshUUID(Font.grabText(this.fontSize, this.textData));
 
-        setSize(Font.getTextSize(this.fontSize, this.textData));
-
-        this.setMeshUUID(newUUID);
+        this.setSize(Font.getTextSize(this.fontSize, this.textData));
 
         this.recalculatePosition();
     }
