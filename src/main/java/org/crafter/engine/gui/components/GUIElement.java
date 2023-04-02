@@ -7,6 +7,7 @@ import org.crafter.engine.gui.actions.KeyInput;
 import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 import java.util.Objects;
 
@@ -156,7 +157,7 @@ public abstract class GUIElement {
 
     public abstract void render();
 
-    public abstract boolean collisionDetect();
+    public abstract boolean collisionDetect(Vector2fc mousePosition);
 
     protected abstract void recalculateMesh();
 
@@ -164,4 +165,10 @@ public abstract class GUIElement {
 
     // Enforce recalculation, it's very important to keep gui elements in correct position
     protected abstract void recalculatePosition();
+
+    // Internal point calculation, specifically for mouse. Class member. Utilizes stack.
+    protected static boolean pointCollisionDetect(float pointX, float pointY, float posX, float posY, float width, float height) {
+        return  pointX >= posX &&
+                pointX <= posX + width;
+    }
 }

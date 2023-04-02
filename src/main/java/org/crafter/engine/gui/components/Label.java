@@ -7,6 +7,7 @@ import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 /**
  * Holds text data in memory.
@@ -26,7 +27,7 @@ public class Label extends Text {
     }
 
     @Override
-    public boolean collisionDetect() {
+    public boolean collisionDetect(Vector2fc mousePosition) {
         // Does nothing
         return false;
     }

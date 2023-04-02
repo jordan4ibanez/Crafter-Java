@@ -1,12 +1,14 @@
 package org.crafter.engine.gui;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,13 +62,16 @@ public class GUI {
     // What the element does with mouse input
     private void collisionDetect() {
 
-//        System.out.println("GUI: Still needs the static mouse class to pass in it's click data!");
-        // FIXME: USE THE MOUSE CLASS HERE
-        boolean mouseClicked = false;
+        boolean mouseClicked = Mouse.leftClick();
+        Vector2fc mousePosition = Mouse.getPosition();
+
+        if (mouseClicked) {
+            System.out.println("mouse clicked: " + mouseClicked);
+        }
 
         for (GUIElement element : container.values()) {
             if (element.collideable()) {
-                if (element.collisionDetect()) {
+                if (element.collisionDetect(mousePosition)) {
                     if (mouseClicked) {
                         element.onClick(this);
                     } else {

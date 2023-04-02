@@ -3,6 +3,7 @@ package org.crafter.engine.gui.implementations;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 public abstract class Text extends GUIElement {
@@ -45,7 +46,7 @@ public abstract class Text extends GUIElement {
         recalculateMesh();
     }
 
-    public abstract boolean collisionDetect();
+    public abstract boolean collisionDetect(Vector2fc mousePosition);
 
     protected abstract void recalculateMesh();
 }

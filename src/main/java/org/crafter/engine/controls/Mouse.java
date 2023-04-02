@@ -2,6 +2,7 @@ package org.crafter.engine.controls;
 
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -77,6 +78,10 @@ public final class Mouse {
     }
     public static boolean rightHeld() {
         return rightHeld;
+    }
+
+    public static Vector2fc getPosition() {
+        return position;
     }
 
 

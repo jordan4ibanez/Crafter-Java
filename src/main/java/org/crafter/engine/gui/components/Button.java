@@ -8,6 +8,7 @@ import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 
 public class Button extends Text {
 
@@ -23,10 +24,10 @@ public class Button extends Text {
 
     public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, textData, fontSize, alignment, offset);
+        this._collide = true;
 
         recalculateMesh();
     }
-
 
 
     @Override
@@ -38,9 +39,10 @@ public class Button extends Text {
     }
 
     @Override
-    public boolean collisionDetect() {
+    public boolean collisionDetect(Vector2fc mousePosition) {
         // This needs a return
-        return false;
+        // System.out.println("size: " + this._size.x + ", " + this._size.y);
+        return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
     }
 
     @Override
