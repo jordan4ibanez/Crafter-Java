@@ -73,7 +73,7 @@ public class Main {
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest",Alignment.CENTER)
+                            new Button("buttonTest", Alignment.CENTER, new Label("TestButton", "I am a button", 40, null, null, null, null),  5)
                     )
         );
 
