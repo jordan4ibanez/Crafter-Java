@@ -6,12 +6,16 @@ import org.crafter.engine.gui.actions.Hover;
 import org.crafter.engine.gui.actions.KeyInput;
 import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
 import java.util.Objects;
 
 public abstract class GUIElement {
+
+    private final static Vector2f guiScale = new Vector2f(1,1);
+
     protected final String _name;
 
     protected String _meshUUID = null;
@@ -45,6 +49,12 @@ public abstract class GUIElement {
         if (offset != null) {
             _offset.set(offset);
         }
+    }
+
+    private static void recalculateGUIScale() {
+        Vector2fc test = Window.getWindowSize();
+        System.out.println(test.x() + " " + test.y());
+
     }
 
 
