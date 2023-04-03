@@ -2,6 +2,7 @@ package org.crafter.engine.window;
 
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
+import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.components.GUIElement;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -171,7 +172,8 @@ public final class Window {
     }
 
     public static void pollEvents() {
-        // Remember: glfwPollEvents must go first, or everything else Mouse and Keyboard WILL break (order of operations)
+        Delta.calculateDelta();
+        // Remember: glfwPollEvents must go first before other calls, or everything else Mouse and Keyboard WILL break (order of operations)
         glfwPollEvents();
 
         Mouse.poll();
