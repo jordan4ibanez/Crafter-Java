@@ -32,4 +32,8 @@ public enum Alignment {
     public float getY() {
         return this.value.y;
     }
+
+    public static Alignment[] asArray() {
+        return new Alignment[]{TOP_LEFT, TOP_CENTER, TOP_RIGHT, CENTER_LEFT, CENTER, CENTER_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT};
+    }
 }
