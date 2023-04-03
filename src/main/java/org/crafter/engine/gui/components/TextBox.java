@@ -50,8 +50,8 @@ public class TextBox extends Text {
     private boolean wasFocused = false;
 
 
-    public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
-        super(name, "", fontSize, alignment, offset);
+    public TextBox(String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
+        super("", fontSize, alignment, offset);
         this._collide = true;
         this.placeHolderText = placeHolderText;
         this.boxWidth = boxWidth;

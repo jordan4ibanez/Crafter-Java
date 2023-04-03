@@ -22,8 +22,8 @@ public class Button extends Text {
 
 
 
-    public Button(String name,  String textData, float fontSize, Alignment alignment, Vector2f offset) {
-        super(name, textData, fontSize, alignment, offset);
+    public Button(String textData, float fontSize, Alignment alignment, Vector2f offset) {
+        super(textData, fontSize, alignment, offset);
         this._collide = true;
 
         recalculateMesh();

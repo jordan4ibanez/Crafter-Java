@@ -15,8 +15,8 @@ import org.joml.Vector2fc;
  */
 public class Label extends Text {
 
-    public Label(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
-        super(name,  textData, fontSize, alignment, offset);
+    public Label(String textData, float fontSize, Alignment alignment, Vector2f offset) {
+        super(textData, fontSize, alignment, offset);
 
         recalculateMesh();
     }
