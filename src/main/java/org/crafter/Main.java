@@ -28,6 +28,7 @@ public class Main {
     private static final String VERSION = "v0.0.0";
 
     private static final String VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION;
+
     public static void main(String[] args) {
 
         Window.initialize();
@@ -38,11 +39,7 @@ public class Main {
 
         ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
-
-        TextureStorage.createTexture("textures/debug.png");
-        TextureStorage.createTexture("textures/button.png");
-        TextureStorage.createTexture("textures/text_box.png");
-
+        
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
 
