@@ -13,6 +13,8 @@ import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
 import org.joml.Vector2f;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
@@ -91,26 +93,23 @@ public class Main {
 
                                              int gotten = index.get();
 
-//                                             System.out.println("adding: index" + gotten);
+                                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm");
+                                             LocalDateTime timeStampRaw = LocalDateTime.now();
+                                             String timeStamp = formatter.format(timeStampRaw);
+
+                                             String playerText = "(" + timeStamp + ") Player: " + textData;
 
                                              GUIStorage.addElement("inGame", "index" + gotten, new Label(
                                                      "index" + gotten,
-                                                     "Player: " + textData,
+                                                     playerText,
                                                      32,
                                                      Alignment.BOTTOM_LEFT,
                                                      new Vector2f(0, 60)
                                              ));
 
-                                             System.out.println("gotten:" + gotten);
-
                                              for (int i = 0; i <= gotten; i++) {
                                                  int multiplier = gotten - i;
-
-                                                 System.out.println("multi: " + multiplier);
-
                                                  GUIStorage.setOffset("index" + i, new Vector2f(0, (multiplier + 2) * 60));
-
-//                                                 GUIStorage.setAlignment("index" + i, Alignment.CENTER);
                                              }
 
                                              index.getAndIncrement();
