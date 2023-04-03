@@ -15,9 +15,7 @@ public final class FramedMeshFactory {
     private static final Vector2f size = new Vector2f(0,0);
 
     // This gets auto initialized
-    private static Vector2f buttonTextureSize = null;
-
-    private static final HashMap<String, Vector2f> textureMaps = new HashMap<>();
+    private static final HashMap<String, Vector2fc> textureSizes = new HashMap<>();
 
     private FramedMeshFactory(){}
 
@@ -27,7 +25,7 @@ public final class FramedMeshFactory {
      * This keeps the Button class clean as a whistle.
      * Note: The comments are from the original D project.
      */
-    public static String generateMesh(Vector2fc textSize, final float padding, final float pixelEdge, final float borderScale) {
+    public static String generateMesh(Vector2fc textSize, final float padding, final float pixelEdge, final float borderScale, final String texturePath) {
         // Pixel padding between the edge of the button texture, and the text texture
 //        final float padding = Button.getPadding();
 
@@ -43,14 +41,17 @@ public final class FramedMeshFactory {
                 textSize.y() + (padding * 2)
         );
 
+        Vector2fc buttonTextureSize = textureSizes.get(texturePath);
         // Auto initialize
         if (buttonTextureSize == null) {
             buttonTextureSize = TextureStorage.getFloatingSize("textures/button.png");
+
+            textureSizes.put(texturePath, buttonTextureSize);
         }
 
         // We're going to use the height to create the consistent layout
 
-        float centerBorder = (size.y / buttonTextureSize.y) * pixelEdge * borderScale;
+        float centerBorder = (size.y / buttonTextureSize.y()) * pixelEdge * borderScale;
 
         /*
          This is each point on the horizontal 1d array of the button background.
@@ -142,10 +143,10 @@ public final class FramedMeshFactory {
          */
 
         //                                            0     1                                2                                                        3
-        final float[] horizontalTexture = new float[]{0.0f, pixelEdge / buttonTextureSize.x, (buttonTextureSize.x - pixelEdge) / buttonTextureSize.x, 1.0f};
+        final float[] horizontalTexture = new float[]{0.0f, pixelEdge / buttonTextureSize.x(), (buttonTextureSize.x() - pixelEdge) / buttonTextureSize.x(), 1.0f};
 
         //                                          0     1                                2                                                        3
-        final float[] verticalTexture = new float[]{0.0f, pixelEdge / buttonTextureSize.y, (buttonTextureSize.y - pixelEdge) / buttonTextureSize.y, 1.0f};
+        final float[] verticalTexture = new float[]{0.0f, pixelEdge / buttonTextureSize.y(), (buttonTextureSize.y() - pixelEdge) / buttonTextureSize.y(), 1.0f};
 
         final float[] textureCoords = new float[]{
                 // Top left
