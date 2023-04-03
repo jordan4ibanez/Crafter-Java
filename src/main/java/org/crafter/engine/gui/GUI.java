@@ -11,8 +11,6 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
