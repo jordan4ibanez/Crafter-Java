@@ -70,13 +70,15 @@ public class TextBox extends Text {
         if (cursorTimer >= 0.25) {
             cursorTimer = 0.0f;
             cursorBlink = !cursorBlink;
+            recalculateText();
         }
+
         if (Keyboard.hasTyped()) {
 
             textData += Keyboard.getLastInput();
 
             float textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
-            while (textWidth > (boxWidth * getGuiScale()) - (getPadding() * 2)) {
+            while (textWidth > (boxWidth * getGuiScale())) {
                 entryCursorPosition++;
                 textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
             }
@@ -112,13 +114,33 @@ public class TextBox extends Text {
 
     private void backspaceTrim() {
         textData = textData.substring(0, textData.length() - 1);
-        if (entryCursorPosition > 0) {
+
+        boolean hit = false;
+        float textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
+        while (textWidth > (boxWidth * getGuiScale())) {
+            if (entryCursorPosition <= 0) {
+                break;
+            }
+            hit = true;
+            entryCursorPosition--;
+            textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
+        }
+        if (entryCursorPosition <= 0) {
+            return;
+        }
+        if (!hit) {
             entryCursorPosition--;
         }
     }
 
     private String getTextWithCursorPos(){
-        return textData.substring(entryCursorPosition);
+        String manipulationString = textData.substring(entryCursorPosition);
+        if (cursorBlink) {
+            manipulationString += "_";
+        } else {
+            manipulationString += " ";
+        }
+        return manipulationString;
     }
 
     @Override
