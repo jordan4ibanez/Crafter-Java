@@ -1,5 +1,6 @@
 package org.crafter.engine.gui;
 
+import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
 
 import java.util.HashMap;
@@ -43,6 +44,11 @@ public final class GUIStorage {
     public static void setOffset(String elementName, Vector2f offset) {
         selectedGUINullCheck("setOffset");
         selectedGUI.setOffset(elementName, offset);
+    }
+
+    public static void setAlignment(String elementName, Alignment alignment) {
+        selectedGUINullCheck("setAlignment");
+        selectedGUI.setAlignment(elementName, alignment);
     }
 
     public static void setFontSize(String elementName, float fontSize) {

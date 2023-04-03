@@ -128,6 +128,10 @@ public abstract class GUIElement {
         this._offset.y = offset.y;
     }
 
+    public final void setAlignment(Alignment alignment) {
+        this._alignment = alignment;
+    }
+
     public String name() {
         return _name;
     }

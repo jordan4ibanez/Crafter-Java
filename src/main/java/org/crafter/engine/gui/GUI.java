@@ -5,6 +5,7 @@ import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.Label;
+import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
@@ -100,6 +101,11 @@ public class GUI {
     public void setOffset(String elementName, Vector2f offset) {
         existenceCheck(elementName);
         container.get(elementName).setOffset(offset);
+    }
+
+    public void setAlignment(String elementName, Alignment alignment) {
+        existenceCheck(elementName);
+        container.get(elementName).setAlignment(alignment);
     }
 
     public void setFontSize(String elementName, float fontSize) {
