@@ -35,6 +35,12 @@ public class TextBox extends Text {
     private float repeatTimer = 0.0f;
     private boolean repeating = false;
 
+    // How far into the sentence the output of the textData is in the box
+    private int entryCursorPosition = 0;
+
+    private boolean cursorBlink = true;
+    private float cursorTimer = 0.0f;
+
 
     public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
         super(name, "", fontSize, alignment, offset);
@@ -60,9 +66,20 @@ public class TextBox extends Text {
         if (!gui.getCurrentlyFocused().equals(name())) {
             return;
         }
+        cursorTimer += Delta.getDelta();
+        if (cursorTimer >= 0.25) {
+            cursorTimer = 0.0f;
+            cursorBlink = !cursorBlink;
+        }
         if (Keyboard.hasTyped()) {
 
             textData += Keyboard.getLastInput();
+
+            float textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
+            while (textWidth > (boxWidth * getGuiScale()) - (getPadding() * 2)) {
+                entryCursorPosition++;
+                textWidth = Font.getTextSize(this.fontSize * getGuiScale(), getTextWithCursorPos()).x;
+            }
 
         } else if (Keyboard.isKeyDown(GLFW_KEY_BACKSPACE)) {
 
@@ -72,10 +89,11 @@ public class TextBox extends Text {
             }
 
             if (repeating && repeatTimer >= 0.05f) {
-                textData = textData.substring(0, textData.length() - 1);
+                backspaceTrim();
                 repeatTimer = 0.0f;
+
             } else if (repeatTimer == 0.0f) {
-                textData = textData.substring(0, textData.length() - 1);
+                backspaceTrim();
             }
             repeatTimer += Delta.getDelta();
 
@@ -90,6 +108,17 @@ public class TextBox extends Text {
         }
 
         recalculateText();
+    }
+
+    private void backspaceTrim() {
+        textData = textData.substring(0, textData.length() - 1);
+        if (entryCursorPosition > 0) {
+            entryCursorPosition--;
+        }
+    }
+
+    private String getTextWithCursorPos(){
+        return textData.substring(entryCursorPosition);
     }
 
     @Override
@@ -131,7 +160,7 @@ public class TextBox extends Text {
             shownText = placeHolderText;
             Font.switchColor(placeHolderColor);
         } else {
-            shownText = textData;
+            shownText = getTextWithCursorPos();
             Font.switchColor(foreGroundColor);
         }
         Font.switchShadowColor(shadowColor);
