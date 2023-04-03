@@ -87,7 +87,9 @@ public class Main {
                              "textBox",
                              new TextBox("textBox", "Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
                                      .addEnterInputCallback((gui, element, textData) -> {
-                                         System.out.println(element.name() + " output: " + textData);
+                                         if (!textData.equals("")) {
+                                             System.out.println(element.name() + " output: " + textData);
+                                         }
                                      })
 //                                     .addClickCallback((gui, element) -> {
 //                                         System.out.println("click clack");

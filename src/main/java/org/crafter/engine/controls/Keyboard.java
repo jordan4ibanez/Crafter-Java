@@ -3,6 +3,8 @@ package org.crafter.engine.controls;
 import org.crafter.engine.window.Window;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -13,7 +15,11 @@ public final class Keyboard {
     private static char lastKey = '\0';
 
     // This will need to warm up, but it will quickly build itself down to O(1) notation
-    private final static HashMap<Integer, Integer> keyInputMap = new HashMap<>();
+    private final static HashMap<Integer, Boolean> currentMap = new HashMap<>();
+    private final static HashMap<Integer, Boolean> memoryMap = new HashMap<>();
+
+    // This is needed to utilize memory, it needs to poll right after initial value set because GLFW_PRESS delays before GLFW_REPEAT
+    private final static Queue<Integer> memoryFlush = new LinkedList<>();
 
     private Keyboard(){}
 
@@ -23,18 +29,39 @@ public final class Keyboard {
         });
 
         glfwSetKeyCallback(Window.getWindowPointer(), (window, key, scancode, action, mods) -> {
-            if (action == GLFW_PRESS || action == GLFW_RELEASE) {
-                // We want this to overwrite existing values
-                keyInputMap.put(key, action);
+            if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+                setMemory(key);
+                setCurrent(key, true);
+                memoryFlush.add(key);
+            } else if (action == GLFW_RELEASE) {
+                setCurrent(key, false);
+                setMemory(key);
             }
         });
+    }
+
+    private static void setCurrent(int key, boolean action) {
+        currentMap.put(key, action);
+    }
+    private static void setMemory(int key) {
+        if (!currentMap.containsKey(key)) {
+            memoryMap.put(key, false);
+            return;
+        }
+        memoryMap.put(key, currentMap.get(key));
+    }
+
+    public static void pollMemory() {
+        while (!memoryFlush.isEmpty()) {
+            setMemory(memoryFlush.remove());
+        }
     }
 
     /**
      * (FIXME) Remember: Remove this
      */
     public static void pollQuitHack() {
-        if (isKeyDown(GLFW_KEY_ESCAPE)) {
+        if (keyPressed(GLFW_KEY_ESCAPE)) {
             Window.close();
         }
     }
@@ -52,18 +79,33 @@ public final class Keyboard {
         return gottenChar;
     }
 
-    public static boolean isKeyDown(int key) {
-        return getKey(key) > 0;
+    // IsDown doesn't need memory, just if the key is held down
+    public static boolean keyDown(int key) {
+        return getCurrent(key);
     }
 
-    private static int getKey(int key) {
-        Integer keyValue = keyInputMap.get(key);
+    // KeyPressed needs memory, only true in state on initial state change
+    public static boolean keyPressed(int key) {
+        return getCurrent(key) && !getMemory(key);
+    }
+
+    private static boolean getCurrent(int key) {
+        Boolean keyValue = currentMap.get(key);
         if (keyValue != null) {
             return keyValue;
         }
         // Default: put in a false value
-        keyInputMap.put(key, 0);
-        return 0;
+        currentMap.put(key, false);
+        return false;
+    }
+    private static boolean getMemory(int key) {
+        Boolean keyValue = memoryMap.get(key);
+        if (keyValue != null) {
+            return keyValue;
+        }
+        // Default: put in a false value
+        memoryMap.put(key, false);
+        return false;
     }
 
 }

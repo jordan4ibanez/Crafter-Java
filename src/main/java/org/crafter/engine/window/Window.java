@@ -172,7 +172,10 @@ public final class Window {
     }
 
     public static void pollEvents() {
+        // Delta and PollMemory are special cases from what is said below
         Delta.calculateDelta();
+        Keyboard.pollMemory();
+
         // Remember: glfwPollEvents must go first before other calls, or everything else Mouse and Keyboard WILL break (order of operations)
         glfwPollEvents();
 
