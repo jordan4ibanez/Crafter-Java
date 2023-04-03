@@ -73,17 +73,18 @@ public class GUI {
             if (element.collideable()) {
                 if (element.collisionDetect(mousePosition)) {
                     if (mouseClicked) {
+                        System.out.println("Attempting click");
                         element.onClick(this);
+
+                        // Prevent any weird behavior with this simple check
+                        String newFocus = element.name();
+                        existenceCheck(newFocus);
+                        currentlyFocused = newFocus;
+
+                        System.out.println("new focused element is: " + newFocus);
                     } else {
                         element.onHover(this);
                     }
-
-                    // Prevent any weird behavior with this simple check
-                    String newFocus = element.name();
-                    existenceCheck(newFocus);
-                    currentlyFocused = newFocus;
-
-                    System.out.println("new focused element is: " + newFocus);
                     break;
                 }
             }
