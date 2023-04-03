@@ -8,7 +8,7 @@ import org.joml.Vector2fc;
 
 import java.util.UUID;
 
-public final class ButtonMeshFactory {
+public final class FramedMeshFactory {
 
     // This is a reuser field
     private static final Vector2f size = new Vector2f(0,0);
@@ -16,7 +16,7 @@ public final class ButtonMeshFactory {
     // This gets auto initialized
     private static Vector2f buttonTextureSize = null;
 
-    private ButtonMeshFactory(){}
+    private FramedMeshFactory(){}
 
     /**
      * Button Mesh Factory does exactly what it says on the tin.

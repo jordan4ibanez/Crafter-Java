@@ -2,7 +2,7 @@ package org.crafter.engine.gui.components;
 
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.enumerators.Alignment;
-import org.crafter.engine.gui.factories.ButtonMeshFactory;
+import org.crafter.engine.gui.factories.FramedMeshFactory;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
@@ -54,7 +54,7 @@ public class Button extends Text {
 
         Vector2f textSize = Font.getTextSize(this.fontSize * getGuiScale(), this.textData);
 
-        buttonBackGroundMeshUUID = ButtonMeshFactory.generateMesh(textSize);
+        buttonBackGroundMeshUUID = FramedMeshFactory.generateMesh(textSize);
 
         Font.switchColor(foreGroundColor);
         Font.switchShadowColor(shadowColor);
