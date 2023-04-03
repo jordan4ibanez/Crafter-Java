@@ -71,6 +71,8 @@ public class GUI {
         boolean mouseClicked = Mouse.leftClick();
         Vector2fc mousePosition = Mouse.getPosition();
 
+        boolean failedToCollide = mouseClicked;
+
         for (GUIElement element : container.values()) {
             if (element.collideable()) {
                 if (element.collisionDetect(mousePosition)) {
@@ -86,9 +88,15 @@ public class GUI {
                     } else {
                         element.onHover(this);
                     }
+
+                    failedToCollide = false;
+
                     break;
                 }
             }
+        }
+        if (failedToCollide) {
+            currentlyFocused = "";
         }
     }
 
