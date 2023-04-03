@@ -10,8 +10,6 @@ out vec4 fragColor;
 
 uniform sampler2D textureSampler;
 
-const bool isButton = false;
-
 void main() {
 
     vec4 pixelColor = texture(textureSampler, outputTextureCoordinate);
