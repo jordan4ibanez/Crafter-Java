@@ -158,6 +158,7 @@ public abstract class GUIElement {
 
     public final void setAlignment(Alignment alignment) {
         this._alignment = alignment;
+        recalculatePosition();
     }
 
     public String name() {
