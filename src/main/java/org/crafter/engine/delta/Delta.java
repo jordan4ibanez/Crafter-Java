@@ -9,7 +9,7 @@ public final class Delta {
 
     public static void calculateDelta() {
         long time = System.nanoTime();
-        deltaTime = time - oldTime;
+        deltaTime = (float)(time - oldTime) / 1_000_000_000.0f;
         oldTime = time;
     }
 
