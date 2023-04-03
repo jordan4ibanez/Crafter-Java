@@ -65,15 +65,10 @@ public class GUI {
         boolean mouseClicked = Mouse.leftClick();
         Vector2fc mousePosition = Mouse.getPosition();
 
-        if (mouseClicked) {
-            System.out.println("mouse clicked: " + mouseClicked);
-        }
-
         for (GUIElement element : container.values()) {
             if (element.collideable()) {
                 if (element.collisionDetect(mousePosition)) {
                     if (mouseClicked) {
-                        System.out.println("Attempting click");
                         element.onClick(this);
 
                         // Prevent any weird behavior with this simple check
