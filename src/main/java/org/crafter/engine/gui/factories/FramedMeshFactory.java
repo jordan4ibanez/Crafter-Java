@@ -44,7 +44,7 @@ public final class FramedMeshFactory {
         Vector2fc buttonTextureSize = textureSizes.get(texturePath);
         // Auto initialize
         if (buttonTextureSize == null) {
-            buttonTextureSize = TextureStorage.getFloatingSize("textures/button.png");
+            buttonTextureSize = TextureStorage.getFloatingSize(texturePath);
 
             textureSizes.put(texturePath, buttonTextureSize);
         }
@@ -236,7 +236,7 @@ public final class FramedMeshFactory {
                 indices,
                 null,
                 colors,
-                "textures/button.png",
+                texturePath,
                 true
         );
 

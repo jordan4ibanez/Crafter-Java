@@ -5,6 +5,7 @@ import org.crafter.engine.gui.GUIStorage;
 import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
+import org.crafter.engine.gui.components.TextBox;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
@@ -33,6 +34,7 @@ public class Main {
 
         TextureStorage.createTexture("textures/debug.png");
         TextureStorage.createTexture("textures/button.png");
+        TextureStorage.createTexture("textures/text_box.png");
 
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
@@ -78,6 +80,13 @@ public class Main {
                                         gui.setText(element.name(), "NICE!");
                                     })
                     )
+                     .addGUIElement(
+                             "textBox",
+                             new TextBox("textBox", "testing", 52, Alignment.BOTTOM_CENTER, null, 1024)
+                                     .addClickCallback((gui, element) -> {
+                                         System.out.println("click clack");
+                                     })
+                     )
 //                     .addGUIElement(
 //                             "sassyButton",
 //                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)

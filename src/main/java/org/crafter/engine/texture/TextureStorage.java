@@ -59,7 +59,7 @@ public final class TextureStorage {
     // Internal check to make sure nothing stupid is happening
     private static void checkExistence(String textureName) {
         if (!container.containsKey(textureName)) {
-            throw new RuntimeException("TextureStorage: Tried to access nonexistent texture (" + textureName + "!");
+            throw new RuntimeException("TextureStorage: Tried to access nonexistent texture (" + textureName + ")!");
         }
     }
 }
