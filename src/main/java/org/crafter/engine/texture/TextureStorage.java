@@ -21,6 +21,7 @@ public final class TextureStorage {
         if (container.containsKey(fileLocation)) {
             throw new RuntimeException("TextureStorage: Tried to add " + fileLocation + " more than once!");
         }
+//        System.out.println("TextureStorage: Created texture (" + fileLocation + ")");
         container.put(fileLocation, new Texture(fileLocation));
     }
 
@@ -57,9 +58,11 @@ public final class TextureStorage {
     }
 
     // Internal check to make sure nothing stupid is happening
-    private static void checkExistence(String textureName) {
-        if (!container.containsKey(textureName)) {
-            throw new RuntimeException("TextureStorage: Tried to access nonexistent texture (" + textureName + ")!");
+    private static void checkExistence(String fileLocation) {
+        if (!container.containsKey(fileLocation)) {
+            // Automatically upload texture if it doesn't exist
+            createTexture(fileLocation);
+//            throw new RuntimeException("TextureStorage: Tried to access nonexistent texture (" + fileLocation + ")!");
         }
     }
 }
