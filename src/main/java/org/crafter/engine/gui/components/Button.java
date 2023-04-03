@@ -71,7 +71,7 @@ public class Button extends Text {
     @Override
     public void internalOnStep() {
         if (Window.wasResized()) {
-            System.out.println("Button: Window resized!");
+//            System.out.println("Button: Window resized!");
             this.recalculatePosition();
         }
     }
@@ -79,7 +79,7 @@ public class Button extends Text {
     @Override
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Button (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
+//        System.out.println("Button (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 
 }
