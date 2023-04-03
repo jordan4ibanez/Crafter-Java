@@ -78,7 +78,7 @@ public abstract class GUIElement {
 
     protected Vector2f offset() {
         // I like to have +y be up when setting offset, so I made it like this
-        return new Vector2f(_offset.x, -_offset.y);
+        return new Vector2f(_offset.x, -_offset.y).mul(getGuiScale());
     }
 
     protected Vector2f getSize() {
@@ -154,6 +154,7 @@ public abstract class GUIElement {
     public final void setOffset(Vector2f offset) {
         this._offset.x = offset.x;
         this._offset.y = offset.y;
+        recalculatePosition();
     }
 
     public final void setAlignment(Alignment alignment) {
