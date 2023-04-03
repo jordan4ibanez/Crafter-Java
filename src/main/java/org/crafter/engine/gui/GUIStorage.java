@@ -1,13 +1,14 @@
 package org.crafter.engine.gui;
 
+import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class GUIStorage {
 
-    private final static HashMap<String, GUI> container = new HashMap<>();
+    private final static ConcurrentHashMap<String, GUI> container = new ConcurrentHashMap<>();
 
     private static GUI selectedGUI;
 
@@ -29,6 +30,11 @@ public final class GUIStorage {
     public static void addGUI(String guiName, GUI newGUI) {
         checkDuplicates(guiName);
         container.put(guiName, newGUI);
+    }
+
+    public static void addElement(String guiName, String elementName, GUIElement newElement) {
+        existenceCheck(guiName);
+        container.get(guiName).addGUIElement(elementName, newElement);
     }
 
     public static void selectGUI(String guiName) {
