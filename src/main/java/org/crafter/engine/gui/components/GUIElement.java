@@ -13,7 +13,7 @@ public abstract class GUIElement {
 
     private static float guiScale = 1;
 
-    protected final String _name;
+    protected String _name = null;
 
     protected String _meshUUID = null;
 
@@ -34,11 +34,7 @@ public abstract class GUIElement {
 
     protected final Vector2f _position = new Vector2f(0,0);
 
-    protected GUIElement(String name, Alignment alignment, Vector2f offset) {
-        if (name == null) {
-            throw new RuntimeException("GUIElement : name CANNOT be null!");
-        }
-        this._name = name;
+    protected GUIElement(Alignment alignment, Vector2f offset) {
 
         _alignment = Objects.requireNonNullElse(alignment, Alignment.DEFAULT);
         /*
@@ -47,6 +43,13 @@ public abstract class GUIElement {
         if (offset != null) {
             _offset.set(offset);
         }
+    }
+
+    public void setName(String name) {
+        if (_name != null) {
+            throw new RuntimeException("GUIElement : ERROR! Tried to set name for element (" + this._name + ") more than once!");
+        }
+        this._name = name;
     }
 
     public static void recalculateGUIScale() {
