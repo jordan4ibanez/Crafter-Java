@@ -169,6 +169,8 @@ public abstract class GUIElement {
     // Internal point calculation, specifically for mouse. Class member. Utilizes stack.
     protected static boolean pointCollisionDetect(float pointX, float pointY, float posX, float posY, float width, float height) {
         return  pointX >= posX &&
-                pointX <= posX + width;
+                pointX <= posX + width &&
+                pointY >= posY &&
+                pointY <= posY + height;
     }
 }
