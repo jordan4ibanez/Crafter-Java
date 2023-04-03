@@ -1,21 +1,19 @@
 package org.crafter;
 
-import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
-import org.crafter.engine.gui.actions.Click;
-import org.crafter.engine.gui.actions.EnterInput;
 import org.crafter.engine.gui.components.Button;
-import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.TextBox;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
-import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.Vector2f;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
@@ -67,6 +65,7 @@ public class Main {
 
         float rotation = 0.0f;
 
+        AtomicInteger index = new AtomicInteger();
 
         GUIStorage.addGUI("inGame",
              new GUI("inGame")
@@ -89,6 +88,32 @@ public class Main {
                                      .addEnterInputCallback((gui, element, textData) -> {
                                          if (!textData.equals("")) {
                                              System.out.println(element.name() + " output: " + textData);
+
+                                             int gotten = index.get();
+
+//                                             System.out.println("adding: index" + gotten);
+
+                                             GUIStorage.addElement("inGame", "index" + gotten, new Label(
+                                                     "index" + gotten,
+                                                     "Player: " + textData,
+                                                     32,
+                                                     Alignment.BOTTOM_LEFT,
+                                                     new Vector2f(0, 60)
+                                             ));
+
+                                             System.out.println("gotten:" + gotten);
+
+                                             for (int i = 0; i <= gotten; i++) {
+                                                 int multiplier = gotten - i;
+
+                                                 System.out.println("multi: " + multiplier);
+
+                                                 GUIStorage.setOffset("index" + i, new Vector2f(0, (multiplier + 2) * 60));
+
+//                                                 GUIStorage.setAlignment("index" + i, Alignment.CENTER);
+                                             }
+
+                                             index.getAndIncrement();
                                          }
                                      })
 //                                     .addClickCallback((gui, element) -> {
