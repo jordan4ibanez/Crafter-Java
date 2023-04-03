@@ -13,6 +13,7 @@ import org.joml.Vector2fc;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An instance of a GUI object.
@@ -23,7 +24,7 @@ public class GUI {
 
     private final String name;
 
-    private final HashMap<String, GUIElement> container = new HashMap<>();
+    private final ConcurrentHashMap<String, GUIElement> container = new ConcurrentHashMap<>();
 
     private String currentlyFocused = "";
 
