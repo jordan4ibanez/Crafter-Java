@@ -39,7 +39,7 @@ public class Main {
 
         ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
-        
+
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
 
@@ -74,11 +74,11 @@ public class Main {
              new GUI("inGame")
                     .addGUIElement(
                             "versionInfo",
-                            new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_LEFT, null)
+                            new Label(VERSION_INFO, 40, Alignment.TOP_LEFT, null)
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("buttonTest","I am a button!", 52, Alignment.CENTER, null)
+                            new Button("I am a button!", 52, Alignment.CENTER, null)
                                     .addClickCallback((gui, element) -> {
                                         System.out.println("click clack");
                                         System.out.println("This is definitely a button, yes");
@@ -87,7 +87,7 @@ public class Main {
                     )
                      .addGUIElement(
                              "textBox",
-                             new TextBox("textBox", "Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
+                             new TextBox("Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
                                      .addEnterInputCallback((gui, element, textData) -> {
                                          if (!textData.equals("")) {
                                              System.out.println(element.name() + " output: " + textData);
@@ -101,7 +101,6 @@ public class Main {
                                              String playerText = "(" + timeStamp + ") Player: " + textData;
 
                                              GUIStorage.addElement("inGame", "index" + gotten, new Label(
-                                                     "index" + gotten,
                                                      playerText,
                                                      32,
                                                      Alignment.BOTTOM_LEFT,
@@ -120,17 +119,17 @@ public class Main {
 //                                         System.out.println("click clack");
 //                                     })
                      )
-                     .addGUIElement("youtubeButton", new Label("youtubeButton", "test", 52, Alignment.BOTTOM_RIGHT,null)
+                     .addGUIElement("youtubeButton", new Label("test", 52, Alignment.BOTTOM_RIGHT,null)
                              .addOnStepCallback((gui, element) -> {
                                  gui.setText("youtubeButton", "Delta Time: " + Delta.getDelta());
                              })
                      )
-                     .addGUIElement("mousey", new Label("mousey", "", 52, Alignment.TOP_RIGHT,null)
+                     .addGUIElement("mousey", new Label("", 52, Alignment.TOP_RIGHT,null)
                              .addOnStepCallback((gui, element) -> {
                                  gui.setText("mousey", "Mouse Pos: " + Mouse.getPosition().x() + ", " + Mouse.getPosition().y());
                              })
                      )
-                     .addGUIElement("fancy", new Label("fancy", "test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
+                     .addGUIElement("fancy", new Label("test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
                              .addOnStepCallback((gui, element) -> {
 
                                  // Shouldn't call every time, but whatever
