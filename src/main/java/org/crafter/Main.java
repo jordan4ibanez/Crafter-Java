@@ -1,8 +1,12 @@
 package org.crafter;
 
+import org.crafter.engine.controls.Mouse;
+import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.components.Button;
+import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.TextBox;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
@@ -118,6 +122,25 @@ public class Main {
 //                                     .addClickCallback((gui, element) -> {
 //                                         System.out.println("click clack");
 //                                     })
+                     )
+                     .addGUIElement("youtubeButton", new Label("youtubeButton", "test", 52, Alignment.BOTTOM_RIGHT,null)
+                             .addOnStepCallback((gui, element) -> {
+                                 gui.setText("youtubeButton", "Delta Time: " + Delta.getDelta());
+                             })
+                     )
+                     .addGUIElement("mousey", new Label("mousey", "", 52, Alignment.TOP_RIGHT,null)
+                             .addOnStepCallback((gui, element) -> {
+                                 gui.setText("mousey", "Mouse Pos: " + Mouse.getPosition().x() + ", " + Mouse.getPosition().y());
+                             })
+                     )
+                     .addGUIElement("fancy", new Label("fancy", "test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
+                             .addOnStepCallback((gui, element) -> {
+
+                                 // Shouldn't call every time, but whatever
+                                 String focusedElement = gui.getCurrentlyFocused();
+
+                                 gui.setText("fancy", "Currently Focused: " + focusedElement);
+                             })
                      )
 //                     .addGUIElement(
 //                             "sassyButton",
