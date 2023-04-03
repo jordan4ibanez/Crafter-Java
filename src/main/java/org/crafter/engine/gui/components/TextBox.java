@@ -47,8 +47,10 @@ public class TextBox extends Text {
     private boolean clearOnSend = true;
 
     private boolean enterPressed = false;
+    private boolean wasEnterPressed = false;
 
     private boolean focused = false;
+    private boolean wasFocused = false;
 
 
     public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
@@ -75,23 +77,35 @@ public class TextBox extends Text {
         if (!gui.getCurrentlyFocused().equals(name())) {
             cursorBlink = false;
             focused = false;
+            if (wasFocused) {
+                recalculateText();
+                wasFocused = false;
+                System.out.println("recalculating");
+            }
             return;
         }
         focused = true;
+        wasFocused = true;
 
-        if (!enterPressed && Keyboard.isKeyDown(GLFW_KEY_ENTER)) {
+        // FIXME: TURN THIS INTO AN INTERNAL IN THE KEYBOARD STATIC CLASS!
+        boolean enterKeyPushed =  Keyboard.isKeyDown(GLFW_KEY_ENTER);
+
+        if (!enterPressed && enterKeyPushed) {
             // One way lock
             enterPressed = true;
-            if (enterInputable()) {
+            if (!wasEnterPressed && enterInputable()) {
                 _enterInput.action(gui, this, textData);
                 if (clearOnSend) {
                     this.textData = "";
                     this.entryCursorPosition = 0;
                 }
+                wasEnterPressed = true;
             }
             return;
-        } else {
+        } else if (enterPressed && !enterKeyPushed) {
+            System.out.println("clearing");
             enterPressed = false;
+            wasEnterPressed = false;
         }
 
         cursorTimer += Delta.getDelta();
