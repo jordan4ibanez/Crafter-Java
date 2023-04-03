@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 
 public abstract class Text extends GUIElement {
 
-    protected String textData;
+    protected String textData = "";
 
     protected float fontSize;
 
