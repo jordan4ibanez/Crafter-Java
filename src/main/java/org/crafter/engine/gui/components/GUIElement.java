@@ -1,10 +1,7 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.actions.Click;
-import org.crafter.engine.gui.actions.Hover;
-import org.crafter.engine.gui.actions.KeyInput;
-import org.crafter.engine.gui.actions.OnStep;
+import org.crafter.engine.gui.actions.*;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
@@ -24,6 +21,7 @@ public abstract class GUIElement {
     protected Click _click = null;
     protected Hover _hover = null;
     protected KeyInput _keyInput = null;
+    protected EnterInput _enterInput = null;
 
     protected boolean _collide = false;
 
@@ -107,6 +105,10 @@ public abstract class GUIElement {
         return _keyInput != null;
     }
 
+    public final boolean enterInputable() {
+        return _enterInput != null;
+    }
+
     public final boolean collideable() {
         return _collide;
     }
@@ -138,6 +140,14 @@ public abstract class GUIElement {
             throw new RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element (" + this._name + ")!");
         }
         this._keyInput = keyInput;
+        return this;
+    }
+
+    public final GUIElement addEnterInputCallback(EnterInput enterInput) {
+        if (enterInputable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element (" + this._name + ")!");
+        }
+        this._enterInput = enterInput;
         return this;
     }
 

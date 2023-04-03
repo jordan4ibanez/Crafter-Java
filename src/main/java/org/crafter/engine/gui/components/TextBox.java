@@ -15,7 +15,10 @@ import org.joml.Vector2fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
+import java.security.Key;
+
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 
 public class TextBox extends Text {
 
@@ -41,6 +44,10 @@ public class TextBox extends Text {
     private boolean cursorBlink = true;
     private float cursorTimer = 0.0f;
 
+    private boolean clearOnSend = true;
+
+    private boolean enterPressed = false;
+
 
     public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
         super(name, "", fontSize, alignment, offset);
@@ -64,8 +71,21 @@ public class TextBox extends Text {
             recalculateMesh();
         }
         if (!gui.getCurrentlyFocused().equals(name())) {
+            cursorBlink = false;
             return;
         }
+
+        if (!enterPressed && Keyboard.isKeyDown(GLFW_KEY_ENTER)) {
+            // One way lock
+            enterPressed = true;
+            if (enterInputable()) {
+                _enterInput.action(gui, this);
+            }
+            return;
+        } else {
+            enterPressed = false;
+        }
+
         cursorTimer += Delta.getDelta();
         if (cursorTimer >= 0.25) {
             cursorTimer = 0.0f;
@@ -203,5 +223,11 @@ public class TextBox extends Text {
 
     public static float getBorderScale() {
         return borderScale;
+    }
+
+    // This might be useful for something
+    public TextBox disableClearOnSend() {
+        clearOnSend = false;
+        return this;
     }
 }
