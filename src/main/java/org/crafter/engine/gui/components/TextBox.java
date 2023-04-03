@@ -48,6 +48,8 @@ public class TextBox extends Text {
 
     private boolean enterPressed = false;
 
+    private boolean focused = false;
+
 
     public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
         super(name, "", fontSize, alignment, offset);
@@ -72,14 +74,20 @@ public class TextBox extends Text {
         }
         if (!gui.getCurrentlyFocused().equals(name())) {
             cursorBlink = false;
+            focused = false;
             return;
         }
+        focused = true;
 
         if (!enterPressed && Keyboard.isKeyDown(GLFW_KEY_ENTER)) {
             // One way lock
             enterPressed = true;
             if (enterInputable()) {
-                _enterInput.action(gui, this);
+                _enterInput.action(gui, this, textData);
+                if (clearOnSend) {
+                    this.textData = "";
+                    this.entryCursorPosition = 0;
+                }
             }
             return;
         } else {
@@ -198,7 +206,7 @@ public class TextBox extends Text {
 
     private void recalculateText() {
         String shownText;
-        if (textData.equals("")) {
+        if (textData.equals("") && !focused) {
             shownText = placeHolderText;
             Font.switchColor(placeHolderColor);
         } else {
@@ -207,6 +215,10 @@ public class TextBox extends Text {
         }
         Font.switchShadowColor(shadowColor);
         _meshUUID = Font.grabText(this.fontSize * getGuiScale(), shownText);
+    }
+
+    public String getText() {
+        return textData;
     }
 
     public float getBoxWidth() {

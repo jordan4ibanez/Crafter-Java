@@ -4,12 +4,14 @@ import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
 import org.crafter.engine.gui.actions.Click;
+import org.crafter.engine.gui.actions.EnterInput;
 import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.gui.components.GUIElement;
 import org.crafter.engine.gui.components.TextBox;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.font.Font;
+import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -84,6 +86,9 @@ public class Main {
                      .addGUIElement(
                              "textBox",
                              new TextBox("textBox", "Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
+                                     .addEnterInputCallback((gui, element, textData) -> {
+                                         System.out.println(element.name() + " output: " + textData);
+                                     })
 //                                     .addClickCallback((gui, element) -> {
 //                                         System.out.println("click clack");
 //                                     })
