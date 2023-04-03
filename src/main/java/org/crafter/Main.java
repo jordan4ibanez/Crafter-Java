@@ -94,6 +94,10 @@ public class Main {
 
                                      })
                      )
+                     .addGUIElement("quitButton",
+                             new Button("quitButton", "QUIT", 44, Alignment.BOTTOM_CENTER, null)
+                                     .addClickCallback(((gui, element) -> Window.close()))
+                     )
         );
 
         GUIStorage.selectGUI("inGame");
