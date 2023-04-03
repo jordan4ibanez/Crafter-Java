@@ -16,8 +16,8 @@ public abstract class Text extends GUIElement {
 
     protected final Vector3f shadowColor = new Vector3f(0,0,0);
 
-    protected Text(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
-        super(name, alignment, offset);
+    protected Text(String textData, float fontSize, Alignment alignment, Vector2f offset) {
+        super(alignment, offset);
         if (textData == null) {
             throw new RuntimeException("Text: textData cannot be null!");
         }
