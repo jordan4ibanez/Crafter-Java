@@ -6,6 +6,7 @@ import org.crafter.engine.texture.TextureStorage;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public final class FramedMeshFactory {
@@ -16,6 +17,8 @@ public final class FramedMeshFactory {
     // This gets auto initialized
     private static Vector2f buttonTextureSize = null;
 
+    private static final HashMap<String, Vector2f> textureMaps = new HashMap<>();
+
     private FramedMeshFactory(){}
 
     /**
@@ -24,16 +27,16 @@ public final class FramedMeshFactory {
      * This keeps the Button class clean as a whistle.
      * Note: The comments are from the original D project.
      */
-    public static String generateMesh(Vector2fc textSize) {
+    public static String generateMesh(Vector2fc textSize, final float padding, final float pixelEdge, final float borderScale) {
         // Pixel padding between the edge of the button texture, and the text texture
-        final float padding = Button.getPadding();
+//        final float padding = Button.getPadding();
 
         // The guide edges for buttons, keeps texture edges from stretching
         // So think of this of like: How many pixels does your button texture use before getting to the text part.
-        final float pixelEdge = Button.getPixelEdge();
+//        final float pixelEdge = Button.getPixelEdge();
 
         // Border scalar just makes the button border more pronounced/visible
-        final float borderScale = Button.getBorderScale();
+//        final float borderScale = Button.getBorderScale();
 
         size.set(
                 textSize.x() + (padding * 2),

@@ -78,22 +78,25 @@ public class Main {
                                         gui.setText(element.name(), "NICE!");
                                     })
                     )
-                     .addGUIElement(
-                             "sassyButton",
-                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
-                                     .addClickCallback((gui, element) -> {
-                                         String[] sassiness = new String[] {
-                                                 "over here!",
-                                                 "Nah, over here!",
-                                                 "Here I am!",
-                                                 "Nah, jk, here!"
-                                         };
-
-                                         gui.setText(element.name(), sassiness[(int)(Math.random() * 3)]);
-                                         gui.setAlignment(element.name(), Alignment.asArray()[(int)(Math.random() * 8)] );
-
-                                     })
-                     )
+//                     .addGUIElement(
+//                             "sassyButton",
+//                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
+//                                     .addClickCallback((gui, element) -> {
+//                                         String[] sassiness = new String[] {
+//                                                 "over here!",
+//                                                 "Nah, over here!",
+//                                                 "Here I am!",
+//                                                 "Nah, jk, here!"
+//                                         };
+//
+//                                         gui.setText(element.name(), sassiness[(int)(Math.random() * 3)]);
+//                                         gui.setAlignment(element.name(), Alignment.asArray()[(int)(Math.random() * 8)] );
+//
+//                                     })
+//                                     .addHoverCallback(((gui, element) -> {
+//                                         gui.setText(element.name(), String.valueOf(Math.random()));
+//                                     }))
+//                     )
 //                     .addGUIElement("quitButton",
 //                             new Button("quitButton", "QUIT", 44, Alignment.BOTTOM_CENTER, null)
 //                                     .addClickCallback(((gui, element) -> Window.close()))

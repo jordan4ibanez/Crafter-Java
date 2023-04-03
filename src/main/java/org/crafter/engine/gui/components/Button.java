@@ -54,7 +54,7 @@ public class Button extends Text {
 
         Vector2f textSize = Font.getTextSize(this.fontSize * getGuiScale(), this.textData);
 
-        buttonBackGroundMeshUUID = FramedMeshFactory.generateMesh(textSize);
+        buttonBackGroundMeshUUID = FramedMeshFactory.generateMesh(textSize, getPadding(), getPixelEdge(), getBorderScale());
 
         Font.switchColor(foreGroundColor);
         Font.switchShadowColor(shadowColor);
