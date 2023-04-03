@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
 import org.crafter.engine.gui.actions.Click;
@@ -82,7 +83,7 @@ public class Main {
                     )
                      .addGUIElement(
                              "textBox",
-                             new TextBox("textBox", "testing", 52, Alignment.BOTTOM_CENTER, null, 1024)
+                             new TextBox("textBox", "Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
                                      .addClickCallback((gui, element) -> {
                                          System.out.println("click clack");
                                      })
@@ -116,17 +117,9 @@ public class Main {
 
 
         while(!Window.shouldClose()) {
-
-            rotation += 1;
-
-            if (rotation >= 360) {
-                rotation = 0;
-            }
-
-//            GUIStorage.setText("versionInfo", String.valueOf(rotation));
-//            GUIStorage.setFontSize("versionInfo", rotation);
-
             Window.pollEvents();
+
+            System.out.println(Delta.getDelta());
 
             GUIStorage.process();
 
