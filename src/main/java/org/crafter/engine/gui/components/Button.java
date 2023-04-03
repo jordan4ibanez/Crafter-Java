@@ -14,9 +14,9 @@ public class Button extends Text {
 
     // We want these to be constant throughout the entire game, class members only
 
-    public static final float padding = 16.0f;
-    public static final float pixelEdge = 1.0f;
-    public static final float borderScale = 2.0f;
+    private static final float padding = 16.0f;
+    private static final float pixelEdge = 1.0f;
+    private static final float borderScale = 2.0f;
 
     private String buttonBackGroundMeshUUID = null;
 
@@ -32,7 +32,7 @@ public class Button extends Text {
 
     @Override
     public void render() {
-        Camera.setGuiObjectMatrix(_position.x + padding, _position.y + padding);
+        Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding());
         MeshStorage.render(this._meshUUID);
         Camera.setGuiObjectMatrix(_position.x, _position.y);
         MeshStorage.render(this.buttonBackGroundMeshUUID);
@@ -40,8 +40,6 @@ public class Button extends Text {
 
     @Override
     public boolean collisionDetect(Vector2fc mousePosition) {
-        // This needs a return
-        // System.out.println("size: " + this._size.x + ", " + this._size.y);
         return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
     }
 
@@ -54,16 +52,16 @@ public class Button extends Text {
             MeshStorage.destroy(buttonBackGroundMeshUUID);
         }
 
-        Vector2f textSize = Font.getTextSize(this.fontSize, this.textData);
+        Vector2f textSize = Font.getTextSize(this.fontSize * getGuiScale(), this.textData);
 
         buttonBackGroundMeshUUID = ButtonMeshFactory.generateMesh(textSize);
 
         Font.switchColor(foreGroundColor);
         Font.switchShadowColor(shadowColor);
-        _meshUUID = Font.grabText(this.fontSize, this.textData);
+        _meshUUID = Font.grabText(this.fontSize * getGuiScale(), this.textData);
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
-        this.setSize(textSize.add(new Vector2f(padding * 2)));
+        this.setSize(textSize.add(new Vector2f(getPadding() * 2)));
 
         this.recalculatePosition();
     }
@@ -71,8 +69,7 @@ public class Button extends Text {
     @Override
     public void internalOnStep() {
         if (Window.wasResized()) {
-//            System.out.println("Button: Window resized!");
-            this.recalculatePosition();
+            recalculateMesh();
         }
     }
 
@@ -80,6 +77,18 @@ public class Button extends Text {
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
 //        System.out.println("Button (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
+    }
+
+    public static float getPadding() {
+        return padding * getGuiScale();
+    }
+
+    public static float getPixelEdge() {
+        return pixelEdge;
+    }
+
+    public static float getBorderScale() {
+        return borderScale;
     }
 
 }

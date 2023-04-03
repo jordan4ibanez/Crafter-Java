@@ -51,15 +51,18 @@ public abstract class GUIElement {
         }
     }
 
-    private static void recalculateGUIScale() {
+    public static void recalculateGUIScale() {
         Vector2fc test = Window.getWindowSize();
-        System.out.println(test.x() + " " + test.y());
 
-        // 1080p is the standard resolution
+        // 1080p is the gold standard resolution
         float xCompare = test.x() / 1920.0f;
         float yCompare = test.y() / 1080.0f;
 
+        guiScale = Math.min(xCompare, yCompare);
+    }
 
+    public static float getGuiScale() {
+        return guiScale;
     }
 
 

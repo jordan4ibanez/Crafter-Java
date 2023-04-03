@@ -38,6 +38,11 @@ public class GUI {
     }
 
     public void doLogic() {
+        // GUI Elements automatically recalculate the size. They utilise the member guiScale to keep things nice.
+        // So it must have this run first.
+        if (Window.wasResized()) {
+            GUIElement.recalculateGUIScale();
+        }
         internalOnStep();
         onStep();
         collisionDetect();

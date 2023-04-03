@@ -42,9 +42,9 @@ public class Label extends Text {
         Font.switchColor(foreGroundColor);
         Font.switchShadowColor(shadowColor);
 
-        this.setMeshUUID(Font.grabText(this.fontSize, this.textData));
+        this.setMeshUUID(Font.grabText(this.fontSize * getGuiScale(), this.textData));
 
-        this.setSize(Font.getTextSize(this.fontSize, this.textData));
+        this.setSize(Font.getTextSize(this.fontSize * getGuiScale(), this.textData));
 
         this.recalculatePosition();
     }
@@ -52,7 +52,7 @@ public class Label extends Text {
     @Override
     public void internalOnStep() {
         if (Window.wasResized()) {
-            this.recalculatePosition();
+            recalculateMesh();
         }
     }
 

@@ -26,14 +26,14 @@ public final class ButtonMeshFactory {
      */
     public static String generateMesh(Vector2fc textSize) {
         // Pixel padding between the edge of the button texture, and the text texture
-        final float padding = Button.padding;
+        final float padding = Button.getPadding();
 
         // The guide edges for buttons, keeps texture edges from stretching
         // So think of this of like: How many pixels does your button texture use before getting to the text part.
-        final float pixelEdge = Button.pixelEdge;
+        final float pixelEdge = Button.getPixelEdge();
 
         // Border scalar just makes the button border more pronounced/visible
-        final float borderScale = Button.borderScale;
+        final float borderScale = Button.getBorderScale();
 
         size.set(
                 textSize.x() + (padding * 2),

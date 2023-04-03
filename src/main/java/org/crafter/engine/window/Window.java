@@ -2,6 +2,7 @@ package org.crafter.engine.window;
 
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
+import org.crafter.engine.gui.components.GUIElement;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -111,6 +112,8 @@ public final class Window {
         glfwShowWindow(window);
 
         startOpenGL();
+
+        GUIElement.recalculateGUIScale();
     }
 
     private static void startOpenGL() {
