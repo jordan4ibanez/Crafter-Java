@@ -32,6 +32,7 @@ public class GUI {
 
     public GUI addGUIElement(String elementName, GUIElement element) {
         checkDuplicates(elementName);
+        element.setName(elementName);
         container.put(elementName, element);
         return this;
     }
