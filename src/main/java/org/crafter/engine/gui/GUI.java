@@ -25,7 +25,7 @@ public class GUI {
 
     private final HashMap<String, GUIElement> container = new HashMap<>();
 
-    private String currentlyFocused;
+    private String currentlyFocused = "";
 
     public GUI(String name) {
         this.name = name;
@@ -52,7 +52,7 @@ public class GUI {
     // This is what the class does on step, it's hardcoded
     private void internalOnStep() {
         for (GUIElement element : container.values()) {
-            element.internalOnStep();
+            element.internalOnStep(this);
         }
     }
 

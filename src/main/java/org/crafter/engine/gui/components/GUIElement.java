@@ -183,7 +183,7 @@ public abstract class GUIElement {
 
     protected abstract void recalculateMesh();
 
-    public abstract void internalOnStep();
+    public abstract void internalOnStep(GUI gui);
 
     // Enforce recalculation, it's very important to keep gui elements in correct position
     protected abstract void recalculatePosition();

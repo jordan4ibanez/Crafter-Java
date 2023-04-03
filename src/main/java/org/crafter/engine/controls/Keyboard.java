@@ -53,13 +53,17 @@ public final class Keyboard {
     }
 
     public static boolean isKeyDown(int key) {
+        return getKey(key) > 0;
+    }
+
+    private static int getKey(int key) {
         Integer keyValue = keyInputMap.get(key);
         if (keyValue != null) {
-            return keyValue == 1;
+            return keyValue;
         }
         // Default: put in a false value
         keyInputMap.put(key, 0);
-        return false;
+        return 0;
     }
 
 }

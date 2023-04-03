@@ -1,6 +1,9 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.controls.Keyboard;
+import org.crafter.engine.delta.Delta;
+import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.factories.FramedMeshFactory;
 import org.crafter.engine.gui.font.Font;
@@ -9,6 +12,10 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
 
 public class TextBox extends Text {
 
@@ -22,6 +29,11 @@ public class TextBox extends Text {
     private final String placeHolderText;
 
     private final float boxWidth;
+
+    private static final Vector3f placeHolderColor = new Vector3f(0.5f);
+
+    private float repeatTimer = 0.0f;
+    private boolean repeating = false;
 
 
     public TextBox(String name, String placeHolderText, float fontSize, Alignment alignment, Vector2f offset, float boxWidth) {
@@ -41,10 +53,43 @@ public class TextBox extends Text {
     }
 
     @Override
-    public void internalOnStep() {
+    public void internalOnStep(GUI gui) {
         if (Window.wasResized()) {
             recalculateMesh();
         }
+        if (!gui.getCurrentlyFocused().equals(name())) {
+            return;
+        }
+        if (Keyboard.hasTyped()) {
+
+            textData += Keyboard.getLastInput();
+
+        } else if (Keyboard.isKeyDown(GLFW_KEY_BACKSPACE)) {
+
+            int textLength = textData.length();
+            if (textLength == 0) {
+                return;
+            }
+
+            if (repeating && repeatTimer >= 0.05f) {
+                textData = textData.substring(0, textData.length() - 1);
+                repeatTimer = 0.0f;
+            } else if (repeatTimer == 0.0f) {
+                textData = textData.substring(0, textData.length() - 1);
+            }
+            repeatTimer += Delta.getDelta();
+
+            if (repeatTimer >= 0.5f) {
+                repeating = true;
+                repeatTimer = 0.0f;
+            }
+
+        } else {
+            repeating = false;
+            repeatTimer = 0.0f;
+        }
+
+        recalculateText();
     }
 
     @Override
@@ -66,19 +111,31 @@ public class TextBox extends Text {
             MeshStorage.destroy(buttonBackGroundMeshUUID);
         }
 
-        Vector2f boxSize = Font.getTextSize(this.fontSize * getGuiScale(), this.textData);
+        // Only needs the height, so ship it nothing
+        Vector2f boxSize = Font.getTextSize(this.fontSize * getGuiScale(), "");
         boxSize.x = getBoxWidth();
 
         buttonBackGroundMeshUUID = FramedMeshFactory.generateMesh(boxSize, getPadding(), getPixelEdge(), getBorderScale(), "textures/text_box.png");
 
-        Font.switchColor(foreGroundColor);
-        Font.switchShadowColor(shadowColor);
-        _meshUUID = Font.grabText(this.fontSize * getGuiScale(), this.textData);
+        recalculateText();
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
         this.setSize(boxSize.add(new Vector2f(getPadding() * 2)));
 
         this.recalculatePosition();
+    }
+
+    private void recalculateText() {
+        String shownText;
+        if (textData.equals("")) {
+            shownText = placeHolderText;
+            Font.switchColor(placeHolderColor);
+        } else {
+            shownText = textData;
+            Font.switchColor(foreGroundColor);
+        }
+        Font.switchShadowColor(shadowColor);
+        _meshUUID = Font.grabText(this.fontSize * getGuiScale(), shownText);
     }
 
     public float getBoxWidth() {

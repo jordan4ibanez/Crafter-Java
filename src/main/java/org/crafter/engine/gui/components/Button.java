@@ -1,6 +1,7 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.factories.FramedMeshFactory;
 import org.crafter.engine.gui.font.Font;
@@ -66,7 +67,7 @@ public class Button extends Text {
     }
 
     @Override
-    public void internalOnStep() {
+    public void internalOnStep(GUI ui) {
         if (Window.wasResized()) {
             recalculateMesh();
         }

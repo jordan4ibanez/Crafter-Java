@@ -1,6 +1,7 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.gui.implementations.Text;
@@ -50,7 +51,7 @@ public class Label extends Text {
     }
 
     @Override
-    public void internalOnStep() {
+    public void internalOnStep(GUI gui) {
         if (Window.wasResized()) {
             recalculateMesh();
         }

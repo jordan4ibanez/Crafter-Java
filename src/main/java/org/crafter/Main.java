@@ -84,9 +84,9 @@ public class Main {
                      .addGUIElement(
                              "textBox",
                              new TextBox("textBox", "Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
-                                     .addClickCallback((gui, element) -> {
-                                         System.out.println("click clack");
-                                     })
+//                                     .addClickCallback((gui, element) -> {
+//                                         System.out.println("click clack");
+//                                     })
                      )
 //                     .addGUIElement(
 //                             "sassyButton",
@@ -119,7 +119,7 @@ public class Main {
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
-            System.out.println(Delta.getDelta());
+//            System.out.println(Delta.getDelta());
 
             GUIStorage.process();
 
