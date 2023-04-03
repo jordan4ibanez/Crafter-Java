@@ -7,11 +7,19 @@ import org.joml.Vector2fc;
 
 public class TextBox extends Text {
 
-    
+    // We want these to be constant throughout the entire game, class members only
+    private static final float padding = 16.0f;
+    private static final float pixelEdge = 1.0f;
+    private static final float borderScale = 2.0f;
+
+    private String buttonBackGroundMeshUUID = null;
+
 
     public TextBox(String name, String textData, float fontSize, Alignment alignment, Vector2f offset) {
         super(name, textData, fontSize, alignment, offset);
+        this._collide = true;
 
+        recalculateMesh();
     }
 
     @Override

@@ -13,7 +13,6 @@ import org.joml.Vector2fc;
 public class Button extends Text {
 
     // We want these to be constant throughout the entire game, class members only
-
     private static final float padding = 16.0f;
     private static final float pixelEdge = 1.0f;
     private static final float borderScale = 2.0f;
