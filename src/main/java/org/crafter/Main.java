@@ -69,35 +69,35 @@ public class Main {
                             "versionInfo",
                             new Label("versionInfo", VERSION_INFO, 40, Alignment.TOP_LEFT, null)
                     )
-                    .addGUIElement(
-                            "buttonTest",
-                            new Button("buttonTest","I am a button!", 52, Alignment.CENTER, null)
-                                    .addClickCallback((gui, element) -> {
-                                        System.out.println("click clack");
-                                        System.out.println("This is definitely a button, yes");
-                                        gui.setText(element.name(), "NICE!");
-                                    })
-                    )
-                     .addGUIElement(
-                             "sassyButton",
-                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
-                                     .addClickCallback((gui, element) -> {
-                                         String[] sassiness = new String[] {
-                                                 "over here!",
-                                                 "Nah, over here!",
-                                                 "Here I am!",
-                                                 "Nah, jk, here!"
-                                         };
-
-                                         gui.setText(element.name(), sassiness[(int)(Math.random() * 3)]);
-                                         gui.setAlignment(element.name(), Alignment.asArray()[(int)(Math.random() * 8)] );
-
-                                     })
-                     )
-                     .addGUIElement("quitButton",
-                             new Button("quitButton", "QUIT", 44, Alignment.BOTTOM_CENTER, null)
-                                     .addClickCallback(((gui, element) -> Window.close()))
-                     )
+//                    .addGUIElement(
+//                            "buttonTest",
+//                            new Button("buttonTest","I am a button!", 52, Alignment.CENTER, null)
+//                                    .addClickCallback((gui, element) -> {
+//                                        System.out.println("click clack");
+//                                        System.out.println("This is definitely a button, yes");
+//                                        gui.setText(element.name(), "NICE!");
+//                                    })
+//                    )
+//                     .addGUIElement(
+//                             "sassyButton",
+//                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
+//                                     .addClickCallback((gui, element) -> {
+//                                         String[] sassiness = new String[] {
+//                                                 "over here!",
+//                                                 "Nah, over here!",
+//                                                 "Here I am!",
+//                                                 "Nah, jk, here!"
+//                                         };
+//
+//                                         gui.setText(element.name(), sassiness[(int)(Math.random() * 3)]);
+//                                         gui.setAlignment(element.name(), Alignment.asArray()[(int)(Math.random() * 8)] );
+//
+//                                     })
+//                     )
+//                     .addGUIElement("quitButton",
+//                             new Button("quitButton", "QUIT", 44, Alignment.BOTTOM_CENTER, null)
+//                                     .addClickCallback(((gui, element) -> Window.close()))
+//                     )
         );
 
         GUIStorage.selectGUI("inGame");
