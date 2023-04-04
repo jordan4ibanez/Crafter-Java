@@ -32,11 +32,14 @@ public final class ImageMeshFactory {
             textureSizes.put(fileLocation, imageTextureSize);
         }
 
+        final float width = imageTextureSize.x() * scale;
+        final float height = imageTextureSize.y() * scale;
+
         final float[] vertices = new float[]{
-                0.0f,                 0.0f,
-                0.0f,                 imageTextureSize.y(),
-                imageTextureSize.x(), imageTextureSize.y(),
-                imageTextureSize.x(), 0.0f,
+                0.0f,  0.0f,
+                0.0f,  height,
+                width, height,
+                width, 0.0f,
         };
 
         final float[] textureCoordinates = new float[]{
@@ -47,7 +50,7 @@ public final class ImageMeshFactory {
         };
 
         final int[] indices = new int[]{
-                0,1,2,3
+                0,1,2,2,3,0
         };
 
         // Fully blank, the shader takes care of blank color space
