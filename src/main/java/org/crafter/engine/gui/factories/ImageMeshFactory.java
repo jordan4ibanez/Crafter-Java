@@ -1,5 +1,6 @@
 package org.crafter.engine.gui.factories;
 
+import org.crafter.engine.gui.records.ImageTrim;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.joml.Vector2f;
@@ -13,12 +14,9 @@ import java.util.UUID;
  */
 public final class ImageMeshFactory {
 
-    // Reuser field
-    private static final Vector2f size = new Vector2f(0,0);
-
     private static final HashMap<String, Vector2fc> textureSizes = new HashMap<>();
 
-
+    private static final HashMap<String, ImageTrim> textureTrims = new HashMap<>();
 
     private ImageMeshFactory(){}
 
@@ -69,8 +67,29 @@ public final class ImageMeshFactory {
                 true
         );
 
-        System.out.println("ImageMeshFactory: Shipping out UUID (" + uuid + ")!");
+//        System.out.println("ImageMeshFactory: Shipping out UUID (" + uuid + ")!");
 
         return uuid;
+    }
+
+    /**
+     * I could have made the above function do a combo of this.
+     * But I think it's easier to understand if it's more explicit.
+     */
+    public static void createTrimmedImageMesh(float scale, String fileLocation) {
+
+    }
+
+    private static ImageTrim trimImage(String fileLocation) {
+        float width = 0;
+        float height = 0;
+        float startX = 0;
+        float endX = 0;
+        float startY = 0;
+        float endY = 0;
+
+
+
+        return new ImageTrim(width,height,startX,endX,startY,endY);
     }
 }
