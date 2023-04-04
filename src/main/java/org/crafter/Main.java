@@ -5,6 +5,7 @@ import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
 import org.crafter.engine.gui.components.Button;
+import org.crafter.engine.gui.components.Image;
 import org.crafter.engine.gui.components.Label;
 import org.crafter.engine.gui.components.TextBox;
 import org.crafter.engine.gui.enumerators.Alignment;
@@ -135,6 +136,8 @@ public class Main {
 
                                  gui.setText("fancy", "Currently Focused: " + focusedElement);
                              })
+                     )
+                     .addGUIElement("imageBoi", new Image("textures/debug.png", 10, Alignment.CENTER_LEFT, null)
                      )
 //                     .addGUIElement(
 //                             "sassyButton",
