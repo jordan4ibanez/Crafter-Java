@@ -25,7 +25,7 @@ public final class FramedMeshFactory {
      * This keeps the Button class clean as a whistle.
      * Note: The comments are from the original D project.
      */
-    public static String generateMesh(Vector2fc textSize, final float padding, final float pixelEdge, final float borderScale, final String texturePath) {
+    public static String generateMesh(Vector2fc textSize, final float padding, final float pixelEdge, final float borderScale, final String fileLocation) {
         // Pixel padding between the edge of the button texture, and the text texture
 //        final float padding = Button.getPadding();
 
@@ -41,12 +41,12 @@ public final class FramedMeshFactory {
                 textSize.y() + (padding * 2)
         );
 
-        Vector2fc buttonTextureSize = textureSizes.get(texturePath);
+        Vector2fc buttonTextureSize = textureSizes.get(fileLocation);
         // Auto initialize
         if (buttonTextureSize == null) {
-            buttonTextureSize = TextureStorage.getFloatingSize(texturePath);
+            buttonTextureSize = TextureStorage.getFloatingSize(fileLocation);
 
-            textureSizes.put(texturePath, buttonTextureSize);
+            textureSizes.put(fileLocation, buttonTextureSize);
         }
 
         // We're going to use the height to create the consistent layout
@@ -236,7 +236,7 @@ public final class FramedMeshFactory {
                 indices,
                 null,
                 colors,
-                texturePath,
+                fileLocation,
                 true
         );
 
