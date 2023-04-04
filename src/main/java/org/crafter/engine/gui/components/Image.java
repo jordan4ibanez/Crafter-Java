@@ -57,7 +57,7 @@ public class Image extends GUIElement{
             MeshStorage.destroy(_meshUUID);
         }
 
-        _meshUUID = ImageMeshFactory.createImageMesh(scale);
+        _meshUUID = ImageMeshFactory.createImageMesh(scale, fileLocation);
     }
 
     @Override
