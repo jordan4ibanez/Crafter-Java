@@ -148,7 +148,7 @@ public final class FramedMeshFactory {
         //                                          0     1                                2                                                        3
         final float[] verticalTexture = new float[]{0.0f, pixelEdge / buttonTextureSize.y(), (buttonTextureSize.y() - pixelEdge) / buttonTextureSize.y(), 1.0f};
 
-        final float[] textureCoords = new float[]{
+        final float[] textureCoordinates = new float[]{
                 // Top left
                 horizontalTexture[0], verticalTexture[0],
                 horizontalTexture[0], verticalTexture[1],
@@ -225,14 +225,15 @@ public final class FramedMeshFactory {
                 32, 33, 34, 34, 35, 32
         };
 
-        float[] colors = new float[144];
+        // Fully blank, the shader takes care of blank color space
+        final float[] colors = new float[144];
 
         String uuid = UUID.randomUUID().toString();
 
         MeshStorage.newMesh(
                 uuid,
                 vertices,
-                textureCoords,
+                textureCoordinates,
                 indices,
                 null,
                 colors,
@@ -240,7 +241,7 @@ public final class FramedMeshFactory {
                 true
         );
 
-        System.out.println("ButtonMeshFactory: Shipping out UUID (" + uuid + ")!");
+        // System.out.println("ButtonMeshFactory: Shipping out UUID (" + uuid + ")!");
 
         return uuid;
     }
