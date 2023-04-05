@@ -554,7 +554,7 @@ public final class Font {
                     newMinX = x;
                     for (int y = intPosY; y < maxY; y++) {
 
-                        Vector4i temp = tempImageObject.getPixel(x, y);
+//                        Vector4i temp = tempImageObject.getPixel(x, y);
                         // This is ubyte (0-255)
                         if (tempImageObject.getPixel(x, y).w > 0) {
                             found = true;
@@ -576,6 +576,7 @@ public final class Font {
                         // This is ubyte (0-255)
                         if (tempImageObject.getPixel(x, y).w > 0) {
                             found = true;
+                            break;
                         }
                     }
                     if (found) {
