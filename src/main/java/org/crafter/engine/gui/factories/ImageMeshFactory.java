@@ -83,11 +83,57 @@ public final class ImageMeshFactory {
 
         if (imageTrim == null) {
             imageTrim = trimImage(fileLocation);
-
             textureTrims.put(fileLocation, imageTrim);
         }
 
-        return "test";
+        final float width = imageTrim.width() * scale;
+        final float height = imageTrim.height() * scale;
+
+        final float[] vertices = new float[]{
+                0.0f,  0.0f,
+                0.0f,  height,
+                width, height,
+                width, 0.0f,
+        };
+
+        final float[] textureCoordinates = new float[]{
+                imageTrim.startX(), imageTrim.startY(),
+                imageTrim.startX(), imageTrim.endY(),
+                imageTrim.endX(),   imageTrim.endY(),
+                imageTrim.endX(),   imageTrim.startY()
+        };
+
+        final int[] indices = new int[]{
+                0,1,2,2,3,0
+        };
+
+        // Fully blank, the shader takes care of blank color space
+        final float[] colors = new float[12];
+
+        String uuid = UUID.randomUUID().toString();
+
+        MeshStorage.newMesh(
+                uuid,
+                vertices,
+                textureCoordinates,
+                indices,
+                null,
+                colors,
+                fileLocation,
+                true
+        );
+
+//        System.out.println("ImageMeshFactory: Shipping out UUID (" + uuid + ")!");
+
+        return uuid;
+    }
+
+    public static Vector2f getSizeOfTrimmed(float scale, String fileLocation) {
+        if (!textureTrims.containsKey(fileLocation)) {
+            throw new RuntimeException("ImageMeshFactory: attempted to access size of null trimmed texture! (" + fileLocation +")");
+        }
+        ImageTrim thisTrim = textureTrims.get(fileLocation);
+        return new Vector2f(thisTrim.width() * scale, thisTrim.height() * scale);
     }
 
     private static ImageTrim trimImage(String fileLocation) {
@@ -175,10 +221,20 @@ public final class ImageMeshFactory {
             }
         }
 
+        // Now finish calculations
+
         width = endX - startX;
         height = endY - startY;
 
+        startX /= tempWidth;
+        endX /= tempWidth;
+
+        startY /= tempHeight;
+        endY /= tempHeight;
+
+        // Delete that C memory
         tempImageObject.destroy();
+
         return new ImageTrim(width,height,startX,endX,startY,endY);
     }
 }
