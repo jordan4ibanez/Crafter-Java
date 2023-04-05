@@ -140,7 +140,7 @@ public class Main {
                      .addGUIElement("imageBoi", new Image("textures/debug.png", 10, Alignment.CENTER_LEFT, null)
                      )
                      // -160 because original is 16x16 scaled by 10x
-                     .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.CENTER_LEFT, new Vector2f(0,-160))
+                     .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.CENTER_LEFT, new Vector2f(0,-160), true)
                      )
 //                     .addGUIElement(
 //                             "sassyButton",
