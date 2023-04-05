@@ -25,10 +25,15 @@ public class Image extends GUIElement{
     private boolean trimmingEnabled = false;
 
     public Image(String fileLocation, float scale, Alignment alignment, Vector2f offset) {
+        this(fileLocation, scale, alignment, offset, false);
+    }
+
+    public Image(String fileLocation, float scale, Alignment alignment, Vector2f offset, boolean trimmingEnabled) {
         super(alignment, offset);
 
         this.fileLocation = fileLocation;
         this.scale = scale;
+        this.trimmingEnabled = trimmingEnabled;
 
         originalImageSize = TextureStorage.getFloatingSize(fileLocation);
 
@@ -66,10 +71,13 @@ public class Image extends GUIElement{
             MeshStorage.destroy(_meshUUID);
         }
 
-        _meshUUID = ImageMeshFactory.createImageMesh(scale * getGuiScale(), fileLocation);
-
-        this._size.set(originalImageSize.x() * scale * getGuiScale(), originalImageSize.y() * scale * getGuiScale());
-
+        if (trimmingEnabled) {
+            _meshUUID = ImageMeshFactory.createTrimmedImageMesh(scale * getGuiScale(), fileLocation);
+            this._size.set(ImageMeshFactory.getSizeOfTrimmed(scale * getGuiScale(), fileLocation));
+        } else {
+            _meshUUID = ImageMeshFactory.createImageMesh(scale * getGuiScale(), fileLocation);
+            this._size.set(originalImageSize.x() * scale * getGuiScale(), originalImageSize.y() * scale * getGuiScale());
+        }
         recalculatePosition();
     }
 
