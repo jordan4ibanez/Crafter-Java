@@ -7,9 +7,20 @@ import org.joml.Vector2fc;
 
 public class DropMenu extends GUIElement {
 
-    protected DropMenu(Alignment alignment, Vector2f offset) {
+    private int selectedOption = 0;
+
+    protected DropMenu(Vector2f boxSize, String[] options, float fontSize, Alignment alignment, Vector2f offset) {
         super(alignment, offset);
+
+        if (options.length < 2) {
+            throw new RuntimeException("DropMenu: You must have more than one option in your drop menu!");
+        }
     }
+
+    public void setCurrentOption() {
+
+    }
+
 
     @Override
     public void render() {
