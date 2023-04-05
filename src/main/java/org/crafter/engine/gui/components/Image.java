@@ -91,6 +91,6 @@ public class Image extends GUIElement{
     @Override
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        System.out.println("Image (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
+//        System.out.println("Image (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 }
