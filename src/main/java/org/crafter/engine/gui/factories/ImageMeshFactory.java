@@ -53,7 +53,7 @@ public final class ImageMeshFactory {
         };
 
         // Fully blank, the shader takes care of blank color space
-        final float[] colors = new float[12];
+        final float[] colors = new float[16];
 
         String uuid = UUID.randomUUID().toString();
 
