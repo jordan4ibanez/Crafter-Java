@@ -3,6 +3,7 @@ package org.crafter.engine.gui.factories;
 import org.crafter.engine.gui.records.ImageTrim;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
+import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
@@ -76,20 +77,108 @@ public final class ImageMeshFactory {
      * I could have made the above function do a combo of this.
      * But I think it's easier to understand if it's more explicit.
      */
-    public static void createTrimmedImageMesh(float scale, String fileLocation) {
+    public static String createTrimmedImageMesh(float scale, String fileLocation) {
 
+        ImageTrim imageTrim = textureTrims.get(fileLocation);
+
+        if (imageTrim == null) {
+            imageTrim = trimImage(fileLocation);
+
+            textureTrims.put(fileLocation, imageTrim);
+        }
+
+        return "test";
     }
 
     private static ImageTrim trimImage(String fileLocation) {
-        float width = 0;
-        float height = 0;
+        float width;
+        float height;
         float startX = 0;
         float endX = 0;
         float startY = 0;
         float endY = 0;
 
+        final RawTextureObject tempImageObject = new RawTextureObject(fileLocation);
 
+        final float tempWidth = tempImageObject.getWidth();
+        final float tempHeight = tempImageObject.getHeight();
 
+        // This check only has to run once
+        boolean blank = true;
+
+        boolean found = false;
+
+        // StartX
+        for (int x = 0; x < tempWidth; x++) {
+            for (int y = 0; y < tempHeight; y++) {
+                if (tempImageObject.getPixel(x,y).w > 0) {
+                    blank = false;
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                startX = x;
+                break;
+            }
+        }
+
+        if (blank) {
+            throw new RuntimeException("ImageMeshFactory: Tried to trim a blank image!");
+        }
+
+        found = false;
+
+        // EndX
+        for (int x = (int)tempWidth - 1; x >= 0; x--) {
+            for (int y = 0; y < tempHeight; y++) {
+                if (tempImageObject.getPixel(x,y).w > 0) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                endX = x + 1;
+                break;
+            }
+        }
+
+        found = false;
+
+        // StartY
+        for (int y = 0; y < tempHeight; y++) {
+            for (int x = 0; x < tempWidth; x++) {
+                if (tempImageObject.getPixel(x,y).w > 0) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                startY = y;
+                break;
+            }
+        }
+
+        found = false;
+
+        // EndY
+        for (int y = (int)tempHeight - 1; y >= 0; y--) {
+            for (int x = 0; x < tempWidth; x++) {
+                if (tempImageObject.getPixel(x,y).w > 0) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                endY = y + 1;
+                break;
+            }
+        }
+
+        width = endX - startX;
+        height = endY - startY;
+
+        tempImageObject.destroy();
         return new ImageTrim(width,height,startX,endX,startY,endY);
     }
 }
