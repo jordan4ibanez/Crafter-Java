@@ -4,10 +4,8 @@ import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
-import org.crafter.engine.gui.components.Button;
-import org.crafter.engine.gui.components.Image;
-import org.crafter.engine.gui.components.Label;
-import org.crafter.engine.gui.components.TextBox;
+import org.crafter.engine.gui.actions.OnStep;
+import org.crafter.engine.gui.components.*;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -68,6 +66,7 @@ public class Main {
         float rotation = 0.0f;
 
         AtomicInteger index = new AtomicInteger();
+        final String[] lastFocused = {""};
 
         GUIStorage.addGUI("inGame",
              new GUI("inGame")
@@ -129,12 +128,18 @@ public class Main {
                              })
                      )
                      .addGUIElement("fancy", new Label("test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
-                             .addOnStepCallback((gui, element) -> {
-
-                                 // Shouldn't call every time, but whatever
-                                 String focusedElement = gui.getCurrentlyFocused();
-
-                                 gui.setText("fancy", "Currently Focused: " + focusedElement);
+                             .addOnStepCallback(
+                                     new OnStep() {
+                                    @Override
+                                    public void action(GUI gui, GUIElement element) {
+                                        // Shouldn't call every time, but whatever
+                                        String focusedElement = gui.getCurrentlyFocused();
+                                        if (!focusedElement.equals(lastFocused[0])) {
+                                            gui.setText("fancy", "Currently Focused: " + focusedElement);
+                                            lastFocused[0] = focusedElement;
+                                            System.out.println("UPDATING BOI");
+                                        }
+                                    }
                              })
                      )
                      .addGUIElement("imageBoi", new Image("textures/debug.png", 10, Alignment.CENTER_LEFT, null)
