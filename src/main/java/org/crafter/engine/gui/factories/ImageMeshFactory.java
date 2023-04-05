@@ -38,7 +38,7 @@ public final class ImageMeshFactory {
                 0.0f,  0.0f,
                 0.0f,  height,
                 width, height,
-                width, 0.0f,
+                width, 0.0f
         };
 
         final float[] textureCoordinates = new float[]{
