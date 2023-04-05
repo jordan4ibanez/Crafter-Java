@@ -132,12 +132,10 @@ public class Main {
                                      new OnStep() {
                                     @Override
                                     public void action(GUI gui, GUIElement element) {
-                                        // Shouldn't call every time, but whatever
                                         String focusedElement = gui.getCurrentlyFocused();
                                         if (!focusedElement.equals(lastFocused[0])) {
                                             gui.setText("fancy", "Currently Focused: " + focusedElement);
                                             lastFocused[0] = focusedElement;
-                                            System.out.println("UPDATING BOI");
                                         }
                                     }
                              })
