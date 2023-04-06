@@ -51,7 +51,7 @@ public final class ColorRectangleFactory {
                 true
         );
 
-        System.out.println("ColorRectangleFactory: Shipping out UUID (" + uuid + ")!");
+//        System.out.println("ColorRectangleFactory: Shipping out UUID (" + uuid + ")!");
 
         return uuid;
     }
