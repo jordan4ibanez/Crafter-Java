@@ -92,7 +92,7 @@ public class GUI {
                         String newFocus = element.name();
                         existenceCheck(newFocus);
                         currentlyFocused = newFocus;
-                        System.out.println("new focused element is: " + currentlyFocused);
+//                        System.out.println("new focused element is: " + currentlyFocused);
 
                     } else {
                         element.internalOnHover(mousePosition);
@@ -107,7 +107,7 @@ public class GUI {
 
         if (mouseClicked && failedToCollide) {
             currentlyFocused = "";
-            System.out.println("new focused element is: " + currentlyFocused);
+//            System.out.println("new focused element is: " + currentlyFocused);
         }
     }
 
