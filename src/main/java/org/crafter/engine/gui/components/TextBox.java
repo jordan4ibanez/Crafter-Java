@@ -77,7 +77,7 @@ public class TextBox extends Text {
             if (wasFocused) {
                 recalculateText();
                 wasFocused = false;
-                System.out.println("recalculating");
+//                System.out.println("recalculating");
             }
             return;
         }
