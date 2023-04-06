@@ -37,9 +37,6 @@ public class DropMenu extends GUIElement {
     // Holds the actual options string values
     private final String[] options;
 
-    // A quick skip list that automatically allows rendering out the not selected options
-    private final int[] renders;
-
     private String selectionBoxUUID = null;
     private String fullSizeBackgroundUUID = null;
     private String dropDownCollapsedUUID = null;
@@ -48,12 +45,13 @@ public class DropMenu extends GUIElement {
     private String collapsedOptionUUID = null;
 
     // These are the options in full size
-    private final String[] optionsUUID;
+    private final String[] optionsUUIDs;
 
     private final float heightClosed;
     private final float heightOpen;
 
 
+    //TODO: add in Integer default option
     public DropMenu(float boxWidth, String[] options, float fontSize, Alignment alignment, Vector2f offset) {
         super(alignment, offset);
 
@@ -65,8 +63,7 @@ public class DropMenu extends GUIElement {
         this.fontSize = fontSize;
 
         this.textHeight = Font.getTextSize(fontSize, " ").y();
-        this.renders = new int[options.length - 1];
-        this.optionsUUID = new String[options.length];
+        this.optionsUUIDs = new String[options.length];
 
         heightClosed = textHeight + (padding * 2);
         heightOpen = (textHeight + (padding * 2)) * options.length;
@@ -77,8 +74,13 @@ public class DropMenu extends GUIElement {
     }
 
     public void setCurrentOption() {
-        //FIXME todo
-
+        // Recreates the selection option text
+        // Safety check
+        if (hoverSelection == -1 || hoverSelection >= options.length) {
+            return;
+        }
+        selectedOption = hoverSelection;
+        recalculateCollapsedText();
     }
 
 
@@ -99,16 +101,21 @@ public class DropMenu extends GUIElement {
             MeshStorage.render(buttonUUID);
         } else {
 
+            // Text options
+            for (int i = 0; i < options.length; i++) {
+                Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding() + (i * textHeight * getGuiScale()));
+                MeshStorage.render(optionsUUIDs[i]);
+            }
+
             // Selection box
-            if (selectedOption != -1) {
-                Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding() + (selectedOption * textHeight * getGuiScale()));
+            if (hoverSelection != -1) {
+                Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding() + (hoverSelection * textHeight * getGuiScale()));
                 MeshStorage.render(selectionBoxUUID);
             }
 
-            // Background FIXME render last
+            // Background
             Camera.setGuiObjectMatrix(_position.x, _position.y);
             MeshStorage.render(fullSizeBackgroundUUID);
-
         }
     }
 
@@ -116,7 +123,8 @@ public class DropMenu extends GUIElement {
     public boolean collisionDetect(Vector2fc mousePosition) {
         boolean collided = pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
         if (!collided) {
-            selectedOption = -1;
+            // This is cheap, simplistic logic prevents bugs
+            hoverSelection = -1;
         }
         return collided;
     }
@@ -132,12 +140,12 @@ public class DropMenu extends GUIElement {
             setSize(new Vector2f(getBoxWidth() + doublePadding(), (textHeight * getGuiScale()) + doublePadding()));
         } else {
             recalculateFullSizeBackground();
-
-
+            recalculateOptions();
             //FIXME this can be optimized
             setSize(new Vector2f(getBoxWidth() + doublePadding(), ((textHeight * getGuiScale()) * options.length) + doublePadding()));
         }
 
+        // The window can get resized when the drop box is collapsed, making this outdated
         recalculateSelectionBox();
 
         recalculatePosition();
@@ -146,6 +154,10 @@ public class DropMenu extends GUIElement {
     @Override
     public void internalOnStep(GUI gui) {
         if (Window.wasResized()) {
+            recalculateMesh();
+        }
+        if (!collapsed && !gui.getCurrentlyFocused().equals(this.name())) {
+            collapsed = true;
             recalculateMesh();
         }
     }
@@ -165,22 +177,23 @@ public class DropMenu extends GUIElement {
         // Collide with elements
         for (int i = 0; i < options.length; i++) {
             if (pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x() + getPadding(), (_position.y() + getPadding()) + (textHeight * getGuiScale() * (float)i), getBoxWidth(), textHeight * getGuiScale())) {
-                selectedOption = i;
+                hoverSelection = i;
                 return;
             }
         }
-        selectedOption = -1;
+        hoverSelection = -1;
     }
 
     @Override
     public void internalOnClick(Vector2fc mousePosition) {
         if (collapsed) {
-            System.out.println("DropMenu: Open menu");
             this.collapsed = false;
             recalculateMesh();
-        } else {
-            System.out.println("DropMenu: Do selection");
+            return;
         }
+        // Not collapsed
+
+        //todo make this update the selection
     }
 
     private void recalculateFullSizeBackground() {
@@ -202,26 +215,29 @@ public class DropMenu extends GUIElement {
         Font.switchColor(1,1,1);
         Font.switchShadowColor(0,0,0);
 
+        final String finalText = makeTextFit(options[selectedOption], getCollapsedTextBoxWidth());
+
+        collapsedOptionUUID = Font.grabText(this.fontSize * getGuiScale(), finalText);
+    }
+
+    private String makeTextFit(final String inputString, final float requiredWidth) {
         boolean fits = false;
-        String finalText = options[selectedOption];
-        final int textLength = finalText.length();
+        String outputText = inputString;
+        final int textLength = inputString.length();
         int currentTrim = 0;
-        final float goalWidth = getCollapsedTextBoxWidth();
 
         while(!fits) {
 
-            float gottenWidth = Font.getTextSize(fontSize * getGuiScale(), finalText).x();
+            float gottenWidth = Font.getTextSize(fontSize * getGuiScale(), outputText).x();
 
-            if (gottenWidth <= goalWidth) {
+            if (gottenWidth <= requiredWidth) {
                 fits = true;
             } else {
                 currentTrim++;
-                finalText = finalText.substring(0, textLength - currentTrim)  + "...";
+                outputText = outputText.substring(0, textLength - currentTrim)  + "...";
             }
         }
-
-        collapsedOptionUUID = Font.grabText(this.fontSize * getGuiScale(), finalText);
-
+        return outputText;
     }
 
     private void recalculateCollapsed() {
@@ -231,6 +247,23 @@ public class DropMenu extends GUIElement {
         Vector2f boxSize = getSelectionBoxSize();
         boxSize.x -= getButtonWidth() + doublePadding();
         dropDownCollapsedUUID = FramedMeshFactory.generateMesh(boxSize, getPadding(), getPixelEdge(), getBorderScale(), "textures/button.png");
+    }
+
+    private void recalculateOptions() {
+        for (String optionUUID : optionsUUIDs) {
+            if (optionUUID != null) {
+                MeshStorage.destroy(optionUUID);
+            }
+        }
+        final float boxWidth = getSelectionBoxWidth();
+
+        for (int i = 0; i < options.length; i++) {
+            final String option = options[i];
+
+            final String finalText = makeTextFit(option, boxWidth);
+
+            optionsUUIDs[i] = Font.grabText(this.fontSize * getGuiScale(), finalText);
+        }
     }
 
     private void recalculateButton() {
@@ -265,6 +298,10 @@ public class DropMenu extends GUIElement {
     // Gets it with scaling!
     private Vector2f getSelectionBoxSize() {
         return new Vector2f(boxWidth * getGuiScale(), textHeight * getGuiScale());
+    }
+
+    private float getSelectionBoxWidth() {
+        return boxWidth * getGuiScale();
     }
 
     private float doublePadding() {
