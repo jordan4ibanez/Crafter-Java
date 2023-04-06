@@ -20,7 +20,12 @@ public final class ColorRectangleFactory {
                 width, 0.0f
         };
 
-        final float[] textureCoordinates = new float[8];
+        final float[] textureCoordinates = new float[]{
+                0,0,
+                0,1,
+                1,1,
+                1,0
+        };
 
         final int[] indices = new int[]{
                 0,1,2,2,3,0
@@ -48,6 +53,6 @@ public final class ColorRectangleFactory {
 
         System.out.println("ColorRectangleFactory: Shipping out UUID (" + uuid + ")!");
 
-        return "test";
+        return uuid;
     }
 }
