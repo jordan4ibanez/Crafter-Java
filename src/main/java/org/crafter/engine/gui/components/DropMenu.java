@@ -108,7 +108,11 @@ public class DropMenu extends GUIElement {
 
     @Override
     public boolean collisionDetect(Vector2fc mousePosition) {
-        return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
+        boolean collided = pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
+        if (!collided) {
+            selectedOption = -1;
+        }
+        return collided;
     }
 
     @Override
@@ -152,13 +156,14 @@ public class DropMenu extends GUIElement {
         if(collapsed) {
             return;
         }
-
         // Collide with elements
         for (int i = 0; i < options.length; i++) {
             if (pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x() + getPadding(), (_position.y() + getPadding()) + (textHeight * getGuiScale() * (float)i), getBoxWidth(), textHeight * getGuiScale())) {
-                System.out.println("colliding with option " + i);
+                selectedOption = i;
+                return;
             }
         }
+        selectedOption = -1;
     }
 
     @Override
