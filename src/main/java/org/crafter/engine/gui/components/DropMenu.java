@@ -262,6 +262,9 @@ public class DropMenu extends GUIElement {
 
             final String finalText = makeTextFit(option, boxWidth);
 
+            // FIXME: this should be selectable
+            Font.switchColor(1,1,1);
+            Font.switchShadowColor(0,0,0);
             optionsUUIDs[i] = Font.grabText(this.fontSize * getGuiScale(), finalText);
         }
     }
