@@ -70,81 +70,82 @@ public class Main {
 
         GUIStorage.addGUI("inGame",
              new GUI("inGame")
-                    .addGUIElement(
-                            "versionInfo",
-                            new Label(VERSION_INFO, 40, Alignment.TOP_LEFT, null)
-                    )
-                    .addGUIElement(
-                            "buttonTest",
-                            new Button("I am a button!", 52, Alignment.CENTER, null)
-                                    .addClickCallback((gui, element) -> {
-                                        System.out.println("click clack");
-                                        System.out.println("This is definitely a button, yes");
-                                        gui.setText(element.name(), "NICE!");
-                                    })
-                    )
-                     .addGUIElement(
-                             "textBox",
-                             new TextBox("Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
-                                     .addEnterInputCallback((gui, element, textData) -> {
-                                         if (!textData.equals("")) {
-                                             System.out.println(element.name() + " output: " + textData);
-
-                                             int gotten = index.get();
-
-                                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm");
-                                             LocalDateTime timeStampRaw = LocalDateTime.now();
-                                             String timeStamp = formatter.format(timeStampRaw);
-
-                                             String playerText = "(" + timeStamp + ") Player: " + textData;
-
-                                             GUIStorage.addElement("inGame", "index" + gotten, new Label(
-                                                     playerText,
-                                                     32,
-                                                     Alignment.BOTTOM_LEFT,
-                                                     new Vector2f(0, 60)
-                                             ));
-
-                                             for (int i = 0; i <= gotten; i++) {
-                                                 int multiplier = gotten - i;
-                                                 GUIStorage.setOffset("index" + i, new Vector2f(0, (multiplier + 2) * 60));
-                                             }
-
-                                             index.getAndIncrement();
-                                         }
-                                     })
-//                                     .addClickCallback((gui, element) -> {
-//                                         System.out.println("click clack");
+//                    .addGUIElement(
+//                            "versionInfo",
+//                            new Label(VERSION_INFO, 40, Alignment.TOP_LEFT, null)
+//                    )
+//                    .addGUIElement(
+//                            "buttonTest",
+//                            new Button("I am a button!", 52, Alignment.CENTER, null)
+//                                    .addClickCallback((gui, element) -> {
+//                                        System.out.println("click clack");
+//                                        System.out.println("This is definitely a button, yes");
+//                                        gui.setText(element.name(), "NICE!");
+//                                    })
+//                    )
+//                     .addGUIElement(
+//                             "textBox",
+//                             new TextBox("Your text here...", 52, Alignment.BOTTOM_LEFT, null, 1024)
+//                                     .addEnterInputCallback((gui, element, textData) -> {
+//                                         if (!textData.equals("")) {
+//                                             System.out.println(element.name() + " output: " + textData);
+//
+//                                             int gotten = index.get();
+//
+//                                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm");
+//                                             LocalDateTime timeStampRaw = LocalDateTime.now();
+//                                             String timeStamp = formatter.format(timeStampRaw);
+//
+//                                             String playerText = "(" + timeStamp + ") Player: " + textData;
+//
+//                                             GUIStorage.addElement("inGame", "index" + gotten, new Label(
+//                                                     playerText,
+//                                                     32,
+//                                                     Alignment.BOTTOM_LEFT,
+//                                                     new Vector2f(0, 60)
+//                                             ));
+//
+//                                             for (int i = 0; i <= gotten; i++) {
+//                                                 int multiplier = gotten - i;
+//                                                 GUIStorage.setOffset("index" + i, new Vector2f(0, (multiplier + 2) * 60));
+//                                             }
+//
+//                                             index.getAndIncrement();
+//                                         }
 //                                     })
-                     )
-                     .addGUIElement("youtubeButton", new Label("test", 52, Alignment.BOTTOM_RIGHT,null)
-                             .addOnStepCallback((gui, element) -> {
-                                 gui.setText("youtubeButton", "Delta Time: " + Delta.getDelta());
-                             })
-                     )
-                     .addGUIElement("mousey", new Label("", 52, Alignment.TOP_RIGHT,null)
-                             .addOnStepCallback((gui, element) -> {
-                                 gui.setText("mousey", "Mouse Pos: " + Mouse.getPosition().x() + ", " + Mouse.getPosition().y());
-                             })
-                     )
-                     .addGUIElement("fancy", new Label("test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
-                             .addOnStepCallback(
-                                     new OnStep() {
-                                    @Override
-                                    public void action(GUI gui, GUIElement element) {
-                                        String focusedElement = gui.getCurrentlyFocused();
-                                        if (!focusedElement.equals(lastFocused[0])) {
-                                            gui.setText("fancy", "Currently Focused: " + focusedElement);
-                                            lastFocused[0] = focusedElement;
-                                        }
-                                    }
-                             })
-                     )
-                     .addGUIElement("imageBoi", new Image("textures/debug.png", 10, Alignment.CENTER_LEFT, null)
-                     )
-                     // -160 because original is 16x16 scaled by 10x, trimmed pixels (1 off top, 1 off bottom) makes it 3x14
-                     .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.TOP_CENTER, new Vector2f(0,0), true)
-                     )
+////                                     .addClickCallback((gui, element) -> {
+////                                         System.out.println("click clack");
+////                                     })
+//                     )
+//                     .addGUIElement("youtubeButton", new Label("test", 52, Alignment.BOTTOM_RIGHT,null)
+//                             .addOnStepCallback((gui, element) -> {
+//                                 gui.setText("youtubeButton", "Delta Time: " + Delta.getDelta());
+//                             })
+//                     )
+//                     .addGUIElement("mousey", new Label("", 52, Alignment.TOP_RIGHT,null)
+//                             .addOnStepCallback((gui, element) -> {
+//                                 gui.setText("mousey", "Mouse Pos: " + Mouse.getPosition().x() + ", " + Mouse.getPosition().y());
+//                             })
+//                     )
+//                     .addGUIElement("fancy", new Label("test", 52, Alignment.TOP_LEFT,new Vector2f(0, -60))
+//                             .addOnStepCallback(
+//                                     new OnStep() {
+//                                    @Override
+//                                    public void action(GUI gui, GUIElement element) {
+//                                        String focusedElement = gui.getCurrentlyFocused();
+//                                        if (!focusedElement.equals(lastFocused[0])) {
+//                                            gui.setText("fancy", "Currently Focused: " + focusedElement);
+//                                            lastFocused[0] = focusedElement;
+//                                        }
+//                                    }
+//                             })
+//                     )
+//                     .addGUIElement("imageBoi", new Image("textures/debug.png", 10, Alignment.CENTER_LEFT, null)
+//                     )
+//                     // -160 because original is 16x16 scaled by 10x, trimmed pixels (1 off top, 1 off bottom) makes it 3x14
+//                     .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.TOP_CENTER, new Vector2f(0,0), true)
+//                     )
+                     .addGUIElement("dropMenu", new DropMenu(512, new String[]{"hi", "there"}, 24, Alignment.CENTER,null))
 //                     .addGUIElement(
 //                             "sassyButton",
 //                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
