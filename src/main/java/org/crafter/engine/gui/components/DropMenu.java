@@ -40,7 +40,7 @@ public class DropMenu extends GUIElement {
     private final int[] renders;
 
     private String selectionBoxUUID = null;
-    private String dropDownOpenUUID = null;
+    private String fullSizeBackgroundUUID = null;
     private String dropDownCollapsedUUID = null;
     private String buttonUUID = null;
     private String buttonTextUUID = null;
@@ -98,6 +98,10 @@ public class DropMenu extends GUIElement {
             MeshStorage.render(buttonUUID);
         } else {
 
+            // Background FIXME render last
+            Camera.setGuiObjectMatrix(_position.x, _position.y);
+            MeshStorage.render(fullSizeBackgroundUUID);
+
         }
     }
 
@@ -119,7 +123,11 @@ public class DropMenu extends GUIElement {
 
             setSize(new Vector2f(getBoxWidth() + doublePadding(), (textHeight * getGuiScale()) + doublePadding()));
         } else {
+            recalculateFullSizeBackground();
 
+
+            //FIXME this can be optimized
+            setSize(new Vector2f(getBoxWidth() + doublePadding(), ((textHeight * getGuiScale()) * options.length) + doublePadding()));
         }
 
         recalculateSelectionBox();
@@ -158,6 +166,16 @@ public class DropMenu extends GUIElement {
         } else {
             System.out.println("DropMenu: Do selection");
         }
+    }
+
+    private void recalculateFullSizeBackground() {
+        if (fullSizeBackgroundUUID != null) {
+            MeshStorage.destroy(fullSizeBackgroundUUID);
+        }
+
+        final float width = boxWidth * getGuiScale();
+        final float height = (textHeight * getGuiScale()) * options.length;
+        fullSizeBackgroundUUID = FramedMeshFactory.generateMesh(new Vector2f(width, height), getPadding(), getPixelEdge(), getBorderScale(),"textures/button.png");
     }
 
     private void recalculateCollapsedText() {
