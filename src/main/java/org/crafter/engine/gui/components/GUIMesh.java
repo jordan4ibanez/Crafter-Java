@@ -5,15 +5,22 @@ import org.crafter.engine.gui.enumerators.Alignment;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
-public class GUIMesh extends GUIElement{
+/**
+ * A GUI Mesh is a mesh which exists in 3d, yet in 2d at the same time.
+ * Optionally, exists without perspective.
+ */
+public class GUIMesh extends GUIElement {
 
-    protected GUIMesh(Alignment alignment, Vector2f offset) {
+    private boolean perspective = true;
+
+    protected GUIMesh(String uuid, Alignment alignment, Vector2f offset, boolean perspective) {
         super(alignment, offset);
+        this._meshUUID = uuid;
+        this.perspective = perspective;
     }
 
     @Override
     public void render() {
-
     }
 
     @Override
