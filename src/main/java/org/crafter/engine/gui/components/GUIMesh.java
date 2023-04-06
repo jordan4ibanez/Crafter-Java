@@ -13,7 +13,7 @@ public class GUIMesh extends GUIElement {
 
     private boolean perspective = true;
 
-    protected GUIMesh(String uuid, Alignment alignment, Vector2f offset, boolean perspective) {
+    public GUIMesh(String uuid, Alignment alignment, Vector2f offset, boolean perspective) {
         super(alignment, offset);
         this._meshUUID = uuid;
         this.perspective = perspective;
