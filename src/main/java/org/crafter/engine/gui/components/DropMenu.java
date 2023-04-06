@@ -47,12 +47,10 @@ public class DropMenu extends GUIElement {
     // These are the options in full size
     private final String[] optionsUUIDs;
 
-    private final float heightClosed;
-    private final float heightOpen;
+    // This is so elements can be optimized, can poll if there's a new option
+    private boolean newOption = false;
 
-
-    //TODO: add in Integer default option
-    public DropMenu(float boxWidth, String[] options, float fontSize, Alignment alignment, Vector2f offset) {
+    public DropMenu(float boxWidth, String[] options, float fontSize, Alignment alignment, Vector2f offset, Integer defaultSelection) {
         super(alignment, offset);
 
         if (options.length < 2) {
@@ -65,13 +63,28 @@ public class DropMenu extends GUIElement {
         this.textHeight = Font.getTextSize(fontSize, " ").y();
         this.optionsUUIDs = new String[options.length];
 
-        heightClosed = textHeight + (padding * 2);
-        heightOpen = (textHeight + (padding * 2)) * options.length;
+        if (defaultSelection != null) {
+            // Safety check
+            if (defaultSelection == -1 || defaultSelection >= options.length) {
+                throw new RuntimeException("DropMenu: Default selection is out of bounds!");
+            }
+            this.selectedOption = defaultSelection;
+        }
 
         this._collide = true;
 
         recalculateMesh();
     }
+
+    // External usage, for creating neat callbacks!
+    public boolean newOption() {
+        return newOption;
+    }
+
+    public String getSelectedOption() {
+        return options[selectedOption];
+    }
+    // End neat callbacks, so sad
 
     public void setCurrentOption() {
         // Recreates the selection option text
@@ -171,6 +184,9 @@ public class DropMenu extends GUIElement {
 
     @Override
     public void internalOnHover(Vector2fc mousePosition) {
+
+        newOption = false;
+
         if(collapsed) {
             return;
         }
@@ -186,6 +202,8 @@ public class DropMenu extends GUIElement {
 
     @Override
     public void internalOnClick(Vector2fc mousePosition) {
+
+        newOption = false;
 
         // Open up the selection box
 
@@ -208,6 +226,9 @@ public class DropMenu extends GUIElement {
         setCurrentOption();
         collapsed = true;
         recalculateMesh();
+
+        newOption = true;
+
     }
 
     private void recalculateFullSizeBackground() {
@@ -215,9 +236,13 @@ public class DropMenu extends GUIElement {
             MeshStorage.destroy(fullSizeBackgroundUUID);
         }
 
-        final float width = boxWidth * getGuiScale();
+        // textHeight * getGuiScale()
+
+        final float width = (boxWidth * getGuiScale());
         final float height = (textHeight * getGuiScale()) * options.length;
-        fullSizeBackgroundUUID = FramedMeshFactory.generateMesh(new Vector2f(width, height), getPadding(), getPixelEdge(), getBorderScale(),"textures/button.png");
+
+        // (1.0f + ((float)options.length * 0.3f)) is an extreme hardcode, works pretty well, for now
+        fullSizeBackgroundUUID = FramedMeshFactory.generateMesh(new Vector2f(width, height), getPadding(), getPixelEdge(), getBorderScale() / (1.0f + ((float)options.length * 0.3f)) ,"textures/button.png");
     }
 
     private void recalculateCollapsedText() {
