@@ -84,10 +84,7 @@ public class TextBox extends Text {
         focused = true;
         wasFocused = true;
 
-        // FIXME: TURN THIS INTO AN INTERNAL IN THE KEYBOARD STATIC CLASS!
         boolean enterKeyPressed = Keyboard.keyPressed(GLFW_KEY_ENTER);
-
-//        System.out.println("enter key: " + enterKeyPressed);
 
         if (enterKeyPressed) {
             if (enterInputable()) {
