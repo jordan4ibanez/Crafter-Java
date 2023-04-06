@@ -70,6 +70,8 @@ public class DropMenu extends GUIElement {
         heightClosed = textHeight + (padding * 2);
         heightOpen = (textHeight + (padding * 2)) * options.length;
 
+        this._collide = true;
+
         recalculateMesh();
     }
 
@@ -101,8 +103,9 @@ public class DropMenu extends GUIElement {
 
     @Override
     public boolean collisionDetect(Vector2fc mousePosition) {
-        //FIXME todo
-
+        if (collapsed) {
+            return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), getFullWidth(), getCollapsedHeight());
+        }
         return false;
     }
 
@@ -237,6 +240,19 @@ public class DropMenu extends GUIElement {
 
     private float getCollapsedTextBoxWidth() {
         return (boxWidth * getGuiScale()) - (getButtonWidth() + doublePadding());
+    }
+
+    private float getFullWidth() {
+        return (boxWidth * getGuiScale()) + doublePadding();
+    }
+
+    private float getFullHeight() {
+        //FIXME: this is very wrong
+        return (textHeight * getGuiScale()) + doublePadding();
+    }
+
+    private float getCollapsedHeight() {
+        return (textHeight * getGuiScale()) + doublePadding();
     }
 
 
