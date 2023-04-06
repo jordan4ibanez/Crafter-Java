@@ -4,6 +4,7 @@ import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
+import org.crafter.engine.gui.actions.Click;
 import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.components.*;
 import org.crafter.engine.gui.enumerators.Alignment;
@@ -145,7 +146,23 @@ public class Main {
 //                     // -160 because original is 16x16 scaled by 10x, trimmed pixels (1 off top, 1 off bottom) makes it 3x14
 //                     .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.TOP_CENTER, new Vector2f(0,0), true)
 //                     )
-                     .addGUIElement("dropMenu", new DropMenu(512, new String[]{"this is a test of a long blah blah blah", "there"}, 32, Alignment.CENTER,null))
+                     .addGUIElement("dropMenu", new DropMenu(512, new String[]{"this is a test of a long blah blah blah", "there"}, 32, Alignment.BOTTOM_RIGHT,null, null))
+                     .addGUIElement("colorMenu", new DropMenu(256, new String[]{"red", "green", "blue", "gray"}, 24, Alignment.TOP_LEFT,null, 3)
+                             .addClickCallback((gui, element) -> {
+                                 DropMenu thisMenu = (DropMenu) element;
+                                 if (thisMenu.newOption()) {
+                                     switch (thisMenu.getSelectedOption()) {
+                                         case "red" -> Window.setClearColor(1, 0, 0);
+                                         case "green" -> Window.setClearColor(0, 1, 0);
+                                         case "blue" -> Window.setClearColor(0, 0, 1);
+                                         case "gray" -> Window.setClearColor(0.75f);
+                                         default -> {
+                                             // oops
+                                         }
+                                     }
+                                 }
+                             })
+                     )
 //                     .addGUIElement(
 //                             "sassyButton",
 //                             new Button("sassyButton","Getcya buttons here!", 52, Alignment.BOTTOM_RIGHT, null)
