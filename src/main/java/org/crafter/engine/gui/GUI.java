@@ -112,13 +112,21 @@ public class GUI {
     }
 
     public void render() {
-        // Fancy way to automate the gui instantiation in OpenGL
+
+        // First we render out the standard 2d GUI
         Window.clearDepthBuffer();
         ShaderStorage.start("2d");
         Camera.updateGuiCameraMatrix();
         for (GUIElement element : container.values()) {
             Camera.setGuiObjectMatrix(0,0);
             element.render();
+        }
+
+        // Finally we render out the GUI Meshes
+        Window.clearDepthBuffer();
+        // We let the Render function handle shader and matrices. They're completely custom
+        for (GUIElement element : container.values()) {
+            element.onRender(this);
         }
     }
 
