@@ -81,7 +81,7 @@ public class Main {
                     )
                     .addGUIElement(
                             "buttonTest",
-                            new Button("I am a button!", 52, Alignment.CENTER, null)
+                            new Button("I am a button!", 52, Alignment.CENTER, new Vector2f(0,-120))
                                     .addClickCallback((gui, element) -> {
                                         System.out.println("click clack");
                                         System.out.println("This is definitely a button, yes");
@@ -150,8 +150,8 @@ public class Main {
                      // -160 because original is 16x16 scaled by 10x, trimmed pixels (1 off top, 1 off bottom) makes it 3x14
                      .addGUIElement("trimTest", new Image("textures/trim_test.png", 10, Alignment.TOP_CENTER, new Vector2f(0,0), true)
                      )
-                     .addGUIElement("dropMenu", new DropMenu(512, new String[]{"this is a test of a long blah blah blah", "there"}, 32, Alignment.BOTTOM_RIGHT,null, null))
-                     .addGUIElement("colorMenu", new DropMenu(256, new String[]{"red", "green", "blue", "gray"}, 24, Alignment.TOP_LEFT,null, 3)
+                     .addGUIElement("dropMenu", new DropMenu(512, new String[]{"this is a test of a long blah blah blah", "there"}, 32, Alignment.BOTTOM_RIGHT,new Vector2f(0,120), null))
+                     .addGUIElement("colorMenu", new DropMenu(256, new String[]{"red", "green", "blue", "gray"}, 24, Alignment.TOP_LEFT,new Vector2f(0,-130), 3)
                              .addClickCallback((gui, element) -> {
                                  DropMenu thisMenu = (DropMenu) element;
                                  if (thisMenu.newOption()) {
