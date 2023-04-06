@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
@@ -16,6 +17,7 @@ import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -66,7 +68,7 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
-        float rotation = 0.0f;
+        final float[] rotation = {0.0f};
 
         AtomicInteger index = new AtomicInteger();
         final String[] lastFocused = {""};
@@ -167,18 +169,26 @@ public class Main {
                      )
                      .addGUIElement("myCoolMesh",
                              new GUIMesh(
-                                     ImageMeshFactory.createImageMesh(10, "textures/debug.png"),
+                                     ImageMeshFactory.createImageMesh(1, "textures/debug.png"),
                                      Alignment.CENTER,
-                                     null,
-                                     false
+                                     null
                              )
-                                     .addOnRenderCallback(new OnRender() {
-                                         @Override
-                                         public void action(GUI gui, GUIElement element) {
+                                     .addOnRenderCallback((gui, element) -> {
 
-                                             System.out.println("I'm rendering woo");
-
+                                         rotation[0] += Delta.getDelta() * 50.0f;
+                                         if (rotation[0] > 360) {
+                                             rotation[0] = 0;
                                          }
+                                         System.out.println(rotation[0]);
+
+                                         ShaderStorage.start("3d");
+                                         // -Z is forwards
+                                         Camera.setPosition(0,0,0);
+                                         Camera.setRotation(0,0,0);
+                                         Camera.updateCameraMatrix();
+                                         Camera.setObjectMatrix(new Vector3f(0,0,-50), new Vector3f(0,(float)Math.toRadians(rotation[0]),0), new Vector3f(1,1,1));
+
+                                         MeshStorage.render(element.getMeshUUID());
                                      })
                      )
 //                     .addGUIElement(
