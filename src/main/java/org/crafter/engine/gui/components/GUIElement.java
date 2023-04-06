@@ -206,6 +206,27 @@ public abstract class GUIElement {
         }
     }
 
+    /**
+     * This is only used for GUIMesh. The fact that this is inherited, well, could be useful down the road maybe.
+     * It has a guarantee that it is a GUIMesh, casting to GUIMesh is safe.
+     */
+    public final void onRender(GUI gui) {
+        if (!(this instanceof GUIMesh)) {
+            return;
+        }
+        /*
+        GUIMesh is a special case, it is far, FAR too variable to hardcode anything that relates to rendering
+        So it MUST contain a render delegate.
+        This also is a runtime error, so it exists with a name now.
+        */
+
+        if (!onRenderable()) {
+            throw new RuntimeException("GUIMesh: (" + name() + ") MUST have an OnRender function!");
+        }
+
+        this._onRender.action(gui,this);
+    }
+
     public abstract void render();
 
     public abstract boolean collisionDetect(Vector2fc mousePosition);
