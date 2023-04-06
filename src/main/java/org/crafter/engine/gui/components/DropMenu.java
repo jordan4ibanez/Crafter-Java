@@ -99,6 +99,12 @@ public class DropMenu extends GUIElement {
             MeshStorage.render(buttonUUID);
         } else {
 
+            // Selection box
+            if (selectedOption != -1) {
+                Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding() + (selectedOption * textHeight * getGuiScale()));
+                MeshStorage.render(selectionBoxUUID);
+            }
+
             // Background FIXME render last
             Camera.setGuiObjectMatrix(_position.x, _position.y);
             MeshStorage.render(fullSizeBackgroundUUID);
