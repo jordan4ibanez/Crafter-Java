@@ -23,6 +23,8 @@ public abstract class GUIElement {
     protected KeyInput _keyInput = null;
     protected EnterInput _enterInput = null;
 
+    protected OnRender _onRender = null;
+
     protected boolean _collide = false;
 
     protected Alignment _alignment;
@@ -112,6 +114,10 @@ public abstract class GUIElement {
         return _enterInput != null;
     }
 
+    public final boolean onRenderable() {
+        return _onRender != null;
+    }
+
     public final boolean collideable() {
         return _collide;
     }
@@ -151,6 +157,14 @@ public abstract class GUIElement {
             throw new RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element (" + this._name + ")!");
         }
         this._enterInput = enterInput;
+        return this;
+    }
+
+    public final GUIElement addOnRenderCallback(OnRender onRender) {
+        if (onRenderable()) {
+            throw new RuntimeException("GUIElement: ERROR! Attempted to add (onRender) more than once in element (" + this._name + ")!");
+        }
+        this._onRender = onRender;
         return this;
     }
 
