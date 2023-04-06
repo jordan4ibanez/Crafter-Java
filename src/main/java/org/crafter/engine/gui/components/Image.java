@@ -93,4 +93,10 @@ public class Image extends GUIElement{
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
 //        System.out.println("Image (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
+
+    @Override
+    public void internalOnHover(Vector2fc mousePosition) {}
+
+    @Override
+    public void internalOnClick(Vector2fc mousePosition) {}
 }

@@ -49,4 +49,10 @@ public abstract class Text extends GUIElement {
     public abstract boolean collisionDetect(Vector2fc mousePosition);
 
     protected abstract void recalculateMesh();
+
+    @Override
+    public void internalOnHover(Vector2fc mousePosition) {}
+
+    @Override
+    public void internalOnClick(Vector2fc mousePosition) {}
 }

@@ -152,6 +152,16 @@ public class DropMenu extends GUIElement {
 
     }
 
+    @Override
+    public void internalOnHover(Vector2fc mousePosition) {
+        System.out.println("DropMenu: hover function!");
+    }
+
+    @Override
+    public void internalOnClick(Vector2fc mousePosition) {
+        System.out.println("DropMenu: click function!");
+    }
+
     private void recalculateCollapsedText() {
         if (collapsedOptionUUID != null) {
             MeshStorage.destroy(collapsedOptionUUID);
