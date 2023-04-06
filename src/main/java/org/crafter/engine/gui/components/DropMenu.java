@@ -83,22 +83,22 @@ public class DropMenu extends GUIElement {
 
     @Override
     public void render() {
-//        Camera.setGuiObjectMatrix(_position.x, _position.y);
-//        MeshStorage.render(dropDownCollapsedUUID);
 
-        // If collapsed
+        if (collapsed) {
+            // Main panel
+            Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding());
+            MeshStorage.render(collapsedOptionUUID);
+            Camera.setGuiObjectMatrix(_position.x, _position.y);
+            MeshStorage.render(dropDownCollapsedUUID);
 
-        // Main panel
-        Camera.setGuiObjectMatrix(_position.x + getPadding(), _position.y + getPadding());
-        MeshStorage.render(collapsedOptionUUID);
-        Camera.setGuiObjectMatrix(_position.x, _position.y);
-        MeshStorage.render(dropDownCollapsedUUID);
+            // Drop down button
+            Camera.setGuiObjectMatrix(_position.x + getButtonTextOffset(), _position.y + getPadding());
+            MeshStorage.render(buttonTextUUID);
+            Camera.setGuiObjectMatrix(_position.x + getCollapsedBoxWidth(), _position.y);
+            MeshStorage.render(buttonUUID);
+        } else {
 
-        // Drop down button
-        Camera.setGuiObjectMatrix(_position.x + getButtonTextOffset(), _position.y + getPadding());
-        MeshStorage.render(buttonTextUUID);
-        Camera.setGuiObjectMatrix(_position.x + getCollapsedBoxWidth(), _position.y);
-        MeshStorage.render(buttonUUID);
+        }
     }
 
     @Override
@@ -111,29 +111,18 @@ public class DropMenu extends GUIElement {
 
     @Override
     protected void recalculateMesh() {
-//        if (_meshUUID != null) {
-//            MeshStorage.destroy(_meshUUID);
-//        }
 
-        // If collapsed
         if (collapsed) {
             recalculateCollapsed();
             recalculateCollapsedText();
             recalculateButton();
 
             setSize(new Vector2f(getBoxWidth() + doublePadding(), (textHeight * getGuiScale()) + doublePadding()));
+        } else {
+
         }
 
         recalculateSelectionBox();
-
-
-
-//        _meshUUID = ColorRectangleFactory.createColorRectangleMesh(512 * getGuiScale(),512 * getGuiScale(), 0,0,0,1);
-//        System.out.println(_meshUUID);
-
-        //FIXME needs to check if opened or closed with number of selections
-
-//        setSize(new Vector2f(512 * getGuiScale(),512 * getGuiScale()));
 
         recalculatePosition();
     }
@@ -154,12 +143,21 @@ public class DropMenu extends GUIElement {
 
     @Override
     public void internalOnHover(Vector2fc mousePosition) {
+        if(collapsed) {
+            return;
+        }
         System.out.println("DropMenu: hover function!");
     }
 
     @Override
     public void internalOnClick(Vector2fc mousePosition) {
-        System.out.println("DropMenu: click function!");
+        if (collapsed) {
+            System.out.println("DropMenu: Open menu");
+            this.collapsed = false;
+            recalculateMesh();
+        } else {
+            System.out.println("DropMenu: Do selection");
+        }
     }
 
     private void recalculateCollapsedText() {

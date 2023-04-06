@@ -77,6 +77,9 @@ public class GUI {
             if (element.collideable()) {
                 if (element.collisionDetect(mousePosition)) {
                     if (mouseClicked) {
+
+                        element.internalOnClick(mousePosition);
+
                         element.onClick(this);
 
                         // Prevent any weird behavior with this simple check
@@ -86,6 +89,8 @@ public class GUI {
 
                         System.out.println("new focused element is: " + newFocus);
                     } else {
+                        element.internalOnHover(mousePosition);
+
                         element.onHover(this);
                     }
 
