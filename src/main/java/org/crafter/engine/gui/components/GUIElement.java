@@ -203,9 +203,9 @@ public abstract class GUIElement {
     // Enforce recalculation, it's very important to keep gui elements in correct position
     protected abstract void recalculatePosition();
 
-    public abstract void onHover(Vector2fc mousePosition);
+    public abstract void internalOnHover(Vector2fc mousePosition);
 
-    public abstract void onClick(Vector2fc mousePosition);
+    public abstract void internalOnClick(Vector2fc mousePosition);
 
     // Internal point calculation, specifically for mouse. Class member. Utilizes stack.
     protected static boolean pointCollisionDetect(float pointX, float pointY, float posX, float posY, float width, float height) {
