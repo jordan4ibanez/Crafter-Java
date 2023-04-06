@@ -154,7 +154,7 @@ public class DropMenu extends GUIElement {
         } else {
             recalculateFullSizeBackground();
             recalculateOptions();
-            //FIXME this can be optimized
+
             setSize(new Vector2f(getBoxWidth() + doublePadding(), ((textHeight * getGuiScale()) * options.length) + doublePadding()));
         }
 
@@ -178,8 +178,6 @@ public class DropMenu extends GUIElement {
     @Override
     protected void recalculatePosition() {
         this._position.set(_alignment.value().mul(Window.getWindowSize()).sub(getSize().mul(_alignment.value())).add(offset()));
-        //FIXME todo
-
     }
 
     @Override
@@ -236,8 +234,6 @@ public class DropMenu extends GUIElement {
             MeshStorage.destroy(fullSizeBackgroundUUID);
         }
 
-        // textHeight * getGuiScale()
-
         final float width = (boxWidth * getGuiScale());
         final float height = (textHeight * getGuiScale()) * options.length;
 
@@ -250,7 +246,7 @@ public class DropMenu extends GUIElement {
             MeshStorage.destroy(collapsedOptionUUID);
         }
 
-        // FIXME: this should be selectable
+
         Font.switchColor(1,1,1);
         Font.switchShadowColor(0,0,0);
 
@@ -281,7 +277,6 @@ public class DropMenu extends GUIElement {
 
             final String finalText = makeTextFit(option, boxWidth);
 
-            // FIXME: this should be selectable
             Font.switchColor(1,1,1);
             Font.switchShadowColor(0,0,0);
             optionsUUIDs[i] = Font.grabText(this.fontSize * getGuiScale(), finalText);
@@ -299,7 +294,6 @@ public class DropMenu extends GUIElement {
 
         buttonUUID = FramedMeshFactory.generateMesh(new Vector2f(getButtonWidth()), getPadding(), getPixelEdge(), getBorderScale(), "textures/button.png");
 
-        // FIXME: this should be selectable
         Font.switchColor(1,1,0);
         Font.switchShadowColor(0,0,0);
 
@@ -340,21 +334,6 @@ public class DropMenu extends GUIElement {
     private float getCollapsedTextBoxWidth() {
         return (boxWidth * getGuiScale()) - (getButtonWidth() + doublePadding());
     }
-
-    private float getFullWidth() {
-        return (boxWidth * getGuiScale()) + doublePadding();
-    }
-
-    private float getFullHeight() {
-        //FIXME: this is very wrong
-        return (textHeight * getGuiScale()) + doublePadding();
-    }
-
-    private float getCollapsedHeight() {
-        return (textHeight * getGuiScale()) + doublePadding();
-    }
-
-
 
     private float getButtonWidth() {
         return textHeight * getGuiScale();
