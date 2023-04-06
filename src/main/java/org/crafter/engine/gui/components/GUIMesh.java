@@ -11,17 +11,13 @@ import org.joml.Vector2fc;
  */
 public class GUIMesh extends GUIElement {
 
-    private boolean perspective = true;
-
-    public GUIMesh(String uuid, Alignment alignment, Vector2f offset, boolean perspective) {
+    public GUIMesh(String uuid, Alignment alignment, Vector2f offset) {
         super(alignment, offset);
         this._meshUUID = uuid;
-        this.perspective = perspective;
     }
 
     @Override
-    public void render() {
-    }
+    public void render() {}
 
     @Override
     public boolean collisionDetect(Vector2fc mousePosition) {
@@ -29,27 +25,17 @@ public class GUIMesh extends GUIElement {
     }
 
     @Override
-    protected void recalculateMesh() {
-
-    }
+    protected void recalculateMesh() {}
 
     @Override
-    public void internalOnStep(GUI gui) {
-
-    }
+    public void internalOnStep(GUI gui) {}
 
     @Override
-    protected void recalculatePosition() {
-
-    }
+    protected void recalculatePosition() {}
 
     @Override
-    public void internalOnHover(Vector2fc mousePosition) {
-
-    }
+    public void internalOnHover(Vector2fc mousePosition) {}
 
     @Override
-    public void internalOnClick(Vector2fc mousePosition) {
-
-    }
+    public void internalOnClick(Vector2fc mousePosition) {}
 }
