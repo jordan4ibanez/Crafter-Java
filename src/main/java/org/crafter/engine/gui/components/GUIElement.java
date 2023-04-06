@@ -69,7 +69,7 @@ public abstract class GUIElement {
     }
 
 
-    protected String getMeshUUID() {
+    public String getMeshUUID() {
         return _meshUUID;
     }
 
