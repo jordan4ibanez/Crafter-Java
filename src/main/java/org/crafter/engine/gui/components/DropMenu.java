@@ -32,6 +32,7 @@ public class DropMenu extends GUIElement {
     private final float fontSize;
 
     private int selectedOption = 0;
+    private int hoverSelection = -1;
 
     // Holds the actual options string values
     private final String[] options;
@@ -107,10 +108,7 @@ public class DropMenu extends GUIElement {
 
     @Override
     public boolean collisionDetect(Vector2fc mousePosition) {
-        if (collapsed) {
-            return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), getFullWidth(), getCollapsedHeight());
-        }
-        return false;
+        return pointCollisionDetect(mousePosition.x(), mousePosition.y(), _position.x(), _position.y(), _size.x(), _size.y());
     }
 
     @Override
