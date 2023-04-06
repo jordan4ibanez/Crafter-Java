@@ -5,9 +5,11 @@ import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.GUI;
 import org.crafter.engine.gui.GUIStorage;
 import org.crafter.engine.gui.actions.Click;
+import org.crafter.engine.gui.actions.OnRender;
 import org.crafter.engine.gui.actions.OnStep;
 import org.crafter.engine.gui.components.*;
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.gui.factories.ImageMeshFactory;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
@@ -162,6 +164,22 @@ public class Main {
                                      }
                                  }
                              })
+                     )
+                     .addGUIElement("myCoolMesh",
+                             new GUIMesh(
+                                     ImageMeshFactory.createImageMesh(10, "textures/debug.png"),
+                                     Alignment.CENTER,
+                                     null,
+                                     false
+                             )
+                                     .addOnRenderCallback(new OnRender() {
+                                         @Override
+                                         public void action(GUI gui, GUIElement element) {
+
+                                             System.out.println("I'm rendering woo");
+
+                                         }
+                                     })
                      )
 //                     .addGUIElement(
 //                             "sassyButton",
