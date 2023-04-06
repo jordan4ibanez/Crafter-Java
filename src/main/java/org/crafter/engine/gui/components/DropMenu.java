@@ -186,14 +186,28 @@ public class DropMenu extends GUIElement {
 
     @Override
     public void internalOnClick(Vector2fc mousePosition) {
+
+        // Open up the selection box
+
         if (collapsed) {
             this.collapsed = false;
             recalculateMesh();
             return;
         }
-        // Not collapsed
 
-        //todo make this update the selection
+        // Not collapsed but no selection
+
+        if (hoverSelection == -1) {
+            collapsed = true;
+            recalculateMesh();
+            return;
+        }
+
+        // Not collapsed and selected, update
+
+        setCurrentOption();
+        collapsed = true;
+        recalculateMesh();
     }
 
     private void recalculateFullSizeBackground() {
@@ -218,26 +232,6 @@ public class DropMenu extends GUIElement {
         final String finalText = makeTextFit(options[selectedOption], getCollapsedTextBoxWidth());
 
         collapsedOptionUUID = Font.grabText(this.fontSize * getGuiScale(), finalText);
-    }
-
-    private String makeTextFit(final String inputString, final float requiredWidth) {
-        boolean fits = false;
-        String outputText = inputString;
-        final int textLength = inputString.length();
-        int currentTrim = 0;
-
-        while(!fits) {
-
-            float gottenWidth = Font.getTextSize(fontSize * getGuiScale(), outputText).x();
-
-            if (gottenWidth <= requiredWidth) {
-                fits = true;
-            } else {
-                currentTrim++;
-                outputText = outputText.substring(0, textLength - currentTrim)  + "...";
-            }
-        }
-        return outputText;
     }
 
     private void recalculateCollapsed() {
@@ -285,7 +279,6 @@ public class DropMenu extends GUIElement {
         Font.switchShadowColor(0,0,0);
 
         buttonTextUUID = Font.grabText(this.fontSize * getGuiScale(), "V");
-
 
     }
 
@@ -358,5 +351,25 @@ public class DropMenu extends GUIElement {
 
     public static float getBorderScale() {
         return borderScale;
+    }
+
+    private String makeTextFit(final String inputString, final float requiredWidth) {
+        boolean fits = false;
+        String outputText = inputString;
+        final int textLength = inputString.length();
+        int currentTrim = 0;
+
+        while(!fits) {
+
+            float gottenWidth = Font.getTextSize(fontSize * getGuiScale(), outputText).x();
+
+            if (gottenWidth <= requiredWidth) {
+                fits = true;
+            } else {
+                currentTrim++;
+                outputText = outputText.substring(0, textLength - currentTrim)  + "...";
+            }
+        }
+        return outputText;
     }
 }
