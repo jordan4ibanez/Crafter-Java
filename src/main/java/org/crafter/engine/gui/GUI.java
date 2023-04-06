@@ -71,11 +71,17 @@ public class GUI {
         boolean mouseClicked = Mouse.leftClick();
         Vector2fc mousePosition = Mouse.getPosition();
 
-        boolean failedToCollide = mouseClicked;
+        boolean failedToCollide = true;
 
         for (GUIElement element : container.values()) {
             if (element.collideable()) {
                 if (element.collisionDetect(mousePosition)) {
+
+                    // We want certain elements to be able to collision detect reset, so simply continue colliding
+                    if (!failedToCollide) {
+                        continue;
+                    }
+
                     if (mouseClicked) {
 
                         element.internalOnClick(mousePosition);
@@ -95,8 +101,6 @@ public class GUI {
                     }
 
                     failedToCollide = false;
-
-                    break;
                 }
             }
         }
