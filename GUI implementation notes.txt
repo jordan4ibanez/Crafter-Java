@@ -147,3 +147,15 @@
         );
 
         GUIStorage.selectGUI("inGame");
+
+
+Then this is the order of how you go from 3d into 2d
+
+GUIStorage.process();
+
+Window.clearAll();
+
+// 3d goes here
+
+// This automatically clears the depth buffer, selects shader yada yada
+GUIStorage.render();

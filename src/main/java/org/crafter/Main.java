@@ -75,11 +75,8 @@ public class Main {
 
 //            System.out.println(Delta.getDelta());
 
-            GUIStorage.process();
-
             Window.clearAll();
 
-            GUIStorage.render();
 
 //
 //            // Now we're moving into OpenGL shader implementation
