@@ -43,3 +43,4 @@ bin/
 .idea/workspace.xml
 .idea/uiDesigner.xml
 .idea/inspectionProfiles/Project_Default.xml
+/.idea/gradle.xml
