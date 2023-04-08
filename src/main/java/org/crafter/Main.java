@@ -61,10 +61,6 @@ public class Main {
 
             Window.clearAll();
 
-            if (Window.framePerSecondUpdate()) {
-                System.out.println("FPS: " + Window.getFramesPerSecond());
-            }
-
 
 //
 //            // Now we're moving into OpenGL shader implementation
