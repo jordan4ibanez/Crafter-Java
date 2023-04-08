@@ -41,8 +41,11 @@ public final class Window {
 
     private static final Vector2i windowSize = new Vector2i();
 
+    private static String title;
+
     // Disallow instantiation of this class
     private Window() {}
+
 
 
     // Create the window
@@ -78,7 +81,7 @@ public final class Window {
         windowSize.x = monitorSize.x / 2;
         windowSize.y = monitorSize.y / 2;
 
-        window = glfwCreateWindow(windowSize.x, windowSize.y, "Crafter Engine Prototype", NULL, NULL);
+        window = glfwCreateWindow(windowSize.x, windowSize.y, "", NULL, NULL);
 
         // Uh oh
         if (window == NULL) {
@@ -234,6 +237,23 @@ public final class Window {
         clearColor.z = intensity;
 
         glClearColor(intensity,intensity,intensity,1.0f);
+    }
+
+    /**
+     * Simple setter for updating the window title components
+     */
+    public static void setTitle(String newTitle) {
+        setTitle(newTitle, false);
+    }
+    public static void setTitle(String newTitle, boolean storeNewTitle) {
+        if (storeNewTitle) {
+            title = newTitle;
+        }
+        glfwSetWindowTitle(window, newTitle);
+    }
+
+    public static String getTitle() {
+        return title;
     }
 
     public static void clearAll() {

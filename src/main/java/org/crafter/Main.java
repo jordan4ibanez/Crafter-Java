@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) {
 
         Window.initialize();
+        Window.setTitle(VERSION_INFO);
 
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
