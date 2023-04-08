@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
 
         Window.initialize();
-        Window.setTitle(VERSION_INFO);
+        Window.setTitle(VERSION_INFO, true);
 
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
@@ -60,6 +60,10 @@ public class Main {
 //            System.out.println(Delta.getDelta());
 
             Window.clearAll();
+
+            if (Window.framePerSecondUpdate()) {
+                System.out.println("FPS: " + Window.getFramesPerSecond());
+            }
 
 
 //

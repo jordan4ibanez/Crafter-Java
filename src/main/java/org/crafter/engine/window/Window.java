@@ -43,10 +43,14 @@ public final class Window {
 
     private static String title;
 
+    private static int framesPerSecond = 0;
+    private static int framesPerSecondAccumulator = 0;
+    private static float fpsTimeAccumulator = 0.0f;
+    private static boolean framesPerSecondUpdate = false;
+
+
     // Disallow instantiation of this class
     private Window() {}
-
-
 
     // Create the window
     public static void initialize() {
@@ -177,6 +181,9 @@ public final class Window {
     public static void pollEvents() {
         // Delta and PollMemory are special cases from what is said below
         Delta.calculateDelta();
+
+        calculateFPS();
+
         Keyboard.pollMemory();
 
         // Remember: glfwPollEvents must go first before other calls, or everything else Mouse and Keyboard WILL break (order of operations)
@@ -195,6 +202,27 @@ public final class Window {
          calculateFPS();
         */
     }
+
+    private static void calculateFPS() {
+        framesPerSecondUpdate = false;
+        fpsTimeAccumulator += Delta.getDelta();
+
+        if (fpsTimeAccumulator >= 1.0f) {
+            fpsTimeAccumulator = 0.0f;
+            framesPerSecond = framesPerSecondAccumulator;
+            framesPerSecondUpdate = true;
+            //fixme: This might have to start at 1?
+            framesPerSecondAccumulator = 0;
+        }
+        framesPerSecondAccumulator++;
+    }
+    public static int getFramesPerSecond() {
+        return framesPerSecond;
+    }
+    public static boolean framePerSecondUpdate() {
+        return framesPerSecondUpdate;
+    }
+
 
     public static Vector2f getWindowSize() {
         return new Vector2f(windowSize);
