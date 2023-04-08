@@ -45,7 +45,7 @@ public final class Window {
 
     private static int framesPerSecond = 0;
     private static int framesPerSecondAccumulator = 0;
-    private static float fpsTimeAccumulator = 0.0f;
+    private static float fpsTimeAccumulator = 1.0f;
     private static boolean framesPerSecondUpdate = false;
 
 
@@ -184,6 +184,9 @@ public final class Window {
 
         calculateFPS();
 
+        // Fixme: If having the FPS in the window title is annoying, remove this
+        autoInjectFPSIntoWindowTitle();
+
         Keyboard.pollMemory();
 
         // Remember: glfwPollEvents must go first before other calls, or everything else Mouse and Keyboard WILL break (order of operations)
@@ -208,10 +211,9 @@ public final class Window {
         fpsTimeAccumulator += Delta.getDelta();
 
         if (fpsTimeAccumulator >= 1.0f) {
-            fpsTimeAccumulator = 0.0f;
+            fpsTimeAccumulator -= 1.0f;
             framesPerSecond = framesPerSecondAccumulator;
             framesPerSecondUpdate = true;
-            //fixme: This might have to start at 1?
             framesPerSecondAccumulator = 0;
         }
         framesPerSecondAccumulator++;
@@ -221,6 +223,15 @@ public final class Window {
     }
     public static boolean framePerSecondUpdate() {
         return framesPerSecondUpdate;
+    }
+
+    /**
+     * This is a bolt on for setting the FPS in the window title automatically
+     */
+    private static void autoInjectFPSIntoWindowTitle() {
+        if (framePerSecondUpdate()) {
+            setTitle(getTitle() + " | FPS: " + getFramesPerSecond());
+        }
     }
 
 
