@@ -2,9 +2,8 @@ package org.crafter.engine.camera;
 
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
-import org.joml.*;
-
-import java.lang.Math;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 /**
  * For now - There can only be one camera.

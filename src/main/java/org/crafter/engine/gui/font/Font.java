@@ -3,15 +3,17 @@ package org.crafter.engine.gui.font;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
-import org.crafter.engine.mesh.Mesh;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.utility.RawTextureObject;
-import org.joml.*;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.io.File;
-import java.lang.Math;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.UUID;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
 

@@ -1,15 +1,12 @@
 package org.crafter.engine.shader;
 
-import org.crafter.engine.utility.FileReader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.File;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.file.Files;
 import java.util.HashMap;
 
 import static org.crafter.engine.utility.FileReader.getFileString;

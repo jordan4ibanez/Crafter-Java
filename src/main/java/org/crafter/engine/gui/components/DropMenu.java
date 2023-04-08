@@ -8,7 +8,10 @@ import org.crafter.engine.gui.factories.FramedMeshFactory;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
-import org.joml.*;
+import org.joml.Vector2f;
+import org.joml.Vector2fc;
+import org.joml.Vector4f;
+import org.joml.Vector4fc;
 
 /**
  * Drop boxes are a bit complex. A bit hard to explain in a comment as well.

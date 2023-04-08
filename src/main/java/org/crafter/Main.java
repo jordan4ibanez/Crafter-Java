@@ -1,27 +1,10 @@
 package org.crafter;
 
-import org.crafter.engine.camera.Camera;
-import org.crafter.engine.controls.Mouse;
-import org.crafter.engine.delta.Delta;
-import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.GUIStorage;
-import org.crafter.engine.gui.actions.Click;
-import org.crafter.engine.gui.actions.OnRender;
-import org.crafter.engine.gui.actions.OnStep;
-import org.crafter.engine.gui.components.*;
-import org.crafter.engine.gui.enumerators.Alignment;
-import org.crafter.engine.gui.factories.ImageMeshFactory;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 

@@ -5,13 +5,9 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.lwjgl.system.MemoryStack;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-import static org.lwjgl.stb.STBImage.*;
 
 /**
  * The actual texture object. To access into it, you must talk to texture storage!

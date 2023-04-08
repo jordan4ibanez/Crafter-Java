@@ -1,6 +1,5 @@
 package org.crafter.engine.mesh;
 
-import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.lwjgl.system.MemoryUtil;
 

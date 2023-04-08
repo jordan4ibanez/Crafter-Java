@@ -13,9 +13,6 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
-
-import java.security.Key;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;

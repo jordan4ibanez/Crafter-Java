@@ -1,6 +1,5 @@
 package org.crafter.engine.gui.factories;
 
-import org.crafter.engine.gui.components.Button;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.joml.Vector2f;
