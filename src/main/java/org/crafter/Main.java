@@ -9,15 +9,18 @@ import org.crafter.engine.window.Window;
 public class Main {
 
     private static final String DEVELOPMENT_CYCLE = "Pre-Alpha";
-
     private static final String VERSION = "v0.0.0";
-
     private static final String VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION;
+    private static final boolean PROTOTYPE_BUILD = true;
+
+    private static String getVersionInfo() {
+        return VERSION_INFO + (PROTOTYPE_BUILD ? " (Prototype Build)" : "");
+    }
 
     public static void main(String[] args) {
 
         Window.initialize();
-        Window.setTitle(VERSION_INFO, true);
+        Window.setTitle(getVersionInfo(), true);
 
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
