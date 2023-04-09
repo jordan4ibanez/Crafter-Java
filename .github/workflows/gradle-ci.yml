@@ -22,8 +22,8 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: build --scan
-      - name: Archive test report
+      - name: Archive live jar
         uses: actions/upload-artifact@v2
         with:
-          name: Test report
-          path: build/reports/tests/test
+          name: Crafter-Continuous
+          path: build/libs
