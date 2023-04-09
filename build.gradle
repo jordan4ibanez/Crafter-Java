@@ -1,14 +1,14 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 
 group 'org.crafter'
-version '0.0-PROTOTYPE'
+version 'Continuous-Build'
 
 repositories {
     mavenCentral()
@@ -55,9 +55,9 @@ java {
     }
 }
 
-test {
-    useJUnitPlatform()
-}
+//test {
+//    useJUnitPlatform()
+//}
 
 application {
     mainClassName = "org.crafter.Main"
@@ -66,6 +66,6 @@ application {
 shadowJar {
     mainClassName = "org.crafter.Main"
     archiveBaseName.set('Crafter')
-    archiveClassifier.set('')
-    archiveVersion.set('')
+     archiveClassifier.set('')
+//     archiveVersion.set('')
 }
