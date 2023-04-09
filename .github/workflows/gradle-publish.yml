@@ -42,8 +42,8 @@ jobs:
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      uses: actions/gradle-build-action@v2
+    - name: Publish to release
+      uses: actions/upload-release-asset@v2
       with:
         arguments: publish
       env:
