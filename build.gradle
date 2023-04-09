@@ -20,7 +20,6 @@ tasks.named("startScripts").configure {dependsOn("shadowJar")}
 tasks.named("startShadowScripts").configure {dependsOn("jar")}
 
 String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
-
 dependencies {
 
     // testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -72,7 +71,7 @@ shadowJar {
     println("ShadowJar: Compiling and jarifying game!")
     mainClassName = "org.crafter.Main"
     archiveBaseName.set('Crafter')
-     archiveClassifier.set('')
+    archiveClassifier.set('')
 //     archiveVersion.set('')
 }
 
@@ -82,27 +81,25 @@ buildScan {
 }
 
 // This runs the runShadowScripts then packs up the full game so users can run it easily, but only if fullGame flag given
-if (project.hasProperty("fullGame")) {
+final String[] dirs = ["fonts", "shaders", "textures"]
 
-    final String[] dirs = ["fonts", "shaders", "textures"]
+tasks.register("packageFullGame", Zip)  {
 
-    tasks.register("packageFullGame", Zip) {
+    println("Packing full build of " + releaseVersion + "!")
 
-        println("Packing full build of " + releaseVersion + "!")
+    archiveFileName = "Crafter " + releaseVersion + ".zip"
 
-        archiveFileName = "Crafter " + releaseVersion + ".zip"
-
-        // All game dirs
-        for (directory in dirs) {
-            println(directory)
-            from ("$directory/"){
-                include "*"
-                into ("$directory")
-            }
-        }
-        // Now put the jar in
-        from ("build/libs") {
+    // All game dirs
+    for (directory in dirs) {
+        println("Packing folder: $directory")
+        from("$directory/") {
             include "*"
+            into("$directory")
         }
+    }
+    // Now put the jar in
+    from("build/libs") {
+        println("Packing: Jar File")
+        include "*"
     }
 }
