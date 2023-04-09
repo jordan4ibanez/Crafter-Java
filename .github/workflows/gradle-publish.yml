@@ -47,10 +47,10 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: build/distributions/CrafterLatestRelease.zip
-        asset_name: CrafterLatestRelease
         tag: ${{ github.ref }}
         overwrite: true
         body: "Latest release"
+        file_glob: true
 
 
 
