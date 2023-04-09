@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      security-events: write
-      statuses: write
 
     steps:
     - uses: actions/checkout@v3
