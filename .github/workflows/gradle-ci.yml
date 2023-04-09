@@ -1,6 +1,6 @@
 # Checks each commit to master repo.
 
-name: Continuous Integration
+name: CI
 on:
   push:
     branches: [master]
