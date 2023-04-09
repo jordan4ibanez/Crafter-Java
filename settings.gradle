@@ -1,2 +1,5 @@
-rootProject.name = 'Crafter'
+plugins {
+    id "com.gradle.enterprise" version "3.12.6"
+}
 
+rootProject.name = 'Crafter'
