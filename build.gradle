@@ -114,5 +114,6 @@ tasks.register("packageFullGame", Zip)  {
                 println("Deleted: $thisFile")
             }
         }
+        println("Release folder cleaned!")
     }
 }
