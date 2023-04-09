@@ -101,5 +101,8 @@ tasks.register("packageFullGame", Zip)  {
     from("build/libs") {
         println("Packing: Jar File")
         include "*"
+        rename { String fileName ->
+            fileName.replace("Crafter-Continuous-Build.jar", "Crafter " + releaseVersion + ".jar")
+        }
     }
 }
