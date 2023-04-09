@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      discussions: write
-      packages: write
       pages: write
       pull-requests: write
       security-events: write
