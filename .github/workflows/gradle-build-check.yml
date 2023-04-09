@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 17
-          distribution: 'oracle'
+          distribution: 'adopt'
           cache: gradle
       - name: Build with Gradle
         run: ./gradlew-build
