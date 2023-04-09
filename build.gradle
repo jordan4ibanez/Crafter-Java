@@ -72,3 +72,8 @@ shadowJar {
      archiveClassifier.set('')
 //     archiveVersion.set('')
 }
+
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+}
