@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'base'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'maven-publish'
 }
 
 project.ext.lwjglVersion = "3.3.1"
@@ -103,6 +104,29 @@ tasks.register("packageFullGame", Zip)  {
         include "*"
         rename { String fileName ->
             fileName.replace("Crafter-Continuous-Build.jar", "Crafter " + releaseVersion + ".jar")
+        }
+    }
+}
+
+publish {
+
+    println("Publishing custom built Zip")
+
+    def zipFile = layout.buildDirectory.file("distributions/Crafter" + releaseVersion + ".jar")
+    def zipArtifact = artifacts.add('archives', zipFile.get().asFile)
+
+    artifacts {
+        zipArtifact
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://github.com/jordan4ibanez/Crafter-Java"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
     }
 }
