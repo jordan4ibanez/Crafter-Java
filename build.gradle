@@ -4,6 +4,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
+jar.enabled = false
+
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 
@@ -14,8 +16,8 @@ repositories {
     mavenCentral()
 }
 
-tasks.named("startScripts").configure {dependsOn("shadowJar")}
-tasks.named("startShadowScripts").configure {dependsOn("jar")}
+//tasks.named("startScripts").configure {dependsOn("shadowJar")}
+//tasks.named("startShadowScripts").configure {dependsOn("jar")}
 
 String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
