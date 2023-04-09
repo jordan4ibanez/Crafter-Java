@@ -4,5 +4,5 @@
 
 
 <a href = https://discord.gg/dRPyvubfyg> <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" width="40" height="26" alt="Discord Logo"> 
-<font size="6"> - Discord</font>
+<font size="8"> - Discord</font>
 </a>
