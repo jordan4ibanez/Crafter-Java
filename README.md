@@ -1,1 +1,1 @@
-[![CI](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml)
+[![CI](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml) [![Package Release](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-publish.yml)
