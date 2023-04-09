@@ -32,7 +32,13 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: build --scan --fullGame
+        arguments: build --scan
+
+    - name: Pack Zip with Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: packageFullGame
+
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
