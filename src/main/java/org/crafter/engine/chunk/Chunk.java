@@ -1,7 +1,5 @@
 package org.crafter.engine.chunk;
 
-import org.joml.Vector2f;
-import org.joml.Vector2fc;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
@@ -16,6 +14,9 @@ public class Chunk {
     // Consists of bit shifted integral values
     private final int[] data;
 
+    public Chunk(int x, int y) {
+        this(new Vector2i(x,y));
+    }
     public Chunk(Vector2i position) {
         this.position = position;
         this.data = new int[arraySize];

@@ -1,0 +1,68 @@
+        MeshStorage.newMesh(
+            "test",
+                new float[]{
+                        0.0f,  0.5f, 0.0f,
+                        -0.5f, -0.5f, 0.0f,
+                        0.5f, -0.5f, 0.0f
+                },
+                new float[] {
+                        0.0f, 0.0f,
+                        0.0f, 1.0f,
+                        1.0f, 1.0f
+                },
+                new int[] {
+                        0,1,2
+                },
+                null,
+                null,
+                "textures/debug.png",
+                false
+        );
+
+
+
+
+
+
+
+
+
+        //
+        //            // Now we're moving into OpenGL shader implementation
+        //
+        //            // 3d
+        //
+        //            ShaderStorage.start("3d");
+        //
+        //            Camera.updateCameraMatrix();
+        //
+        //            Camera.setObjectMatrix(
+        //                    new Vector3f(0.0f,0,-3),
+        //                    new Vector3f(0, (float)Math.toRadians(rotation), 0),
+        //                    new Vector3f(1)
+        //            );
+        //
+        //            MeshStorage.render("test");
+        //
+        //            // 2d
+        //
+        //            Window.clearDepthBuffer();
+        //
+        //            ShaderStorage.start("2d");
+        //
+        //            Camera.updateGuiCameraMatrix();
+        //
+        //
+        //            Font.enableShadows();
+        //            String text = "hello\nthere";
+        //
+        //            Vector2f textCenterOnWindow = Window.getWindowCenter().sub(Font.getTextCenter(42.0f, text));
+        //
+        //            Camera.setGuiObjectMatrix(0,0);
+        //
+        //
+        //            Font.setShadowOffset(0.5f, 0.5f);
+        //            Font.switchColor(1f,1f,1f);
+        //            Font.switchShadowColor(0,0,0);
+        //
+        //            Font.drawText(textCenterOnWindow.x, textCenterOnWindow.y, 42.0f, text);
