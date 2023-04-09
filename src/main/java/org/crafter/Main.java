@@ -9,7 +9,7 @@ import org.crafter.engine.window.Window;
 public class Main {
 
     private static final String DEVELOPMENT_CYCLE = "Pre-Alpha";
-    private static final String VERSION = "v0.0.0";
+    private static final String VERSION = "v0.0.1";
     private static final String VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION;
     private static final boolean PROTOTYPE_BUILD = true;
 

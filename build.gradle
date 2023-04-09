@@ -11,7 +11,7 @@ project.ext.jomlVersion = "1.10.5"
 
 group 'org.crafter'
 version 'Continuous-Build'
-final String releaseVersion = 'v0.0.0 - Pre-Alpha'
+final String releaseVersion = 'v0.0.1 - Pre-Alpha'
 
 repositories {
     mavenCentral()
