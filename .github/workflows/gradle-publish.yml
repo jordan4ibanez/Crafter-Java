@@ -10,8 +10,6 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      actions: write
-      
       contents: write
       deployments: write
       id-token: write
