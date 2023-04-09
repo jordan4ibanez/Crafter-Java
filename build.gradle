@@ -87,7 +87,7 @@ if (project.hasProperty("fullGame")) {
     final String[] dirs = ["fonts", "shaders", "textures"]
 
     tasks.register("packageFullGame", Zip) {
-        
+
         println("Packing full build of " + releaseVersion + "!")
 
         archiveFileName = "Crafter " + releaseVersion + ".zip"
