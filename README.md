@@ -1,1 +1,1 @@
-[![Continuous Integration](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-continuous-integration.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-continuous-integration.yml)
+[![CI](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml)
