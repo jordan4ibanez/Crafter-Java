@@ -88,7 +88,7 @@ tasks.register("packageFullGame", Zip)  {
 
     println("Packing full build of " + releaseVersion + "!")
 
-    archiveFileName = "Crafter " + releaseVersion + ".zip"
+    archiveFileName = "CrafterLatestRelease.zip"
 
     // All game dirs
     for (directory in dirs) {
@@ -103,12 +103,16 @@ tasks.register("packageFullGame", Zip)  {
         println("Packing: Jar File")
         include "*"
         rename { String fileName ->
-            fileName.replace("Crafter-Continuous-Build.jar", "Crafter " + releaseVersion + ".jar")
+            fileName.replace("Crafter-Continuous-Build.jar", "Crafter.jar")
         }
     }
-}
 
-publish {
-    // Stops github vm from crashing
-    // todo: check this
+    doLast {
+        for (thisFile in fileTree("build/distributions").filter { it.isFile() }.files.name) {
+            if (thisFile != "CrafterLatestRelease.zip") {
+                project.delete("build/distributions/" + thisFile)
+                println("Deleted: $thisFile")
+            }
+        }
+    }
 }
