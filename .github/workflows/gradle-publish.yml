@@ -43,10 +43,14 @@ jobs:
 #        USERNAME: ${{ github.actor }}
 #        TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Distribute artifact
-      uses: actions/upload-artifact@v3
+      uses: svenstaro/upload-release-action@v2
       with:
-        name: release
-        path: build/distributions/*
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: build/distributions/CrafterLatestRelease.zip
+        asset_name: CrafterLatestRelease
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "Latest release"
 
 
 
