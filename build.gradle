@@ -14,6 +14,9 @@ repositories {
     mavenCentral()
 }
 
+tasks.named("startScripts").configure {dependsOn("shadowJar")}
+tasks.named("startShadowScripts").configure {dependsOn("jar")}
+
 String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 dependencies {
