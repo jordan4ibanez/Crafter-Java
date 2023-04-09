@@ -109,24 +109,6 @@ tasks.register("packageFullGame", Zip)  {
 }
 
 publish {
-
-    println("Publishing custom built Zip")
-
-    def zipFile = layout.buildDirectory.file("distributions/Crafter" + releaseVersion + ".jar")
-    def zipArtifact = artifacts.add('archives', zipFile.get().asFile)
-
-    artifacts {
-        zipArtifact
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://github.com/jordan4ibanez/Crafter-Java"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
+    // Stops github vm from crashing
+    // todo: check this
 }
