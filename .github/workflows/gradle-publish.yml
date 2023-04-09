@@ -18,8 +18,8 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        server-id: github
+        settings-path: ${{ github.workspace }}
 
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
@@ -31,15 +31,6 @@ jobs:
       with:
         arguments: packageFullGame
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-#    - name: Publish to release
-#      uses: actions/upload-release-asset@v2
-#      with:
-#        arguments: publish
-#      env:
-#        USERNAME: ${{ github.actor }}
-#        TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Distribute artifact
       uses: svenstaro/upload-release-action@v2
       with:
