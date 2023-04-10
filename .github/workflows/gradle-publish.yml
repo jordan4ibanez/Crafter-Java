@@ -25,7 +25,7 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: build --scan
+        arguments: startShadowScripts
 
     - name: Pack Zip with Gradle
       uses: gradle/gradle-build-action@v2
