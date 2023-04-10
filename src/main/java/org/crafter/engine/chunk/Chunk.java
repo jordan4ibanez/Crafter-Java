@@ -71,6 +71,9 @@ public class Chunk {
     }
 
 
+    /**
+     * These are internalized anti boilerplate methods for working with integers that represent a block
+     */
     private int internalSetBlockID(int input, int newID) {
         if (newID > 65_535 || newID < 0) {
             throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")! Attempted to input value: (" + newID + ")");
