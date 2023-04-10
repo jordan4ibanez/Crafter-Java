@@ -13,6 +13,8 @@ import org.joml.Vector2ic;
  *
  * Chunk represented as:
  * [16 bit] block | [4 bit lightLevel] | [4 bit blockState] | [ 8 bits left over for additional functionality]
+ * This is literal, here is an exact representation:
+ * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
 public class Chunk {
 
