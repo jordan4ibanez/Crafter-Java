@@ -20,14 +20,21 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
+
+      - name: Test project
+      - use: gradle/gradle-build-actions@v2
+        with:
+          arguments: test
+
+      - name: Build live branch artifact
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: build --scan
+          arguments: startShadowScripts
 
       - name: Archive live jar
         uses: actions/upload-artifact@v3
         with:
-          name: Crafter-Continuous
+          name: Crafter
           path: build/libs
 
       - name: Archive test report
