@@ -51,13 +51,13 @@ public class Chunk extends ChunkArrayManipulation {
 //        System.out.println(getBlockID(test));
 //        numberTools.printBits(getBlockID(test));
 
-        int test = internalSetBlockLight(0, 6);
-
-        test = internalSetBlockState(test, 9);
-
-        printBits(test);
-
-        printBits(getBlockState(test));
+//        int test = internalSetBlockLight(0, 6);
+//
+//        test = internalSetBlockState(test, 9);
+//
+//        printBits(test);
+//
+//        printBits(getBlockState(test));
     }
 
 
