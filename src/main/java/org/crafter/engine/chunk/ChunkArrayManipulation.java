@@ -16,8 +16,8 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     private static final int height = 128;
     // Z
     private static final int depth = 16;
-    private static final int yStride = width * height;
-    private static final int arraySize = width*height*depth;
+    private static final int yStride = width * depth;
+    private static final int arraySize = width * height * depth;
 
     // Consists of bit shifted integral values
     private final int[] data;
@@ -28,18 +28,21 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     public void setBlock(int index, int blockData) {
 
-
     }
 
     public int positionToIndex(Vector3ic position) {
-        return (position.x() * yStride) + (position.z() * height) + position.y();
+        return (position.y() * yStride) + (position.z() * depth) + position.x();
     }
+    /*
+    (index % yStride) / depth,
+    index / yStride
+     */
 
     public Vector3ic indexToPosition(int index) {
         return new Vector3i(
-                index % 16,
-                (index % yStride) / width,
-                index / yStride
+                index % width,
+                (index / yStride) % height,
+                (index / depth) % depth
         );
     }
 
@@ -60,5 +63,12 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     }
     private boolean boundsCheck(int index) {
         return index >= 0 && index < arraySize;
+    }
+
+    /**
+     * This is specifically public to run unit tests!
+     */
+    public int getArraySize() {
+        return arraySize;
     }
 }
