@@ -16,6 +16,8 @@ import org.joml.Vector2ic;
  */
 public class Chunk {
 
+    NumberTools numberTools;
+
     private static final int arraySize = 16*16*128;
     private final Vector2ic position;
 
@@ -30,6 +32,7 @@ public class Chunk {
     public Chunk(Vector2i position) {
         this.position = position;
         this.data = new int[arraySize];
+        this.numberTools = new NumberTools();
     }
 
     public Vector2ic getPosition() {
@@ -52,7 +55,7 @@ public class Chunk {
     public void debugZero() {
         int test = 3 << 3;
 
-        NumberTools.printBits(test);
+        numberTools.printBits(test);
     }
 
 }
