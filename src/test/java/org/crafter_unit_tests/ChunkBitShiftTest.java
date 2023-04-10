@@ -9,28 +9,14 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UnitTest {
+public class ChunkBitShiftTest {
 
     private static final int testAmount = 65_535;
-
-    @Test
-    public void testChunkArrayIndexing() {
-        Chunk testChunk = new Chunk(0,0);
-
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
-            Vector3ic position = testChunk.indexToPosition(i);
-            int index = testChunk.positionToIndex(position);
-            assertEquals(index, i);
-            Vector3ic doubleCheck = testChunk.indexToPosition(index);
-            assertEquals(doubleCheck, position);
-        }
-    }
 
     @Test
     public void testChunkBlockID() {
         Chunk testChunk = new Chunk(0,0);
         Random random = new Random((int) (new Date().getTime()/1000));
-
 
         for (int i = 0; i < testAmount; i++) {
             final int chosenID = random.nextInt(65_535);
@@ -45,7 +31,6 @@ public class UnitTest {
         Chunk testChunk = new Chunk(0,0);
         Random random = new Random((int) (new Date().getTime()/1000));
 
-
         for (int i = 0; i < testAmount; i++) {
             final int chosenLight = random.nextInt(15);
             final int testBlock = testChunk.setBlockLight(0, chosenLight);
@@ -58,7 +43,6 @@ public class UnitTest {
     public void testChunkBlockState() {
         Chunk testChunk = new Chunk(0,0);
         Random random = new Random((int) (new Date().getTime()/1000));
-
 
         for (int i = 0; i < testAmount; i++) {
             final int chosenState = random.nextInt(16);
@@ -75,7 +59,6 @@ public class UnitTest {
     public void testAllBitManipulation() {
 
         Chunk testChunk = new Chunk(0,0);
-
         Random random = new Random((int) (new Date().getTime()/1000));
 
         int testBlock = 0;
