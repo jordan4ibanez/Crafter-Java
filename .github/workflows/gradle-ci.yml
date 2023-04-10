@@ -22,7 +22,9 @@ jobs:
           distribution: 'adopt'
 
       - name: Test project
-        run: ./gradlew test
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: test
 
       - name: Build live branch artifact
         uses: gradle/gradle-build-action@v2
