@@ -38,7 +38,7 @@ public class Main {
         Chunk testChunk = new Chunk(0,0);
 
 
-        while(Window.shouldClose()) {
+        while(!Window.shouldClose()) {
             Window.pollEvents();
 
             Window.clearAll();
