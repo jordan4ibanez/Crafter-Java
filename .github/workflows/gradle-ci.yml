@@ -22,7 +22,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Test project
-      - uses: gradle/gradle-build-actions@v2
+        uses: gradle/gradle-build-actions@v2
         with:
           arguments: test
 
