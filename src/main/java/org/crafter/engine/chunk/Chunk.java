@@ -60,4 +60,45 @@ public class Chunk {
         numberTools.printBits(test);
     }
 
+    public int setBlockID(int input, int newID) {
+        if (newID > 32_768) {
+            throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")!");
+        }
+
+
+        return 1;
+    }
+
+    // Get integral bit data raw
+    public int getBlockID(int input) {
+        // Clear out right 16 bits
+        return input >> 16 << 16;
+    }
+    public int getLightLevel(int input) {
+        // Clear out left 16 bits
+        input = input >> 16 << 16;
+        // Clear out right 12 bits
+        input = input << 12 >> 12;
+        return input;
+    }
+    public int getBlockState(int input) {
+        // Clear out left 20 bits
+        input = input >> 20 << 20;
+        // Clear out right 8 bits
+        input = input << 8 >> 8;
+        return input;
+    }
+
+    // Set integral bit data raw. Used for chaining. This is at the bottom because it's just boilerplate bit manipulation
+    private int shiftBlock(int input) {
+        return input << 16;
+    }
+    private int shiftLight(int input) {
+        return input << 12;
+    }
+    private int shiftState(int input) {
+        return input << 8;
+    }
+
+
 }
