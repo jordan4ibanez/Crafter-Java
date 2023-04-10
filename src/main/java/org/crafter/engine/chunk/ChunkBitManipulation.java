@@ -13,8 +13,12 @@ public abstract class ChunkBitManipulation {
     }
     public void printBits(int input) {
         for (int i = 31; i >= 0; i--) {
+            if ((i + 1) % 4 == 0) {
+                output.append("|");
+            }
             output.append((input & (1 << i)) == 0 ? "0" : "1");
         }
+        output.append("|");
         System.out.println("Literal (" + input + ") | binary: " + output);
         output.setLength(0);
     }
@@ -36,7 +40,7 @@ public abstract class ChunkBitManipulation {
      * These are internalized anti boilerplate methods for working with integers that represent a block.
      * Public so they can be used dynamically externally.
      */
-    public int internalSetBlockID(int input, int newID) {
+    public int setBlockID(int input, int newID) {
         if (newID > 65_535 || newID < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed ushort limit for block ID! Attempted to input value: (" + newID + ")");
         }
@@ -45,7 +49,7 @@ public abstract class ChunkBitManipulation {
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
-    public int internalSetBlockLight(int input, int newLight) {
+    public int setBlockLight(int input, int newLight) {
         if (newLight > 15 || newLight < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newLight + ")" );
         }
@@ -54,7 +58,7 @@ public abstract class ChunkBitManipulation {
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
-    public int internalSetBlockState(int input, int newState) {
+    public int setBlockState(int input, int newState) {
         if (newState > 15 || newState < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newState + ")");
         }
@@ -76,14 +80,14 @@ public abstract class ChunkBitManipulation {
         // Clear out left 16 bits
         input = input << 16 >>> 16;
         // Clear out right 12 bits
-        input = input << 12 >>> 12;
+        input = input >>> 12 << 12;
         return input;
     }
     public int parseBlockState(int input) {
         // Clear out left 20 bits
         input = input << 20 >>> 20;
         // Clear out right 8 bits
-        input = input << 8 >>> 8;
+        input = input >>> 8 << 8;
         return input;
     }
 
