@@ -3,6 +3,9 @@ package org.crafter.engine.chunk;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * The Basis for working with Chunk's internal Array.
  * Chunks are basically fancy arrays of data.
@@ -24,6 +27,23 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     public ChunkArrayManipulation() {
         this.data = new int[arraySize];
+    }
+
+    /**
+     * Stream the new data into the chunk memory.
+     * @param newData is an array of length 32_768 with bit manipulated block data.
+     */
+    public void setData(int[] newData) {
+        check(newData);
+        System.arraycopy(newData, 0, data, 0, newData.length);
+    }
+
+    /**
+     * Get a copy of the data array.
+     * @return is a copy of the internal array of block data.
+     */
+    public int[] getData() {
+        return Arrays.copyOf(data, data.length);
     }
 
     /**
@@ -82,6 +102,11 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         );
     }
 
+    private void check(int[] array) {
+        if (!boundsCheck(array)) {
+            throw new RuntimeException("ChunkArrayManipulation: Tried to set internal data to an array length of (" + array.length + ")!");
+        }
+    }
     private void check(int index) {
         if (!boundsCheck(index)) {
             throw new RuntimeException("ChunkArrayManipulation: Index (" + index + ") is out of bounds!");
@@ -91,6 +116,9 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         if (!boundsCheck(position)) {
             throw new RuntimeException("ChunkArrayManipulation: Position (" + position.x() + ", " + position.y() + ", " + position.z() + ") is out of bounds!");
         }
+    }
+    private boolean boundsCheck(int[] array) {
+        return array.length == arraySize;
     }
     private boolean boundsCheck(Vector3ic position) {
         return position.x() >= 0 && position.x() < width &&
@@ -102,7 +130,7 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     }
 
     /**
-     * This is specifically public to run unit tests!
+     * This makes it easier to create data and work with chunks!
      */
     public int getArraySize() {
         return arraySize;
