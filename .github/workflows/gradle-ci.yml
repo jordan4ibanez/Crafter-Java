@@ -23,9 +23,9 @@ jobs:
           cache: gradle
 
       - name: Run unit tests
-#        uses: gradle/gradle-build-action@v2
-#        with:
-        run: gradlew test --scan
+        uses: gradle/gradle-build-action@v2
+        with:
+          run: gradlew test --scan
 
       - name: Build live branch artifact
         uses: gradle/gradle-build-action@v2
