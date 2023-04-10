@@ -70,12 +70,20 @@ application {
     mainClassName = "org.crafter.Main"
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.crafter.Main'
+        )
+    }
+}
+
 shadowJar {
     println("ShadowJar: Compiling and jarifying game!")
     mainClassName = "org.crafter.Main"
     archiveBaseName.set('Crafter')
     archiveClassifier.set('')
-//     archiveVersion.set('')
+    archiveVersion.set('')
     exclude "**/junit/"
     exclude "**/opentest4j/"
 }
