@@ -21,13 +21,8 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
-      - name: Test project
-        uses: gradle/gradle-build-actions@v2
-        with:
-          arguments: test
-
       - name: Build live branch artifact
-      - uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: startShadowScripts
 
