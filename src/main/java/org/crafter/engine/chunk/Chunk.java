@@ -60,10 +60,12 @@ public class Chunk {
         numberTools.printBits(test);
     }
 
+    // FIXME: this might be internal only, see how this pans out
     public int setBlockID(int input, int newID) {
         if (newID > 32_768) {
             throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")!");
         }
+
 
 
         return 1;
