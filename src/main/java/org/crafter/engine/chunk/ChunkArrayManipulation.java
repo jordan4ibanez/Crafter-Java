@@ -7,7 +7,10 @@ package org.crafter.engine.chunk;
  */
 public abstract class ChunkArrayManipulation {
 
-    private static final int arraySize = 16*16*128;
+    private static final int width = 16;
+    private static final int height = 128;
+    private static final int depth = 16;
+    private static final int arraySize = width*height*depth;
 
     // Consists of bit shifted integral values
     private final int[] data;

@@ -32,8 +32,6 @@ public abstract class ChunkBitManipulation {
         return input << 20 >>> 28;
     }
 
-
-
     /**
      * These are internalized anti boilerplate methods for working with integers that represent a block.
      * Public so they can be used dynamically externally.
