@@ -26,8 +26,26 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         this.data = new int[arraySize];
     }
 
-    public void setBlock(int index, int blockData) {
+    /**
+     * Set a single block, think of this as minetest.set_node();
+     * For bulk setting, it is currently recommended to use the array methods.
+     * @param position is the 3D position in the internal array.
+     * @param blockData is the constructed bit manipulated integer that represents a block.
+     */
+    public void setBlockData(Vector3ic position, int blockData) {
+        check(position);
+        data[positionToIndex(position)] = blockData;
+    }
 
+    /**
+     * Set a single block, think of this as minetest.set_node();
+     * For bulk setting, it is currently recommended to use the array methods.
+     * @param index is the 1D index in the internal array.
+     * @param blockData is the constructed bit manipulated integer that represents a block.
+     */
+    public void setBlockData(int index, int blockData) {
+        check(index);
+        data[index] = blockData;
     }
 
     public int positionToIndex(Vector3ic position) {
