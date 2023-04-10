@@ -21,7 +21,6 @@ public class ChunkArrayTest {
         }
     }
 
-
     @Test
     public void testConversions() {
         Chunk testChunk = new Chunk(0,0);
@@ -59,8 +58,7 @@ public class ChunkArrayTest {
         }
         final int[] doubleCheck = testChunk.getData();
         for (int i = 0; i < testChunk.getArraySize(); i++) {
-            assertEquals(i, testChunk.getBlockData(i));
+            assertEquals(doubleCheck[i], testChunk.getBlockData(i));
         }
-
     }
 }
