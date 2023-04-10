@@ -10,15 +10,15 @@ project.ext.jomlVersion = "1.10.5"
 
 group 'org.crafter'
 version 'Continuous-Build'
+
 final String releaseVersion = 'v0.0.2 - Pre-Alpha'
+final String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-
-    String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -38,8 +38,6 @@ dependencies {
 
 
     for (OS in natives) {
-        println("Adding $OS")
-
         runtimeOnly "org.lwjgl:lwjgl::$OS"
         runtimeOnly "org.lwjgl:lwjgl-assimp::$OS"
         runtimeOnly "org.lwjgl:lwjgl-glfw::$OS"
@@ -82,6 +80,12 @@ gradle.taskGraph.afterTask {
                 println "$task.name FAILED"
             } else {
                 println "$task.name SUCCESSFULL"
+            }
+        } else if (task.name == "compileJava") {
+            if (!compileJava.state.upToDate) {
+                for (OS in natives) {
+                    println("CompileJava: Adding $OS natives")
+                }
             }
         }
 }
