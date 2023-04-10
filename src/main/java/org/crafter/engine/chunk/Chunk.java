@@ -55,47 +55,69 @@ public class Chunk {
     //Todo: bitshift light, block id, state
 
     public void debugZero() {
-        int test = shiftBlock(32768);
+        int test = setBlockID(0, 65_535);
 
         numberTools.printBits(test);
 
         System.out.println(getBlockID(test));
     }
 
-    // FIXME: this might be internal only, see how this pans out
-    public int setBlockID(int input, int newID) {
-        if (newID > 32_768) {
-            throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")!");
-        }
+    /**
+     * These are user-friendly direct value getters
+     */
 
+    public int getBlockID(int input) {
+        return input >>> 16;
+    }
+
+
+    private int internalSetBlockID(int input, int newID) {
+        if (newID > 65_535 || newID < 0) {
+            throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")! Attempted to input value: (" + newID + ")");
+        }
         int blockID = shiftBlock(newID);
         int light = parseLightLevel(input);
         int state = parseBlockState(input);
-
         return combine(blockID, light, state);
     }
-
-    // These on
+    private int internalSetBlockLight(int input, int newLight) {
+        if (newLight > 15 || newLight < 0) {
+            throw new RuntimeException("Chunk: Attempted to exceed 4 bit limit for light in chunk (" + getX() + ", " + getY() + ")! Attempted to input value: (" + newLight + ")" );
+        }
+        int blockID = parseBlockID(input);
+        int light = shiftLight(newLight);
+        int state = parseBlockState(input);
+        return combine(blockID, light, state);
+    }
+    private int internalSetBlockState(int input, int newState) {
+        if (newState > 15 || newState < 0) {
+            throw new RuntimeException("Chunk: Attempted to exceed 4 bit limit for light in chunk (" + getX() + ", " + getY() + ")! Attempted to input value: (" + newState + ")");
+        }
+        int blockID = parseBlockID(input);
+        int light = parseLightLevel(input);
+        int state = shiftState(newState);
+        return combine(blockID, light, state);
+    }
 
     /**
      * Get integral bit data raw
      */
     private int parseBlockID(int input) {
         // Clear out right 16 bits
-        return input >> 16 << 16;
+        return input >>> 16 << 16;
     }
     private int parseLightLevel(int input) {
         // Clear out left 16 bits
-        input = input >> 16 << 16;
+        input = input >>> 16 << 16;
         // Clear out right 12 bits
-        input = input << 12 >> 12;
+        input = input << 12 >>> 12;
         return input;
     }
     private int parseBlockState(int input) {
         // Clear out left 20 bits
-        input = input >> 20 << 20;
+        input = input >>> 20 << 20;
         // Clear out right 8 bits
-        input = input << 8 >> 8;
+        input = input << 8 >>> 8;
         return input;
     }
 
