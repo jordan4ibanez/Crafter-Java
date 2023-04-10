@@ -42,23 +42,7 @@ public class Chunk extends ChunkArrayManipulation {
 
 
     //Todo: idea: metadata arraymap
-    //Todo: bitshift light, block id, state
 
-    public void debugZero() {
-//        int test = internalSetBlockID(0, 65_535);
-
-//        numberTools.printBits(test);
-//        System.out.println(getBlockID(test));
-//        numberTools.printBits(getBlockID(test));
-
-//        int test = internalSetBlockLight(0, 6);
-//
-//        test = internalSetBlockState(test, 9);
-//
-//        printBits(test);
-//
-//        printBits(getBlockState(test));
-    }
 
 
 }
