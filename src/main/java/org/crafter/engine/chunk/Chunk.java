@@ -4,6 +4,8 @@ import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 /**
+ * Inheritance Chain: ChunkBitManipulation -> ChunkArrayManipulation -> Chunk
+ *
  * A chunk of map data. It is 16 wide, 128 high, and 16 long.
  *
  * Some notes:
@@ -15,7 +17,7 @@ import org.joml.Vector2ic;
  * This is literal, here is an exact representation:
  * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
-public class Chunk extends ChunkBitManipulation {
+public class Chunk extends ChunkArrayManipulation {
     private final Vector2ic position;
 
     public Chunk(int x, int y) {

@@ -5,7 +5,7 @@ package org.crafter.engine.chunk;
  * Chunks are basically fancy arrays of data.
  * This class goes into Chunk, finalizing this snowball of inheritance.
  */
-public abstract class ChunkArrayManipulation {
+public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     private static final int width = 16;
     private static final int height = 128;
@@ -18,5 +18,7 @@ public abstract class ChunkArrayManipulation {
     public ChunkArrayManipulation() {
         this.data = new int[arraySize];
     }
+
+
 
 }
