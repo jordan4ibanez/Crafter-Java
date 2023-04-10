@@ -1,5 +1,6 @@
 package org.crafter.engine.chunk;
 
+import org.crafter.engine.utility.NumberTools;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
@@ -40,7 +41,9 @@ public class Chunk {
     //Todo: bitshift light, block id, state
 
     public void debugZero() {
-        Integer.to
-        System.out.println(Integer.toBinaryString(data[0]));
+        int test = 3;
+
+        NumberTools.printBits(test);
     }
+
 }
