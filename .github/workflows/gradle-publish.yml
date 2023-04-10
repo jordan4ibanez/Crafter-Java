@@ -22,7 +22,7 @@ jobs:
         server-id: github
         settings-path: ${{ github.workspace }}
 
-    - name: Build with Gradle
+    - name: Build release artifact
       uses: gradle/gradle-build-action@v2
       with:
         arguments: startShadowScripts
