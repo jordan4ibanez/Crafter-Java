@@ -8,7 +8,7 @@ import org.joml.Vector2ic;
  * A chunk of map data. It is 16 wide, 128 high, and 16 long.
  *
  * Some notes:
- * << shifts to the left X amount, so << 3 of 0001 in a byte now represents 1000
+ * << shifts to the left X amount, so << 3 of 0001 (1) in a byte now represents 1000 (8)
  * >> shifts to the right X amount
  *
  * Chunk represented as:
@@ -53,7 +53,7 @@ public class Chunk {
     //Todo: bitshift light, block id, state
 
     public void debugZero() {
-        int test = 3 << 3;
+        int test = 1 << 3;
 
         numberTools.printBits(test);
     }
