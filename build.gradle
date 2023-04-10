@@ -1,9 +1,8 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
     id 'application'
     id 'base'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'maven-publish'
 }
 
 project.ext.lwjglVersion = "3.3.1"
@@ -11,18 +10,15 @@ project.ext.jomlVersion = "1.10.5"
 
 group 'org.crafter'
 version 'Continuous-Build'
-final String releaseVersion = 'v0.0.1 - Pre-Alpha'
+final String releaseVersion = 'v0.0.2 - Pre-Alpha'
 
 repositories {
     mavenCentral()
 }
 
-tasks.named("startScripts").configure {dependsOn("shadowJar")}
-tasks.named("startShadowScripts").configure {dependsOn("jar")}
-
-String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 dependencies {
 
+    String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -77,7 +73,6 @@ jar {
         )
     }
 }
-
 shadowJar {
     println("ShadowJar: Compiling and jarifying game!")
     mainClassName = "org.crafter.Main"
@@ -86,6 +81,7 @@ shadowJar {
     archiveVersion.set('')
     exclude "**/junit/"
     exclude "**/opentest4j/"
+    minimize()
 }
 
 buildScan {
@@ -114,9 +110,6 @@ tasks.register("packageFullGame", Zip)  {
     from("build/libs") {
         println("Packing: Jar File")
         include "*"
-        rename { String fileName ->
-            fileName.replace("Crafter-Continuous-Build.jar", "Crafter.jar")
-        }
     }
 
     doLast {
