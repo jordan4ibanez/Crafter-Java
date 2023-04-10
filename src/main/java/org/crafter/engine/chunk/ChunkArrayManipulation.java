@@ -48,6 +48,28 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         data[index] = blockData;
     }
 
+    /**
+     * Get a single block, think of this as minetest.get_node();
+     * For bulk getting, it is currently recommended to use the array methods.
+     * @param index is the 1D position in the internal array.
+     * @return is the bit manipulated data value.
+     */
+    public int getBlockData(int index) {
+        check(index);
+        return data[index];
+    }
+
+    /**
+     * Get a single block, think of this as minetest.get_node();
+     * For bulk getting, it is currently recommended to use the array methods.
+     * @param position is the 3D position in the internal array.
+     * @return is the bit manipulated data value.
+     */
+    public int getBlockData(Vector3ic position) {
+        check(position);
+        return data[positionToIndex(position)];
+    }
+
     public int positionToIndex(Vector3ic position) {
         return (position.y() * yStride) + (position.z() * depth) + position.x();
     }
