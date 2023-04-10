@@ -1,6 +1,5 @@
 package org.crafter.engine.chunk;
 
-import org.joml.Vector3fc;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
@@ -29,6 +28,7 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     public void setBlock(int index, int blockData) {
 
+
     }
 
     public int positionToIndex(Vector3ic position) {
@@ -43,12 +43,22 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         );
     }
 
-    private boolean boundsCheck(Vector3fc position) {
+    private void check(int index) {
+        if (!boundsCheck(index)) {
+            throw new RuntimeException("ChunkArrayManipulation: Index (" + index + ") is out of bounds!");
+        }
+    }
+    private void check(Vector3ic position) {
+        if (!boundsCheck(position)) {
+            throw new RuntimeException("ChunkArrayManipulation: Position (" + position.x() + ", " + position.y() + ", " + position.z() + ") is out of bounds!");
+        }
+    }
+    private boolean boundsCheck(Vector3ic position) {
         return position.x() >= 0 && position.x() < width &&
                 position.y() >= 0 && position.y() < height &&
                 position.z() >= 0 && position.z() < depth;
     }
     private boolean boundsCheck(int index) {
-        return index > 0 && index < arraySize;
+        return index >= 0 && index < arraySize;
     }
 }
