@@ -68,18 +68,18 @@ public abstract class ChunkBitManipulation {
      * Get integral bit data raw.
      * These do not give out the true number, just the data held in that section of the buffer.
      */
-    private int parseBlockID(int input) {
+    public int parseBlockID(int input) {
         // Clear out right 16 bits
         return input >>> 16 << 16;
     }
-    private int parseLightLevel(int input) {
+    public int parseLightLevel(int input) {
         // Clear out left 16 bits
         input = input << 16 >>> 16;
         // Clear out right 12 bits
         input = input << 12 >>> 12;
         return input;
     }
-    private int parseBlockState(int input) {
+    public int parseBlockState(int input) {
         // Clear out left 20 bits
         input = input << 20 >>> 20;
         // Clear out right 8 bits
@@ -90,20 +90,20 @@ public abstract class ChunkBitManipulation {
     /**
      * Set integral bit data raw. Used for chaining. This is at the bottom because it's just boilerplate bit manipulation
      */
-    private int shiftBlock(int input) {
+    public int shiftBlock(int input) {
         return input << 16;
     }
-    private int shiftLight(int input) {
+    public int shiftLight(int input) {
         return input << 12;
     }
-    private int shiftState(int input) {
+    public int shiftState(int input) {
         return input << 8;
     }
 
     /**
      * Mini boilerplate combination method, makes code easier to read
      */
-    private int combine(int blockID, int light, int state) {
+    public int combine(int blockID, int light, int state) {
         return blockID | light | state;
     }
 }
