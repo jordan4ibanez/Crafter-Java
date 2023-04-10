@@ -1,6 +1,6 @@
 package org.crafter;
 
-import org.crafter.engine.chunk.Chunk;
+import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;

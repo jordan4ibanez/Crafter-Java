@@ -1,9 +1,8 @@
-package org.crafter.engine.chunk;
+package org.crafter.engine.world.chunk;
 
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**

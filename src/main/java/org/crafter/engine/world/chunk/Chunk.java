@@ -1,4 +1,4 @@
-package org.crafter.engine.chunk;
+package org.crafter.engine.world.chunk;
 
 import org.joml.Vector2i;
 import org.joml.Vector2ic;

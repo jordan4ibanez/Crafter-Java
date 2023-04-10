@@ -1,4 +1,4 @@
-package org.crafter.engine.chunk;
+package org.crafter.engine.world.chunk;
 
 /**
  * The Basis for chunks.

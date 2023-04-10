@@ -1,6 +1,6 @@
 package org.crafter_unit_tests;
 
-import org.crafter.engine.chunk.Chunk;
+import org.crafter.engine.world.chunk.Chunk;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.Test;
 
