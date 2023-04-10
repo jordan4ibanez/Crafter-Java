@@ -21,7 +21,6 @@ jobs:
         distribution: 'adopt'
         server-id: github
         settings-path: ${{ github.workspace }}
-        cache: gradle
 
     - name: Build release artifact
       uses: gradle/gradle-build-action@v2
