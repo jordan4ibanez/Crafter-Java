@@ -26,11 +26,13 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test --scan
+          gradle-executable: gradle/wrapper
 
       - name: Build live branch artifact
         uses: gradle/gradle-build-action@v2
         with:
           arguments: startShadowScripts --scan
+          gradle-executable: gradle/wrapper
 
       - name: Archive live jar
         uses: actions/upload-artifact@v3
