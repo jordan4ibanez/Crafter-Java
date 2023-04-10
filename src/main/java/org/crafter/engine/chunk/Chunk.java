@@ -34,6 +34,13 @@ public class Chunk {
         return position.y();
     }
 
+
+
     //Todo: idea: metadata arraymap
     //Todo: bitshift light, block id, state
+
+    public void debugZero() {
+        Integer.to
+        System.out.println(Integer.toBinaryString(data[0]));
+    }
 }
