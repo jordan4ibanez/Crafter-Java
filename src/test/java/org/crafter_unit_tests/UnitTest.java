@@ -81,7 +81,7 @@ public class UnitTest {
         int testBlock = 0;
 
         for (int x = 0; x < testAmount; x++) {
-            
+
             final int chosenID = random.nextInt(65_535);
             final int chosenLight = random.nextInt(15);
             final int chosenState = random.nextInt(15);
