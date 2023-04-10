@@ -25,11 +25,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test
-# test also builds the uber jar, so this is unneeded
-#      - name: Build live branch artifact
-#        uses: gradle/gradle-build-action@v2
-#        with:
-#          arguments: startShadowScripts
+
+      - name: Build live branch artifact
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: startShadowScripts
 
       - name: Archive live jar
         uses: actions/upload-artifact@v3
