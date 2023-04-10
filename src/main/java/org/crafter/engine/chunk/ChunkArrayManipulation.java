@@ -73,10 +73,6 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     public int positionToIndex(Vector3ic position) {
         return (position.y() * yStride) + (position.z() * depth) + position.x();
     }
-    /*
-    (index % yStride) / depth,
-    index / yStride
-     */
 
     public Vector3ic indexToPosition(int index) {
         return new Vector3i(
