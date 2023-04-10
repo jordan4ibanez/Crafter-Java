@@ -10,7 +10,9 @@ import org.joml.Vector2ic;
  * Some notes:
  * << shifts to the left X amount, so << 3 of 0001 in a byte now represents 1000
  * >> shifts to the right X amount
- * 
+ *
+ * Chunk represented as:
+ * [16 bit] block | [4 bit lightLevel] | [4 bit blockState] | [ 8 bits left over for additional functionality]
  */
 public class Chunk {
 
