@@ -55,9 +55,11 @@ public class Chunk {
     //Todo: bitshift light, block id, state
 
     public void debugZero() {
-        int test = 1 << 3;
+        int test = shiftBlock(32768);
 
         numberTools.printBits(test);
+
+        System.out.println(getBlockID(test));
     }
 
     // FIXME: this might be internal only, see how this pans out
@@ -66,24 +68,30 @@ public class Chunk {
             throw new RuntimeException("Chunk: Attempted to exceed ushort limit for block ID in chunk (" + getX() + ", " + getY() + ")!");
         }
 
+        int blockID = shiftBlock(newID);
+        int light = parseLightLevel(input);
+        int state = parseBlockState(input);
 
-
-        return 1;
+        return combine(blockID, light, state);
     }
 
-    // Get integral bit data raw
-    public int getBlockID(int input) {
+    // These on
+
+    /**
+     * Get integral bit data raw
+     */
+    private int parseBlockID(int input) {
         // Clear out right 16 bits
         return input >> 16 << 16;
     }
-    public int getLightLevel(int input) {
+    private int parseLightLevel(int input) {
         // Clear out left 16 bits
         input = input >> 16 << 16;
         // Clear out right 12 bits
         input = input << 12 >> 12;
         return input;
     }
-    public int getBlockState(int input) {
+    private int parseBlockState(int input) {
         // Clear out left 20 bits
         input = input >> 20 << 20;
         // Clear out right 8 bits
@@ -91,7 +99,9 @@ public class Chunk {
         return input;
     }
 
-    // Set integral bit data raw. Used for chaining. This is at the bottom because it's just boilerplate bit manipulation
+    /**
+     * Set integral bit data raw. Used for chaining. This is at the bottom because it's just boilerplate bit manipulation
+     */
     private int shiftBlock(int input) {
         return input << 16;
     }
@@ -102,5 +112,10 @@ public class Chunk {
         return input << 8;
     }
 
-
+    /**
+     * Mini boilerplate combination method, makes code easier to read
+     */
+    private int combine(int blockID, int light, int state) {
+        return blockID | light | state;
+    }
 }
