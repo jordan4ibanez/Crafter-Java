@@ -26,6 +26,9 @@ public class BlockDefinition {
 
     public BlockDefinition(String internalName, String[] textures) {
         this.internalName = internalName;
+        if (textures.length != 6) {
+            throw new RuntimeException("BlockDefinition: Textures must have 6 faces in block (" + internalName + ")!");
+        }
         this.textures = textures;
     }
 
@@ -136,8 +139,11 @@ public class BlockDefinition {
             throw new RuntimeException("BlockDefinition: Tried to set (" + fieldName + ") of block (" + this.internalName + ") more than once!");
         }
     }
-
     private boolean duplicateIntSetCheck(int input) {
         return input != -1;
+    }
+
+    protected boolean checkRequired() {
+
     }
 }
