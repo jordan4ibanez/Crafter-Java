@@ -73,8 +73,20 @@ jar {
     }
 }
 
+// This is deprecated, but there's no alternative I can find
+gradle.taskGraph.afterTask {
+    Task task,TaskState state ->
+        if (task.name == "startShadowScripts") {
+            println("ShadowJar: Compiling and jarifying game!")
+            if (state.failure) {
+                println "$task.name FAILED"
+            } else {
+                println "$task.name SUCCESSFULL"
+            }
+        }
+}
+
 shadowJar {
-    println("ShadowJar: Compiling and jarifying game!")
     mainClassName = "org.crafter.Main"
     archiveBaseName.set('Crafter')
     archiveClassifier.set('')
@@ -92,31 +104,35 @@ final String[] dirs = ["fonts", "shaders", "textures"]
 
 tasks.register("packageFullGame", Zip)  {
 
-    println("Packing full build of " + releaseVersion + "!")
+    println("Zipping full build of " + releaseVersion + "!")
+
+    // This is just called "crafter" so people can simply drop the folder into the existing one and replace contents
+    final String baseFolder = "crafter"
 
     archiveFileName = "CrafterLatestRelease.zip"
 
     // All game dirs
     for (directory in dirs) {
-        println("Packing folder: $directory")
+        println("Zipping folder: $directory")
         from("$directory/") {
             include "*"
-            into("$directory")
+            into("$baseFolder/$directory")
         }
     }
     // Now put the jar in
     from("build/libs") {
-        println("Packing: Jar File")
+        println("Zipping: Jar File")
         include "*"
+        into("$baseFolder")
     }
 
     doLast {
         for (thisFile in fileTree("build/distributions").filter { it.isFile() }.files.name) {
             if (thisFile != "CrafterLatestRelease.zip") {
                 project.delete("build/distributions/" + thisFile)
-                println("Deleted: $thisFile")
+                println("Zipping: deleted $thisFile")
             }
         }
-        println("Release folder cleaned!")
+        println("Zipping: Release folder cleaned!")
     }
 }
