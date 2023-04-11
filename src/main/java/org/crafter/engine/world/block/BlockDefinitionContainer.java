@@ -14,6 +14,9 @@ public class BlockDefinitionContainer {
     final HashMap<Integer, BlockDefinition> idMap;
     final HashMap<String,BlockDefinition> nameMap;
 
+    // This is an extreme edge case to prevent the cloned objects from being mutable
+    private boolean isClone = false;
+
     // Keeps track of IDs
     private int nextID = 0;
 
@@ -23,7 +26,10 @@ public class BlockDefinitionContainer {
         nameMap = new HashMap<>();
     }
 
-    void addDefinition(BlockDefinition definition) {
+    public void addDefinition(BlockDefinition definition) {
+        if (isClone) {
+            throw new RuntimeException("BlockDefinitionContainer: Tried to manipulate a clone of the master object!");
+        }
         if (definition.getID() == -1) {
             definition.setID(getThisID());
         }
@@ -95,7 +101,9 @@ public class BlockDefinitionContainer {
      * @throws CloneNotSupportedException Should always be supported.
      */
     public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() throws CloneNotSupportedException {
-        return (BlockDefinitionContainer) instance.clone();
+        BlockDefinitionContainer cloneOf = (BlockDefinitionContainer) instance.clone();
+        cloneOf.setClone();
+        return cloneOf;
     }
 
     private void autoDispatch() {
@@ -104,5 +112,8 @@ public class BlockDefinitionContainer {
         }
     }
 
+    private void setClone() {
+        isClone = true;
+    }
 
 }
