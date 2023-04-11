@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.texture.texture_packer.TexturePacker;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -35,10 +36,10 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
-        Chunk testChunk = new Chunk(0,0);
+        TexturePacker packer = new TexturePacker();
 
 
-        while(!Window.shouldClose()) {
+        while(Window.shouldClose()) {
             Window.pollEvents();
 
             Window.clearAll();

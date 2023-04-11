@@ -19,10 +19,11 @@ public class TexturePacker {
     private int height = 400;
 
     private int currentID = 0;
-
     private final HashMap<String, TexturePackerObject> textures;
+    private final Canvas canvas;
 
     public TexturePacker() {
         textures = new HashMap<>();
+        canvas = new Canvas(width, height);
     }
 }
