@@ -1,6 +1,7 @@
 package org.crafter_unit_tests;
 
 import org.crafter.engine.world.block.BlockDefinition;
+import org.crafter.engine.world.block.DrawType;
 import org.joml.Random;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +18,7 @@ public class BlockDefinitionTest {
         final String namePrefix = "Crafter:";
         final String[] textureSelections = new String[]{"dirt.png", "stone.png", "flarp.png", "yada.png", "bloop.png", "smorf.png"};
         final String[] readableNames = new String[]{"dirt", "stone", "cactus", "air", "grass", "cloud", "sand"};
+        final DrawType[] drawTypes = DrawType.getAsArray();
         Random random = new Random((int) (new Date().getTime()/1000));
 
         for (int i = 0; i < testAmount; i++) {
@@ -50,6 +52,14 @@ public class BlockDefinitionTest {
             assertEquals(chosenReadableName, gottenReadableName);
 
 //            System.out.println(gottenReadableName);
+
+            final DrawType chosenDrawType = drawTypes[random.nextInt(drawTypes.length)];
+            testDefinition.setDrawType(chosenDrawType);
+            final DrawType gottenDrawType = testDefinition.getDrawType();
+
+            assertEquals(chosenDrawType, gottenDrawType);
+
+            System.out.println(gottenDrawType);
 
 
 
