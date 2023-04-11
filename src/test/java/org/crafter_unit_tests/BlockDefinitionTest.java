@@ -4,7 +4,6 @@ import org.crafter.engine.world.block.BlockDefinition;
 import org.joml.Random;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

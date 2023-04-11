@@ -9,7 +9,7 @@ public class BlockDefinition {
     // Optional
     private String readableName = null;
     // Fixme: placeholder, needs enum. Default is undefined which would be a regular block
-    private int drawType = -1;
+    private DrawType drawType = DrawType.DEFAULT;
     private int walkable = -1;
     private int liquid = -1;
     private int liquidFlow = -1;
@@ -43,7 +43,10 @@ public class BlockDefinition {
         }
         this.readableName = readableName;
     }
-    public void setDrawType(int drawType) {
+    public void setDrawType(DrawType drawType) {
+        if (drawType.value() == -1) {
+            throw new RuntimeException("BlockDefinition: Tried to set DrawType of block (" + this.internalName + ") to DEFAULT!");
+        }
         duplicateCheck(this.drawType, "drawType");
         this.drawType = drawType;
     }
@@ -103,7 +106,7 @@ public class BlockDefinition {
     public String getReadableName() {
         return readableName;
     }
-    public int getDrawType() {
+    public DrawType getDrawType() {
         return drawType;
     }
     public boolean getWalkable() {
@@ -144,10 +147,19 @@ public class BlockDefinition {
         return input == 1;
     }
 
+    private void duplicateCheck(DrawType input, String fieldName) {
+        if (duplicateDrawTypeSetCheck(input)) {
+            throw new RuntimeException("BlockDefinition: Tried to set (" + fieldName + ") of block (" + this.internalName + ") more than once!");
+        }
+
+    }
     private void duplicateCheck(int input, String fieldName) {
         if (duplicateIntSetCheck(input)) {
             throw new RuntimeException("BlockDefinition: Tried to set (" + fieldName + ") of block (" + this.internalName + ") more than once!");
         }
+    }
+    private boolean duplicateDrawTypeSetCheck(DrawType input) {
+        return input.value() != -1;
     }
     private boolean duplicateIntSetCheck(int input) {
         return input != -1;

@@ -38,6 +38,11 @@ public class BlockDefinitionContainer {
         }
         checkDuplicate(definition);
 
+        // Silently override DEFAULT into BLOCK
+        if (drawTypeIsDefault(definition.getDrawType())) {
+            definition.setDrawType(DrawType.BLOCK);
+        }
+
         idMap.put(definition.getID(), definition);
         nameMap.put(definition.getInternalName(), definition);
     }
@@ -88,6 +93,9 @@ public class BlockDefinitionContainer {
     }
     private boolean checkName(String name) {
         return nameMap.containsKey(name);
+    }
+    private boolean drawTypeIsDefault(DrawType drawType) {
+        return drawType.value() == -1;
     }
 
     /**

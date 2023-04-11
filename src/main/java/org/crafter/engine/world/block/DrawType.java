@@ -1,6 +1,7 @@
 package org.crafter.engine.world.block;
 
 public enum DrawType {
+    DEFAULT(-1),
     AIR(0),
     BLOCK(1),
     BLOCK_BOX(2),
@@ -11,7 +12,7 @@ public enum DrawType {
     PLANT(7),
     LEAVES(8);
 
-    final int value;
+    private final int value;
 
     DrawType(int value){
         this.value = value;
@@ -19,5 +20,9 @@ public enum DrawType {
 
     public int value() {
         return value;
+    }
+
+    public DrawType[] getAsArray() {
+        return new DrawType[] {DEFAULT, AIR, BLOCK, BLOCK_BOX, TORCH, LIQUID_SOURCE, LIQUID_FLOW, GLASS, PLANT, LEAVES};
     }
 }
