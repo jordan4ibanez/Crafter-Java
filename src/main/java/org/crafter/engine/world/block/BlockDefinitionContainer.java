@@ -13,16 +13,69 @@ public class BlockDefinitionContainer {
     final HashMap<Integer, BlockDefinition> idMap;
     final HashMap<String,BlockDefinition> nameMap;
 
+    // Keeps track of IDs
+    private int nextID = 0;
+
 
     private BlockDefinitionContainer(){
         idMap = new HashMap<>();
         nameMap = new HashMap<>();
     }
 
-    void addDefinition(BlockDefinition newDefinition) {
+    void addDefinition(BlockDefinition definition) {
+        if (definition.getID() == -1) {
+            definition.setID(getThisID());
+        }
 
     }
 
+    public BlockDefinition getDefinition(int ID) {
+        checkExistence(ID);
+        return idMap.get(ID);
+    }
+    public BlockDefinition getDefinition(String name) {
+        checkExistence(name);
+        return nameMap.get(name);
+    }
+
+    private int getThisID() {
+        final int thisID = nextID;
+        nextID++;
+        return thisID;
+    }
+
+    private void checkDuplicate(BlockDefinition definition) {
+        final int ID = definition.getID();
+        if (checkID(ID)) {
+            throw new RuntimeException("BlockDefinitionContainer: " +
+                    "Block (" + definition.getInternalName() +") contains duplicate ID of block (" +
+                    idMap.get(ID).getInternalName() + ")!");
+        }
+        final String name = definition.getInternalName();
+        if (checkName(name)) {
+            throw new RuntimeException("BlockDefinitionContainer" +
+                    "Block: (" + name + ") contains duplicate internal name of block(" +
+                    nameMap.get(name).getInternalName() + ")!");
+        }
+    }
+
+    private void checkExistence(int ID) {
+        if (!checkID(ID)) {
+            throw new RuntimeException("BlockDefinitionContainer: Tried to access undefined ID (" + ID + ")!");
+        }
+    }
+    private void checkExistence(String name) {
+        if (!checkName(name)) {
+            throw new RuntimeException("BlockDefinitionContainer: Tried to access undefined name (" + name + ")!");
+        }
+    }
+
+    private boolean checkID(int ID) {
+        return idMap.containsKey(ID);
+    }
+    private boolean checkName(String name) {
+        return nameMap.containsKey(name);
+    }
 
     /**
      * Only call this on the main thread when loading the game!
