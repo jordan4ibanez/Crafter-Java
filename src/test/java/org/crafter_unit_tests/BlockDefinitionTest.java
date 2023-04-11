@@ -59,8 +59,9 @@ public class BlockDefinitionTest {
 
             assertEquals(chosenDrawType, gottenDrawType);
 
-            System.out.println(gottenDrawType);
+//            System.out.println(gottenDrawType);
 
+            assertEquals(1,2);
 
 
 
