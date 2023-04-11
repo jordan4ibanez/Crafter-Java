@@ -22,7 +22,7 @@ public enum DrawType {
         return value;
     }
 
-    public DrawType[] getAsArray() {
-        return new DrawType[] {DEFAULT, AIR, BLOCK, BLOCK_BOX, TORCH, LIQUID_SOURCE, LIQUID_FLOW, GLASS, PLANT, LEAVES};
+    public static DrawType[] getAsArray() {
+        return new DrawType[] {AIR, BLOCK, BLOCK_BOX, TORCH, LIQUID_SOURCE, LIQUID_FLOW, GLASS, PLANT, LEAVES};
     }
 }
