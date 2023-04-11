@@ -20,6 +20,9 @@ public class Canvas {
         resize();
     }
 
+    public ByteBuffer getData() {
+        return data;
+    }
 
     public void resize() {
 
@@ -29,7 +32,7 @@ public class Canvas {
             for (int x = 0; x < oldSize.x(); x++) {
                 for (int y = 0; y < oldSize.y(); y++) {
                     Vector4i pixelColor = getPixel(data, oldSize.x(), oldSize.y(), x, y);
-
+                    setPixel(newData, pixelColor, size.x(), size.y(), x, y);
                 }
             }
         }
@@ -55,8 +58,17 @@ public class Canvas {
     private void setPixel(ByteBuffer buffer, Vector4i color, int width, int height, int x, int y) {
         colorCheck(color);
         boundaryCheck(width, height, x, y);
-        
 
+        final int tempWidth = width * 4;
+        final int index = (y * tempWidth) + (x * 4);
+
+        buffer.put(index, (byte)color.x());
+        buffer.put(index + 1, (byte)color.y());
+        buffer.put(index + 2, (byte)color.z());
+        buffer.put(index + 3, (byte)color.w());
+
+        // Testing to see if this reset
+        System.out.println("buffer pointer: " + buffer.position());
     }
 
     private void boundaryCheck(int width, int height, int x, int y) {
