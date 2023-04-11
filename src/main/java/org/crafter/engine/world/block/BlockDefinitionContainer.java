@@ -30,6 +30,9 @@ public class BlockDefinitionContainer {
         if (isClone) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to manipulate a clone of the master object!");
         }
+        if (definition == null) {
+            throw new RuntimeException("BlockDefinitionContainer: Tried to upload a null block definition!");
+        }
         if (definition.getID() == -1) {
             definition.setID(getThisID());
         }

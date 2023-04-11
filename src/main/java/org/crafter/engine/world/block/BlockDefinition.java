@@ -38,7 +38,7 @@ public class BlockDefinition {
         this.ID = ID;
     }
     public void setReadableName(String readableName) {
-        if (readableName != null) {
+        if (this.readableName != null) {
             throw new RuntimeException("BlockDefinition: Tried to set (readableName) of block (" + this.internalName + ") more than once!");
         }
         this.readableName = readableName;
