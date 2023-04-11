@@ -10,6 +10,7 @@ public class BlockDefinitionContainer {
 
     private static BlockDefinitionContainer instance = null;
 
+    // This is basically a 2 way street, name to ID, ID to name
     final HashMap<Integer, BlockDefinition> idMap;
     final HashMap<String,BlockDefinition> nameMap;
 
@@ -26,7 +27,10 @@ public class BlockDefinitionContainer {
         if (definition.getID() == -1) {
             definition.setID(getThisID());
         }
+        checkDuplicate(definition);
 
+        idMap.put(definition.getID(), definition);
+        nameMap.put(definition.getInternalName(), definition);
     }
 
     public BlockDefinition getDefinition(int ID) {
