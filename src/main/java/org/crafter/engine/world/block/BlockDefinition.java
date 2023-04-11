@@ -7,6 +7,7 @@ public class BlockDefinition {
     private final String[] textures;
 
     // Optional
+    private String readableName = null;
     // Fixme: placeholder, needs enum. Default is undefined which would be a regular block
     private int drawType = -1;
     private int walkable = -1;
@@ -21,7 +22,7 @@ public class BlockDefinition {
     private int light = -1;
 
     /*
-    particle effects
+    todo: particle effects
      */
 
     public BlockDefinition(String internalName, String[] textures) {
@@ -35,6 +36,12 @@ public class BlockDefinition {
     public void setID(int ID) {
         duplicateCheck(this.ID, "ID");
         this.ID = ID;
+    }
+    public void setReadableName(String readableName) {
+        if (readableName != null) {
+            throw new RuntimeException("BlockDefinition: Tried to set (readableName) of block (" + this.internalName + ") more than once!");
+        }
+        this.readableName = readableName;
     }
     public void setDrawType(int drawType) {
         duplicateCheck(this.drawType, "drawType");
@@ -93,6 +100,9 @@ public class BlockDefinition {
         System.arraycopy(textures, 0, clone, 0, textures.length);
         return clone;
     }
+    public String getReadableName() {
+        return readableName;
+    }
     public int getDrawType() {
         return drawType;
     }
@@ -141,9 +151,5 @@ public class BlockDefinition {
     }
     private boolean duplicateIntSetCheck(int input) {
         return input != -1;
-    }
-
-    protected boolean checkRequired() {
-
     }
 }
