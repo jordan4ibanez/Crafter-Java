@@ -39,13 +39,8 @@ public class Canvas {
 
     private Vector4i getPixel(ByteBuffer buffer, int width, int height, int x, int y) {
         // Let's do a little safety check first
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            throw new RuntimeException(
-                    "Canvas: ERROR! Accessed out of bounds!\n" +
-                            "Size of canvas: " + width + ", " + height + "\n" +
-                            "Attempt: " +  x + ", " + y
-            );
-        }
+        boundaryCheck(width, height, x, y);
+
         final int tempWidth = width * 4;
         final int index = (y * tempWidth) + (x * 4);
         return new Vector4i(
@@ -59,9 +54,19 @@ public class Canvas {
 
     private void setPixel(ByteBuffer buffer, Vector4i color, int width, int height, int x, int y) {
         colorCheck(color);
+        boundaryCheck(width, height, x, y);
         
 
+    }
 
+    private void boundaryCheck(int width, int height, int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            throw new RuntimeException(
+                    "Canvas: ERROR! Accessed out of bounds!\n" +
+                            "Size of canvas: " + width + ", " + height + "\n" +
+                            "Attempt: " +  x + ", " + y
+            );
+        }
     }
 
     private void colorCheck(Vector4ic color) {
