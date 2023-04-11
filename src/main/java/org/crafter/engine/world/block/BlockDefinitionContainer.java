@@ -62,6 +62,17 @@ public class BlockDefinitionContainer {
         return thisID;
     }
 
+    private void doubleCheckData() {
+        if (isEmpty()) {
+            throw new RuntimeException("BlockDefinitionContainer:" +
+                    " Tried to create a clone of an empty container!");
+        }
+        if (isUnequal()) {
+            throw new RuntimeException("BlockDefinitionContainer:" +
+                    " Tried to create a clone of an UNEVEN container! Something has gone horribly wrong!");
+        }
+    }
+
     private void checkDuplicate(BlockDefinition definition) {
         final int ID = definition.getID();
         if (checkID(ID)) {
@@ -98,6 +109,13 @@ public class BlockDefinitionContainer {
         return drawType.value() == -1;
     }
 
+    private boolean isUnequal() {
+        return idMap.size() != nameMap.size();
+    }
+    private boolean isEmpty() {
+        return idMap.isEmpty() || nameMap.isEmpty();
+    }
+
     /**
      * Only call this on the main thread when loading the game!
      * @return the master instance of the Block Definition Container.
@@ -116,6 +134,8 @@ public class BlockDefinitionContainer {
         if (instance == null) {
             throw new RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created!");
         }
+        instance.doubleCheckData();
+
         BlockDefinitionContainer cloneOf = (BlockDefinitionContainer) instance.clone();
         cloneOf.setClone();
         return cloneOf;
