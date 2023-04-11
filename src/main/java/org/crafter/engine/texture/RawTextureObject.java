@@ -1,4 +1,4 @@
-package org.crafter.engine.utility;
+package org.crafter.engine.texture;
 
 import org.joml.Vector4i;
 import org.lwjgl.system.MemoryStack;

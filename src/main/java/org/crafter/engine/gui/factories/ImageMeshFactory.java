@@ -3,7 +3,7 @@ package org.crafter.engine.gui.factories;
 import org.crafter.engine.gui.records.ImageTrim;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
-import org.crafter.engine.utility.RawTextureObject;
+import org.crafter.engine.texture.RawTextureObject;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 

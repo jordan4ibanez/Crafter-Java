@@ -1,6 +1,5 @@
 package org.crafter.engine.texture;
 
-import org.crafter.engine.utility.RawTextureObject;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.lwjgl.system.MemoryStack;

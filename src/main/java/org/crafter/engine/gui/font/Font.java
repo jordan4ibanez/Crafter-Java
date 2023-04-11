@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.texture.TextureStorage;
-import org.crafter.engine.utility.RawTextureObject;
+import org.crafter.engine.texture.RawTextureObject;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
