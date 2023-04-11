@@ -92,6 +92,7 @@ public class BlockDefinitionContainer {
      * @return the master instance of the Block Definition Container.
      */
     public static BlockDefinitionContainer getMainInstance() {
+        autoDispatch();
         return instance;
     }
 
@@ -101,12 +102,15 @@ public class BlockDefinitionContainer {
      * @throws CloneNotSupportedException Should always be supported.
      */
     public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() throws CloneNotSupportedException {
+        if (instance == null) {
+            throw new RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created!");
+        }
         BlockDefinitionContainer cloneOf = (BlockDefinitionContainer) instance.clone();
         cloneOf.setClone();
         return cloneOf;
     }
 
-    private void autoDispatch() {
+    private static void autoDispatch() {
         if (instance == null) {
             instance = new BlockDefinitionContainer();
         }
