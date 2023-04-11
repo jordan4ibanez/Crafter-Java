@@ -8,7 +8,6 @@ public class BlockDefinition {
 
     // Optional
     private String readableName = null;
-    // Fixme: placeholder, needs enum. Default is undefined which would be a regular block
     private DrawType drawType = DrawType.DEFAULT;
     private int walkable = -1;
     private int liquid = -1;
@@ -60,10 +59,16 @@ public class BlockDefinition {
     }
     public void setLiquidFlow(int liquidFlow) {
         duplicateCheck(this.liquidFlow, "liquidFlow");
+        if (liquidFlow <= 0 || liquidFlow > 8) {
+            throw new RuntimeException("BlockDefinition: liquidFlow (" + liquidFlow + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
+        }
         this.liquidFlow = liquidFlow;
     }
     public void setLiquidViscosity(int liquidViscosity) {
         duplicateCheck(this.liquidViscosity, "liquidViscosity");
+        if (liquidViscosity <= 0 || liquidViscosity > 8) {
+            throw new RuntimeException("BlockDefinition: liquidViscosity (" + liquidViscosity + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
+        }
         this.liquidViscosity = liquidViscosity;
     }
     public void setClimbable(boolean climbable) {
@@ -84,10 +89,16 @@ public class BlockDefinition {
     }
     public void setDamagePerSecond(int damagePerSecond) {
         duplicateCheck(this.damagePerSecond, "damagePerSecond");
+        if (damagePerSecond <= 0) {
+            throw new RuntimeException("BlockDefinition: damagePerSecond (" + damagePerSecond + ") on block (" + this.internalName + ") must be higher than 0!");
+        }
         this.damagePerSecond = damagePerSecond;
     }
     public void setLight(int light) {
         duplicateCheck(this.light, "light");
+        if (light <= 0 || light > 15) {
+            throw new RuntimeException("BlockDefinition: light (" + light + ") on block (" + this.internalName + ") is out of bounds! Min: 1 | Max: 15");
+        }
         this.light = light;
     }
 
