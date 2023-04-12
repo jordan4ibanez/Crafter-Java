@@ -20,7 +20,7 @@ local Block = Object:extend();
 function Block:new(definition)
     assert(type(definition) == "table", "registerBlock: ERROR! definition is a (" .. type(definition) .. ")! It must be a (table)!");
     assert(definition.internalName ~= nil and type(definition.internalName) == "string", "registerBlock: ERROR! definition internalName is invalid!");
-    assert(definition.ID == nil or type(definition.ID) == "number" and definition.ID > 0, "registerBlock: ERROR! definition ID is invalid!")
+    --assert(definition.ID == nil or type(definition.ID) == "number" and definition.ID > 0, "registerBlock: ERROR! definition ID is invalid!")
     if (definition.drawType ~= nil and definition.drawType ~= crafter.blockDrawTypes.AIR) then
         assert(definition.textures ~= nil or type(definition.textures) == "table" and #definition.textures == 6, "registerBlock: ERROR! texture definition needs to be a table with 6 strings!")
         for i = 1,6 do
@@ -29,7 +29,7 @@ function Block:new(definition)
     end
     -- Private data
     local data = {
-        ID = definition.ID or -1;
+        --ID = definition.ID or -1;
         internalName = definition.internalName;
         textures = definition.textures;
         readableName = definition.readableName;
@@ -100,6 +100,7 @@ end
 
 
 crafter.registerBlock({
+    ID = 0;
     internalName = "air";
     --textures = {"","","","","",""};
     drawType = crafter.blockDrawTypes.AIR;
