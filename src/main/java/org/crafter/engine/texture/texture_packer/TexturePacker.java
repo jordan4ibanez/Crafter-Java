@@ -5,6 +5,8 @@ import org.joml.*;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import static java.util.Collections.reverseOrder;
+import static org.joml.Math.floor;
 import static org.lwjgl.stb.STBImageWrite.*;
 
 /**
@@ -36,8 +38,8 @@ public class TexturePacker {
     private int currentID = 0;
     private final HashMap<String, TexturePackerObject> textures;
     private final Canvas canvas;
-    private final Set<Integer> availableX;
-    private final Set<Integer> availableY;
+    private final SortedSet<Integer> availableX;
+    private final SortedSet<Integer> availableY;
 
     /**
      * Buffer automatically cleans up it's data upon flush().
@@ -50,8 +52,8 @@ public class TexturePacker {
     private TexturePacker() {
         textures = new HashMap<>();
         canvas = new Canvas(width, height);
-        availableX = new HashSet<>();
-        availableY = new HashSet<>();
+        availableX = new TreeSet<>();
+        availableY = new TreeSet<>();
 
         // Needs defaults (top left) or turns into infinite loop
         availableX.add(padding);
@@ -192,9 +194,7 @@ public class TexturePacker {
 
     private void pack() {
         for (TexturePackerObject object : textures.values()) {
-            int counter = 0;
             while(!tetrisPack(object)) {
-                System.out.println("run " + counter + " on object (" + object.getUuid().toString() + ")");
                 Vector2ic gottenCanvasSize = canvas.getSize();
                 canvas.resize(gottenCanvasSize.x() + expansionAmount, gottenCanvasSize.y() + expansionAmount);
             }
@@ -242,17 +242,26 @@ public class TexturePacker {
         int bestX = padding;
         int bestY = padding;
 
+        System.out.println("-----------");
+
         for (int y : availableY) {
 
             if (found) {
                 break;
             }
 
+
             for (int x : availableX) {
+
+//                final int x = availableX.toArray();
+
+                System.out.println(x);
 
                 int newScore = x + y;
 
-                if (newScore >= score) {
+                System.out.println(newScore);
+
+                if (newScore > score) {
                     continue;
                 }
 
