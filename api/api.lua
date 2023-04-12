@@ -1,8 +1,6 @@
 Object = require("api.classic")
 
-crafter = {
-
-}
+crafter = {}
 
 function crafter.hello()
     print("hello")
