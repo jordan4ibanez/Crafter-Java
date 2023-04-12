@@ -171,11 +171,12 @@ public class TexturePacker {
         };
     }
 
-    public void add(String fileLocation) {
+    public void add(String name, String fileLocation) {
         lockoutCheck("add");
+        nullCheck("name", name);
         nullCheck("fileLocation", fileLocation);
-        duplicateCheck(fileLocation);
-        textures.put(fileLocation, new TexturePackerObject(fileLocation));
+        duplicateCheck(name);
+        textures.put(name, new TexturePackerObject(fileLocation));
     }
 
     public void debugPrintCanvas() {
