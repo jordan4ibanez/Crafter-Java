@@ -23,7 +23,7 @@ public class Main {
 
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
-        API.initializeAPI();
+        API.initialize();
         WorldAtlasInitializer.initializeWorldBlockTextures();
 
 
