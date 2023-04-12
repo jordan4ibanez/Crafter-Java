@@ -1,31 +1,20 @@
 package org.crafter.engine.api;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.util.Eval;
-import org.crafter.engine.world.block.BlockDefinitionContainer;
+import party.iroiro.luajava.luajit.LuaJit;
 
-import java.io.File;
-import java.io.IOException;
+
+import static org.crafter.engine.utility.FileReader.getFileString;
 
 public final class API {
-
-    private static final Binding sharedData = new Binding();
-    private static final GroovyShell shell = new GroovyShell(sharedData);
+    private static final LuaJit luaJIT = new LuaJit();
 
     private API(){}
 
-    public static void initializeAPI() {
+    public static void initialize() {
 
-        sharedData.setProperty("BlockDefinitionContainer", BlockDefinitionContainer.getMainInstance());
+        luaJIT.run(getFileString("api/api.lua"));
 
-        try {
-            shell.run(new File("api/api.groovy"), new String[]{""});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
-
 
 
 }
