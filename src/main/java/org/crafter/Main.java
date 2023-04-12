@@ -42,7 +42,7 @@ public class Main {
         packer.add("textures/debug.png");
         packer.add("textures/test_thing.png");
         packer.add("textures/test_thing_2.png");
-        packer.debugPrintCanvas();
+        packer.flush();
 
 
         while(Window.shouldClose()) {

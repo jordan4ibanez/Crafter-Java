@@ -13,8 +13,9 @@ import static org.lwjgl.stb.STBImageWrite.*;
  * <a href="https://github.com/jordan4ibanez/fast_pack/blob/main/source/fast_pack.d">Original project.</a>
  */
 public class TexturePacker {
-    private boolean fastCanvasExport = true;
-    private int padding = 1;
+
+    // Ignore intellij, these are extremely useful to modify up top!
+    private final int padding = 1;
     private final Vector4i edgeColor = new Vector4i(0,0,0,255);
     private final Vector4i blankSpaceColor = new Vector4i(0,0,0,0);
     private final int expansionAmount = 16;
@@ -32,6 +33,13 @@ public class TexturePacker {
     private final Set<Integer> availableX;
     private final Set<Integer> availableY;
 
+    /**
+     * Buffer automatically cleans up it's data upon flush().
+     * But it's still useful to have it as it contains coordinates for textures!
+     * So we must lock it out.
+     */
+    private boolean lockedOut = false;
+
 
     public TexturePacker() {
         textures = new HashMap<>();
@@ -45,17 +53,20 @@ public class TexturePacker {
     }
 
     public void add(String fileLocation) {
+        lockoutCheck("add");
         nullCheck("fileLocation", fileLocation);
         duplicateCheck(fileLocation);
         textures.put(fileLocation, new TexturePackerObject(fileLocation));
     }
 
     public void debugPrintCanvas() {
+        lockoutCheck("debugPrintCanvas");
         pack();
         stbi_write_png("test.png", canvas.getSize().x(), canvas.getSize().y(), 4, canvas.getData(), canvas.getSize().x() * 4);
     }
 
     public ByteBuffer flush() {
+        lockoutCheck("flush");
         pack();
         return canvas.getData();
     }
@@ -88,6 +99,13 @@ public class TexturePacker {
                 }
             }
         }
+
+        lockedOut = true;
+
+        for (TexturePackerObject object : textures.values()) {
+            object.destroy();
+        }
+
     }
 
     private boolean tetrisPack(TexturePackerObject object) {
@@ -200,6 +218,12 @@ public class TexturePacker {
     private void nullCheck(String name, String data) {
         if (data == null) {
             throw new RuntimeException("TexturePacker: (" + name + ") cannot be null!");
+        }
+    }
+
+    private void lockoutCheck(String methodName) {
+        if (lockedOut) {
+            throw new RuntimeException("TexturePacker: Attempted to run method (" + methodName + ") after flushing the buffer!");
         }
     }
 }
