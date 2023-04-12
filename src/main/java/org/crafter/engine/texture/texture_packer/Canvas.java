@@ -1,43 +1,37 @@
 package org.crafter.engine.texture.texture_packer;
 
 import org.joml.Vector2i;
+import org.joml.Vector2ic;
 import org.joml.Vector4i;
 import org.joml.Vector4ic;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.*;
 
 public class Canvas {
     private ByteBuffer data;
-
     private final Vector2i size;
-    private final Vector2i oldSize;
-
     private static final int channels = 4;
 
     public Canvas(int width, int height) {
-        oldSize = new Vector2i(0,0);
         size = new Vector2i(width, height);
-        resize();
+        resize(width, height);
     }
 
     public ByteBuffer getData() {
         return data;
     }
 
-    public void resize() {
+    public Vector2ic getSize() {
+        return size;
+    }
 
-        ByteBuffer newData = ByteBuffer.allocate(size.x() * size.y() * channels);
+    public void resize(int width, int height) {
+        size.set(width, height);
+    }
 
-        if (data != null) {
-            for (int x = 0; x < oldSize.x(); x++) {
-                for (int y = 0; y < oldSize.y(); y++) {
-                    Vector4i pixelColor = getPixel(data, oldSize.x(), oldSize.y(), x, y);
-                    setPixel(newData, pixelColor, size.x(), size.y(), x, y);
-                }
-            }
-        }
-
-        data = newData;
+    public void allocate() {
+        data = ByteBuffer.allocateDirect(size.x() * size.y() * channels);
     }
 
     private Vector4i getPixel(ByteBuffer buffer, int width, int height, int x, int y) {
@@ -55,7 +49,24 @@ public class Canvas {
         );
     }
 
-    private void setPixel(ByteBuffer buffer, Vector4i color, int width, int height, int x, int y) {
+    public void setPixel(Vector4ic color, int x, int y) {
+        colorCheck(color);
+        boundaryCheck(size.x(), size.y(), x, y);
+
+        final int tempWidth = size.x() * 4;
+        final int index = (y * tempWidth) + (x * 4);
+
+        data.put(index, (byte)color.x());
+        data.put(index + 1, (byte)color.y());
+        data.put(index + 2, (byte)color.z());
+        data.put(index + 3, (byte)color.w());
+
+        // Testing to see if this reset
+//        System.out.println("buffer pointer: " + data.position());
+    }
+
+    // fixme: might  scrap this this duplicate
+    private void internalSetPixel(ByteBuffer buffer, Vector4i color, int width, int height, int x, int y) {
         colorCheck(color);
         boundaryCheck(width, height, x, y);
 
@@ -68,7 +79,7 @@ public class Canvas {
         buffer.put(index + 3, (byte)color.w());
 
         // Testing to see if this reset
-        System.out.println("buffer pointer: " + buffer.position());
+//        System.out.println("buffer pointer: " + buffer.position());
     }
 
     private void boundaryCheck(int width, int height, int x, int y) {

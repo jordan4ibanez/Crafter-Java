@@ -37,6 +37,12 @@ public class Main {
         Window.setClearColor(0.75f);
 
         TexturePacker packer = new TexturePacker();
+        packer.add("textures/button.png");
+        packer.add("textures/text_box.png");
+        packer.add("textures/debug.png");
+        packer.add("textures/test_thing.png");
+        packer.add("textures/test_thing_2.png");
+        packer.debugPrintCanvas();
 
 
         while(Window.shouldClose()) {
