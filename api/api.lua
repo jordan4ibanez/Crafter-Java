@@ -1,3 +1,4 @@
+require("classic")
 
 crafter = {}
 
