@@ -35,7 +35,8 @@ public final class WorldAtlasInitializer {
         for (File file : dir) {
             if (!file.isDirectory() && file.getName().contains(".png")) {
 //                System.out.println(file.getName());
-                packer.add("textures/blocks/" + file.getName());
+                final String name = file.getName();
+                packer.add(name, "textures/blocks/" + name);
             }
         }
 
