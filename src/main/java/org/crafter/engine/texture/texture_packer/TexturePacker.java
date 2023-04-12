@@ -10,8 +10,12 @@ import static org.lwjgl.stb.STBImageWrite.*;
 /**
  * This is translated from a D project.
  * <a href="https://github.com/jordan4ibanez/fast_pack/blob/main/source/fast_pack.d">Original project.</a>
+ * Now works as a singleton.
  */
 public class TexturePacker {
+
+    private static final TexturePacker instance = new TexturePacker();
+
 
     // Ignore intellij, these are extremely useful to modify up top!
     private final int padding = 1;
@@ -43,7 +47,7 @@ public class TexturePacker {
     private boolean lockedOut = false;
 
 
-    public TexturePacker() {
+    private TexturePacker() {
         textures = new HashMap<>();
         canvas = new Canvas(width, height);
         availableX = new HashSet<>();
@@ -52,6 +56,10 @@ public class TexturePacker {
         // Needs defaults (top left) or turns into infinite loop
         availableX.add(padding);
         availableY.add(padding);
+    }
+
+    public static TexturePacker getInstance() {
+        return instance;
     }
 
     /**
