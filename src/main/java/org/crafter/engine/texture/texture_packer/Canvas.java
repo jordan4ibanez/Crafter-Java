@@ -4,6 +4,7 @@ import org.joml.Vector2i;
 import org.joml.Vector2ic;
 import org.joml.Vector4i;
 import org.joml.Vector4ic;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.*;
@@ -31,7 +32,7 @@ public class Canvas {
     }
 
     public void allocate() {
-        data = ByteBuffer.allocateDirect(size.x() * size.y() * channels);
+        data = BufferUtils.createByteBuffer(size.x() * size.y() * channels);
     }
 
     private Vector4i getPixel(ByteBuffer buffer, int width, int height, int x, int y) {
