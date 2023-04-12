@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 
 /**
  * This is just a hidden away call to make the main function cleaner.
+ * In the future this will be quite useful when lua is added in.
  */
 public final class TexturePackerInitializer {
 
