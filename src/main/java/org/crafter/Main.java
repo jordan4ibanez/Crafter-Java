@@ -1,18 +1,11 @@
 package org.crafter;
 
-import org.crafter.engine.texture.texture_packer.TexturePacker;
-import org.crafter.engine.texture.texture_packer.TexturePackerInitializer;
-import org.crafter.engine.world.chunk.Chunk;
+import org.crafter.engine.texture.texture_packer.WorldAtlasInitializer;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
-import org.joml.Vector4fc;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class Main {
 
@@ -29,6 +22,7 @@ public class Main {
 
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
+        WorldAtlasInitializer.initializeWorldBlockTextures();
 
 
 //        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
@@ -41,8 +35,6 @@ public class Main {
         Font.setShadowOffset(0.75f,0.75f);
 
         Window.setClearColor(0.75f);
-
-        TexturePackerInitializer.initializeWorldBlockTextures();
 
 
 

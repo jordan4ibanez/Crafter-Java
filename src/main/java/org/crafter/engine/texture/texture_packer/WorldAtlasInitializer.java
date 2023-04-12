@@ -10,9 +10,9 @@ import java.nio.ByteBuffer;
  * This is just a hidden away call to make the main function cleaner.
  * In the future this will be quite useful when lua is added in.
  */
-public final class TexturePackerInitializer {
+public final class WorldAtlasInitializer {
 
-    private TexturePackerInitializer() {}
+    private WorldAtlasInitializer() {}
 
     //TODO: utilize lua definitions
     //TODO: Scrape lua mod directory folders
