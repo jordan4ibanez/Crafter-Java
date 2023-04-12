@@ -7,6 +7,9 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
+import org.joml.Vector4fc;
+
+import java.util.Arrays;
 
 public class Main {
 
@@ -42,7 +45,9 @@ public class Main {
         packer.add("textures/debug.png");
         packer.add("textures/test_thing.png");
         packer.add("textures/test_thing_2.png");
-        packer.flush();
+        packer.debugPrintCanvas();
+        System.out.println(Arrays.toString(packer.getQuadOf("textures/button.png")));
+
 
 
         while(Window.shouldClose()) {

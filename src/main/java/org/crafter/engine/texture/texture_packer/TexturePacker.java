@@ -1,7 +1,6 @@
 package org.crafter.engine.texture.texture_packer;
 
-import org.joml.Vector2ic;
-import org.joml.Vector4i;
+import org.joml.*;
 
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -16,10 +15,13 @@ public class TexturePacker {
 
     // Ignore intellij, these are extremely useful to modify up top!
     private final int padding = 1;
+
+    // These were from the D project, but hey, maybe one day they'll be reimplemented
     private final Vector4i edgeColor = new Vector4i(0,0,0,255);
     private final Vector4i blankSpaceColor = new Vector4i(0,0,0,0);
-    private final int expansionAmount = 16;
     private final boolean showDebugEdge = false;
+
+    private final int expansionAmount = 16;
 
     private final int width = 16;
     private final int height = 16;
@@ -50,6 +52,115 @@ public class TexturePacker {
         // Needs defaults (top left) or turns into infinite loop
         availableX.add(padding);
         availableY.add(padding);
+    }
+
+    /**
+     * Returns a literal location and size in texture atlas, not adjusted to OpenGL!
+     * Specifically implemented to make making quads easier.
+     * @param fileLocation the name of the texture in the texture atlas.
+     * @return a Vector4ic containing (position X, position Y, width, height)
+     */
+    public Vector4ic getIntegralPositions(String fileLocation) {
+        existenceCheck(fileLocation);
+        return textures.get(fileLocation).getPositionAndSize();
+    }
+
+    /**
+     * Returns an OpenGL adjusted location and size in texture atlas.
+     * @param fileLocation the name of the texture in the texture atlas.
+     * @return a Vector4fc containing OpenGL Scaled (position X, position Y, width, height)
+     */
+    public Vector4fc getOpenGLPositions(String fileLocation) {
+
+        enforceLockout("getQuadOf");
+
+        Vector4ic gottenIntegralPositionAndSize = getIntegralPositions(fileLocation);
+
+        System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
+
+        return new Vector4f(
+                // Position X
+                (float)gottenIntegralPositionAndSize.x() / (float) CANVAS_MAX_WIDTH,
+                // Position Y
+                (float)gottenIntegralPositionAndSize.y() / (float) CANVAS_MAX_HEIGHT,
+                // Width
+                (float)gottenIntegralPositionAndSize.z() / (float) CANVAS_MAX_WIDTH,
+                // Height
+                (float)gottenIntegralPositionAndSize.w() / (float) CANVAS_MAX_HEIGHT
+        );
+    }
+
+    /**
+     * Returns a float[] of quad points.
+     * @param fileLocation the name of the texture in the texture atlas.
+     * @return a float[] containing exactly OpenGL Positions. xy[top left, bottom left, bottom right, top right]
+     */
+    public float[] getQuadOf(String fileLocation) {
+
+        enforceLockout("getQuadOf");
+
+        // this var was originally called: gottenOpenGLPositionAndSize. You can probably see why I changed it
+        Vector4fc p = getOpenGLPositions(fileLocation);
+        System.out.println(p.x() + "," + p.y() + "," + p.z() + "," + p.w());
+        // Z = width
+        // W = height
+        return new float[] {
+                // Top left
+                p.x(),         p.y(),
+                // Bottom left
+                p.x(),         p.y() + p.w(),
+                // Bottom right
+                p.x() + p.z(), p.y() + p.w(),
+                // Top right
+                p.x() + p.z(), p.y()
+        };
+    }
+
+    /**
+     *
+     * @param fileLocation
+     * @param xLeftTrim How far to trim into the left side towards the right (0.0f, 1.0f)
+     * @param xRightTrim How far to trim into the right towards the left (0.0f, 1.0f)
+     * @param yTopTrim How far to trim into the top towards the bottom (0.0f, 1.0f)
+     * @param yBottomTrim How far to trim into the bottom towards the top (0.0f, 1.0f)
+     * @return a float[] containing exactly OpenGL Positions. xy[top left, bottom left, bottom right, top right]
+     */
+    public float[] getQuadOf(String fileLocation, float xLeftTrim, float xRightTrim, float yTopTrim, float yBottomTrim) {
+
+        enforceLockout("getQuadOf");
+
+        // o stands for original position
+        final String[] names = new String[]{"xLeftTrim", "xRightTrim", "yTopTrim", "yBottomTrim"};
+        final float[] values = new float[]{xLeftTrim, xRightTrim, yTopTrim, yBottomTrim};
+
+        for (int i = 0; i < values.length; i++) {
+            final float gottenValue = values[i];
+            if (gottenValue > 1 || gottenValue < 0) {
+                throw new RuntimeException("TexturePacker: Trimming value for (" + names[i] + ") is out of bounds! Min 0.0f | max 1.0f");
+            }
+        }
+
+        Vector4fc o = getOpenGLPositions(fileLocation);
+
+        // Z = width
+        // W = height
+
+        final float adjustedXLeftTrim = (xLeftTrim * o.z()) + o.x();
+        final float adjustedXRightTrim = (xRightTrim * o.z()) + o.x() + o.z();
+        final float adjustedYTopTrim = (yTopTrim * o.w()) + o.y();
+        final float adjustedYBottomTrim = (yBottomTrim * o.w()) + o.y() + o.w();
+
+        // p stands for position
+        return new float[]{
+                // Top left
+                adjustedXLeftTrim,   adjustedYTopTrim,
+                // Bottom left
+                adjustedXLeftTrim,   adjustedYBottomTrim,
+                // Bottom right
+                adjustedXRightTrim , adjustedYBottomTrim,
+                // Top right
+                adjustedXRightTrim,  adjustedYTopTrim
+        };
     }
 
     public void add(String fileLocation) {
@@ -221,9 +332,21 @@ public class TexturePacker {
         }
     }
 
+    private void existenceCheck(String fileLocation) {
+        if (!textures.containsKey(fileLocation)) {
+            throw new RuntimeException("TexturePacker: Attempted to access (" + fileLocation + ") which is a nonexistent texture!");
+        }
+    }
+
     private void lockoutCheck(String methodName) {
         if (lockedOut) {
             throw new RuntimeException("TexturePacker: Attempted to run method (" + methodName + ") after flushing the buffer!");
+        }
+    }
+
+    private void enforceLockout(String methodName) {
+        if (!lockedOut) {
+            throw new RuntimeException("TexturePacker: Attempted to run method (" + methodName + ") before flushing the buffer!");
         }
     }
 }

@@ -3,6 +3,7 @@ package org.crafter.engine.texture.texture_packer;
 import org.crafter.engine.texture.RawTextureObject;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
+import org.joml.Vector4i;
 import org.joml.Vector4ic;
 
 import java.util.UUID;
@@ -28,6 +29,10 @@ public class TexturePackerObject {
         size = new Vector2i(data.getWidth(), data.getHeight());
         position = new Vector2i(0,0);
         uuid = randomUUID();
+    }
+
+    public Vector4ic getPositionAndSize() {
+        return new Vector4i(position.x(), position.y(), size.x(), size.y());
     }
 
     public void setPosition(int x, int y) {
