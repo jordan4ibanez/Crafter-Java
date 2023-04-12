@@ -9,7 +9,9 @@ import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector4fc;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Main {
 
@@ -41,13 +43,21 @@ public class Main {
 
         TexturePacker packer = TexturePacker.getInstance();
 
-        packer.add("textures/button.png");
-        packer.add("textures/text_box.png");
-        packer.add("textures/debug.png");
-        packer.add("textures/test_thing.png");
-        packer.add("textures/test_thing_2.png");
+        File[] dir = new File("textures/blocks").listFiles();
+
+        if (dir == null) {
+            throw new RuntimeException("You done goofed boi, check the other folders too!");
+        }
+
+        for (File file : dir) {
+            if (!file.isDirectory() && file.getName().contains(".png")) {
+                System.out.println(file.getName());
+                packer.add("textures/blocks/" + file.getName());
+            }
+        }
+
         packer.debugPrintCanvas();
-        System.out.println(Arrays.toString(packer.getQuadOf("textures/button.png")));
+//        System.out.println(Arrays.toString(packer.getQuadOf("textures/button.png")));
 
 
 
