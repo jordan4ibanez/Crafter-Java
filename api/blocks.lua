@@ -104,5 +104,4 @@ crafter.registerBlock({
     internalName = "air";
     --textures = {"","","","","",""};
     drawType = crafter.blockDrawTypes.AIR;
-
 })

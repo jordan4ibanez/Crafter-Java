@@ -53,6 +53,8 @@ public class Main {
         MeshStorage.destroyAll();
         ShaderStorage.destroyAll();
 
+        API.destroy();
+
         Window.destroy();
     }
 }
