@@ -34,8 +34,6 @@ public class TexturePacker {
 
     private int CANVAS_MAX_WIDTH = 0;
     private int CANVAS_MAX_HEIGHT = 0;
-
-    private int currentID = 0;
     private final HashMap<String, TexturePackerObject> textures;
     private final Canvas canvas;
     private final SortedSet<Integer> availableX;
@@ -231,7 +229,7 @@ public class TexturePacker {
 
         boolean found = false;
 
-        int score = Integer.MAX_VALUE;
+//        int score = Integer.MAX_VALUE;
 
         final int maxX = canvas.getSize().x();
         final int maxY = canvas.getSize().y();
@@ -242,8 +240,6 @@ public class TexturePacker {
         int bestX = padding;
         int bestY = padding;
 
-        System.out.println("-----------");
-
         for (int y : availableY) {
 
             if (found) {
@@ -253,17 +249,13 @@ public class TexturePacker {
 
             for (int x : availableX) {
 
-//                final int x = availableX.toArray();
-
-                System.out.println(x);
-
-                int newScore = x + y;
-
-                System.out.println(newScore);
-
-                if (newScore > score) {
-                    continue;
-                }
+//                int newScore = x + y;
+//
+//                System.out.println(newScore);
+//
+////                if (newScore > score) {
+////                    continue;
+////                }
 
                 if (x + thisWidth + padding >= maxX || y + thisHeight + padding >= maxY) {
                     continue;
@@ -298,7 +290,7 @@ public class TexturePacker {
                     found = true;
                     bestX = x;
                     bestY = y;
-                    score = newScore;
+//                    score = newScore;
                     break;
                 }
             }
@@ -327,13 +319,6 @@ public class TexturePacker {
         }
 
         return true;
-    }
-
-
-    private int getAndTickID() {
-        final int gotten = currentID;
-        currentID++;
-        return gotten;
     }
 
 
