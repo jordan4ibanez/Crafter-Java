@@ -36,7 +36,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
 
-    implementation 'org.apache.groovy:groovy:4.0.11'
+    implementation 'party.iroiro.luajava:luajava:3.4.0'
+    implementation 'party.iroiro.luajava:luajit:3.4.0'
+    runtimeOnly 'party.iroiro.luajava:luajit-platform:3.4.0:natives-desktop'
 
 
     for (OS in natives) {
