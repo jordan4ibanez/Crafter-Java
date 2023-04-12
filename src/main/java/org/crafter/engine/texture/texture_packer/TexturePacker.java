@@ -321,6 +321,11 @@ public class TexturePacker {
         return true;
     }
 
+    public Vector2ic getCanvasSize() {
+        enforceLockout("getCanvasSize");
+        return canvas.getSize();
+    }
+
 
     private void duplicateCheck(String fileLocation) {
         if (textures.containsKey(fileLocation)) {

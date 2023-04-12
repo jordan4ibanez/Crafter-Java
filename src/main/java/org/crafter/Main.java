@@ -1,6 +1,7 @@
 package org.crafter;
 
 import org.crafter.engine.texture.texture_packer.TexturePacker;
+import org.crafter.engine.texture.texture_packer.TexturePackerInitializer;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -41,23 +42,7 @@ public class Main {
 
         Window.setClearColor(0.75f);
 
-        TexturePacker packer = TexturePacker.getInstance();
-
-        File[] dir = new File("textures/blocks").listFiles();
-
-        if (dir == null) {
-            throw new RuntimeException("You done goofed boi, check the other folders too!");
-        }
-
-        for (File file : dir) {
-            if (!file.isDirectory() && file.getName().contains(".png")) {
-                System.out.println(file.getName());
-                packer.add("textures/blocks/" + file.getName());
-            }
-        }
-
-        packer.debugPrintCanvas();
-//        System.out.println(Arrays.toString(packer.getQuadOf("textures/button.png")));
+        TexturePackerInitializer.initializeWorldBlockTextures();
 
 
 

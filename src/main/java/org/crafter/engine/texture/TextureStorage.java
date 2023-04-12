@@ -2,7 +2,9 @@ package org.crafter.engine.texture;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 /**
@@ -15,6 +17,15 @@ public final class TextureStorage {
     private static final HashMap<String, Texture> container = new HashMap<>();
 
     private TextureStorage(){}
+
+    // Create a new texture from a buffer directly
+    public static void createTexture(String name, ByteBuffer buffer, Vector2ic size) {
+        if (container.containsKey(name)) {
+            throw new RuntimeException("TextureStorage: Tried to add " + name + " more than once!");
+        }
+        System.out.println("TextureStorage: Created texture (" + name + ")");
+        container.put(name, new Texture(name, buffer, size));
+    }
 
     // Create a new texture
     public static void createTexture(String fileLocation) {
