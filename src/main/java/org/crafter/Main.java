@@ -1,11 +1,11 @@
 package org.crafter;
 
-import org.crafter.engine.lua.LuaAPI;
-import org.crafter.engine.texture.texture_packer.WorldAtlasInitializer;
+import org.crafter.engine.api.API;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
+import org.crafter.engine.texture.texture_packer.WorldAtlasInitializer;
 import org.crafter.engine.window.Window;
 
 public class Main {
@@ -23,7 +23,7 @@ public class Main {
 
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
-        LuaAPI.initialize();
+        API.initializeAPI();
         WorldAtlasInitializer.initializeWorldBlockTextures();
 
 
