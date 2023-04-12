@@ -12,6 +12,7 @@ public final class API {
     private API(){}
 
     public static void initialize() {
+        luaJIT.openLibraries();
 
         runFile("api/api.lua");
 
