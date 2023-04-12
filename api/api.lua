@@ -1,9 +1,11 @@
-require("classic")
+Object = require("api.classic")
 
-crafter = {}
+crafter = {
+
+}
 
 function crafter.hello()
     print("hello")
 end
 
-crafter.hello()
+require("api.blocks")
