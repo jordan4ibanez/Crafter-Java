@@ -24,6 +24,9 @@ public final class FileReader {
         return data;
     }
 
+    /**
+     * You can combine getFolderList and getFileList to dance through a directory!
+     */
     public static String[] getFolderList(String folderLocation) {
 
         File file = grabFile(folderLocation);
@@ -36,8 +39,13 @@ public final class FileReader {
     }
 
     public static String[] getFileList(String folderLocation) {
-        //TODO: list folders
-        return new String[0];
+        File file = grabFile(folderLocation);
+
+        if (!file.isDirectory()) {
+            throw new RuntimeException("FileReader: Folder (" + folderLocation + ") is not a directory!");
+        }
+
+        return file.list((current, name) -> new File(current, name).isFile());
     }
 
     private static File grabFile(String fileLocation) {

@@ -8,10 +8,8 @@ import party.iroiro.luajava.luajit.LuaJit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
-import static org.crafter.engine.utility.FileReader.getFileString;
-import static org.crafter.engine.utility.FileReader.getFolderList;
+import static org.crafter.engine.utility.FileReader.*;
 
 public final class API {
     private static final LuaJit luaJIT = new LuaJit();
@@ -36,8 +34,29 @@ public final class API {
 
     private static void loadMods() {
 
+        // Basic mod loading test
+
         for (String modFolder : getFolderList(modPath)) {
-            System.out.println("Got mod: " + modFolder);
+
+            boolean found = false;
+//            System.out.println("Got mod: " + modFolder);
+
+            String[] modFiles = getFileList(modPath  + modFolder);
+
+            // Searching for the main mod file
+            for (String file : modFiles) {
+                if (file.equals("main.lua")) {
+                    found = true;
+//                    System.out.println("FOUND MAIN!");
+
+                    runFile(modPath + modFolder + "/main.lua");
+
+                    break;
+                }
+            }
+            if (!found) {
+                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
+            }
         }
 
     }
