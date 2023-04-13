@@ -52,6 +52,65 @@ public final class API {
                 }
 
                 System.out.println(fieldName);
+                switch (fieldName) {
+                    case ("getInternalName"): {
+                        // String
+
+                    }
+                    case ("getTextures"): {
+                        // String[]
+
+                    }
+                    case("getReadableName"): {
+                        // String
+
+                    }
+                    case("getWalkable"): {
+                        // Boolean
+
+                    }
+                    case("getDrawType"): {
+                        // Integer
+
+                    }
+                    case("getLiquid"): {
+                        // Boolean
+
+                    }
+                    case("getLiquidViscosity"): {
+                        // Integer
+
+                    }
+                    case("getClimbable"): {
+                        // Boolean
+
+                    }
+                    case("getSneakJumpClimbable"): {
+                        // Boolean
+
+                    }
+                    case("getFalling"): {
+                        // Boolean
+
+                    }
+                    case("getClear"): {
+                        // Boolean
+
+                    }
+                    case("getDamagePerSecond"): {
+                        // Integer
+
+                    }
+                    case("getLight"): {
+                        // Integer
+
+                    }
+                    default: {
+                        // ¯\_(ツ)_/¯
+                        throw new RuntimeException("API: In-took INVALID field! https://media.tenor.com/LzbqCkSnfFcAAAAd/tommy-boy-what-did-you-do.gif");
+                    }
+                }
+
 
             }
 
