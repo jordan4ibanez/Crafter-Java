@@ -22,6 +22,16 @@ public enum DrawType {
         return value;
     }
 
+
+    public static DrawType intToDrawType(int input) {
+        for (DrawType drawType : getAsArray()) {
+            if (drawType.value() == input) {
+                return drawType;
+            }
+        }
+        throw new RuntimeException("DrawType: Attempted to convert invalid value! (" + input + ")");
+    }
+
     public static DrawType[] getAsArray() {
         return new DrawType[] {AIR, BLOCK, BLOCK_BOX, TORCH, LIQUID_SOURCE, LIQUID_FLOW, GLASS, PLANT, LEAVES};
     }
