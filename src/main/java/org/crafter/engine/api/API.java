@@ -15,6 +15,8 @@ import static org.crafter.engine.utility.FileReader.getFileString;
 public final class API {
     private static final LuaJit luaJIT = new LuaJit();
 
+    private static final String modPath = "mods/";
+
     private API(){}
 
     public static void initialize() {
