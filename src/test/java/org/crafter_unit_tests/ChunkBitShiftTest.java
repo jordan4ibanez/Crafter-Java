@@ -82,6 +82,20 @@ public class ChunkBitShiftTest {
             assertEquals(chosenID, testChunk.getBlockID(testBlock));
             assertEquals(chosenLight, testChunk.getBlockLight(testBlock));
             assertEquals(chosenState, testChunk.getBlockState(testBlock));
+
+            // Now we're going in reverse order to double-check
+
+            testBlock = testChunk.setBlockLight(testBlock, chosenLight);
+
+            assertEquals(chosenID, testChunk.getBlockID(testBlock));
+            assertEquals(chosenLight, testChunk.getBlockLight(testBlock));
+            assertEquals(chosenState, testChunk.getBlockState(testBlock));
+
+            testBlock = testChunk.setBlockID(testBlock, chosenID);
+
+            assertEquals(chosenID, testChunk.getBlockID(testBlock));
+            assertEquals(chosenLight, testChunk.getBlockLight(testBlock));
+            assertEquals(chosenState, testChunk.getBlockState(testBlock));
         }
 
     }
