@@ -122,8 +122,14 @@ local fields = {
     "getClimbable", "getSneakJumpClimbable", "getFalling", "getClear", "getDamagePerSecond", "getLight"
 }
 
+--local function checkAPILockout(functionName)
+--    assert(not API_LOCKOUT, "Attempted to run function (" .. functionName .. ") externally! This is an internal only function!");
+--end
+
 -- These function allow java to dynamically intake lua block definitions
 function crafter.getNextBlock()
+    -- Fixme: Needs a lockout check
+    --checkAPILockout("getNextBlock")
     local counter = 1;
     for _,v in pairs(crafter.registeredBlocks) do
         if counter == javaIndex then
@@ -138,6 +144,8 @@ function crafter.getNextBlock()
 end
 
 function crafter.getNextField()
+    -- Fixme: Needs a lockout check
+    --checkAPILockout("getNextField")
     if #fields < fieldIndex then
         return nil;
     end
@@ -147,11 +155,13 @@ function crafter.getNextField()
 end
 
 function crafter.getBlockData(blockName, fieldGetter)
+    -- Fixme: Needs a lockout check
     runExistenceCheck(blockName, fieldGetter);
     return crafter.registeredBlocks[blockName][fieldGetter]();
 end
 
 function crafter.getBlockDataArray(blockName, fieldGetter, index)
+    -- Fixme: Needs a lockout check
     runExistenceCheck(blockName, fieldGetter);
     local gottenTable = crafter.registeredBlocks[blockName][fieldGetter]();
     if gottenTable == nil then
@@ -164,12 +174,12 @@ function crafter.getBlockDataArray(blockName, fieldGetter, index)
 end
 
 -- Whoosh, it's gone
-function crafter.closeAPI()
-    crafter.getNextBlock = nil
-    crafter.getBlockData = nil
-    crafter.getBlockDataArray = nil
-    print("Lua to Java API closed!")
-end
+--function crafter.closeAPI()
+--    crafter.getNextBlock = nil
+--    crafter.getBlockData = nil
+--    crafter.getBlockDataArray = nil
+--    print("Lua to Java API closed!")
+--end
 
 
 -- Air is a hardcode here, but you can always change it if you want to destroy the game

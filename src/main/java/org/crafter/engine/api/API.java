@@ -26,7 +26,12 @@ public final class API {
 
         parseBlocks();
 
-        runCode("crafter.closeAPI()");
+        // This was an old hack to delete the needed lua api functions
+//        runCode("crafter.closeAPI()");
+    }
+
+    private static void loadMods() {
+
     }
 
     private static void parseBlocks() {
