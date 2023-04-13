@@ -3,6 +3,8 @@ package org.crafter.engine.api;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.luajit.LuaJit;
 
+import java.util.Objects;
+
 import static org.crafter.engine.utility.FileReader.getFileString;
 
 public final class API {
@@ -13,36 +15,45 @@ public final class API {
     public static void initialize() {
         luaJIT.openLibraries();
 
-//        luaJIT.push("string test");
-//        luaJIT.setGlobal("crafter");
-//        run("assert(crafter == 'string test')");
+        runFile("api/api.lua");
 
-        run("api/api.lua");
+        runCode("return crafter.getNextBlock()");
 
-        luaJIT.getGlobal("crafter");
-        luaJIT.getField(-1, "test");
-        double test = luaJIT.toNumber(-1);
-        System.out.println("crafter.test is: " + test);
+        String output = luaJIT.toString(-1);
 
-//        luaJIT.getField(-1, );
+        System.out.println("test: " + output);
+    }
 
-//
-//        luaJIT.getGlobal("crafter");
-//
-//        String test = luaJIT.toString(-1);
+    private static void parseBlocks() {
+        boolean complete = false;
+        while (!complete) {
 
-//        System.out.println(test);
+            // Grab name
+            runCode("return crafter.getNextBlock()");
+            String output = luaJIT.toString(-1);
+            System.out.println(output);
+
+            complete = output == null;
+            if (complete) {
+                continue;
+            }
+
+            boolean newField = true;
+
+            while (newField) {
+                
+            }
+        }
 
     }
 
-    private static void run(String luaCodeDirectory) {
+    private static void runFile(String luaCodeDirectory) {
         String luaCode = getFileString(luaCodeDirectory);
-        checkError(luaJIT.run(luaCode));
+        runCode(luaCode);
     }
 
-    private static void runFile(String fileLocation) {
-        checkError(luaJIT.run(getFileString(fileLocation)));
-
+    private static void runCode(String luaCode) {
+        checkError(luaJIT.run(luaCode));
     }
 
     private static void checkError(Lua.LuaError error){
