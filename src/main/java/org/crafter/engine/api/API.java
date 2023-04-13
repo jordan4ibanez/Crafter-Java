@@ -2,6 +2,7 @@ package org.crafter.engine.api;
 
 import org.crafter.engine.world.block.BlockDefinition;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world.block.DrawType;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.luajit.LuaJit;
 
@@ -25,6 +26,8 @@ public final class API {
 
 //        System.out.println("test: " + output);
         parseBlocks();
+
+        runCode("crafter.closeAPI()");
     }
 
     private static void parseBlocks() {
@@ -33,8 +36,7 @@ public final class API {
         while (true) {
 
             // Grab name
-            runCode("return crafter.getNextBlock()");
-            String blockName = luaJIT.toString(-1);
+            String blockName = getString("return crafter.getNextBlock()");
 
             if (blockName == null) {
                 break;
@@ -42,68 +44,95 @@ public final class API {
 
             BlockDefinition definition = new BlockDefinition(blockName);
 
+            if (blockName.equals("air")) {
+                definition.setID(0);
+            }
+
             while (true) {
 
-                runCode("return crafter.getNextField()");
-                String fieldName = luaJIT.toString(-1);
+                String fieldName = getString("return crafter.getNextField()");
 
                 if (fieldName == null) {
                     break;
                 }
 
-                System.out.println(fieldName);
-                switch (fieldName) {
-                    case ("getInternalName"): {
-                        // String
+//                System.out.println(fieldName);
 
-                    }
+                switch (fieldName) {
                     case ("getTextures"): {
                         // String[]
 
+                        break;
                     }
                     case("getReadableName"): {
                         // String
-
+                        String readableName = getBlockStringField(blockName, fieldName);
+                        if (readableName == null) {
+                            readableName = "UNDEFINED!";
+                        }
+                        definition.setReadableName(readableName);
+                        break;
                     }
                     case("getWalkable"): {
                         // Boolean
-
+                        boolean walkable = getBlockBooleanField(blockName, fieldName);
+                        definition.setWalkable(walkable);
+                        break;
                     }
                     case("getDrawType"): {
                         // Integer
-
+                        int drawType = getBlockIntegerField(blockName, fieldName);
+                        DrawType trueDrawType = DrawType.intToDrawType(drawType);
+                        definition.setDrawType(trueDrawType);
+                        break;
                     }
                     case("getLiquid"): {
                         // Boolean
-
+                        boolean liquid = getBlockBooleanField(blockName, fieldName);
+                        definition.setLiquid(liquid);
+                        break;
                     }
                     case("getLiquidViscosity"): {
                         // Integer
-
+                        int liquidViscosity = getBlockIntegerField(blockName, fieldName);
+                        definition.setLiquidViscosity(liquidViscosity);
+                        break;
                     }
                     case("getClimbable"): {
                         // Boolean
-
+                        boolean climbable = getBlockBooleanField(blockName, fieldName);
+                        definition.setClimbable(climbable);
+                        break;
                     }
                     case("getSneakJumpClimbable"): {
                         // Boolean
-
+                        boolean sneakJumpClimbable = getBlockBooleanField(blockName, fieldName);
+                        definition.setSneakJumpClimbable(sneakJumpClimbable);
+                        break;
                     }
                     case("getFalling"): {
                         // Boolean
-
+                        boolean falling = getBlockBooleanField(blockName, fieldName);
+                        definition.setFalling(falling);
+                        break;
                     }
                     case("getClear"): {
                         // Boolean
-
+                        boolean clear = getBlockBooleanField(blockName, fieldName);
+                        definition.setClear(clear);
+                        break;
                     }
                     case("getDamagePerSecond"): {
                         // Integer
-
+                        int damagePerSecond = getBlockIntegerField(blockName, fieldName);
+                        definition.setDamagePerSecond(damagePerSecond);
+                        break;
                     }
                     case("getLight"): {
                         // Integer
-
+                        int light = getBlockIntegerField(blockName, fieldName);
+                        definition.setLight(light);
+                        break;
                     }
                     default: {
                         // ¯\_(ツ)_/¯
@@ -117,6 +146,29 @@ public final class API {
 //            container.addDefinition(definition);
         }
 
+    }
+
+    private static int getBlockIntegerField(String blockName, String fieldName) {
+        return getInteger("return crafter.getBlockData('" + blockName + "','" + fieldName + "')");
+    }
+    private static boolean getBlockBooleanField(String blockName, String fieldName) {
+        return getBoolean("return crafter.getBlockData('" + blockName + "','" + fieldName + "')");
+    }
+    private static String getBlockStringField(String blockName, String fieldName) {
+        return getString("return crafter.getBlockData('" + blockName + "','" + fieldName + "')");
+    }
+
+    private static int getInteger(String luaCode) {
+        runCode(luaCode);
+        return (int)Math.round(luaJIT.toNumber(-1));
+    }
+    private static boolean getBoolean(String luaCode) {
+        runCode(luaCode);
+        return luaJIT.toBoolean(-1);
+    }
+    private static String getString(String luaCode) {
+        runCode(luaCode);
+        return luaJIT.toString(-1);
     }
 
     private static void runFile(String luaCodeDirectory) {
