@@ -17,8 +17,8 @@ public class BlockDefinitionContainer {
     // This is an extreme edge case to prevent the cloned objects from being mutable
     private boolean isClone = false;
 
-    // Keeps track of IDs
-    private int nextID = 0;
+    // Keeps track of IDs - 0 is reserved for air
+    private int nextID = 1;
 
 
     private BlockDefinitionContainer(){

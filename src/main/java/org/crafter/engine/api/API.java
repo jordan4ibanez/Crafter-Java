@@ -23,7 +23,7 @@ public final class API {
         runFile("api/api.lua");
 
         //TODO: Run all mods!
-        
+
         parseBlocks();
 
         runCode("crafter.closeAPI()");
