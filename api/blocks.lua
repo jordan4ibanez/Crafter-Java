@@ -45,9 +45,9 @@ function Block:new(definition)
         light = definition.light or 0;
     }
 
-    function self:getID()
-        return(data.ID);
-    end
+    --function self:getID()
+    --    return(data.ID);
+    --end
     function self:getInternalName()
         return(data.internalName);
     end
@@ -92,15 +92,49 @@ end
 function crafter.registerBlock(definition)
     local newBlock = Block(definition);
     print("adding: " .. newBlock:getInternalName());
-    if (crafter.registeredBlocks[newBlock:getInternalName()] ~= null) then
+    if (crafter.registeredBlocks[newBlock:getInternalName()] ~= nil) then
         error("registerBlock: ERROR! Tried to insert a duplicate of (" .. newBlock:getInternalName() .. ")!" );
     end
     crafter.registeredBlocks[newBlock:getInternalName()] = newBlock;
 end
 
+-- These are internal API use only, they become unavailable after api is done initializing
+-- It WILL throw an error!
 
+local function runExistenceCheck(blockName, fieldGetter)
+    local gottenBlock = crafter.registeredBlocks[blockName];
+    assert(gottenBlock ~= nil, "ERROR! Tried to get a nil block! (" .. tostring(blockName) .. ") is not a registered block!");
+    assert(gottenBlock[fieldGetter] ~= nil, "ERROR! Tried to get a nil block definition field! (" .. tostring(fieldGetter) .. ") is not a getter!");
+end
+
+local javaIndex = 1
+
+-- These function allow java to dynamically intake lua block definitions
+function crafter.getNextBlock()
+    local counter = 1;
+    for k,v in pairs(crafter.registeredBlocks) do
+        print("looping into: ", k)
+        if counter == javaIndex then
+            print("returning: ", k)
+            javaIndex = javaIndex + 1;
+            return v:getInternalName()
+        end
+        counter = counter + 1;
+    end
+end
+
+function crafter.getBlockData(blockName, fieldGetter)
+    runExistenceCheck(blockName, fieldGetter)
+end
+
+function crafter.closeAPI()
+    crafter.getNextBlock = nil
+end
+
+
+-- Air is a hardcode here, but you can always change it if you want to destroy the game
 crafter.registerBlock({
-    ID = 0;
+    --ID = 0;
     internalName = "air";
     --textures = {"","","","","",""};
     drawType = crafter.blockDrawTypes.AIR;
