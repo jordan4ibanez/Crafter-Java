@@ -6,6 +6,8 @@ import org.crafter.engine.world.block.DrawType;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.luajit.LuaJit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
@@ -20,11 +22,8 @@ public final class API {
 
         runFile("api/api.lua");
 
-//        runCode("return crafter.getNextBlock()");
-
-//        String output = luaJIT.toString(-1);
-
-//        System.out.println("test: " + output);
+        //TODO: Run all mods!
+        
         parseBlocks();
 
         runCode("crafter.closeAPI()");
@@ -59,95 +58,111 @@ public final class API {
 //                System.out.println(fieldName);
 
                 switch (fieldName) {
-                    case ("getTextures"): {
+                    case ("getTextures") -> {
                         // String[]
+                        String[] textures = getBlockStringArrayField(blockName, fieldName);
+                        System.out.println(Arrays.toString(textures));
 
-                        break;
                     }
-                    case("getReadableName"): {
+                    case ("getReadableName") -> {
                         // String
                         String readableName = getBlockStringField(blockName, fieldName);
                         if (readableName == null) {
                             readableName = "UNDEFINED!";
                         }
                         definition.setReadableName(readableName);
-                        break;
                     }
-                    case("getWalkable"): {
+                    case ("getWalkable") -> {
                         // Boolean
                         boolean walkable = getBlockBooleanField(blockName, fieldName);
                         definition.setWalkable(walkable);
-                        break;
                     }
-                    case("getDrawType"): {
+                    case ("getDrawType") -> {
                         // Integer
                         int drawType = getBlockIntegerField(blockName, fieldName);
                         DrawType trueDrawType = DrawType.intToDrawType(drawType);
                         definition.setDrawType(trueDrawType);
-                        break;
                     }
-                    case("getLiquid"): {
+                    case ("getLiquid") -> {
                         // Boolean
                         boolean liquid = getBlockBooleanField(blockName, fieldName);
                         definition.setLiquid(liquid);
-                        break;
                     }
-                    case("getLiquidViscosity"): {
+                    case ("getLiquidViscosity") -> {
                         // Integer
                         int liquidViscosity = getBlockIntegerField(blockName, fieldName);
+                        if (liquidViscosity < 1 || liquidViscosity > 8) {
+                            break;
+                        }
                         definition.setLiquidViscosity(liquidViscosity);
-                        break;
                     }
-                    case("getClimbable"): {
+                    case ("getClimbable") -> {
                         // Boolean
                         boolean climbable = getBlockBooleanField(blockName, fieldName);
                         definition.setClimbable(climbable);
-                        break;
                     }
-                    case("getSneakJumpClimbable"): {
+                    case ("getSneakJumpClimbable") -> {
                         // Boolean
                         boolean sneakJumpClimbable = getBlockBooleanField(blockName, fieldName);
                         definition.setSneakJumpClimbable(sneakJumpClimbable);
-                        break;
                     }
-                    case("getFalling"): {
+                    case ("getFalling") -> {
                         // Boolean
                         boolean falling = getBlockBooleanField(blockName, fieldName);
                         definition.setFalling(falling);
-                        break;
                     }
-                    case("getClear"): {
+                    case ("getClear") -> {
                         // Boolean
                         boolean clear = getBlockBooleanField(blockName, fieldName);
                         definition.setClear(clear);
-                        break;
                     }
-                    case("getDamagePerSecond"): {
+                    case ("getDamagePerSecond") -> {
                         // Integer
                         int damagePerSecond = getBlockIntegerField(blockName, fieldName);
+                        if (damagePerSecond <= 0) {
+                            break;
+                        }
                         definition.setDamagePerSecond(damagePerSecond);
-                        break;
                     }
-                    case("getLight"): {
+                    case ("getLight") -> {
                         // Integer
                         int light = getBlockIntegerField(blockName, fieldName);
+                        if (light <= 0 || light > 15) {
+                            break;
+                        }
                         definition.setLight(light);
-                        break;
                     }
-                    default: {
+                    default -> {
                         // ¯\_(ツ)_/¯
                         throw new RuntimeException("API: In-took INVALID field! https://media.tenor.com/LzbqCkSnfFcAAAAd/tommy-boy-what-did-you-do.gif");
                     }
                 }
-
-
             }
 
-//            container.addDefinition(definition);
+            // Finally added it into game's memory pool
+            container.addDefinition(definition);
         }
-
     }
 
+    private static String[] getBlockStringArrayField(String blockName, String fieldName) {
+
+        ArrayList<String> builder = new ArrayList<>();
+        int index = 1;
+
+        while (true) {
+
+            String gottenData = getString("return crafter.getBlockDataArray('" + blockName + "','" + fieldName + "'," + index + ")");
+
+            if (gottenData == null) {
+                break;
+            }
+
+            builder.add(gottenData);
+
+            index++;
+        }
+        return builder.toArray(new String[0]);
+    }
     private static int getBlockIntegerField(String blockName, String fieldName) {
         return getInteger("return crafter.getBlockData('" + blockName + "','" + fieldName + "')");
     }

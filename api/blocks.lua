@@ -153,10 +153,17 @@ end
 
 function crafter.getBlockDataArray(blockName, fieldGetter, index)
     runExistenceCheck(blockName, fieldGetter);
-    return crafter.registeredBlocks[blockName][fieldGetter]()[index];
+    local gottenTable = crafter.registeredBlocks[blockName][fieldGetter]();
+    if gottenTable == nil then
+        return nil;
+    end
+    if #gottenTable < index then
+        return nil;
+    end
+    return gottenTable[index];
 end
 
--- Woosh, it's gone
+-- Whoosh, it's gone
 function crafter.closeAPI()
     crafter.getNextBlock = nil
     crafter.getBlockData = nil
@@ -170,7 +177,7 @@ crafter.registerBlock({
     --ID = 0;
     internalName = "air";
     readableName = "air";
-    walkable = false;
+    --walkable = false;
     --textures = {"","","","","",""};
     drawType = crafter.blockDrawTypes.AIR;
 })
