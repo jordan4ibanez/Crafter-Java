@@ -4,7 +4,7 @@ public class BlockDefinition {
     // Required
     private int ID = -1;
     private final String internalName;
-    private final String[] textures;
+    private String[] textures;
 
     // Optional
     private String readableName = null;
@@ -24,17 +24,22 @@ public class BlockDefinition {
     todo: particle effects
      */
 
-    public BlockDefinition(String internalName, String[] textures) {
+    public BlockDefinition(String internalName) {
         this.internalName = internalName;
-        if (textures.length != 6) {
-            throw new RuntimeException("BlockDefinition: Textures must have 6 faces in block (" + internalName + ")!");
-        }
-        this.textures = textures;
     }
 
     public void setID(int ID) {
         duplicateCheck(this.ID, "ID");
         this.ID = ID;
+    }
+    public void setTextures(String[] textures) {
+        if (this.textures != null) {
+            throw new RuntimeException("BlockDefinition: Attempted to set textures more than once for block (" + internalName + ")!");
+        }
+        if (textures.length != 6) {
+            throw new RuntimeException("BlockDefinition: Textures must have 6 faces in block (" + internalName + ")!");
+        }
+        this.textures = textures;
     }
     public void setReadableName(String readableName) {
         if (this.readableName != null) {

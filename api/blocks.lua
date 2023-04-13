@@ -107,25 +107,42 @@ local function runExistenceCheck(blockName, fieldGetter)
     assert(gottenBlock[fieldGetter] ~= nil, "ERROR! Tried to get a nil block definition field! (" .. tostring(fieldGetter) .. ") is not a getter!");
 end
 
-local javaIndex = 1
+local javaIndex = 1;
+local fieldIndex = 1;
+local arrayIndex = 1;
+local fields = {
+    "getInternalName", "getTextures", "getReadableName", "getWalkable", "getDrawType", "getLiquid", "getLiquidViscosity",
+    "getClimbable", "getSneakJumpClimbable", "getFalling", "getClear", "getDamagePerSecond", "getLight"
+}
 
 -- These function allow java to dynamically intake lua block definitions
 function crafter.getNextBlock()
     local counter = 1;
     for k,v in pairs(crafter.registeredBlocks) do
-        print("looping into: ", k)
         if counter == javaIndex then
-            print("returning: ", k)
+            -- Automatically reset indices
+            fieldIndex = 1;
+            arrayIndex = 1;
             javaIndex = javaIndex + 1;
-            return v:getInternalName()
+            return v:getInternalName();
         end
         counter = counter + 1;
     end
 end
 
+function crafter.getNextField()
+    if #fields < fieldIndex then
+        return nil;
+    end
+    local returningValue = fields[fieldIndex];
+    fieldIndex = fieldIndex + 1;
+    return returningValue;
+end
+
 function crafter.getBlockData(blockName, fieldGetter)
     runExistenceCheck(blockName, fieldGetter)
 end
+
 
 function crafter.closeAPI()
     crafter.getNextBlock = nil

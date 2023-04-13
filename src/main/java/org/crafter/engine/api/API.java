@@ -1,5 +1,7 @@
 package org.crafter.engine.api;
 
+import org.crafter.engine.world.block.BlockDefinition;
+import org.crafter.engine.world.block.BlockDefinitionContainer;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.luajit.LuaJit;
 
@@ -17,32 +19,43 @@ public final class API {
 
         runFile("api/api.lua");
 
-        runCode("return crafter.getNextBlock()");
+//        runCode("return crafter.getNextBlock()");
 
-        String output = luaJIT.toString(-1);
+//        String output = luaJIT.toString(-1);
 
-        System.out.println("test: " + output);
+//        System.out.println("test: " + output);
+        parseBlocks();
     }
 
     private static void parseBlocks() {
-        boolean complete = false;
-        while (!complete) {
+        BlockDefinitionContainer container = BlockDefinitionContainer.getMainInstance();
+
+        while (true) {
 
             // Grab name
             runCode("return crafter.getNextBlock()");
-            String output = luaJIT.toString(-1);
-            System.out.println(output);
+            String blockName = luaJIT.toString(-1);
 
-            complete = output == null;
-            if (complete) {
-                continue;
+            if (blockName == null) {
+                break;
             }
 
-            boolean newField = true;
+            BlockDefinition definition = new BlockDefinition(blockName);
 
-            while (newField) {
-                
+            while (true) {
+
+                runCode("return crafter.getNextField()");
+                String fieldName = luaJIT.toString(-1);
+
+                if (fieldName == null) {
+                    break;
+                }
+
+                System.out.println(fieldName);
+
             }
+
+//            container.addDefinition(definition);
         }
 
     }
