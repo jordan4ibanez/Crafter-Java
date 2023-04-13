@@ -13,6 +13,13 @@ crafter.blockDrawTypes = {
     LEAVES = 8;
 }
 
+local function defaultSwitch(input, default)
+    if input == nil then
+        return default;
+    end
+    return input;
+end
+
 crafter.registeredBlocks = {}
 
 local Block = Object:extend();
@@ -33,14 +40,14 @@ function Block:new(definition)
         internalName = definition.internalName;
         textures = definition.textures;
         readableName = definition.readableName;
-        walkable = definition.walkable or true;
+        walkable = defaultSwitch(definition.walkable, true);
         drawType = definition.drawType or crafter.blockDrawTypes.BLOCK;
-        liquid = definition.liquid or false;
+        liquid = defaultSwitch(definition.liquid, false);
         liquidViscosity = definition.liquidViscosity or 0;
-        climbable = definition.climbable or false;
-        sneakJumpClimbable = definition.sneakJumpClimbable or false;
-        falling = definition.falling or false;
-        clear = definition.clear or false;
+        climbable = defaultSwitch(definition.climbable, false);
+        sneakJumpClimbable = defaultSwitch(definition.sneakJumpClimbable, false);
+        falling = defaultSwitch(definition.falling, false);
+        clear = defaultSwitch(definition.clear, false);
         damagePerSecond = definition.damagePerSecond or 0;
         light = definition.light or 0;
     }
@@ -111,14 +118,14 @@ local javaIndex = 1;
 local fieldIndex = 1;
 local arrayIndex = 1;
 local fields = {
-    "getInternalName", "getTextures", "getReadableName", "getWalkable", "getDrawType", "getLiquid", "getLiquidViscosity",
+    "getTextures", "getReadableName", "getWalkable", "getDrawType", "getLiquid", "getLiquidViscosity",
     "getClimbable", "getSneakJumpClimbable", "getFalling", "getClear", "getDamagePerSecond", "getLight"
 }
 
 -- These function allow java to dynamically intake lua block definitions
 function crafter.getNextBlock()
     local counter = 1;
-    for k,v in pairs(crafter.registeredBlocks) do
+    for _,v in pairs(crafter.registeredBlocks) do
         if counter == javaIndex then
             -- Automatically reset indices
             fieldIndex = 1;
@@ -140,12 +147,21 @@ function crafter.getNextField()
 end
 
 function crafter.getBlockData(blockName, fieldGetter)
-    runExistenceCheck(blockName, fieldGetter)
+    runExistenceCheck(blockName, fieldGetter);
+    return crafter.registeredBlocks[blockName][fieldGetter]();
 end
 
+function crafter.getBlockDataArray(blockName, fieldGetter, index)
+    runExistenceCheck(blockName, fieldGetter);
+    return crafter.registeredBlocks[blockName][fieldGetter]()[index];
+end
 
+-- Woosh, it's gone
 function crafter.closeAPI()
     crafter.getNextBlock = nil
+    crafter.getBlockData = nil
+    crafter.getBlockDataArray = nil
+    print("Lua to Java API closed!")
 end
 
 
@@ -153,6 +169,8 @@ end
 crafter.registerBlock({
     --ID = 0;
     internalName = "air";
+    readableName = "air";
+    walkable = false;
     --textures = {"","","","","",""};
     drawType = crafter.blockDrawTypes.AIR;
 })
