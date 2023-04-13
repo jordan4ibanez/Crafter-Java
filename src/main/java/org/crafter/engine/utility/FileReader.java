@@ -24,15 +24,20 @@ public final class FileReader {
         return data;
     }
 
-    public static String[] getFolderList(String fileLocation) {
+    public static String[] getFolderList(String folderLocation) {
 
-        File file = grabFile(fileLocation);
+        File file = grabFile(folderLocation);
 
         if (!file.isDirectory()) {
-            throw new RuntimeException("FileReader: Folder (" + fileLocation + ") is not a directory!");
+            throw new RuntimeException("FileReader: Folder (" + folderLocation + ") is not a directory!");
         }
 
         return file.list((current, name) -> new File(current, name).isDirectory());
+    }
+
+    public static String[] getFileList(String folderLocation) {
+        //TODO: list folders
+        return new String[0];
     }
 
     private static File grabFile(String fileLocation) {

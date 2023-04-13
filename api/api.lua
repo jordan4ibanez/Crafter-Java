@@ -1,3 +1,4 @@
+-- Object is available for everyone to utilize - classic is pretty neat
 Object = require("api.classic")
 
 crafter = {}
