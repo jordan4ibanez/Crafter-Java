@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
+import static org.crafter.engine.utility.FileReader.getFolderList;
 
 public final class API {
     private static final LuaJit luaJIT = new LuaJit();
@@ -25,6 +26,7 @@ public final class API {
         runFile("api/api.lua");
 
         //TODO: Run all mods!
+        loadMods();
 
         parseBlocks();
 
@@ -33,6 +35,10 @@ public final class API {
     }
 
     private static void loadMods() {
+
+        for (String modFolder : getFolderList(modPath)) {
+            System.out.println("Got mod: " + modFolder);
+        }
 
     }
 
