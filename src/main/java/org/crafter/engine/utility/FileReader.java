@@ -12,7 +12,7 @@ public final class FileReader {
         // Check if it exists
         File file = new File(fileLocation);
         if (!file.exists()) {
-            throw new RuntimeException("Shader: File " + fileLocation + " does not exist!");
+            throw new RuntimeException("FileReader: File " + fileLocation + " does not exist!");
         }
 
         // Now try to read it
