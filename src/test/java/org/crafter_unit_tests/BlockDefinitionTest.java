@@ -28,10 +28,8 @@ public class BlockDefinitionTest {
                 chosenTextures[w] = textureSelections[random.nextInt(textureSelections.length)];
             }
 
-            BlockDefinition testDefinition = new BlockDefinition(
-                    namePrefix + i,
-                    chosenTextures
-            );
+            BlockDefinition testDefinition = new BlockDefinition(namePrefix + i);
+            testDefinition.setTextures(chosenTextures);
 
             assertEquals(namePrefix + i, testDefinition.getInternalName());
 
