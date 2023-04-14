@@ -25,10 +25,22 @@ public final class WorldAtlas {
      */
     public static void lock() {
         checkLock();
+        checkEmpty();
         ByteBuffer worldAtlasByteData = packer.flush();
         Vector2ic worldAtlasSize = packer.getCanvasSize();
         TextureStorage.createTexture("worldAtlas", worldAtlasByteData, worldAtlasSize);
         locked = true;
+    }
+
+    /**
+     * If someone is making a custom game and didn't upload literally anything, well, we can't make an atlas out of nothing!
+     */
+    private static void checkEmpty() {
+        // Contains no STBI freestore data if it's empty, so exit error
+        if (packer.isEmpty()) {
+            throw new RuntimeException("WorldAtlas: Cannot generate world atlas! No textures were uploaded!");
+        }
+
     }
 
     private static void checkLock() {

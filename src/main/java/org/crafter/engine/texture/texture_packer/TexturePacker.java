@@ -55,6 +55,15 @@ public class TexturePacker {
         availableY.add(padding);
     }
 
+    public boolean isEmpty() {
+        return textures.isEmpty();
+    }
+
+    /**
+     * "dirt.png", "water.png", etc
+     * @param fileName The name which you gave the file.
+     * @return if it exists.
+     */
     public boolean fileNameExists(String fileName) {
         return textures.containsKey(fileName);
     }
