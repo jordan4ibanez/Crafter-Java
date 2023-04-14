@@ -95,6 +95,24 @@ public final class API {
                         String[] textures = getBlockStringArrayField(blockName, fieldName);
                         System.out.println(Arrays.toString(textures));
 
+                        // Double check
+
+                        boolean textureInvalid = false;
+
+                        //FIXME: REPLACE WITH PLACEHOLDER
+                        if (textures.length != 6) {
+//                            throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has wrong texture array size! Required: 6: | Gotten: " + textures.length);
+                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
+                            return;
+                        }
+                        for (String texture : textures) {
+                            if (texture == null) {
+//                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has a null texture string defined at index (" + i + ")!");
+                                System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
+                                return;
+                            }
+                        }
+                        definition.setTextures(textures);
                     }
                     case ("getReadableName") -> {
                         // String
