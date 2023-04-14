@@ -65,6 +65,7 @@ public class TexturePacker {
      * @return if it exists.
      */
     public boolean fileNameExists(String fileName) {
+        enforceLockout("fileNameExists");
         return textures.containsKey(fileName);
     }
 
