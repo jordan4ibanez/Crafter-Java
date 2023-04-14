@@ -168,6 +168,9 @@ public final class API {
     private static void parseBlocks() {
         BlockDefinitionContainer container = BlockDefinitionContainer.getMainInstance();
 
+        // This is used to ensure existence of mod defined texture
+        TexturePacker worldAtlasTexturePacker = WorldAtlas.getInstance();
+
         while (true) {
 
             // Grab name
@@ -213,11 +216,14 @@ public final class API {
 //                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
                             continue;
                         }
-                        for (String texture : textures) {
-                            if (texture == null) {
-//                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has a null texture string defined at index (" + i + ")!");
+                        for (int i = 0; i < textures.length; i++) {
+                            if (textures[i] == null) {
+                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has a NULL texture string defined at index (" + i + ")!");
 //                                System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
-                                continue;
+                            } else if (textures[i].equals("")) {
+                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has a BLANK texture at index (" + i + ")!");
+                            } else if (!worldAtlasTexturePacker.fileNameExists(textures[i])) {
+                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has an UNREGISTERED texture at index (" + i + "). Texture (" + textures[i] + ") is not a registered texture!");
                             }
                         }
 

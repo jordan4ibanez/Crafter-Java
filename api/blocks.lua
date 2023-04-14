@@ -31,7 +31,7 @@ function Block:new(definition)
     if (definition.drawType ~= nil and definition.drawType ~= crafter.blockDrawTypes.AIR) then
         assert(definition.textures ~= nil or type(definition.textures) == "table" and #definition.textures == 6, "registerBlock: ERROR! texture definition needs to be a table with 6 strings!")
         for i = 1,6 do
-            assert(definition.textures[i] ~= nil and type(definition.textures[i]) == "string", "registerBlock: ERROR! texture definition " .. tostring(i) .. " is invalid!")
+            assert(definition.textures[i] ~= nil and type(definition.textures[i]) == "string", "registerBlock: ERROR! texture definition " .. tostring(i) .. " is invalid for block (" .. definition.internalName .. ")!")
         end
     end
     -- Private data
