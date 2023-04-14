@@ -25,8 +25,11 @@ public final class API {
 
         runFile("api/api.lua");
 
-        // This scoops all the mod texture data up and loads it up into the texture atlas or as an individual texture
-        loadWorldAtlasTextures();
+        // This scoops all the mod block texture data up and loads it up into the texture atlas
+        loadModBlockTexturesIntoWorldAtlas();
+
+        // This scoops all the general mod texture data up and loads it up into TextureStorage
+        // loadModTextures();
 
         // This runs the main.lua file of all mods, so they can be dynamically loaded into memory (crafter.registerBlock, crafter.registerEntity, etc)
         loadMods();
@@ -38,7 +41,7 @@ public final class API {
 //        runCode("crafter.closeAPI()");
     }
 
-    private static void loadWorldAtlasTextures() {
+    private static void loadModBlockTexturesIntoWorldAtlas() {
         for (String modFolder : getFolderList(modPath)) {
             loadLuaModBlockTextures(modPath + modFolder);
         }
