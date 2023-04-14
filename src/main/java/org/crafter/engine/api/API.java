@@ -1,5 +1,6 @@
 package org.crafter.engine.api;
 
+import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.texture.texture_packer.TexturePacker;
 import org.crafter.engine.world.block.BlockDefinition;
@@ -16,6 +17,7 @@ import static org.crafter.engine.utility.FileReader.*;
 public final class API {
     private static final LuaJit luaJIT = new LuaJit();
 
+    // Keep this as a field in case it is ever decided to relocate it!
     private static final String modPath = "mods/";
 
     private API(){}
@@ -25,11 +27,9 @@ public final class API {
 
         runFile("api/api.lua");
 
-        // This scoops all the mod block texture data up and loads it up into the texture atlas
-        loadModBlockTexturesIntoWorldAtlas();
-
-        // This scoops all the general mod texture data up and loads it up into TextureStorage
-        // loadModTextures();
+        // The gist: it loads mod textures
+        // Read method for more information
+        loadModTextures();
 
         // This runs the main.lua file of all mods, so they can be dynamically loaded into memory (crafter.registerBlock, crafter.registerEntity, etc)
         loadMods();
@@ -41,16 +41,59 @@ public final class API {
 //        runCode("crafter.closeAPI()");
     }
 
-    private static void loadModBlockTexturesIntoWorldAtlas() {
-        for (String modFolder : getFolderList(modPath)) {
+    private static void loadModTextures() {
+        // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
+        String[] modFolderList = getFolderList(modPath);
+
+        for (String modFolder : modFolderList) {
+            // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
             loadLuaModBlockTextures(modPath + modFolder);
+
+            // Loads up all png files within mod's /textures/ folder EXCLUDING /blocks/. These are individual textures.
+            loadLuaModIndividualTextures(modPath + modFolder);
+
         }
         // All mod textures are loaded, close it out.
         WorldAtlas.lock();
         // TextureStorage now has an entry of "worldAtlas" that can be easily gotten!
+
     }
 
-    public static void loadLuaModBlockTextures(String modDirectory) {
+    private static void loadLuaModIndividualTextures(String modDirectory) {
+
+        String texturesDirectory = modDirectory + "/textures";
+
+        if (!isFolder(texturesDirectory)) {
+            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
+            return;
+        }
+
+        String[] foundFiles = getFileList(texturesDirectory);
+
+        if (foundFiles.length == 0) {
+            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
+            return;
+        }
+
+        int foundPNGs = 0;
+        for (String thisFile : foundFiles) {
+            if (thisFile.contains(".png")) {
+                foundPNGs++;
+            }
+        }
+        if (foundPNGs == 0) {
+            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + texturesDirectory + "). Skipping!");
+            return;
+        }
+
+        for (String thisFile : foundFiles) {
+            if (thisFile.contains(".png")) {
+                TextureStorage.createTexture(thisFile, texturesDirectory + "/" + thisFile);
+            }
+        }
+    }
+
+    private static void loadLuaModBlockTextures(String modDirectory) {
 
         String texturesDirectory = modDirectory + "/textures";
 
@@ -69,27 +112,26 @@ public final class API {
         String[] foundFiles = getFileList(blockTexturesDirectory);
 
         if (foundFiles.length == 0) {
-            System.out.println("WorldAtlas: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return;
         }
 
         int foundPNGs = 0;
         for (String thisFile : foundFiles) {
-            System.out.println(thisFile);
             if (thisFile.contains(".png")) {
                 foundPNGs++;
             }
         }
         if (foundPNGs == 0) {
-            System.out.println("WorldAtlas: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return;
         }
 
-        TexturePacker worldAtlas = WorldAtlas.getInstance();
+        TexturePacker worldAtlasTexturePacker = WorldAtlas.getInstance();
 
         for (String thisFile : foundFiles) {
             if (thisFile.contains(".png")) {
-                WorldAtlas.getInstance().add(thisFile, blockTexturesDirectory + "/" + thisFile);
+                worldAtlasTexturePacker.add(thisFile, blockTexturesDirectory + "/" + thisFile);
             }
         }
     }

@@ -20,20 +20,23 @@ public final class TextureStorage {
 
     // Create a new texture from a buffer directly
     public static void createTexture(String name, ByteBuffer buffer, Vector2ic size) {
-        if (container.containsKey(name)) {
-            throw new RuntimeException("TextureStorage: Tried to add " + name + " more than once!");
-        }
-        System.out.println("TextureStorage: Created texture (" + name + ")");
+        checkDuplicate(name);
+//        System.out.println("TextureStorage: Created texture (" + name + ")");
         container.put(name, new Texture(name, buffer, size));
     }
 
     // Create a new texture
     public static void createTexture(String fileLocation) {
-        if (container.containsKey(fileLocation)) {
-            throw new RuntimeException("TextureStorage: Tried to add " + fileLocation + " more than once!");
-        }
+        checkDuplicate(fileLocation);
 //        System.out.println("TextureStorage: Created texture (" + fileLocation + ")");
         container.put(fileLocation, new Texture(fileLocation));
+    }
+
+    // Create a new texture with a specific name
+    public static void createTexture(String name, String fileLocation) {
+        checkDuplicate(name);
+//        System.out.println("TextureStorage: Created texture (" + name + ")");
+        container.put(name, new Texture(fileLocation));
     }
 
     // Bind context to the selected OpenGL texture
@@ -74,6 +77,11 @@ public final class TextureStorage {
             // Automatically upload texture if it doesn't exist
             createTexture(fileLocation);
 //            throw new RuntimeException("TextureStorage: Tried to access nonexistent texture (" + fileLocation + ")!");
+        }
+    }
+    private static void checkDuplicate(String name) {
+        if (container.containsKey(name)) {
+            throw new RuntimeException("TextureStorage: Tried to add " + name + " more than once!");
         }
     }
 }
