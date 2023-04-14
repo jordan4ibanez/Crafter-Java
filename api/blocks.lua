@@ -98,7 +98,7 @@ end
 
 function crafter.registerBlock(definition)
     local newBlock = Block(definition);
-    print("adding: " .. newBlock:getInternalName());
+    --print("adding: " .. newBlock:getInternalName());
     if (crafter.registeredBlocks[newBlock:getInternalName()] ~= nil) then
         error("registerBlock: ERROR! Tried to insert a duplicate of (" .. newBlock:getInternalName() .. ")!" );
     end

@@ -64,14 +64,14 @@ public final class API {
         String texturesDirectory = modDirectory + "/textures";
 
         if (!isFolder(texturesDirectory)) {
-            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
+//            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return;
         }
 
         String[] foundFiles = getFileList(texturesDirectory);
 
         if (foundFiles.length == 0) {
-            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
+//            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
             return;
         }
 
@@ -82,7 +82,7 @@ public final class API {
             }
         }
         if (foundPNGs == 0) {
-            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + texturesDirectory + "). Skipping!");
+//            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + texturesDirectory + "). Skipping!");
             return;
         }
 
@@ -98,21 +98,21 @@ public final class API {
         String texturesDirectory = modDirectory + "/textures";
 
         if (!isFolder(texturesDirectory)) {
-            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
+//            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return;
         }
 
         String blockTexturesDirectory = texturesDirectory + "/blocks";
 
         if (!isFolder(blockTexturesDirectory)) {
-            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
+//            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
             return;
         }
 
         String[] foundFiles = getFileList(blockTexturesDirectory);
 
         if (foundFiles.length == 0) {
-            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+//            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return;
         }
 
@@ -123,7 +123,7 @@ public final class API {
             }
         }
         if (foundPNGs == 0) {
-            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+//            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return;
         }
 
@@ -197,8 +197,8 @@ public final class API {
                     case ("getTextures") -> {
                         // String[]
                         if (definition.getDrawType() == DrawType.AIR) {
-                            System.out.println("API: Block (" + definition.getInternalName() + ") is air drawtype, skipping textures!");
-                            return;
+//                            System.out.println("API: Block (" + definition.getInternalName() + ") is air drawtype, skipping textures!");
+                            continue;
                         }
                         String[] textures = getBlockStringArrayField(blockName, fieldName);
                         System.out.println(Arrays.toString(textures));
@@ -210,14 +210,14 @@ public final class API {
                         //FIXME: REPLACE WITH PLACEHOLDER
                         if (textures.length != 6) {
 //                            throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has wrong texture array size! Required: 6: | Gotten: " + textures.length);
-                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
-                            return;
+//                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
+                            continue;
                         }
                         for (String texture : textures) {
                             if (texture == null) {
 //                                throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has a null texture string defined at index (" + i + ")!");
-                                System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
-                                return;
+//                                System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
+                                continue;
                             }
                         }
 
@@ -251,7 +251,7 @@ public final class API {
                         // Integer
                         int liquidViscosity = getBlockIntegerField(blockName, fieldName);
                         if (liquidViscosity < 1 || liquidViscosity > 8) {
-                            break;
+                            continue;
                         }
                         definition.setLiquidViscosity(liquidViscosity);
                     }
@@ -279,7 +279,7 @@ public final class API {
                         // Integer
                         int damagePerSecond = getBlockIntegerField(blockName, fieldName);
                         if (damagePerSecond <= 0) {
-                            break;
+                            continue;
                         }
                         definition.setDamagePerSecond(damagePerSecond);
                     }
@@ -287,7 +287,7 @@ public final class API {
                         // Integer
                         int light = getBlockIntegerField(blockName, fieldName);
                         if (light <= 0 || light > 15) {
-                            break;
+                            continue;
                         }
                         definition.setLight(light);
                     }
