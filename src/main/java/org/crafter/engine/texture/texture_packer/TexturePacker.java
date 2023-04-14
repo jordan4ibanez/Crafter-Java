@@ -16,9 +16,6 @@ import static org.lwjgl.stb.STBImageWrite.*;
  */
 public class TexturePacker {
 
-    private static final TexturePacker instance = new TexturePacker();
-
-
     // Ignore intellij, these are extremely useful to modify up top!
     private final int padding = 1;
 
@@ -47,7 +44,7 @@ public class TexturePacker {
     private boolean lockedOut = false;
 
 
-    private TexturePacker() {
+    public TexturePacker() {
         textures = new HashMap<>();
         canvas = new Canvas(width, height);
         availableX = new TreeSet<>();
@@ -58,31 +55,31 @@ public class TexturePacker {
         availableY.add(padding);
     }
 
-    public static TexturePacker getInstance() {
-        return instance;
+    public boolean fileNameExists(String fileName) {
+        return textures.containsKey(fileName);
     }
 
     /**
      * Returns a literal location and size in texture atlas, not adjusted to OpenGL!
      * Specifically implemented to make making quads easier.
-     * @param fileLocation the name of the texture in the texture atlas.
+     * @param fileName the name of the texture in the texture atlas.
      * @return a Vector4ic containing (position X, position Y, width, height)
      */
-    public Vector4ic getIntegralPositions(String fileLocation) {
-        existenceCheck(fileLocation);
-        return textures.get(fileLocation).getPositionAndSize();
+    public Vector4ic getIntegralPositions(String fileName) {
+        existenceCheck(fileName);
+        return textures.get(fileName).getPositionAndSize();
     }
 
     /**
      * Returns an OpenGL adjusted location and size in texture atlas.
-     * @param fileLocation the name of the texture in the texture atlas.
+     * @param fileName the name of the texture in the texture atlas.
      * @return a Vector4fc containing OpenGL Scaled (position X, position Y, width, height)
      */
-    public Vector4fc getOpenGLPositions(String fileLocation) {
+    public Vector4fc getOpenGLPositions(String fileName) {
 
         enforceLockout("getQuadOf");
 
-        Vector4ic gottenIntegralPositionAndSize = getIntegralPositions(fileLocation);
+        Vector4ic gottenIntegralPositionAndSize = getIntegralPositions(fileName);
 
         System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
 
@@ -100,15 +97,15 @@ public class TexturePacker {
 
     /**
      * Returns a float[] of quad points.
-     * @param fileLocation the name of the texture in the texture atlas.
+     * @param fileName the name of the texture in the texture atlas.
      * @return a float[] containing exactly OpenGL Positions. xy[top left, bottom left, bottom right, top right]
      */
-    public float[] getQuadOf(String fileLocation) {
+    public float[] getQuadOf(String fileName) {
 
         enforceLockout("getQuadOf");
 
         // this var was originally called: gottenOpenGLPositionAndSize. You can probably see why I changed it
-        Vector4fc p = getOpenGLPositions(fileLocation);
+        Vector4fc p = getOpenGLPositions(fileName);
         System.out.println(p.x() + "," + p.y() + "," + p.z() + "," + p.w());
         // Z = width
         // W = height
@@ -126,14 +123,14 @@ public class TexturePacker {
 
     /**
      *
-     * @param fileLocation
+     * @param fileName location of the file!
      * @param xLeftTrim How far to trim into the left side towards the right (0.0f, 1.0f)
      * @param xRightTrim How far to trim into the right towards the left (0.0f, 1.0f)
      * @param yTopTrim How far to trim into the top towards the bottom (0.0f, 1.0f)
      * @param yBottomTrim How far to trim into the bottom towards the top (0.0f, 1.0f)
      * @return a float[] containing exactly OpenGL Positions. xy[top left, bottom left, bottom right, top right]
      */
-    public float[] getQuadOf(String fileLocation, float xLeftTrim, float xRightTrim, float yTopTrim, float yBottomTrim) {
+    public float[] getQuadOf(String fileName, float xLeftTrim, float xRightTrim, float yTopTrim, float yBottomTrim) {
 
         enforceLockout("getQuadOf");
 
@@ -148,7 +145,7 @@ public class TexturePacker {
             }
         }
 
-        Vector4fc o = getOpenGLPositions(fileLocation);
+        Vector4fc o = getOpenGLPositions(fileName);
 
         // Z = width
         // W = height
@@ -171,12 +168,12 @@ public class TexturePacker {
         };
     }
 
-    public void add(String name, String fileLocation) {
+    public void add(String fileName, String fileLocation) {
         lockoutCheck("add");
-        nullCheck("name", name);
+        nullCheck("name", fileName);
         nullCheck("fileLocation", fileLocation);
-        duplicateCheck(name);
-        textures.put(name, new TexturePackerObject(fileLocation));
+        duplicateCheck(fileName);
+        textures.put(fileName, new TexturePackerObject(fileLocation));
     }
 
     public void debugPrintCanvas() {

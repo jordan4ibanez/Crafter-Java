@@ -55,4 +55,14 @@ public final class FileReader {
         }
         return file;
     }
+
+    /**
+     * Little helper methods.
+     */
+    public static boolean isFolder(String folderLocation) {
+        return new File(folderLocation).isDirectory();
+    }
+    public static boolean isFile(String fileLocation) {
+        return new File(fileLocation).isFile();
+    }
 }

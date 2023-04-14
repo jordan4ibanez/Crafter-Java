@@ -5,7 +5,7 @@ import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
-import org.crafter.engine.texture.texture_packer.WorldAtlasInitializer;
+import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.window.Window;
 
 public class Main {
@@ -24,7 +24,7 @@ public class Main {
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
         API.initialize();
-        WorldAtlasInitializer.initializeWorldBlockTextures();
+//        WorldAtlas.initializeWorldBlockTextures();
 
 
 //        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");

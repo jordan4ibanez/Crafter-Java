@@ -117,8 +117,10 @@ end
 local javaIndex = 1;
 local fieldIndex = 1;
 local arrayIndex = 1;
+
+-- getDrawType comes before getTextures to ensure a guarantee. The guarantee is if it's an air drawtype, ignore textures!
 local fields = {
-    "getTextures", "getReadableName", "getWalkable", "getDrawType", "getLiquid", "getLiquidViscosity",
+    "getDrawType", "getTextures", "getReadableName", "getWalkable", "getLiquid", "getLiquidViscosity",
     "getClimbable", "getSneakJumpClimbable", "getFalling", "getClear", "getDamagePerSecond", "getLight"
 }
 

@@ -1,5 +1,7 @@
 package org.crafter.engine.api;
 
+import org.crafter.engine.texture.WorldAtlas;
+import org.crafter.engine.texture.texture_packer.TexturePacker;
 import org.crafter.engine.world.block.BlockDefinition;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.block.DrawType;
@@ -23,13 +25,70 @@ public final class API {
 
         runFile("api/api.lua");
 
-        //TODO: Run all mods!
+        // This scoops all the mod texture data up and loads it up into the texture atlas or as an individual texture
+        loadWorldAtlasTextures();
+
+        // This runs the main.lua file of all mods, so they can be dynamically loaded into memory (crafter.registerBlock, crafter.registerEntity, etc)
         loadMods();
 
+        // This is the method which translates the block definitions from lua to java
         parseBlocks();
 
         // This was an old hack to delete the needed lua api functions
 //        runCode("crafter.closeAPI()");
+    }
+
+    private static void loadWorldAtlasTextures() {
+        for (String modFolder : getFolderList(modPath)) {
+            loadLuaModBlockTextures(modPath + modFolder);
+        }
+        // All mod textures are loaded, close it out.
+        WorldAtlas.lock();
+        // TextureStorage now has an entry of "worldAtlas" that can be easily gotten!
+    }
+
+    public static void loadLuaModBlockTextures(String modDirectory) {
+
+        String texturesDirectory = modDirectory + "/textures";
+
+        if (!isFolder(texturesDirectory)) {
+            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
+            return;
+        }
+
+        String blockTexturesDirectory = texturesDirectory + "/blocks";
+
+        if (!isFolder(blockTexturesDirectory)) {
+            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
+            return;
+        }
+
+        String[] foundFiles = getFileList(blockTexturesDirectory);
+
+        if (foundFiles.length == 0) {
+            System.out.println("WorldAtlas: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+            return;
+        }
+
+        int foundPNGs = 0;
+        for (String thisFile : foundFiles) {
+            System.out.println(thisFile);
+            if (thisFile.contains(".png")) {
+                foundPNGs++;
+            }
+        }
+        if (foundPNGs == 0) {
+            System.out.println("WorldAtlas: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
+            return;
+        }
+
+        TexturePacker worldAtlas = WorldAtlas.getInstance();
+
+        for (String thisFile : foundFiles) {
+            if (thisFile.contains(".png")) {
+                WorldAtlas.getInstance().add(thisFile, blockTexturesDirectory + "/" + thisFile);
+            }
+        }
     }
 
     private static void loadMods() {
@@ -92,6 +151,10 @@ public final class API {
                 switch (fieldName) {
                     case ("getTextures") -> {
                         // String[]
+                        if (definition.getDrawType() == DrawType.AIR) {
+                            System.out.println("API: Block (" + definition.getInternalName() + ") is air drawtype, skipping textures!");
+                            return;
+                        }
                         String[] textures = getBlockStringArrayField(blockName, fieldName);
                         System.out.println(Arrays.toString(textures));
 
@@ -112,6 +175,7 @@ public final class API {
                                 return;
                             }
                         }
+
                         definition.setTextures(textures);
                     }
                     case ("getReadableName") -> {
