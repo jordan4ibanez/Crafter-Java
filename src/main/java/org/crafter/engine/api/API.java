@@ -204,16 +204,16 @@ public final class API {
                             continue;
                         }
                         String[] textures = getBlockStringArrayField(blockName, fieldName);
-                        System.out.println(Arrays.toString(textures));
+//                        System.out.println(Arrays.toString(textures));
 
                         // Double check
 
-                        boolean textureInvalid = false;
+//                        boolean textureInvalid = false;
 
-                        //FIXME: REPLACE WITH PLACEHOLDER
+                        //FIXME: REPLACE WITH PLACEHOLDER - This should never be reached though!
                         if (textures.length != 6) {
 //                            throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has wrong texture array size! Required: 6: | Gotten: " + textures.length);
-//                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
+                            System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
                             continue;
                         }
                         for (int i = 0; i < textures.length; i++) {

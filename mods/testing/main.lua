@@ -4,6 +4,6 @@ crafter.registerBlock({
     internalName = "testing:aTest";
     readableName = "A Test";
     drawType = crafter.blockDrawTypes.BLOCK;
-    textures = {"", "smarf", "nothing", "", "sdf", "234"};
+    textures = {"dirt.png", "stone.png", "nothing.png", "iron_block.png", "ice.png", "gold_block.png"};
     walkable = false;
 })
