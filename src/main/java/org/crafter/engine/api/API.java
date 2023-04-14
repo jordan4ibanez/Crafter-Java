@@ -11,6 +11,7 @@ import party.iroiro.luajava.luajit.LuaJit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.crafter.engine.utility.FileReader.*;
 
@@ -138,29 +139,31 @@ public final class API {
 
     private static void loadMods() {
 
-        // Basic mod loading test
-
+        // Basic mod loading
         for (String modFolder : getFolderList(modPath)) {
 
-            boolean found = false;
 //            System.out.println("Got mod: " + modFolder);
 
-            String[] modFiles = getFileList(modPath  + modFolder);
+            // We need to look through this multiple times so turn it into an indexable container
+            HashMap<String, Boolean> fileExistence = new HashMap<>();
+            Arrays.stream(getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
+                fileExistence.put(fileName, true);
+            });
 
-            // Searching for the main mod file
-            for (String file : modFiles) {
-                if (file.equals("main.lua")) {
-                    found = true;
-//                    System.out.println("FOUND MAIN!");
-
-                    runFile(modPath + modFolder + "/main.lua");
-
-                    break;
-                }
+            // Check mod.json existence
+            if (!fileExistence.containsKey("mod.json")) {
+                throw new RuntimeException("API: Mod (" + modFolder + ") does not have mod.json!");
             }
-            if (!found) {
+
+            // Check main.lua existence
+            if (!fileExistence.containsKey("main.lua")) {
                 throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
             }
+
+            // todo: upload contextual variables here
+
+            // Now run main.lua
+            runFile(modPath + modFolder + "/main.lua");
         }
 
     }
