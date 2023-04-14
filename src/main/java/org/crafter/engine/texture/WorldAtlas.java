@@ -38,7 +38,7 @@ public final class WorldAtlas {
     private static void checkEmpty() {
         // Contains no STBI freestore data if it's empty, so exit error
         if (packer.isEmpty()) {
-            throw new RuntimeException("WorldAtlas: Cannot generate world atlas! No textures were uploaded!");
+            throw new RuntimeException("WorldAtlas: Cannot generate world atlas! No block textures were uploaded!");
         }
 
     }
