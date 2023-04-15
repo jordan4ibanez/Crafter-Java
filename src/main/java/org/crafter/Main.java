@@ -7,7 +7,13 @@ import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.window.Window;
+import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world_generation.ChunkGenerator;
+import org.joml.Random;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
+
+import java.util.Date;
 
 public class Main {
 
@@ -39,13 +45,26 @@ public class Main {
         Font.setShadowOffset(0.75f,0.75f);
 
         Window.setClearColor(0.75f);
+        Window.setVsync(false);
 
 
+        Random random = new Random(new Date().getTime()/1000);
 
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
             Window.clearAll();
+
+            // -25 to 25
+            ChunkGenerator.pushRequest(new Vector2i(
+                    random.nextInt(100) - 51,
+                    random.nextInt(100) - 51
+            ));
+            while (ChunkGenerator.hasUpdate()) {
+                Chunk currentUpdate = ChunkGenerator.getUpdate();
+//                System.out.println("Main: Received chunk (" + currentUpdate.getX() + ", " + currentUpdate.getY() + ")!");
+            }
+
 
 
 
