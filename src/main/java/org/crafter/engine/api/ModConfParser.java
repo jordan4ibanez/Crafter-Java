@@ -17,8 +17,8 @@ import static org.crafter.engine.utility.FileReader.*;
 public class ModConfParser {
 
     private final String jsonLocation;
-    HashMap<String, String> directValues;
-    HashMap<String, String[]> arrayValues;
+    private final HashMap<String, String> directValues;
+    private final HashMap<String, String[]> arrayValues;
 
     public ModConfParser(String modDirectory) {
         if (modDirectory == null) {
