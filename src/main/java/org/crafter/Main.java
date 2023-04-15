@@ -42,7 +42,7 @@ public class Main {
 
 
 
-        while(Window.shouldClose()) {
+        while(!Window.shouldClose()) {
             Window.pollEvents();
 
             Window.clearAll();
