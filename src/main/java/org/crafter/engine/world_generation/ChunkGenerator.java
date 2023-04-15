@@ -3,13 +3,13 @@ package org.crafter.engine.world_generation;
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.utility.FastNoise;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world.chunk.Chunk;
 import org.joml.Vector2ic;
 
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The Chunk Generator is basically a thread facade.
@@ -27,7 +27,8 @@ public class ChunkGenerator implements Runnable {
 
     private final BlockDefinitionContainer blockDefinitionContainer;
 
-    private final BlockingQueue<Vector2ic> chunkQueue;
+    private final BlockingQueue<Vector2ic> chunkRequestQueue;
+    private final BlockingQueue<Chunk> chunkOutputQueue;
     private final AtomicBoolean shouldRun;
 
 //    private float sleepTimer;
@@ -36,7 +37,8 @@ public class ChunkGenerator implements Runnable {
         delta = new DeltaObject();
         noise = new FastNoise();
         blockDefinitionContainer = BlockDefinitionContainer.getThreadSafeDuplicate();
-        chunkQueue = new LinkedBlockingQueue<>();
+        chunkRequestQueue = new LinkedBlockingQueue<>();
+        chunkOutputQueue = new LinkedBlockingQueue<>();
         shouldRun = new AtomicBoolean(true);
 //        sleepTimer = 0.0f;
     }
@@ -47,8 +49,31 @@ public class ChunkGenerator implements Runnable {
         System.out.println("ChunkGenerator: gotten blocks (" + Arrays.toString(blockDefinitionContainer.getAllBlockNames()) + ")!");
         while (shouldRun.get()) {
             sleepCheck();
-            System.out.println("ChunkGenerator: I am a runner");
+            processInputQueue();
         }
+    }
+
+    private void processInputQueue() {
+        boolean processed = false;
+        while (!chunkRequestQueue.isEmpty()) {
+            processed = true;
+            generateChunk(chunkRequestQueue.remove());
+        }
+        if (processed) {
+            System.out.println("ChunkGenerator: Done!");
+        }
+    }
+    private void generateChunk(Vector2ic position) {
+        System.out.println("ChunkGenerator: Processing (" + position.x() + ", " + position.y() + ")!");
+        // This is a basic templating test, testing throughput, making sure nothing crashes
+        chunkOutputQueue.add(new Chunk(position));
+    }
+
+    public boolean checkUpdate() {
+        return !chunkOutputQueue.isEmpty();
+    }
+    public Chunk grabUpdate() {
+        return chunkOutputQueue.remove();
     }
 
     private void sleepCheck() {
@@ -59,9 +84,10 @@ public class ChunkGenerator implements Runnable {
          - Sleep: 1.8% - 2.5%
          - Delta poll: 18% - 23%
         */
-        if (chunkQueue.size() == 0) {
+        if (chunkRequestQueue.size() == 0) {
             try {
                 Thread.sleep(200);
+//                System.out.println("ChunkGenerator: Sleeping...");
             } catch (Exception e) {
                 throw new RuntimeException("ChunkGenerator: Thread failed to sleep! " + e);
             }
@@ -83,7 +109,7 @@ public class ChunkGenerator implements Runnable {
     }
 
     private void addRequest(Vector2ic requestedChunk) {
-        this.chunkQueue.add(requestedChunk);
+        this.chunkRequestQueue.add(requestedChunk);
     }
 
     private void stopThread() {
@@ -107,9 +133,20 @@ public class ChunkGenerator implements Runnable {
         instance.stopThread();
     }
 
-    public static void add(Vector2ic requestedChunk) {
+    public static void pushRequest(Vector2ic requestedChunk) {
         nullCheck("add");
         instance.addRequest(requestedChunk);
+    }
+
+    public static boolean hasUpdate() {
+        return instance.checkUpdate();
+    }
+    public static Chunk getUpdate() {
+        // This is an extremely important safety check
+        if (!hasUpdate()) {
+            throw new RuntimeException("ChunkGenerator: You need to check (hasUpdate) before you try to getUpdate!");
+        }
+        return instance.grabUpdate();
     }
 
     private static void nullCheck(String methodName) {
@@ -117,6 +154,9 @@ public class ChunkGenerator implements Runnable {
             throw new RuntimeException("ChunkGenerator: Cannot utilize method (" + methodName + ")! The THREAD has not been instantiated!");
         } if (instance == null) {
             throw new RuntimeException("ChunkGenerator: Cannot utilize method (" + methodName + ")! The INSTANCE has not been instantiated!");
+        }
+        if (!thread.isAlive()) {
+            throw new RuntimeException("ChunkGenerator: Thread has crashed! Cannot utilize (" + methodName + ")!");
         }
     }
 }
