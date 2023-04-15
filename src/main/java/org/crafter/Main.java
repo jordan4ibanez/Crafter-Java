@@ -24,14 +24,12 @@ public class Main {
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
         API.initialize();
-//        WorldAtlas.initializeWorldBlockTextures();
 
+        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
+        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
 
-//        ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
-//        ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
-//
-//        ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
-//        ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
+        ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
+        ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
 
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
@@ -45,6 +43,8 @@ public class Main {
 
             Window.clearAll();
 
+
+
             Window.swapBuffers();
 
         }
@@ -52,9 +52,7 @@ public class Main {
         TextureStorage.destroyAll();
         MeshStorage.destroyAll();
         ShaderStorage.destroyAll();
-
         API.destroy();
-
         Window.destroy();
     }
 }
