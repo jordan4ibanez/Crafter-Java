@@ -1,12 +1,15 @@
 package org.crafter.engine.world.block;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Works as a thread safe singleton that dispatches a clone of its internal data to worker threads.
  * Prevents having to synchronize halt on the main thread.
  */
-public class BlockDefinitionContainer {
+public class BlockDefinitionContainer implements Serializable {
 
     private static BlockDefinitionContainer instance = null;
 
@@ -48,6 +51,13 @@ public class BlockDefinitionContainer {
         // TODO: inject texture coordinates
         idMap.put(definition.getID(), definition);
         nameMap.put(definition.getInternalName(), definition);
+    }
+
+    /**
+     * Debug testing!
+     */
+    public String[] getAllBlockNames() {
+        return nameMap.keySet().toArray(new String[0]);
     }
 
     public BlockDefinition getDefinition(int ID) {
@@ -131,17 +141,17 @@ public class BlockDefinitionContainer {
     /**
      * Get a thread safe duplicate of the master instance of Block Definition Container.
      * @return A clone of the master instance of Block Definition Container.
-     * @throws CloneNotSupportedException Should always be supported.
+     * WARNING! This is slow, only do this at start of game!
      */
-    public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() throws CloneNotSupportedException {
+    public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() {
         if (instance == null) {
             throw new RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created!");
         }
         instance.doubleCheckData();
 
-        BlockDefinitionContainer cloneOf = (BlockDefinitionContainer) instance.clone();
-        cloneOf.setClone();
-        return cloneOf;
+        BlockDefinitionContainer clone = SerializationUtils.clone(getMainInstance());
+        clone.setClone();
+        return clone;
     }
 
     private static void autoDispatch() {
