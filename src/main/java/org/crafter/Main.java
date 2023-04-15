@@ -53,6 +53,7 @@ public class Main {
 
         }
 
+        ChunkGenerator.stop();
         TextureStorage.destroyAll();
         MeshStorage.destroyAll();
         ShaderStorage.destroyAll();
