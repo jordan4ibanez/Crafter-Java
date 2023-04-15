@@ -23,7 +23,7 @@ public class Chunk extends ChunkArrayManipulation {
     public Chunk(int x, int y) {
         this(new Vector2i(x,y));
     }
-    public Chunk(Vector2i position) {
+    public Chunk(Vector2ic position) {
         this.position = position;
     }
 
