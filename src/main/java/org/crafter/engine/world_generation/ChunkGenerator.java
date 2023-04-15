@@ -54,17 +54,20 @@ public class ChunkGenerator implements Runnable {
     }
 
     private void processInputQueue() {
-        boolean processed = false;
+//        System.out.println("------------------ BEGIN REQUEST PROCESSING ----------------");
+//        boolean processed = false;
         while (!chunkRequestQueue.isEmpty()) {
-            processed = true;
+//            processed = true;
             generateChunk(chunkRequestQueue.remove());
+            // Output will always start at 1 because a chunk was just inserted
+//            debugQueueSizes();
         }
-        if (processed) {
-            System.out.println("ChunkGenerator: Done!");
-        }
+//        if (processed) {
+//            System.out.println("ChunkGenerator: Done!");
+//        }
     }
     private void generateChunk(Vector2ic position) {
-        System.out.println("ChunkGenerator: Processing (" + position.x() + ", " + position.y() + ")!");
+//        System.out.println("ChunkGenerator: Processing (" + position.x() + ", " + position.y() + ")!");
         // This is a basic templating test, testing throughput, making sure nothing crashes
         chunkOutputQueue.add(new Chunk(position));
     }
@@ -73,6 +76,7 @@ public class ChunkGenerator implements Runnable {
         return !chunkOutputQueue.isEmpty();
     }
     public Chunk grabUpdate() {
+//        debugQueueSizes();
         return chunkOutputQueue.remove();
     }
 
@@ -114,6 +118,13 @@ public class ChunkGenerator implements Runnable {
 
     private void stopThread() {
         shouldRun.set(false);
+    }
+
+    /**
+     * This function is helpful in case something ever gets completely mangled.
+     */
+    private void debugQueueSizes() {
+        System.out.println("ChunkGenerator: (INPUT: " + chunkRequestQueue.size() + ") | (OUTPUT: " + chunkOutputQueue.size() + ")");
     }
 
     // External statics from here below
