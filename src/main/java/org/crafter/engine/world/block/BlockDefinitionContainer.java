@@ -43,7 +43,7 @@ public class BlockDefinitionContainer {
             definition.setDrawType(DrawType.BLOCK);
         }
 
-        System.out.println("BlockDefinitionContainer: Added block (" + definition.getInternalName() + ") at ID (" + definition.getID() + ")");
+//        System.out.println("BlockDefinitionContainer: Added block (" + definition.getInternalName() + ") at ID (" + definition.getID() + ")");
 
         // TODO: inject texture coordinates
         idMap.put(definition.getID(), definition);
