@@ -7,6 +7,7 @@ import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.window.Window;
+import org.crafter.engine.world_generation.ChunkGenerator;
 
 public class Main {
 
@@ -23,7 +24,10 @@ public class Main {
 
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
+
         API.initialize();
+
+        ChunkGenerator.start();
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
         ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
