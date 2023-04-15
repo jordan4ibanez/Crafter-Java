@@ -160,6 +160,9 @@ public final class API {
                 throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
             }
 
+            ModConfParser confParser = new ModConfParser(modPath + modFolder);
+
+
             // todo: upload contextual variables here
 
             // Now run main.lua

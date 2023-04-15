@@ -34,10 +34,7 @@ public class ModConfParser {
         directValues = new HashMap<>();
         arrayValues = new HashMap<>();
 
-        /**
-         * TODO: Check checkDuplicateDirectValue when parsing singular values
-         * TODO: Check checkDuplicateArrayValue when parsing array values (like dependencies)
-         */
+        parseJson();
     }
 
     private void parseJson() {
@@ -68,20 +65,25 @@ public class ModConfParser {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("name");
                     directValues.put("name", value.asText());
+                    System.out.println("got name");
                 }
                 case "version" -> {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("version");
                     directValues.put("version", value.asText());
+                    System.out.println("got version");
                 }
                 case "description" -> {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("description");
                     directValues.put("version", value.asText());
+                    System.out.println("got description");
                 }
                 case "dependencies" -> {
                     assert (type == JsonNodeType.ARRAY);
+                    checkDuplicateArrayValue("dependencies");
                     // TODO: PUT THE ARRAY OF STRINGS HERE
+                    System.out.println("got dependencies");
                 }
                 default -> {}
             }
