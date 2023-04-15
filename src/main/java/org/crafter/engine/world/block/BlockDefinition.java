@@ -1,6 +1,8 @@
 package org.crafter.engine.world.block;
 
-public class BlockDefinition {
+import java.io.Serializable;
+
+public class BlockDefinition implements Serializable {
     // Required
     private int ID = -1;
     private final String internalName;
