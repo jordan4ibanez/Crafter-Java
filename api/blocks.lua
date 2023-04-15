@@ -24,6 +24,15 @@ crafter.registeredBlocks = {}
 
 local Block = Object:extend();
 
+local function nameSpaceCheck(internalName)
+    if (internalName == "air")  then
+        return true;
+    end
+    local currentNameSpace = crafter.getNameSpace();
+    local blockNameSpace = string.match(internalName, "(.*):");
+    assert(currentNameSpace == blockNameSpace, "ERROR! Block (" .. internalName .. ") mod namespace does not match mod's (" .. currentNameSpace .. ")!");
+end
+
 function Block:new(definition)
     assert(type(definition) == "table", "registerBlock: ERROR! definition is a (" .. type(definition) .. ")! It must be a (table)!");
     assert(definition.internalName ~= nil and type(definition.internalName) == "string", "registerBlock: ERROR! definition internalName is invalid!");
@@ -34,6 +43,7 @@ function Block:new(definition)
             assert(definition.textures[i] ~= nil and type(definition.textures[i]) == "string", "registerBlock: ERROR! texture definition " .. tostring(i) .. " is invalid for block (" .. definition.internalName .. ")!")
         end
     end
+    nameSpaceCheck(definition.internalName)
     -- Private data
     local data = {
         --ID = definition.ID or -1;

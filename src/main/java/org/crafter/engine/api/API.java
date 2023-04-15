@@ -170,13 +170,11 @@ public final class API {
             // Now run main.lua
             runFile(modPath + modFolder + "/main.lua");
 
+            // Now check it in case someone tried to mess with another mod
             int newNameSpaceTimeStamp = getInteger("return crafter.getVerifier()");
-
             if (nameSpaceTimeStamp != newNameSpaceTimeStamp) {
                 throw new RuntimeException("API: You CANNOT change your mod's namespace!");
             }
-
-
         }
 
     }
