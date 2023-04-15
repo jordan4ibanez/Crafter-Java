@@ -316,6 +316,10 @@ public final class Window {
         monitorSize.y = videoMode.height();
     }
 
+    public static void setVsync(boolean onOrOff) {
+        glfwSwapInterval(onOrOff ? 1 : 0);
+    }
+
     public static void close() {
         glfwSetWindowShouldClose(window, true);
     }
