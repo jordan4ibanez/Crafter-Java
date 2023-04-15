@@ -28,6 +28,8 @@ local function nameSpaceCheck(internalName)
     if (internalName == "air")  then
         return true;
     end
+    local _,colonCount = internalName:gsub(":","")
+    assert(tonumber(colonCount) == 1, "ERROR! Block (" .. internalName .. ") is incorrectly named! Block name must have format (modNameSpace:blockName)!");
     local currentNameSpace = crafter.getNameSpace();
     local blockNameSpace = string.match(internalName, "(.*):");
     assert(currentNameSpace == blockNameSpace, "ERROR! Block (" .. internalName .. ") mod namespace does not match mod's (" .. currentNameSpace .. ")!");
