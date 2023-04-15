@@ -21,6 +21,8 @@ public final class API {
     // Keep this as a field in case it is ever decided to relocate it!
     private static final String modPath = "mods/";
 
+    private static final String[] requiredValues = new String[]{"name", "version", "description"};
+
     private API(){}
 
     public static void initialize() {
@@ -160,15 +162,31 @@ public final class API {
                 throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
             }
 
-            ModConfParser confParser = new ModConfParser(modPath + modFolder);
+            // Automate required values in conf are checked here
+            ModConfParser confParser = checkParserConfValues(new ModConfParser(modPath + modFolder), modFolder);
 
-
-            // todo: upload contextual variables here
+            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
 
             // Now run main.lua
             runFile(modPath + modFolder + "/main.lua");
+
+            int newNameSpaceTimeStamp = getInteger("return crafter.getVerifier()");
+
+            if (nameSpaceTimeStamp != newNameSpaceTimeStamp) {
+                throw new RuntimeException("API: You CANNOT change your mod's namespace!");
+            }
+
+
         }
 
+    }
+    private static ModConfParser checkParserConfValues(ModConfParser modConfParser, String modDirectory) {
+        for (String requiredValue : requiredValues) {
+            if (!modConfParser.containsDirectValue(requiredValue)) {
+                throw new RuntimeException("API: Mod (" + modDirectory + ") is missing (" + requiredValue + ")!");
+            }
+        }
+        return modConfParser;
     }
 
     private static void parseBlocks() {

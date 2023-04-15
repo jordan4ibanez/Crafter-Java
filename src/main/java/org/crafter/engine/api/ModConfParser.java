@@ -65,25 +65,25 @@ public class ModConfParser {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("name");
                     directValues.put("name", value.asText());
-                    System.out.println("got name");
+//                    System.out.println("got name");
                 }
                 case "version" -> {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("version");
                     directValues.put("version", value.asText());
-                    System.out.println("got version");
+//                    System.out.println("got version");
                 }
                 case "description" -> {
                     assert (type == JsonNodeType.STRING);
                     checkDuplicateDirectValue("description");
-                    directValues.put("version", value.asText());
-                    System.out.println("got description");
+                    directValues.put("description", value.asText());
+//                    System.out.println("got description");
                 }
                 case "dependencies" -> {
                     assert (type == JsonNodeType.ARRAY);
                     checkDuplicateArrayValue("dependencies");
                     // TODO: PUT THE ARRAY OF STRINGS HERE
-                    System.out.println("got dependencies");
+                    throw new RuntimeException("ModConfParser: dependencies is not implemented!");
                 }
                 default -> {}
             }
