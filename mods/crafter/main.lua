@@ -1,6 +1,7 @@
 print("Hello world!")
 
 crafter.registerBlock({
+    id = 1;
     internalName = "crafter:dirt";
     readableName = "Dirt";
     drawType = crafter.blockDrawTypes.BLOCK;
