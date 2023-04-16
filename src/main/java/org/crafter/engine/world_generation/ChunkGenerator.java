@@ -2,9 +2,11 @@ package org.crafter.engine.world_generation;
 
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.utility.FastNoise;
+import org.crafter.engine.world.block.BlockDefinition;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
 import org.joml.Vector2ic;
+import org.joml.Vector3ic;
 
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
@@ -67,9 +69,29 @@ public class ChunkGenerator implements Runnable {
 //        }
     }
     private void generateChunk(Vector2ic position) {
-//        System.out.println("ChunkGenerator: Processing (" + position.x() + ", " + position.y() + ")!");
-        // This is a basic templating test, testing throughput, making sure nothing crashes
-        chunkOutputQueue.add(new Chunk(position));
+        //TODO: biome registration
+        //TODO: noise generation
+        Chunk chunk = processBiomesAndBlocks(new Chunk(position));
+
+        chunkOutputQueue.add(chunk);
+    }
+
+    /**
+     * Actual side effects happen here!
+     * This is where biomes & blocks are applied into the data container (Chunk)
+     */
+    private Chunk processBiomesAndBlocks(Chunk chunk) {
+        for (int i = 0; i < chunk.getArraySize(); i++) {
+            int chunkData = chunk.getBlockData(i);
+            // Successful test of failure state in java
+            BlockDefinition definition = blockDefinitionContainer.getDefinition("crafter:stone");
+            chunk.setBlockID(chunkData, definition.getID());
+            chunk.setBlockData(i, chunkData);
+            Vector3ic blockPositionInChunk = chunk.indexToPosition(i);
+            System.out.println("ChunkGenerator: block (" + blockPositionInChunk.x() + ", " + blockPositionInChunk.y() + ", " + blockPositionInChunk.z() + ") is (" + definition.getInternalName() + " aka " + definition.getID() + ")");
+        }
+
+        return chunk;
     }
 
     public boolean checkUpdate() {
