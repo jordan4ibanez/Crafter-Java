@@ -71,7 +71,7 @@ public class Main {
 
             while (ChunkGenerator.hasUpdate()) {
                 Chunk generatedChunk = ChunkGenerator.getUpdate();
-                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
+//                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
                 ChunkStorage.addOrUpdate(generatedChunk);
             }
 
