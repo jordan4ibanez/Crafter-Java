@@ -15,7 +15,7 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     // X
     private static final int width = 16;
     // Y
-    private static final int height = 128;
+    static final int height = 128;
     // Z
     private static final int depth = 16;
     private static final int yStride = width * depth;
