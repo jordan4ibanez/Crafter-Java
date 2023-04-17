@@ -1,7 +1,13 @@
 print("Hello world!")
 
 crafter.registerBlock({
-    id = 1;
+    internalName = "crafter:stone";
+    readableName = "Stone";
+    drawType = crafter.blockDrawTypes.BLOCK;
+    textures = {"stone.png","stone.png","stone.png","stone.png","stone.png","stone.png"};
+    walkable = true;
+})
+crafter.registerBlock({
     internalName = "crafter:dirt";
     readableName = "Dirt";
     drawType = crafter.blockDrawTypes.BLOCK;
