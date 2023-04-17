@@ -30,7 +30,7 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     /**
      * Stream the new data into the chunk memory.
-     * @param newData is an array of length 32_768 with bit manipulated block data.
+     * @param newData is an array of length 32_768 with bit-manipulated block data.
      */
     public void setData(int[] newData) {
         check(newData);
