@@ -5,13 +5,12 @@ import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
-import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.world.chunk.Chunk;
+import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.ChunkGenerator;
 import org.joml.Random;
 import org.joml.Vector2i;
-import org.joml.Vector2ic;
 
 import java.util.Date;
 
@@ -71,8 +70,9 @@ public class Main {
 //            }
 
             while (ChunkGenerator.hasUpdate()) {
-                Chunk currentUpdate = ChunkGenerator.getUpdate();
-//                System.out.println("Main: Received chunk (" + currentUpdate.getX() + ", " + currentUpdate.getY() + ")!");
+                Chunk generatedChunk = ChunkGenerator.getUpdate();
+                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
+                ChunkStorage.addOrUpdate(generatedChunk);
             }
 
 
