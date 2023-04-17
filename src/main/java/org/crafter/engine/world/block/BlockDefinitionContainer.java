@@ -14,8 +14,12 @@ public class BlockDefinitionContainer implements Serializable {
     private static BlockDefinitionContainer instance = null;
 
     // This is basically a 2 way street, name to ID, ID to name
-    final HashMap<Integer, BlockDefinition> idMap;
-    final HashMap<String,BlockDefinition> nameMap;
+    private final HashMap<Integer, BlockDefinition> idMap;
+    private final HashMap<String,BlockDefinition> nameMap;
+
+    // This maps the internal name into an ID automatically
+    private final BlockNameToIDCache cache;
+
 
     // This is an extreme edge case to prevent the cloned objects from being mutable
     private boolean isClone = false;
@@ -27,6 +31,7 @@ public class BlockDefinitionContainer implements Serializable {
     private BlockDefinitionContainer(){
         idMap = new HashMap<>();
         nameMap = new HashMap<>();
+        cache = new BlockNameToIDCache();
     }
 
     public void addDefinition(BlockDefinition definition) {
