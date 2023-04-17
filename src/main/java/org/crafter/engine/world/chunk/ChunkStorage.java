@@ -1,5 +1,6 @@
 package org.crafter.engine.world.chunk;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.joml.Vector2ic;
 
 import java.util.HashMap;
@@ -25,7 +26,15 @@ public final class ChunkStorage {
         System.out.println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")");
     }
 
-    private static boolean hasPosition(Vector2ic position) {
+    public static synchronized Chunk getThreadSafeChunk(Vector2ic position) {
+        if (!hasPosition(position)) {
+            throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
+        }
+        // Create a deep clone of the chunk
+        return SerializationUtils.clone(container.get(position));
+    }
+
+    public static boolean hasPosition(Vector2ic position) {
         return container.containsKey(position);
     }
 }
