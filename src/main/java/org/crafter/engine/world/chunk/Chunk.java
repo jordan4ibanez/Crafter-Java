@@ -19,7 +19,7 @@ import java.io.Serializable;
  * This is literal, here is an exact representation:
  * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
-public class Chunk extends ChunkArrayManipulation implements Serializable {
+public class Chunk extends ChunkMeshHandling implements Serializable {
     private final Vector2ic position;
 
     public Chunk(int x, int y) {
