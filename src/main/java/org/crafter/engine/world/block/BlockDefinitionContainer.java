@@ -27,11 +27,14 @@ public class BlockDefinitionContainer implements Serializable {
     // Keeps track of IDs - 0 is reserved for air
     private int nextID = 1;
 
-
     private BlockDefinitionContainer(){
         idMap = new HashMap<>();
         nameMap = new HashMap<>();
         cache = new BlockNameToIDCache();
+    }
+
+    public void lockCache() {
+        cache.lock();
     }
 
     public void addDefinition(BlockDefinition definition) {
@@ -41,9 +44,20 @@ public class BlockDefinitionContainer implements Serializable {
         if (definition == null) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to upload a null block definition!");
         }
-        if (definition.getID() == -1) {
-            definition.setID(getThisID());
+
+        // Ensure nothing else assigned an ID into the definition
+        if (definition.getID() != -1) {
+            throw new RuntimeException("BlockDefinitionContainer: Block (" + definition.getInternalName() + ") was shipped with an existing ID before cache assignment!");
         }
+
+        // Now automatically inject the stored ID or create a new ID from the cache
+        definition.setID(cache.assign(definition.getInternalName()));
+
+        // Check the cache did its job
+        if (definition.getID() == -1) {
+            throw new RuntimeException("BlockDefinitionContainer: Block (" + definition.getInternalName() + ") was assigned an invalid (-1) ID from the cache!");
+        }
+
         checkDuplicate(definition);
 
         // Silently override DEFAULT into BLOCK
