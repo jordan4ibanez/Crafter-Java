@@ -50,6 +50,8 @@ public class Main {
 
         Random random = new Random(new Date().getTime()/1000);
 
+        ChunkGenerator.pushRequest(new Vector2i(0,0));
+
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
@@ -60,13 +62,14 @@ public class Main {
             // that it's basically the equivalent of a few servers with thousands of people on them all loading in
             // at the same time running on one instance!
 //            System.out.println("--------- MAIN THREAD STARTED REQUESTS ----------");
-            for (int i = 0; i < random.nextInt(100); i++) {
-                // -25 to 25
-                ChunkGenerator.pushRequest(new Vector2i(
-                        random.nextInt(100) - 51,
-                        random.nextInt(100) - 51
-                ));
-            }
+//            for (int i = 0; i < random.nextInt(100); i++) {
+//                // -25 to 25
+//                ChunkGenerator.pushRequest(new Vector2i(
+//                        random.nextInt(100) - 51,
+//                        random.nextInt(100) - 51
+//                ));
+//            }
+
             while (ChunkGenerator.hasUpdate()) {
                 Chunk currentUpdate = ChunkGenerator.getUpdate();
 //                System.out.println("Main: Received chunk (" + currentUpdate.getX() + ", " + currentUpdate.getY() + ")!");
