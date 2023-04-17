@@ -88,8 +88,9 @@ public class ChunkGenerator implements Runnable {
             chunk.setBlockID(chunkData, definition.getID());
             chunk.setBlockData(i, chunkData);
             Vector3ic blockPositionInChunk = chunk.indexToPosition(i);
-            System.out.println("ChunkGenerator: block (" + blockPositionInChunk.x() + ", " + blockPositionInChunk.y() + ", " + blockPositionInChunk.z() + ") is (" + definition.getInternalName() + " aka " + definition.getID() + ")");
+//            System.out.println("ChunkGenerator: block (" + blockPositionInChunk.x() + ", " + blockPositionInChunk.y() + ", " + blockPositionInChunk.z() + ") is (" + definition.getInternalName() + " aka " + definition.getID() + ")");
         }
+        System.out.println("ChunkGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
 
         return chunk;
     }
