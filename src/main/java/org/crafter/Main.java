@@ -73,6 +73,7 @@ public class Main {
                 Chunk generatedChunk = ChunkGenerator.getUpdate();
 //                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
                 ChunkStorage.addOrUpdate(generatedChunk);
+                //TODO: ship out to a mesh generator factory
             }
 
 
