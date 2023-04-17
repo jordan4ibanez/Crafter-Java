@@ -28,21 +28,21 @@ public class BlockNameToIDCache implements Serializable {
         nameToIDMap = new HashMap<>();
         if (!isFolder("cache")) {
             makeFolder("cache");
-            System.out.println("BlockNameToIDCache: Created the cache folder!");
-        } else {
+//            System.out.println("BlockNameToIDCache: Created the cache folder!");
+        } /*else {
             System.out.println("BlockNameToIDCache: cache folder already exists!");
-        }
+        }*/
 
         if (isFile(jsonLocation)) {
-            System.out.println("BlockNameToIDCache: JSON exists! Parsing!");
+//            System.out.println("BlockNameToIDCache: JSON exists! Parsing!");
             try {
                 processJsonNodes(new ObjectMapper().readTree(getFileString("cache/block_cache.json")));
             } catch (Exception e) {
                 throw new RuntimeException("BlockNameToIDCache: Failure reading (cache/block_cache.json)! " + e);
             }
-        } else {
+        } /*else {
             System.out.println("BlockNameToIDCache: JSON does not exist! Will create!");
-        }
+        }*/
         // Else the nameToIDMap is blank!
     }
 
@@ -50,7 +50,7 @@ public class BlockNameToIDCache implements Serializable {
      * Nodes should ALWAYS be flat in here! If they aren't, throw an error!
      */
     private void processJsonNodes(JsonNode nodes) {
-        System.out.println("JSON BLOCK CACHE PROCESSING STARTED");
+//        System.out.println("JSON BLOCK CACHE PROCESSING STARTED");
 
         // Crawl up the JSON tree
 
@@ -66,7 +66,7 @@ public class BlockNameToIDCache implements Serializable {
             duplicateCheck(key);
 
             if (type != JsonNodeType.NUMBER) {
-                throw new RuntimeException("BlockNameToIDCache: BLOCK DEFINITION CACHE FAILURE! Did you modify the block cache?");
+                throw new RuntimeException("BlockNameToIDCache: BLOCK DEFINITION CACHE FAILURE! ID was type: (" + type + ")! Did you modify the block cache?");
             }
 
             double rawValue = value.asDouble();
@@ -84,7 +84,7 @@ public class BlockNameToIDCache implements Serializable {
             nameToIDMap.put(key, numericValue);
         }
 
-        System.out.println("PARSE OUTPUT: " + nameToIDMap.toString());
+//        System.out.println("PARSE OUTPUT: " + nameToIDMap.toString());
     }
 
     public int assign(String internalName) {
@@ -113,7 +113,7 @@ public class BlockNameToIDCache implements Serializable {
     }
 
     public void lock() {
-        System.out.println("BlockNameToIDCache: Updated block_cache.json!");
+//        System.out.println("BlockNameToIDCache: Updated block_cache.json!");
         System.out.println(nameToIDMap.toString());
         ObjectMapper mapper = new ObjectMapper();
         try {
