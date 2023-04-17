@@ -190,7 +190,7 @@ public final class API {
     private static void parseBlocks() {
         BlockDefinitionContainer container = BlockDefinitionContainer.getMainInstance();
 
-        // This is used to ensure existence of mod defined texture
+        // This is used to ensure the existence of mod-defined textures
         TexturePacker worldAtlasTexturePacker = WorldAtlas.getInstance();
 
         while (true) {
@@ -203,10 +203,6 @@ public final class API {
             }
 
             BlockDefinition definition = new BlockDefinition(blockName);
-
-            if (blockName.equals("air")) {
-                definition.setID(0);
-            }
 
             while (true) {
 
@@ -326,9 +322,13 @@ public final class API {
                 }
             }
 
-            // Finally added it into game's memory pool
+            // Finally, added it into game's memory pool
             container.addDefinition(definition);
         }
+
+        // This makes the BlockNameToIDCache output a json with the stored InternalID -> Integral ID map,
+        // so nothing gets overwritten
+        container.lockCache();
     }
 
     private static String[] getBlockStringArrayField(String blockName, String fieldName) {
