@@ -65,4 +65,8 @@ public final class FileReader {
     public static boolean isFile(String fileLocation) {
         return new File(fileLocation).isFile();
     }
+
+    public static boolean makeFolder(String folderLocation) {
+        return new File(folderLocation).mkdir();
+    }
 }
