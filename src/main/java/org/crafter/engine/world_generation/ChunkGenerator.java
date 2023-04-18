@@ -168,7 +168,7 @@ public class ChunkGenerator implements Runnable {
     }
 
     public static void pushRequest(Vector2ic requestedChunk) {
-        nullCheck("add");
+        nullCheck("pushRequest");
         instance.addRequest(requestedChunk);
     }
 
