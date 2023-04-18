@@ -3,6 +3,7 @@ package org.crafter.engine.world_generation.chunk_mesh_generation;
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
+import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 import java.util.Arrays;
@@ -68,20 +69,13 @@ public class ChunkMeshGenerator implements Runnable {
         // todo: this will be created after the array builders have been filled out
         ChunkMeshRecord outputMesh = new ChunkMeshRecord(
                 uuid,
+                // Separates the pointer internally
+                new Vector2i(chunk.getPosition()),
                 new float[0],
                 new float[0],
                 new int[0]
         );
 
-//        for (int i = 0; i < chunk.getArraySize(); i++) {
-//            int chunkData = chunk.getBlockData(i);
-//            // Successful test of failure state in java
-//            BlockDefinition definition = blockDefinitionContainer.getDefinition("crafter:stone");
-//            chunk.setBlockID(chunkData, definition.getID());
-//            chunk.setBlockData(i, chunkData);
-//            Vector3ic blockPositionInChunk = chunk.indexToPosition(i);
-////            System.out.println("ChunkMeshGenerator: block (" + blockPositionInChunk.x() + ", " + blockPositionInChunk.y() + ", " + blockPositionInChunk.z() + ") is (" + definition.getInternalName() + " aka " + definition.getID() + ")");
-//        }
 //        System.out.println("ChunkMeshGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
 
         return outputMesh;
