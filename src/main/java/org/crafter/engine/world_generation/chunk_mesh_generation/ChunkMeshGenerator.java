@@ -78,17 +78,53 @@ public class ChunkMeshGenerator implements Runnable {
 
         // TODO: NOTE! REUSE THIS! UTILIZE (vertices.clear();) FOR EXAMPLE!
 
-        ArrayList<Float> verticesBuilder = new ArrayList<>();
+        ArrayList<Float> positionsBuilder = new ArrayList<>();
         ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
         ArrayList<Integer> indicesBuilder = new ArrayList<>();
 
-        // Insert array builder here
+        // Insert block builder here
+
+        // Fixme: get rid of this super verbose test - it's a triangle btw
+
+        // vertex points
+
+        // top
+        positionsBuilder.add( 0.0f); // x
+        positionsBuilder.add( 0.5f); // y
+        positionsBuilder.add( 0.0f); // z
+        // bottom left
+        positionsBuilder.add(-0.5f); // x
+        positionsBuilder.add(-0.5f); // y
+        positionsBuilder.add( 0.0f); // z
+        // bottom right
+        positionsBuilder.add( 0.5f); // x
+        positionsBuilder.add(-0.5f); // y
+        positionsBuilder.add( 0.0f); // z
+
+        // texture coordinates - Image is going to be skewed
+
+        // top left of image
+        textureCoordinatesBuilder.add(0.0f); // x
+        textureCoordinatesBuilder.add(0.0f); // y
+        // bottom left of image
+        textureCoordinatesBuilder.add(0.0f); // x
+        textureCoordinatesBuilder.add(1.0f); // y
+        // bottom right of image
+        textureCoordinatesBuilder.add(1.0f); // x
+        textureCoordinatesBuilder.add(1.0f); // y
+
+        // indices
+        indicesBuilder.add(0);
+        indicesBuilder.add(1);
+        indicesBuilder.add(2);
+
+        // End block builder here
 
 
         // NOTE: This is a new piece of memory, it must be a new array
-        float[] vertices = new float[verticesBuilder.size()];
-        for (int i = 0; i < vertices.length; i++) {
-            vertices[i] = verticesBuilder.get(i);
+        float[] positions = new float[positionsBuilder.size()];
+        for (int i = 0; i < positions.length; i++) {
+            positions[i] = positionsBuilder.get(i);
         }
         float[] textureCoordinates = new float[textureCoordinatesBuilder.size()];
         for (int i = 0; i < textureCoordinates.length; i++) {
@@ -104,7 +140,7 @@ public class ChunkMeshGenerator implements Runnable {
                 uuid,
                 // Separates the pointer internally
                 new Vector2i(threadSafeClone.getPosition()),
-                vertices,
+                positions,
                 textureCoordinates,
                 indices
         );
