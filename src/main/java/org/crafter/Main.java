@@ -10,6 +10,7 @@ import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
+import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.Random;
 import org.joml.Vector2i;
 
@@ -71,11 +72,16 @@ public class Main {
 //                ));
 //            }
 
+            //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
             while (ChunkGenerator.hasUpdate()) {
                 Chunk generatedChunk = ChunkGenerator.getUpdate();
 //                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
                 ChunkStorage.addOrUpdate(generatedChunk);
-                //TODO: ship out to a mesh generator factory
+                ChunkMeshGenerator.pushRequest(generatedChunk.getPosition());
+            }
+            while (ChunkMeshGenerator.hasUpdate()) {
+                ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
+                System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
             }
 
 
