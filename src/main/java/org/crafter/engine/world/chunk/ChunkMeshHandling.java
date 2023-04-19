@@ -1,6 +1,7 @@
 package org.crafter.engine.world.chunk;
 
 import org.crafter.engine.mesh.MeshStorage;
+import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 
 public class ChunkMeshHandling extends ChunkArrayManipulation {
     private static final int STACK_HEIGHT = 16;
@@ -13,11 +14,28 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
         meshes = new String[8];
     }
 
-    public void setMesh(int stack, String newMeshUUID) {
+    public void setMesh(int stack, ChunkMeshRecord newMesh) {
+
         if (meshes[stack] != null) {
             MeshStorage.destroy(meshes[stack]);
         }
-        meshes[stack] = newMeshUUID;
+
+        // FIXME: Handle talking to Mesh Storage here!
+        MeshStorage.newMesh(
+                newMesh.uuid(),
+                newMesh.positions(),
+                newMesh.textureCoordinates(),
+                newMesh.indices(),
+                null,
+                // Todo: Colors can be an easy way to implement light values!
+                null,
+                "worldAtlas",
+                false
+        );
+
+        System.out.println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition().x() + ", " + newMesh.destinationChunkPosition().y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid() + ")");
+
+        meshes[stack] = newMesh.uuid();
     }
     public void render() {
         for (String mesh : meshes) {
