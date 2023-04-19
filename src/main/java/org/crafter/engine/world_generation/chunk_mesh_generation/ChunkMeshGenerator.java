@@ -3,6 +3,7 @@ package org.crafter.engine.world_generation.chunk_mesh_generation;
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
+import org.crafter.engine.world.chunk.ChunkStorage;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
@@ -22,7 +23,7 @@ public class ChunkMeshGenerator implements Runnable {
 
     private final BlockDefinitionContainer blockDefinitionContainer;
 
-    private final BlockingQueue<Chunk> meshRequestQueue;
+    private final BlockingQueue<Vector2ic> meshRequestQueue;
     private final BlockingQueue<ChunkMeshRecord> meshOutputQueue;
     private final AtomicBoolean shouldRun;
 
@@ -44,6 +45,8 @@ public class ChunkMeshGenerator implements Runnable {
             sleepCheck();
             processInputQueue();
         }
+
+        System.out.println("ChunkMeshGenerator: Stopped!");
     }
 
     private void processInputQueue() {
@@ -51,9 +54,9 @@ public class ChunkMeshGenerator implements Runnable {
             createMesh(meshRequestQueue.remove());
         }
     }
-    private void createMesh(Chunk newChunk) {
+    private void createMesh(Vector2ic position) {
 
-        ChunkMeshRecord chunk = blockProcessingProcedure(newChunk);
+        ChunkMeshRecord chunk = blockProcessingProcedure(position);
 
         meshOutputQueue.add(chunk);
     }
@@ -62,15 +65,19 @@ public class ChunkMeshGenerator implements Runnable {
      * Actual side effects happen here!
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
-    private ChunkMeshRecord blockProcessingProcedure(Chunk chunk) {
+    private ChunkMeshRecord blockProcessingProcedure(Vector2ic position) {
 
         String uuid = UUID.randomUUID().toString();
+
+        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunk(position);
+
+        // Pull a chunk out here
 
         // todo: this will be created after the array builders have been filled out
         ChunkMeshRecord outputMesh = new ChunkMeshRecord(
                 uuid,
                 // Separates the pointer internally
-                new Vector2i(chunk.getPosition()),
+                new Vector2i(threadSafeClone.getPosition()),
                 new float[0],
                 new float[0],
                 new int[0]
@@ -121,8 +128,8 @@ public class ChunkMeshGenerator implements Runnable {
          */
     }
 
-    private void addRequest(Chunk requestedChunk) {
-        this.meshRequestQueue.add(requestedChunk);
+    private void addRequest(Vector2ic position) {
+        this.meshRequestQueue.add(position);
     }
 
     private void stopThread() {
@@ -153,9 +160,9 @@ public class ChunkMeshGenerator implements Runnable {
         instance.stopThread();
     }
 
-    public static void pushRequest(Chunk requestedChunk) {
+    public static void pushRequest(Vector2ic position) {
         nullCheck("pushRequest");
-        instance.addRequest(requestedChunk);
+        instance.addRequest(position);
     }
 
     public static boolean hasUpdate() {
