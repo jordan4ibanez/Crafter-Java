@@ -69,7 +69,7 @@ public class ChunkMeshGenerator implements Runnable {
 
         String uuid = UUID.randomUUID().toString();
 
-        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunk(position);
+        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(position);
 
         System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.y() + ")");
 
@@ -85,7 +85,7 @@ public class ChunkMeshGenerator implements Runnable {
                 new int[0]
         );
 
-//        System.out.println("ChunkMeshGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
+        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
 
         return outputMesh;
     }
@@ -94,40 +94,17 @@ public class ChunkMeshGenerator implements Runnable {
         return !meshOutputQueue.isEmpty();
     }
     public ChunkMeshRecord grabUpdate() {
-//        debugQueueSizes();
         return meshOutputQueue.remove();
     }
 
     private void sleepCheck() {
-        /*
-         The side effect of this version is:
-         - Players will have to wait an entire 0.2 seconds (1/5th of second) until thread can begin processing the queue.
-         But, I think this is way, way more worth it as power figures ranged from:
-         - Sleep: 1.8% - 2.5%
-         - Delta poll: 18% - 23%
-        */
         if (meshRequestQueue.size() == 0) {
             try {
                 Thread.sleep(200);
-//                System.out.println("ChunkMeshGenerator: Sleeping...");
             } catch (Exception e) {
                 throw new RuntimeException("ChunkMeshGenerator: Thread failed to sleep! " + e);
             }
         }
-
-        /* This version is very cpu intensive! But it can be modified to be very responsive.
-        Idea: Maybe an optional thread sleep variable? Give warning that it will just chomp cpu to no end
-        if (chunkQueue.size() == 0) {
-            delta.calculateDelta();
-            sleepTimer += delta.getDelta();
-            if (sleepTimer < 0.5f) {
-                return true;
-            }
-            sleepTimer = 0.0f;
-            return false;
-        }
-        return false;
-         */
     }
 
     private void addRequest(Vector2ic position) {

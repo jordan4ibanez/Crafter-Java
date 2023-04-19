@@ -26,7 +26,7 @@ public final class ChunkStorage {
         System.out.println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")");
     }
 
-    public static synchronized Chunk getThreadSafeChunk(Vector2ic position) {
+    public static synchronized Chunk getThreadSafeChunkClone(Vector2ic position) {
         if (!hasPosition(position)) {
             throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
         }
