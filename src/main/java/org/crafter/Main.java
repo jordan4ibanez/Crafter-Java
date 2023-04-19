@@ -14,6 +14,7 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
 import org.joml.Random;
 import org.joml.Vector2i;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class Main {
@@ -81,7 +82,12 @@ public class Main {
             }
             while (ChunkMeshGenerator.hasUpdate()) {
                 ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
+                System.out.println("------- BEGIN RECORD DEBUGGING --------");
                 System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
+                System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
+                System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
+                System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
+                System.out.println("------- END RECORD DEBUGGING --------");
             }
 
 
