@@ -7,6 +7,7 @@ import org.crafter.engine.world.chunk.ChunkStorage;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -73,16 +74,39 @@ public class ChunkMeshGenerator implements Runnable {
 
         System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.y() + ")");
 
-        // Pull a chunk out here
+        // Todo: Note! Perhaps a linked list would be more performant?
+
+        // TODO: NOTE! REUSE THIS! UTILIZE (vertices.clear();) FOR EXAMPLE!
+
+        ArrayList<Float> verticesBuilder = new ArrayList<>();
+        ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
+        ArrayList<Integer> indicesBuilder = new ArrayList<>();
+
+        // Insert array builder here
+
+
+        // NOTE: This is a new piece of memory, it must be a new array
+        float[] vertices = new float[verticesBuilder.size()];
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = verticesBuilder.get(i);
+        }
+        float[] textureCoordinates = new float[textureCoordinatesBuilder.size()];
+        for (int i = 0; i < textureCoordinates.length; i++) {
+            textureCoordinates[i] = textureCoordinatesBuilder.get(i);
+        }
+        int[] indices = new int[indicesBuilder.size()];
+        for (int i = 0; i < indices.length; i++) {
+            indices[i] = indicesBuilder.get(i);
+        }
 
         // todo: this will be created after the array builders have been filled out
         ChunkMeshRecord outputMesh = new ChunkMeshRecord(
                 uuid,
                 // Separates the pointer internally
                 new Vector2i(threadSafeClone.getPosition()),
-                new float[0],
-                new float[0],
-                new int[0]
+                vertices,
+                textureCoordinates,
+                indices
         );
 
         System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
