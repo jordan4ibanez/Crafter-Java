@@ -9,6 +9,7 @@ import org.crafter.engine.window.Window;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.ChunkGenerator;
+import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.joml.Random;
 import org.joml.Vector2i;
 
@@ -33,6 +34,7 @@ public class Main {
         API.initialize();
 
         ChunkGenerator.start();
+        ChunkMeshGenerator.start();
 
         ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag");
         ShaderStorage.createUniform("3d", new String[]{"cameraMatrix", "objectMatrix"});
@@ -83,6 +85,7 @@ public class Main {
 
         }
 
+        ChunkMeshGenerator.stop();
         ChunkGenerator.stop();
         TextureStorage.destroyAll();
         MeshStorage.destroyAll();
