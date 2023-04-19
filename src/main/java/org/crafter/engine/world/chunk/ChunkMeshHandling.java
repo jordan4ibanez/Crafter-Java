@@ -10,7 +10,7 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
     private final String[] meshes;
 
     public ChunkMeshHandling() {
-        System.out.println("ChunkMeshHandling: Stacks: " + STACKS);
+//        System.out.println("ChunkMeshHandling: Stacks: " + STACKS);
         meshes = new String[8];
     }
 
@@ -20,7 +20,6 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
             MeshStorage.destroy(meshes[stack]);
         }
 
-        // FIXME: Handle talking to Mesh Storage here!
         MeshStorage.newMesh(
                 newMesh.uuid(),
                 newMesh.positions(),
@@ -37,10 +36,16 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
 
         meshes[stack] = newMesh.uuid();
     }
-    public void render() {
-        for (String mesh : meshes) {
-            System.out.println(mesh);
-        }
+
+    /**
+     * Stacks, as in, mesh stacks. There are 8 individual meshes which make up a chunk, for speed of processing the chunk.
+     * @return integral position in array. Literal position is bottom to top 0-7
+     */
+    protected int getStacks() {
+        return STACKS;
     }
 
+    protected String getMesh(int stack) {
+        return meshes[stack];
+    }
 }
