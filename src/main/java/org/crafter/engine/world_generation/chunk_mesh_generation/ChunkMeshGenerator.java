@@ -71,6 +71,8 @@ public class ChunkMeshGenerator implements Runnable {
 
         Chunk threadSafeClone = ChunkStorage.getThreadSafeChunk(position);
 
+        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.y() + ")");
+
         // Pull a chunk out here
 
         // todo: this will be created after the array builders have been filled out
@@ -162,7 +164,8 @@ public class ChunkMeshGenerator implements Runnable {
 
     public static void pushRequest(Vector2ic position) {
         nullCheck("pushRequest");
-        instance.addRequest(position);
+        // Separate out thread data
+        instance.addRequest(new Vector2i(position));
     }
 
     public static boolean hasUpdate() {
