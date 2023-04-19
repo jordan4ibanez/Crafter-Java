@@ -88,6 +88,13 @@ public class Main {
                 System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
                 System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
                 System.out.println("------- END RECORD DEBUGGING --------");
+
+                // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
+                // TODO: Make sure this is done within the main thread!
+
+                if (ChunkStorage.hasPosition(generatedMesh.destinationChunkPosition())) {
+                    ChunkStorage.getChunk(generatedMesh.destinationChunkPosition()).setMesh(0, generatedMesh);
+                } // Else nothing happens to it and it's GCed
             }
 
 
