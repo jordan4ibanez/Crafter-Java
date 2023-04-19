@@ -33,8 +33,6 @@ public class ChunkGenerator implements Runnable {
     private final BlockingQueue<Chunk> chunkOutputQueue;
     private final AtomicBoolean shouldRun;
 
-//    private float sleepTimer;
-
     private ChunkGenerator() {
         delta = new DeltaObject();
         noise = new FastNoise();
@@ -42,7 +40,6 @@ public class ChunkGenerator implements Runnable {
         chunkRequestQueue = new LinkedBlockingQueue<>();
         chunkOutputQueue = new LinkedBlockingQueue<>();
         shouldRun = new AtomicBoolean(true);
-//        sleepTimer = 0.0f;
     }
 
     @Override
@@ -53,20 +50,13 @@ public class ChunkGenerator implements Runnable {
             sleepCheck();
             processInputQueue();
         }
+        System.out.println("ChunkGenerator: Stopped!");
     }
 
     private void processInputQueue() {
-//        System.out.println("------------------ BEGIN REQUEST PROCESSING ----------------");
-//        boolean processed = false;
         while (!chunkRequestQueue.isEmpty()) {
-//            processed = true;
             generateChunk(chunkRequestQueue.remove());
-            // Output will always start at 1 because a chunk was just inserted
-//            debugQueueSizes();
         }
-//        if (processed) {
-//            System.out.println("ChunkGenerator: Done!");
-//        }
     }
     private void generateChunk(Vector2ic position) {
         //TODO: biome registration
@@ -88,9 +78,8 @@ public class ChunkGenerator implements Runnable {
             chunk.setBlockID(chunkData, definition.getID());
             chunk.setBlockData(i, chunkData);
             Vector3ic blockPositionInChunk = chunk.indexToPosition(i);
-//            System.out.println("ChunkGenerator: block (" + blockPositionInChunk.x() + ", " + blockPositionInChunk.y() + ", " + blockPositionInChunk.z() + ") is (" + definition.getInternalName() + " aka " + definition.getID() + ")");
         }
-        System.out.println("ChunkGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
+//        System.out.println("ChunkGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
 
         return chunk;
     }
@@ -99,40 +88,17 @@ public class ChunkGenerator implements Runnable {
         return !chunkOutputQueue.isEmpty();
     }
     public Chunk grabUpdate() {
-//        debugQueueSizes();
         return chunkOutputQueue.remove();
     }
 
     private void sleepCheck() {
-        /*
-         The side effect of this version is:
-         - Players will have to wait an entire 0.2 seconds (1/5th of second) until thread can begin processing the queue.
-         But, I think this is way, way more worth it as power figures ranged from:
-         - Sleep: 1.8% - 2.5%
-         - Delta poll: 18% - 23%
-        */
         if (chunkRequestQueue.size() == 0) {
             try {
                 Thread.sleep(200);
-//                System.out.println("ChunkGenerator: Sleeping...");
             } catch (Exception e) {
                 throw new RuntimeException("ChunkGenerator: Thread failed to sleep! " + e);
             }
         }
-
-        /* This version is very cpu intensive! But it can be modified to be very responsive.
-        Idea: Maybe an optional thread sleep variable? Give warning that it will just chomp cpu to no end
-        if (chunkQueue.size() == 0) {
-            delta.calculateDelta();
-            sleepTimer += delta.getDelta();
-            if (sleepTimer < 0.5f) {
-                return true;
-            }
-            sleepTimer = 0.0f;
-            return false;
-        }
-        return false;
-         */
     }
 
     private void addRequest(Vector2ic requestedChunk) {
