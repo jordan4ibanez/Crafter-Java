@@ -164,7 +164,7 @@ public class ChunkMeshGenerator implements Runnable {
 
     public static void pushRequest(Vector2ic position) {
         nullCheck("pushRequest");
-        // Separate out thread data
+        // Separate out thread data internal pointers
         instance.addRequest(new Vector2i(position));
     }
 

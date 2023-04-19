@@ -5,6 +5,7 @@ import org.crafter.engine.utility.FastNoise;
 import org.crafter.engine.world.block.BlockDefinition;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
+import org.joml.Vector2i;
 import org.joml.Vector2ic;
 import org.joml.Vector3ic;
 
@@ -135,7 +136,8 @@ public class ChunkGenerator implements Runnable {
 
     public static void pushRequest(Vector2ic requestedChunk) {
         nullCheck("pushRequest");
-        instance.addRequest(requestedChunk);
+        // Separate out thread data internal pointers
+        instance.addRequest(new Vector2i(requestedChunk));
     }
 
     public static boolean hasUpdate() {
