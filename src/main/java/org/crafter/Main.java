@@ -1,6 +1,7 @@
 package org.crafter;
 
 import org.crafter.engine.api.API;
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
@@ -60,6 +61,10 @@ public class Main {
 
             Window.clearAll();
 
+            ShaderStorage.start("3d");
+
+            Camera.updateCameraMatrix();
+
 
             // Note: This is an EXTREME test! This is so out of the scope of this game
             // that it's basically the equivalent of a few servers with thousands of people on them all loading in
@@ -98,6 +103,9 @@ public class Main {
             }
 
 
+            if (ChunkStorage.hasPosition(new Vector2i(0,0))) {
+                ChunkStorage.getChunk(new Vector2i(0, 0)).render();
+            }
 
 
             Window.swapBuffers();
