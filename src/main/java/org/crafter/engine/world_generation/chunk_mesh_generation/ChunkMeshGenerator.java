@@ -84,12 +84,12 @@ public class ChunkMeshGenerator implements Runnable {
 
         // Insert block builder here
 
-        // Fixme: get rid of this super verbose test - it's a triangle btw
+        // Fixme: get rid of this super verbose test - it's a square - but FOV will make it look rectangular
 
         // vertex points
 
-        // top
-        positionsBuilder.add( 0.0f); // x
+        // top left
+        positionsBuilder.add(-0.5f); // x
         positionsBuilder.add( 0.5f); // y
         positionsBuilder.add( 0.0f); // z
         // bottom left
@@ -100,8 +100,13 @@ public class ChunkMeshGenerator implements Runnable {
         positionsBuilder.add( 0.5f); // x
         positionsBuilder.add(-0.5f); // y
         positionsBuilder.add( 0.0f); // z
+        // top right
+        positionsBuilder.add( 0.5f); // x
+        positionsBuilder.add( 0.5f); // y
+        positionsBuilder.add( 0.0f); // z
 
-        // texture coordinates - Image is going to be skewed
+
+        // texture coordinates
 
         // top left of image
         textureCoordinatesBuilder.add(0.0f); // x
@@ -112,11 +117,23 @@ public class ChunkMeshGenerator implements Runnable {
         // bottom right of image
         textureCoordinatesBuilder.add(1.0f); // x
         textureCoordinatesBuilder.add(1.0f); // y
+        // top right of image
+        textureCoordinatesBuilder.add(1.0f); // x
+        textureCoordinatesBuilder.add(0.0f); // y
 
         // indices
+
+        // Tri 1
         indicesBuilder.add(0);
         indicesBuilder.add(1);
         indicesBuilder.add(2);
+
+        // Tri 2
+        indicesBuilder.add(2);
+        indicesBuilder.add(3);
+        indicesBuilder.add(0);
+
+        // FIXME: end verbose mess here
 
         // End block builder here
 
