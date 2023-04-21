@@ -25,13 +25,13 @@ import java.util.Arrays;
 public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     // X
-    private static final int width = 16;
+    private static final int WIDTH = 16;
     // Y
-    static final int height = 128;
+    static final int HEIGHT = 128;
     // Z
-    private static final int depth = 16;
-    private static final int yStride = width * depth;
-    private static final int arraySize = width * height * depth;
+    private static final int DEPTH = 16;
+    private static final int yStride = WIDTH * DEPTH;
+    private static final int arraySize = WIDTH * HEIGHT * DEPTH;
 
     // Consists of bit shifted integral values
     private final int[] data;
@@ -102,14 +102,14 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     }
 
     public int positionToIndex(Vector3ic position) {
-        return (position.y() * yStride) + (position.z() * depth) + position.x();
+        return (position.y() * yStride) + (position.z() * DEPTH) + position.x();
     }
 
     public Vector3ic indexToPosition(int index) {
         return new Vector3i(
-                index % width,
-                (index / yStride) % height,
-                (index / depth) % depth
+                index % WIDTH,
+                (index / yStride) % HEIGHT,
+                (index / DEPTH) % DEPTH
         );
     }
 
@@ -132,9 +132,9 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         return array.length == arraySize;
     }
     private boolean boundsCheck(Vector3ic position) {
-        return position.x() >= 0 && position.x() < width &&
-                position.y() >= 0 && position.y() < height &&
-                position.z() >= 0 && position.z() < depth;
+        return position.x() >= 0 && position.x() < WIDTH &&
+                position.y() >= 0 && position.y() < HEIGHT &&
+                position.z() >= 0 && position.z() < DEPTH;
     }
     private boolean boundsCheck(int index) {
         return index >= 0 && index < arraySize;
@@ -145,5 +145,26 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
      */
     public int getArraySize() {
         return arraySize;
+    }
+
+    /**
+     * Width of chunk in blocks.
+     */
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    /**
+     * Depth of chunk in blocks.
+     */
+    public int getDepth() {
+        return DEPTH;
+    }
+
+    /**
+     * Height of chunk in blocks.
+     */
+    public int getHeight() {
+        return HEIGHT;
     }
 }
