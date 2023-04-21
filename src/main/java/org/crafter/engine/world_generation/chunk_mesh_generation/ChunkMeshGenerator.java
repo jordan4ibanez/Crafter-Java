@@ -89,7 +89,7 @@ public class ChunkMeshGenerator implements Runnable {
         // Insert block builder here
 
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
-        meshWorker.process(threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
+        meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
 
         // End block builder here
 
@@ -111,8 +111,9 @@ public class ChunkMeshGenerator implements Runnable {
         // todo: this will be created after the array builders have been filled out
         ChunkMeshRecord outputMesh = new ChunkMeshRecord(
                 uuid,
+                position.y(),
                 // Separates the pointer internally
-                new Vector2i(threadSafeClone.getPosition()),
+                new Vector2i(position.x(), position.z()),
                 positions,
                 textureCoordinates,
                 indices
@@ -178,6 +179,9 @@ public class ChunkMeshGenerator implements Runnable {
 
     public static void pushRequest(int x, int stack, int z) {
         nullCheck("pushRequest");
+        if (stack < 0 || stack > 7) {
+            throw new RuntimeException("ChunkMeshGenerator: Stack is out of bounds! Got: (" + stack + ") | Min: 0 | Max: 7");
+        }
         // Separate out thread data internal pointers
         instance.addRequest(new Vector3i(x, stack, z));
     }
