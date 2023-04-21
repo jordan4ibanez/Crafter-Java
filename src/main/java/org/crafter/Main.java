@@ -107,6 +107,7 @@ public class Main {
                 ChunkStorage.addOrUpdate(generatedChunk);
 
                 Vector2ic position = generatedChunk.getPosition();
+                //fixme: needs to iterate 0-7
                 // Render stack 0 (y coordinate 0 to 15)
                 ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
             }
@@ -122,8 +123,10 @@ public class Main {
                 // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
                 // TODO: Make sure this is done within the main thread!
 
-                if (ChunkStorage.hasPosition(generatedMesh.destinationChunkPosition())) {
-                    ChunkStorage.getChunk(generatedMesh.destinationChunkPosition()).setMesh(0, generatedMesh);
+                final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
+
+                if (ChunkStorage.hasPosition(destinationPosition)) {
+                    ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
                 } // Else nothing happens to it and it's GCed
             }
 
