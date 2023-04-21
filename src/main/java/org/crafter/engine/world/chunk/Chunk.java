@@ -52,7 +52,7 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
-                System.out.println("rendering: " + gottenMeshUUID);
+//                System.out.println("rendering: " + gottenMeshUUID);
                 MeshStorage.render(gottenMeshUUID);
             }
         }
