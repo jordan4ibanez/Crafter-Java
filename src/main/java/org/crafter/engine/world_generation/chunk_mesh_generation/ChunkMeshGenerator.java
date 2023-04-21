@@ -6,6 +6,8 @@ import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +26,7 @@ public class ChunkMeshGenerator implements Runnable {
 
     private final BlockDefinitionContainer blockDefinitionContainer;
 
-    private final BlockingQueue<Vector2ic> meshRequestQueue;
+    private final BlockingQueue<Vector3ic> meshRequestQueue;
     private final BlockingQueue<ChunkMeshRecord> meshOutputQueue;
     private final AtomicBoolean shouldRun;
 
@@ -55,7 +57,7 @@ public class ChunkMeshGenerator implements Runnable {
             createMesh(meshRequestQueue.remove());
         }
     }
-    private void createMesh(Vector2ic position) {
+    private void createMesh(Vector3ic position) {
 
         ChunkMeshRecord chunk = blockProcessingProcedure(position);
 
@@ -66,13 +68,13 @@ public class ChunkMeshGenerator implements Runnable {
      * Actual side effects happen here!
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
-    private ChunkMeshRecord blockProcessingProcedure(Vector2ic position) {
+    private ChunkMeshRecord blockProcessingProcedure(Vector3ic position) {
 
         String uuid = UUID.randomUUID().toString();
 
-        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(position);
+        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
-        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.y() + ")");
+        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
 
         // Todo: Note! Perhaps a linked list would be more performant?
 
@@ -184,7 +186,7 @@ public class ChunkMeshGenerator implements Runnable {
         }
     }
 
-    private void addRequest(Vector2ic position) {
+    private void addRequest(Vector3ic position) {
         //Fixme: test if traversing the list causes severe performance penalty
 //        if (meshRequestQueue.contains(position)) {
 //            return;
@@ -220,10 +222,10 @@ public class ChunkMeshGenerator implements Runnable {
         instance.stopThread();
     }
 
-    public static void pushRequest(Vector2ic position) {
+    public static void pushRequest(int x, int stack, int z) {
         nullCheck("pushRequest");
         // Separate out thread data internal pointers
-        instance.addRequest(new Vector2i(position));
+        instance.addRequest(new Vector3i(x, stack, z));
     }
 
     public static boolean hasUpdate() {

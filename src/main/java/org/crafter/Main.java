@@ -14,6 +14,7 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenera
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.Random;
 import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -83,7 +84,9 @@ public class Main {
                 Chunk generatedChunk = ChunkGenerator.getUpdate();
 //                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
                 ChunkStorage.addOrUpdate(generatedChunk);
-                ChunkMeshGenerator.pushRequest(generatedChunk.getPosition());
+
+                Vector2ic position = generatedChunk.getPosition();
+                ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
             }
             while (ChunkMeshGenerator.hasUpdate()) {
                 ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
