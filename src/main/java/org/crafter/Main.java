@@ -86,16 +86,17 @@ public class Main {
                 ChunkStorage.addOrUpdate(generatedChunk);
 
                 Vector2ic position = generatedChunk.getPosition();
+                // Render stack 0 (y coordinate 0 to 15)
                 ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
             }
             while (ChunkMeshGenerator.hasUpdate()) {
                 ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
-                System.out.println("------- BEGIN RECORD DEBUGGING --------");
-                System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
-                System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
-                System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
-                System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
-                System.out.println("------- END RECORD DEBUGGING --------");
+//                System.out.println("------- BEGIN RECORD DEBUGGING --------");
+//                System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
+//                System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
+//                System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
+//                System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
+//                System.out.println("------- END RECORD DEBUGGING --------");
 
                 // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
                 // TODO: Make sure this is done within the main thread!
