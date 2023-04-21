@@ -290,15 +290,15 @@ public class Mesh {
             throw new RuntimeException("Mesh: Texture coordinates parameter CANNOT be null!");
         } else if (indices == null) {
             throw new RuntimeException("Mesh: Indices parameter CANNOT be null!");
-        // Empty array check
-        } else if (positions.length == 0) {
+        // Empty array check - This can cause issues with blank chunk stacks
+        } /*else if (positions.length == 0) {
             throw new RuntimeException("Mesh: Positions parameter CANNOT be an empty array!");
         } else if (textureCoordinates.length == 0) {
             throw new RuntimeException("Mesh: Texture coordinates parameter CANNOT be  an empty array!");
         } else if (indices.length == 0) {
             throw new RuntimeException("Mesh: Indices parameter CANNOT be  an empty array!");
 
-        }
+        }*/
         // Required data is all there, nice
     }
 }
