@@ -283,12 +283,21 @@ public class Mesh {
 
     // This is a separate method to improve the constructor readability
     private void checkRequired(float[] positions, float[] textureCoordinates, int[] indices) {
+        // Null check
         if (positions == null) {
             throw new RuntimeException("Mesh: Positions parameter CANNOT be null!");
         } else if (textureCoordinates == null) {
             throw new RuntimeException("Mesh: Texture coordinates parameter CANNOT be null!");
         } else if (indices == null) {
             throw new RuntimeException("Mesh: Indices parameter CANNOT be null!");
+        // Empty array check
+        } else if (positions.length == 0) {
+            throw new RuntimeException("Mesh: Positions parameter CANNOT be an empty array!");
+        } else if (textureCoordinates.length == 0) {
+            throw new RuntimeException("Mesh: Texture coordinates parameter CANNOT be  an empty array!");
+        } else if (indices.length == 0) {
+            throw new RuntimeException("Mesh: Indices parameter CANNOT be  an empty array!");
+
         }
         // Required data is all there, nice
     }
