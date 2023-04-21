@@ -29,8 +29,7 @@ public class ChunkMeshGenerator implements Runnable {
     private final BlockingQueue<Vector3ic> meshRequestQueue;
     private final BlockingQueue<ChunkMeshRecord> meshOutputQueue;
     private final AtomicBoolean shouldRun;
-
-//    private float sleepTimer;
+    private final ChunkMeshWorker meshWorker;
 
     private ChunkMeshGenerator() {
         delta = new DeltaObject();
@@ -38,6 +37,7 @@ public class ChunkMeshGenerator implements Runnable {
         meshRequestQueue = new LinkedBlockingQueue<>();
         meshOutputQueue = new LinkedBlockingQueue<>();
         shouldRun = new AtomicBoolean(true);
+        meshWorker = new ChunkMeshWorker();
     }
 
     @Override
@@ -86,56 +86,8 @@ public class ChunkMeshGenerator implements Runnable {
 
         // Insert block builder here
 
-        // Fixme: get rid of this super verbose test - it's a square - but FOV will make it look rectangular
-
-        // vertex points
-
-        // top left
-        positionsBuilder.add(-0.5f); // x
-        positionsBuilder.add( 0.5f); // y
-        positionsBuilder.add( 0.0f); // z
-        // bottom left
-        positionsBuilder.add(-0.5f); // x
-        positionsBuilder.add(-0.5f); // y
-        positionsBuilder.add( 0.0f); // z
-        // bottom right
-        positionsBuilder.add( 0.5f); // x
-        positionsBuilder.add(-0.5f); // y
-        positionsBuilder.add( 0.0f); // z
-        // top right
-        positionsBuilder.add( 0.5f); // x
-        positionsBuilder.add( 0.5f); // y
-        positionsBuilder.add( 0.0f); // z
-
-
-        // texture coordinates
-
-        // top left of image
-        textureCoordinatesBuilder.add(0.0f); // x
-        textureCoordinatesBuilder.add(0.0f); // y
-        // bottom left of image
-        textureCoordinatesBuilder.add(0.0f); // x
-        textureCoordinatesBuilder.add(1.0f); // y
-        // bottom right of image
-        textureCoordinatesBuilder.add(1.0f); // x
-        textureCoordinatesBuilder.add(1.0f); // y
-        // top right of image
-        textureCoordinatesBuilder.add(1.0f); // x
-        textureCoordinatesBuilder.add(0.0f); // y
-
-        // indices
-
-        // Tri 1
-        indicesBuilder.add(0);
-        indicesBuilder.add(1);
-        indicesBuilder.add(2);
-
-        // Tri 2
-        indicesBuilder.add(2);
-        indicesBuilder.add(3);
-        indicesBuilder.add(0);
-
-        // FIXME: end verbose mess here
+        // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
+        meshWorker.process(positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
 
         // End block builder here
 
