@@ -5,7 +5,7 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
 
 public class ChunkMeshHandling extends ChunkArrayManipulation {
     private static final int STACK_HEIGHT = 16;
-    private static final int STACKS = height / STACK_HEIGHT;
+    private static final int STACKS = HEIGHT / STACK_HEIGHT;
 
     private final String[] meshes;
 
@@ -47,5 +47,9 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
 
     protected String getMesh(int stack) {
         return meshes[stack];
+    }
+
+    public int getStackHeight() {
+        return STACK_HEIGHT;
     }
 }
