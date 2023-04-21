@@ -1,4 +1,4 @@
-print("testing works :D")
+--print("testing works :D")
 
 crafter.registerBlock({
     internalName = "testing:aTest";

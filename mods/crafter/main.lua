@@ -1,4 +1,4 @@
-print("Hello world!")
+--print("Hello world!")
 
 --[[
 note: Textures go:
