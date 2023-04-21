@@ -2,6 +2,7 @@ package org.crafter.engine.world_generation.chunk_mesh_generation;
 
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
+import org.joml.Vector3ic;
 
 import java.util.ArrayList;
 
@@ -19,12 +20,28 @@ public class ChunkMeshWorker {
      * @param textureCoordinates Mutable reference ArrayList of texture coordinates.
      * @param indices Mutable reference ArrayList of indices.
      */
-    public void process(final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    public void process(final int stackPosition, final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+
+        final int STACK_HEIGHT = chunk.getStackHeight();
+        final int WIDTH = chunk.getWidth();
+        final int DEPTH = chunk.getDepth();
+
+        for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
+            System.out.println(y);
+            for (int x = 0; x < WIDTH; x++) {
+                for (int z = 0; z < DEPTH; z++) {
+
+                }
+            }
+        }
+
+
+
         // Fixme: get rid of this super verbose test - it's a square - but FOV will make it look rectangular
 
         // vertex points
 
-        // top left
+//        // top left
 //        positions.add(-0.5f); // x
 //        positions.add( 0.5f); // y
 //        positions.add( 0.0f); // z
