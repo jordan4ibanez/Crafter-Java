@@ -9,7 +9,7 @@ public class ChunkMeshWorker {
     }
 
     /**
-     * All ArrayLists are mutable pointers internally, basically.
+     * All ArrayLists passed in are mutable references.
      */
     public void process(ArrayList<Float> positions, ArrayList<Float> textureCoordinates, ArrayList<Integer> indices) {
         // Fixme: get rid of this super verbose test - it's a square - but FOV will make it look rectangular
