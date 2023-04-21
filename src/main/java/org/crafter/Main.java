@@ -57,6 +57,27 @@ public class Main {
 
         ChunkGenerator.pushRequest(new Vector2i(0,0));
 
+        try {
+            mainLoop();
+        } catch (Exception e) {
+            // Game must shut down external threads or it WILL hang
+            ChunkMeshGenerator.stop();
+            ChunkGenerator.stop();
+            throw new RuntimeException(e);
+        }
+
+
+        ChunkMeshGenerator.stop();
+        ChunkGenerator.stop();
+        TextureStorage.destroyAll();
+        MeshStorage.destroyAll();
+        ShaderStorage.destroyAll();
+        API.destroy();
+        Window.destroy();
+    }
+
+    private static void mainLoop() {
+
         while(!Window.shouldClose()) {
             Window.pollEvents();
 
@@ -116,12 +137,5 @@ public class Main {
 
         }
 
-        ChunkMeshGenerator.stop();
-        ChunkGenerator.stop();
-        TextureStorage.destroyAll();
-        MeshStorage.destroyAll();
-        ShaderStorage.destroyAll();
-        API.destroy();
-        Window.destroy();
     }
 }
