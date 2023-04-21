@@ -36,7 +36,7 @@ public final class ChunkStorage {
         return SerializationUtils.clone(container.get(position));
     }
 
-    private static void positionCheck(Vector2ic position, String methodName) {
+    private static void positionCheck(final Vector2ic position, String methodName) {
         if (!hasPosition(position)) {
             throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk with method(" + methodName + ")! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
         }
