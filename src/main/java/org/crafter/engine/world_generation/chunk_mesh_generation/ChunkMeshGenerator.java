@@ -24,6 +24,7 @@ public class ChunkMeshGenerator implements Runnable {
     // Instance local
     private final DeltaObject delta;
 
+    // This and meshWorker share the instance of this BlockDefinitionContainer!
     private final BlockDefinitionContainer blockDefinitionContainer;
 
     private final BlockingQueue<Vector3ic> meshRequestQueue;
@@ -37,7 +38,8 @@ public class ChunkMeshGenerator implements Runnable {
         meshRequestQueue = new LinkedBlockingQueue<>();
         meshOutputQueue = new LinkedBlockingQueue<>();
         shouldRun = new AtomicBoolean(true);
-        meshWorker = new ChunkMeshWorker();
+        // This and the meshWorker share the BlockDefinitionContainer
+        meshWorker = new ChunkMeshWorker(blockDefinitionContainer);
     }
 
     @Override
@@ -70,9 +72,9 @@ public class ChunkMeshGenerator implements Runnable {
      */
     private ChunkMeshRecord blockProcessingProcedure(Vector3ic position) {
 
-        String uuid = UUID.randomUUID().toString();
+        final String uuid = UUID.randomUUID().toString();
 
-        Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
+        final Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
         System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
 
@@ -80,28 +82,28 @@ public class ChunkMeshGenerator implements Runnable {
 
         // TODO: NOTE! REUSE THIS! UTILIZE (vertices.clear();) FOR EXAMPLE!
 
-        ArrayList<Float> positionsBuilder = new ArrayList<>();
-        ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
-        ArrayList<Integer> indicesBuilder = new ArrayList<>();
+        final ArrayList<Float> positionsBuilder = new ArrayList<>();
+        final ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
+        final ArrayList<Integer> indicesBuilder = new ArrayList<>();
 
         // Insert block builder here
 
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
-        meshWorker.process(positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
+        meshWorker.process(threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
 
         // End block builder here
 
 
         // NOTE: This is a new piece of memory, it must be a new array
-        float[] positions = new float[positionsBuilder.size()];
+        final float[] positions = new float[positionsBuilder.size()];
         for (int i = 0; i < positions.length; i++) {
             positions[i] = positionsBuilder.get(i);
         }
-        float[] textureCoordinates = new float[textureCoordinatesBuilder.size()];
+        final float[] textureCoordinates = new float[textureCoordinatesBuilder.size()];
         for (int i = 0; i < textureCoordinates.length; i++) {
             textureCoordinates[i] = textureCoordinatesBuilder.get(i);
         }
-        int[] indices = new int[indicesBuilder.size()];
+        final int[] indices = new int[indicesBuilder.size()];
         for (int i = 0; i < indices.length; i++) {
             indices[i] = indicesBuilder.get(i);
         }

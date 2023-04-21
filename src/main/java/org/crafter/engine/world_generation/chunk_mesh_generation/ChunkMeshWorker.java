@@ -1,17 +1,25 @@
 package org.crafter.engine.world_generation.chunk_mesh_generation;
 
+import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world.chunk.Chunk;
+
 import java.util.ArrayList;
 
 public class ChunkMeshWorker {
 
-    public ChunkMeshWorker() {
-        System.out.println("Hello! I am a chunk mesh worker!");
+    private final BlockDefinitionContainer definitionContainer;
+    public ChunkMeshWorker(BlockDefinitionContainer definitionContainer) {
+        this.definitionContainer = definitionContainer;
     }
 
+
     /**
-     * All ArrayLists passed in are mutable references.
+     * @param chunk A Thread-safe clone passed in from the ChunkMeshGenerator.
+     * @param positions Mutable reference ArrayList of vertices.
+     * @param textureCoordinates Mutable reference ArrayList of texture coordinates.
+     * @param indices Mutable reference ArrayList of indices.
      */
-    public void process(ArrayList<Float> positions, ArrayList<Float> textureCoordinates, ArrayList<Integer> indices) {
+    public void process(final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         // Fixme: get rid of this super verbose test - it's a square - but FOV will make it look rectangular
 
         // vertex points
