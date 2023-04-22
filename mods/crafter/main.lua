@@ -2,7 +2,8 @@
 
 --[[
 note: Textures go:
-back, front, left, right, bottom, top
+(right handed coordinate system)
+front, back, left, right, bottom, top
 ]]
 
 crafter.registerBlock({

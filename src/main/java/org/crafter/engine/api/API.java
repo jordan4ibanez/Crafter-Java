@@ -245,7 +245,7 @@ public final class API {
                             }
                         }
 
-                        final String[] faces = new String[]{"back", "front", "left", "right", "bottom", "top"};
+                        final String[] faces = new String[]{"front", "back", "left", "right", "bottom", "top"};
                         for (int i = 0; i < textures.length; i++) {
                             final float[] textureCoordinates = WorldAtlas.getInstance().getQuadOf(textures[i]);
                             definition.setTextureCoordinates(faces[i], textureCoordinates);
