@@ -91,7 +91,7 @@ public class TexturePacker {
 
         Vector4ic gottenIntegralPositionAndSize = getIntegralPositions(fileName);
 
-        System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
+//        System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
 
         return new Vector4f(
                 // Position X
@@ -116,7 +116,7 @@ public class TexturePacker {
 
         // this var was originally called: gottenOpenGLPositionAndSize. You can probably see why I changed it
         Vector4fc p = getOpenGLPositions(fileName);
-        System.out.println(p.x() + "," + p.y() + "," + p.z() + "," + p.w());
+//        System.out.println(p.x() + "," + p.y() + "," + p.z() + "," + p.w());
         // Z = width
         // W = height
         return new float[] {
