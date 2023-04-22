@@ -5,11 +5,13 @@ import org.crafter.engine.utility.FastNoise;
 import org.crafter.engine.world.block.BlockDefinition;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
+import org.joml.Random;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 import org.joml.Vector3ic;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -72,9 +74,11 @@ public class ChunkGenerator implements Runnable {
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
     private Chunk processBiomesAndBlocks(Chunk chunk) {
+        Random random = new Random((int) (new Date().getTime()/1000));
         for (int i = 0; i < chunk.getArraySize(); i++) {
             int blockData = chunk.getBlockData(i);
-            BlockDefinition definition = blockDefinitionContainer.getDefinition("crafter:grass");
+            final int randomlyChosen = random.nextInt(5);
+            BlockDefinition definition = blockDefinitionContainer.getDefinition(randomlyChosen); //"crafter:grass"
             blockData = chunk.setBlockID(blockData, definition.getID());
             chunk.setBlockData(i, blockData);
         }

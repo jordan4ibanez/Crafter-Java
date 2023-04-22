@@ -77,7 +77,7 @@ public class ChunkFaceGenerator {
                 // top left
                 1,1,0
         });
-        
+
         //-Y
         faces.put("bottom", new float[]{
                 //x,y,z
