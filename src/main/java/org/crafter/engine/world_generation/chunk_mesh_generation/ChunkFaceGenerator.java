@@ -11,6 +11,8 @@ public class ChunkFaceGenerator {
     private final BlockDefinitionContainer definitionContainer;
     private final HashMap<String, float[]> faces;
 
+    private final int[] indicesOrder = new int[]{0,1,2,2,3,0};
+
     public ChunkFaceGenerator(BlockDefinitionContainer definitionContainer) {
 
         this.definitionContainer = definitionContainer;
@@ -57,6 +59,15 @@ public class ChunkFaceGenerator {
 
     public void attachBack(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
 
+        // Texture coordinates
+        BlockDefinition thisBlockDef = definitionContainer.getDefinition(ID);
+
+        // It's a blank face, ignore it - Note: This SHOULD NOT be reached, EVER!
+        if (!thisBlockDef.containsTextureCoordinate("back")) {
+            throwSevereWarning("back");
+            return;
+        }
+
         // Vertex positions
         final float[] hardCodedPos = faces.get("back");
         for (int i = 0; i < hardCodedPos.length; i++) {
@@ -73,6 +84,30 @@ public class ChunkFaceGenerator {
 
         // Texture coordinates
 
+        // This is separated here in case this ever decides to shit out with an error
+        float[] defTextureCoordinates = thisBlockDef.getTextureCoordinate("back");
+
+        for (float defTextureCoordinate : defTextureCoordinates) {
+            textureCoordinates.add(defTextureCoordinate);
+        }
+
+        // Indices
+        seedIndices(indices);
+    }
+
+
+
+
+
+    private void seedIndices(final ArrayList<Integer> indices) {
+        final int length = indices.size();
+        for (int i : indicesOrder) {
+            indices.add(i + length);
+        }
+    }
+
+    private void throwSevereWarning(String face) {
+        System.out.println("ChunkFaceGenerator: WARNING! A BLOCK DEFINITION HAS A BLANK FACE SOMEHOW! Face: (" + face + ")!");
     }
 
 }
