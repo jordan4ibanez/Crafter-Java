@@ -16,7 +16,6 @@ import org.joml.Random;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class Main {
