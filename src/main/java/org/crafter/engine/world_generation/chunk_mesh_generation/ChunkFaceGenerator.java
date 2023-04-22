@@ -58,25 +58,26 @@ public class ChunkFaceGenerator {
     }
 
     public void attachBack(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("back", ID, x, y, z, positions, textureCoordinates, indices);
+    }
+    public void attachFront(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("front", ID, x, y, z, positions, textureCoordinates, indices);
+    }
 
+    private void dispatch(String face, final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         // Texture coordinates
         BlockDefinition thisBlockDef = definitionContainer.getDefinition(ID);
 
         // It's a blank face, ignore it - Note: This SHOULD NOT be reached, EVER!
-        if (!thisBlockDef.containsTextureCoordinate("back")) {
-            throwSevereWarning("back");
+        if (!thisBlockDef.containsTextureCoordinate(face)) {
+            throwSevereWarning(face);
             return;
         }
-
         // Vertex positions
-        final float[] hardCodedPos = faces.get("back");
-
+        final float[] hardCodedPos = faces.get(face);
         for (int i = 0; i < hardCodedPos.length; i++) {
-
             final int xyz = i % 3;
-
             final float floatingPos = hardCodedPos[i];
-
             switch (xyz) {
                 case 0 -> positions.add(floatingPos + x);
                 case 1 -> positions.add(floatingPos + y);
@@ -84,16 +85,12 @@ public class ChunkFaceGenerator {
                 default -> throw new RuntimeException("ChunkFaceGenerator: Got error in modulo calculation! Expected: (0-2) | Got: " + xyz + "!");
             }
         }
-
         // Texture coordinates
-
         // This is separated here in case this ever decides to poop out with an error
-        float[] defTextureCoordinates = thisBlockDef.getTextureCoordinate("back");
-
+        float[] defTextureCoordinates = thisBlockDef.getTextureCoordinate(face);
         for (float defTextureCoordinate : defTextureCoordinates) {
             textureCoordinates.add(defTextureCoordinate);
         }
-
         // Indices
         seedIndices(indices);
     }
