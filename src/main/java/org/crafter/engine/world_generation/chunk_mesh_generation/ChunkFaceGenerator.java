@@ -70,8 +70,11 @@ public class ChunkFaceGenerator {
 
         // Vertex positions
         final float[] hardCodedPos = faces.get("back");
+
         for (int i = 0; i < hardCodedPos.length; i++) {
+
             final int xyz = i % 3;
+
             final float floatingPos = hardCodedPos[i];
 
             switch (xyz) {
