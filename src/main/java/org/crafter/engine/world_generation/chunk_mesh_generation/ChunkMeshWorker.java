@@ -95,9 +95,14 @@ public class ChunkMeshWorker {
     }
 
     private void blockDrawType(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        //Fixme: This would check neighbors etc
+        //Fixme: This will check neighbors etc when completed
 
         faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices);
+        faceGenerator.attachFront(ID, x, y, z, positions, textureCoordinates, indices);
+        faceGenerator.attachLeft(ID, x, y, z, positions, textureCoordinates, indices);
+        faceGenerator.attachRight(ID, x, y, z, positions, textureCoordinates, indices);
+        faceGenerator.attachBottom(ID, x, y, z, positions, textureCoordinates, indices);
+        faceGenerator.attachTop(ID, x, y, z, positions, textureCoordinates, indices);
     }
 
     private int getNeighbor(Chunk chunk, final int x, final int y, final int z) {
