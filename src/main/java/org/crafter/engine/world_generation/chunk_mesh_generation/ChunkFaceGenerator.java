@@ -35,7 +35,15 @@ public class ChunkFaceGenerator {
         });
         //+Z
         faces.put("front", new float[]{
-
+                //x,y,z
+                // top left
+                0,1,1,
+                // bottom left
+                0,0,1,
+                // bottom right
+                1,0,1,
+                // top right
+                1,1,1
         });
 
         //-X
