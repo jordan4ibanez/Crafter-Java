@@ -168,6 +168,12 @@ public class BlockDefinition implements Serializable {
     public int getLight() {
         return light;
     }
+    public boolean containsTextureCoordinate(String name) {
+        return textureCoordinates.containsKey(name);
+    }
+    public float[] getTextureCoordinate(String name) {
+        return textureCoordinates.get(name);
+    }
 
     private int boolToInt(boolean input) {
         return input ? 1 : 0;
