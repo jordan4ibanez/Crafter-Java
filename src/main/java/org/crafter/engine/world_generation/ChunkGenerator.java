@@ -74,7 +74,7 @@ public class ChunkGenerator implements Runnable {
     private Chunk processBiomesAndBlocks(Chunk chunk) {
         for (int i = 0; i < chunk.getArraySize(); i++) {
             int blockData = chunk.getBlockData(i);
-            BlockDefinition definition = blockDefinitionContainer.getDefinition("crafter:stone");
+            BlockDefinition definition = blockDefinitionContainer.getDefinition("crafter:grass");
             blockData = chunk.setBlockID(blockData, definition.getID());
             chunk.setBlockData(i, blockData);
         }
