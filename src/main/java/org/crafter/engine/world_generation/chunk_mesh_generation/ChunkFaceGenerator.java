@@ -87,7 +87,7 @@ public class ChunkFaceGenerator {
 
         // Texture coordinates
 
-        // This is separated here in case this ever decides to shit out with an error
+        // This is separated here in case this ever decides to poop out with an error
         float[] defTextureCoordinates = thisBlockDef.getTextureCoordinate("back");
 
         for (float defTextureCoordinate : defTextureCoordinates) {
@@ -103,7 +103,7 @@ public class ChunkFaceGenerator {
 
 
     private void seedIndices(final ArrayList<Integer> indices) {
-        final int length = indices.size();
+        final int length = (indices.size() / 6) * 4;
         for (int i : indicesOrder) {
             indices.add(i + length);
         }
