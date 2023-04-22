@@ -48,7 +48,7 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
      */
     public void render() {
         rotation += Delta.getDelta();
-        Camera.setObjectMatrix(new Vector3f(0,0,-1), new Vector3f(0,0,0), new Vector3f(1,1,1));
+        Camera.setObjectMatrix(new Vector3f(0,0,-30), new Vector3f(0,0,0), new Vector3f(1,1,1));
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
