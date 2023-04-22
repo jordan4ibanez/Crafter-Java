@@ -30,7 +30,7 @@ public class ChunkMeshWorker {
         final int[] chunkData = chunk.getData();
 
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
-            System.out.println(y);
+//            System.out.println(y);
             for (int x = 0; x < WIDTH; x++) {
                 for (int z = 0; z < DEPTH; z++) {
 
@@ -39,6 +39,9 @@ public class ChunkMeshWorker {
                     final int index = chunk.positionToIndex(x,y,z);
 
                     int ID = chunk.getBlockID(chunkData[index]);
+
+//                    chunk.printBits(ID);
+
 
                     String internalName = definitionContainer.getDefinition(ID).getInternalName();
 
