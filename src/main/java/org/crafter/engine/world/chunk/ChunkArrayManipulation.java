@@ -3,6 +3,7 @@ package org.crafter.engine.world.chunk;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Arrays;
  * This is literal, here is an exact representation:
  * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
-public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
+public abstract class ChunkArrayManipulation extends ChunkBitManipulation implements Serializable {
 
     // X
     private static final int WIDTH = 16;

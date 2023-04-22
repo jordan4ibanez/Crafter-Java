@@ -1,11 +1,13 @@
 package org.crafter.engine.world.chunk;
 
+import java.io.Serializable;
+
 /**
  * The Basis for chunks.
  * Chunks are basically fancy arrays of data.
  * This class goes into ChunkArrayManipulation, then gets finalized into Chunk in the inheritance chain.
  */
-public abstract class ChunkBitManipulation {
+public abstract class ChunkBitManipulation implements Serializable {
     StringBuilder output;
 
     public ChunkBitManipulation(){
