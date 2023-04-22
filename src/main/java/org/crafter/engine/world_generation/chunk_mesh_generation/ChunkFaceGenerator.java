@@ -70,6 +70,9 @@ public class ChunkFaceGenerator {
                 default -> throw new RuntimeException("ChunkFaceGenerator: Got error in modulo calculation! Expected: (0-2) | Got: " + xyz + "!");
             }
         }
+
+        // Texture coordinates
+
     }
 
 }
