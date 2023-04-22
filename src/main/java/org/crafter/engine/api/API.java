@@ -228,7 +228,7 @@ public final class API {
 
 //                        boolean textureInvalid = false;
 
-                        //FIXME: REPLACE WITH PLACEHOLDER - This should never be reached though!
+                        //FIXME: REPLACE WITH PLACEHOLDER - This should never flow into this scope!
                         if (textures.length != 6) {
 //                            throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has wrong texture array size! Required: 6: | Gotten: " + textures.length);
                             System.out.println("API: Replace block (" + definition.getInternalName() + ") with a placeholder texture definition!");
@@ -243,6 +243,12 @@ public final class API {
                             } else if (!worldAtlasTexturePacker.fileNameExists(textures[i])) {
                                 throw new RuntimeException("API: Block (" + definition.getInternalName() + ") has an UNREGISTERED texture at index (" + i + "). Texture (" + textures[i] + ") is not a registered texture!");
                             }
+                        }
+
+                        final String[] faces = new String[]{"back", "front", "left", "right", "bottom", "top"};
+                        for (int i = 0; i < textures.length; i++) {
+                            final float[] textureCoordinates = WorldAtlas.getInstance().getQuadOf(textures[i]);
+                            definition.setTextureCoordinates(faces[i], textureCoordinates);
                         }
 
                         definition.setTextures(textures);
