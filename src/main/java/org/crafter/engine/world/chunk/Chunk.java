@@ -4,6 +4,7 @@ import org.crafter.engine.camera.Camera;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.Math;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 import org.joml.Vector3f;
@@ -21,7 +22,7 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
     private final Vector2ic position;
 
     // fixme: remove! Temp
-    private float rotation = 0.0f;
+    private float rotation = 0;
 
     public Chunk(int x, int y) {
         this(new Vector2i(x,y));
@@ -47,14 +48,21 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
      * It requires the position of the chunk!
      */
     public void render() {
-        rotation += Delta.getDelta();
-        Camera.setObjectMatrix(new Vector3f(0,0,-30), new Vector3f(0,0,0), new Vector3f(1,1,1));
+
+        Camera.setObjectMatrix(new Vector3f(0,0,-30), new Vector3f(Math.toRadians(-45),Math.toRadians(0), 0), new Vector3f(1,1,1));
+
+        boolean got = false;
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
+                got = true;
 //                System.out.println("rendering: " + gottenMeshUUID);
                 MeshStorage.render(gottenMeshUUID);
             }
+        }
+
+        if (got) {
+            rotation += Delta.getDelta() * 15.0f;
         }
     }
 
