@@ -1,6 +1,7 @@
 package org.crafter.engine.world_generation.chunk_mesh_generation;
 
 import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world.block.DrawType;
 import org.crafter.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
@@ -52,6 +53,12 @@ public class ChunkMeshWorker {
         final int[] chunkData = chunk.getData();
 
         final int ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
+
+        // 0 is reserved for air! Also don't process air drawtype blocks!
+        if (ID == 0 || definitionContainer.getDefinition(ID).getDrawType().equals(DrawType.AIR)) {
+            return;
+        }
+
         // Testing
 //        chunk.printBits(ID);
 //        String internalName = definitionContainer.getDefinition(ID).getInternalName();
