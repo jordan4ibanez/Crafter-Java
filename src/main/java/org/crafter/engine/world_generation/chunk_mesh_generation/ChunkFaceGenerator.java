@@ -10,12 +10,12 @@ public class ChunkFaceGenerator {
 
         // Blocks are rooted at 0,0,0 x,y,z floating so negative positions are zeroed
 
-        //+Z
-        faces.put("front", new float[]{
-
-        });
         //-Z
         faces.put("back", new float[]{
+
+        });
+        //+Z
+        faces.put("front", new float[]{
 
         });
 
