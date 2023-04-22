@@ -87,7 +87,7 @@ public class TexturePacker {
      */
     public Vector4fc getOpenGLPositions(String fileName) {
 
-        enforceLockout("getQuadOf");
+        enforceLockout("getOpenGLPositions");
 
         Vector4ic gottenIntegralPositionAndSize = getIntegralPositions(fileName);
 
