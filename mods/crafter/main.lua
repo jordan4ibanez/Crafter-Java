@@ -2,7 +2,7 @@
 
 --[[
 note: Textures go:
-front, back, left, right, top, bottom
+back, front, left, right, bottom, top
 ]]
 
 crafter.registerBlock({
@@ -23,5 +23,5 @@ crafter.registerBlock({
     internalName = "crafter:grass";
     readableName = "Grass";
     drawType = crafter.blockDrawTypes.BLOCK;
-    textures = {"grass.png","grass.png","grass.png","grass.png","grass.png","dirt.png"}
+    textures = {"grass.png","grass.png","grass.png","grass.png","dirt.png","grass.png"}
 })
