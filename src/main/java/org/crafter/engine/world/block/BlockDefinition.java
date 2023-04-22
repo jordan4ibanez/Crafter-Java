@@ -1,6 +1,7 @@
 package org.crafter.engine.world.block;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class BlockDefinition implements Serializable {
     // Required
@@ -22,12 +23,15 @@ public class BlockDefinition implements Serializable {
     private int damagePerSecond = -1;
     private int light = -1;
 
+    private final HashMap<String, float[]> textureCoordinates;
+
     /*
     todo: particle effects
      */
 
     public BlockDefinition(String internalName) {
         this.internalName = internalName;
+        this.textureCoordinates = new HashMap<>();
     }
 
     public void setID(int ID) {
@@ -107,6 +111,13 @@ public class BlockDefinition implements Serializable {
             throw new RuntimeException("BlockDefinition: light (" + light + ") on block (" + this.internalName + ") is out of bounds! Min: 1 | Max: 15");
         }
         this.light = light;
+    }
+    public void setTextureCoordinates(String face, float[] value) {
+        if (textureCoordinates.containsKey(face)) {
+            throw new RuntimeException("BlockDefinition: Tried to put duplicate of texture coordinate (" + face + ") into block (" + internalName + ")!");
+        }
+//        System.out.println("BlockDefinition: Put texture coordinate (" + face + ") into block (" + internalName + ")!");
+        textureCoordinates.put(face, value);
     }
 
     public int getID() {
