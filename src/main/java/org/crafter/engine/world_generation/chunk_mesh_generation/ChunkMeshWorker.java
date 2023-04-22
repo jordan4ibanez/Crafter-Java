@@ -36,25 +36,40 @@ public class ChunkMeshWorker {
 
                     // Fixme: This might be a bit too slow
 
-                    final int index = chunk.positionToIndex(x,y,z);
-
-                    int ID = chunk.getBlockID(chunkData[index]);
-
+                    final int ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
+                    // Testing
 //                    chunk.printBits(ID);
+//                    String internalName = definitionContainer.getDefinition(ID).getInternalName();
+//                    System.out.println("Block (" + internalName + ") is at: (" + x + ", " + y + ", " + z + ")");
 
+                    // Note: -Z is facing forwards +X is facing right
+                    final int neighborFront = getNeighbor(chunk, x, y, z - 1);
+                    final int neighborBack = getNeighbor(chunk, x, y, z + 1);
+                    final int neighborLeft = getNeighbor(chunk, x - 1, y, z);
+                    final int neighborRight = getNeighbor(chunk, x + 1, y, z);
+                    final int neighborBottom = getNeighbor(chunk, x, y - 1, z);
+                    final int neighborTop = getNeighbor(chunk, x, y + 1, z);
 
-                    String internalName = definitionContainer.getDefinition(ID).getInternalName();
-
-
-                    System.out.println("Block (" + internalName + ") is at: (" + x + ", " + y + ", " + z + ")");
 
                 }
             }
         }
+    }
 
+    private int getNeighbor(Chunk chunk, final int x, final int y, final int z) {
+        // todo: replace with neighbor edge chunk
+        if (xyzIsOutOfBoundsCheck(x, y, z, chunk.getWidth(), chunk.getHeight(), chunk.getDepth())) {
+            // Out of bounds within the chunk
+            // Zero is reserved for air
+            return 0;
+        }
 
+        return chunk.getBlockID(chunk.getBlockData(chunk.positionToIndex(x,y,z)));
+    }
 
-
-
+    private boolean xyzIsOutOfBoundsCheck(final int x, final int y, final int z, final int width, final int height, final int depth) {
+        return x < 0 || x >= width ||
+                y < 0 || y >= height ||
+                z < 0 || z >= depth;
     }
 }
