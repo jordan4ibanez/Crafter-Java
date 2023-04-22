@@ -7,9 +7,38 @@ public class ChunkFaceGenerator {
 
     public ChunkFaceGenerator() {
         faces = new HashMap<>();
+
+        // Blocks are rooted at 0,0,0 x,y,z floating so negative positions are zeroed
+
+        //+Z
         faces.put("front", new float[]{
 
         });
+        //-Z
+        faces.put("back", new float[]{
+
+        });
+
+        //-X
+        faces.put("left", new float[]{
+
+        });
+        //+X
+        faces.put("right", new float[]{
+
+        });
+
+        //-Y
+        faces.put("bottom", new float[]{
+
+        });
+        //+Y
+        faces.put("top", new float[]{
+
+        });
+
+
+
     }
 
 }
