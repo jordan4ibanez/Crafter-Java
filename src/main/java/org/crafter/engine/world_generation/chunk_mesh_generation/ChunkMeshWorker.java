@@ -10,10 +10,12 @@ public class ChunkMeshWorker {
 
     private final BlockDefinitionContainer definitionContainer;
 
+    private final ChunkFaceGenerator faceGenerator;
+
 
     public ChunkMeshWorker(BlockDefinitionContainer definitionContainer) {
         this.definitionContainer = definitionContainer;
-
+        this.faceGenerator = new ChunkFaceGenerator(definitionContainer);
     }
 
     /**
@@ -38,22 +40,22 @@ public class ChunkMeshWorker {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
 
-                    branchPathOfGeneration(chunk, x, y, z);
+                    branchPathOfGeneration(chunk, x, y, z, positions, textureCoordinates, indices);
                 }
             }
         }
     }
 
-    private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z) {
+    private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         // Fixme: This might be a bit too slow
 
         final int[] chunkData = chunk.getData();
 
         final int ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
         // Testing
-//                    chunk.printBits(ID);
-//                    String internalName = definitionContainer.getDefinition(ID).getInternalName();
-//                    System.out.println("Block (" + internalName + ") is at: (" + x + ", " + y + ", " + z + ")");
+//        chunk.printBits(ID);
+//        String internalName = definitionContainer.getDefinition(ID).getInternalName();
+//        System.out.println("Block (" + internalName + ") is at: (" + x + ", " + y + ", " + z + ")");
 
         // Note: -Z is facing forwards +X is facing right
         //TODO: implement this
@@ -68,7 +70,7 @@ public class ChunkMeshWorker {
 
         switch (definitionContainer.getDefinition(ID).getDrawType()) {
             case BLOCK -> {
-                blockDrawType(x, y, z);
+                blockDrawType(ID, x, y, z, positions, textureCoordinates, indices);
             }
             case GLASS, PLANT, TORCH, LEAVES, BLOCK_BOX, LIQUID_FLOW, LIQUID_SOURCE -> {
                 //todo;
@@ -85,8 +87,10 @@ public class ChunkMeshWorker {
         }
     }
 
-    private void blockDrawType(final int x, final int y, final int z) {
+    private void blockDrawType(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        //Fixme: This would check neighbors etc
 
+        faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices);
     }
 
     private int getNeighbor(Chunk chunk, final int x, final int y, final int z) {
