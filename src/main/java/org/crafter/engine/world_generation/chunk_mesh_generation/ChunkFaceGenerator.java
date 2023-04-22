@@ -21,20 +21,25 @@ public class ChunkFaceGenerator {
 
         // Blocks are rooted at 0,0,0 x,y,z floating so negative positions are zeroed
 
+        // Note: Right handed coordinate system
+
+        // Todo: Probably need to check these and make sure nothing is upside down! (textures)
+
         //-Z
-        faces.put("back", new float[]{
+        faces.put("front", new float[]{
                 //x,y,z
-                // top left
-                0,1,0,
-                // bottom left
-                0,0,0,
+                // top right
+                1,1,0,
                 // bottom right
                 1,0,0,
-                // top right
-                1,1,0
+                // bottom left
+                0,0,0,
+                // top left
+                0,1,0
         });
+
         //+Z
-        faces.put("front", new float[]{
+        faces.put("back", new float[]{
                 //x,y,z
                 // top left
                 0,1,1,
@@ -46,22 +51,57 @@ public class ChunkFaceGenerator {
                 1,1,1
         });
 
+
+
         //-X
         faces.put("left", new float[]{
-
+                //x,y,z
+                // top left
+                0,1,0,
+                // bottom left
+                0,0,0,
+                // bottom right
+                0,0,1,
+                // top right
+                0,1,1
         });
         //+X
         faces.put("right", new float[]{
-
+                //x,y,z
+                // top right
+                1,1,1,
+                // bottom right
+                1,0,1,
+                // bottom left
+                1,0,0,
+                // top left
+                1,1,0
         });
-
+        
         //-Y
         faces.put("bottom", new float[]{
-
+                //x,y,z
+                // top right
+                1,0,1,
+                // bottom right
+                0,0,1,
+                // bottom left
+                0,0,0,
+                // top left
+                1,0,0
         });
+
         //+Y
         faces.put("top", new float[]{
-
+                //x,y,z
+                // top left
+                1,1,0,
+                // bottom left
+                0,1,0,
+                // bottom right
+                0,1,1,
+                // top right
+                1,1,1
         });
     }
 
@@ -70,6 +110,20 @@ public class ChunkFaceGenerator {
     }
     public void attachFront(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         dispatch("front", ID, x, y, z, positions, textureCoordinates, indices);
+    }
+
+    public void attachLeft(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("left", ID, x, y, z, positions, textureCoordinates, indices);
+    }
+    public void attachRight(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("right", ID, x, y, z, positions, textureCoordinates, indices);
+    }
+
+    public void attachBottom(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("bottom", ID, x, y, z, positions, textureCoordinates, indices);
+    }
+    public void attachTop(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+        dispatch("top", ID, x, y, z, positions, textureCoordinates, indices);
     }
 
     private void dispatch(String face, final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
