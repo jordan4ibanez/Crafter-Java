@@ -112,17 +112,16 @@ public class Main {
 
 
         if (Keyboard.keyDown(GLFW_KEY_W)) {
-            cameraMovement.z = -1;
-//            System.out.println("forwards" + random.nextFloat());
-        } else if (Keyboard.keyDown(GLFW_KEY_S)) {
-            cameraMovement.z = 1;
-//            System.out.println("backwards" + random.nextFloat());
-        } else if (Keyboard.keyDown(GLFW_KEY_A)) {
-            cameraMovement.x = -1;
-//            System.out.println("left" + random.nextFloat());
-        } else if (Keyboard.keyDown(GLFW_KEY_D)) {
-            cameraMovement.x = 1;
-//            System.out.println("right" + random.nextFloat());
+            cameraMovement.z += -1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_S)) {
+            cameraMovement.z += 1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_A)) {
+            cameraMovement.x += -1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_D)) {
+            cameraMovement.x += 1;
         }
 
         // This makes it so the camera movement is actually usable
