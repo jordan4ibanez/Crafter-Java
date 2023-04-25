@@ -57,7 +57,9 @@ public class Main {
         ChunkGenerator.pushRequest(new Vector2i(0,0));
 
         try {
-            mainLoop();
+            while(!Window.shouldClose()) {
+                mainLoop();
+            }
         } catch (Exception e) {
             // Game must shut down external threads or it WILL hang
             ChunkMeshGenerator.stop();
@@ -77,67 +79,64 @@ public class Main {
 
     private static void mainLoop() {
 
-        while(!Window.shouldClose()) {
-            Window.pollEvents();
+        Window.pollEvents();
 
-            Window.clearAll();
+        Window.clearAll();
 
-            ShaderStorage.start("3d");
+        ShaderStorage.start("3d");
 
-            Camera.updateCameraMatrix();
+        Camera.updateCameraMatrix();
 
 
-            // Note: This is an EXTREME test! This is so out of the scope of this game
-            // that it's basically the equivalent of a few servers with thousands of people on them all loading in
-            // at the same time running on one instance!
-//            System.out.println("--------- MAIN THREAD STARTED REQUESTS ----------");
-//            for (int i = 0; i < random.nextInt(100); i++) {
-//                // -25 to 25
-//                ChunkGenerator.pushRequest(new Vector2i(
-//                        random.nextInt(100) - 51,
-//                        random.nextInt(100) - 51
-//                ));
-//            }
+        // Note: This is an EXTREME test! This is so out of the scope of this game
+        // that it's basically the equivalent of a few servers with thousands of people on them all loading in
+        // at the same time running on one instance!
+//        System.out.println("--------- MAIN THREAD STARTED REQUESTS ----------");
+//        for (int i = 0; i < random.nextInt(100); i++) {
+//            // -25 to 25
+//            ChunkGenerator.pushRequest(new Vector2i(
+//                    random.nextInt(100) - 51,
+//                    random.nextInt(100) - 51
+//            ));
+//        }
 
-            //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-            while (ChunkGenerator.hasUpdate()) {
-                Chunk generatedChunk = ChunkGenerator.getUpdate();
+        //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
+        while (ChunkGenerator.hasUpdate()) {
+            Chunk generatedChunk = ChunkGenerator.getUpdate();
 //                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
-                ChunkStorage.addOrUpdate(generatedChunk);
+            ChunkStorage.addOrUpdate(generatedChunk);
 
-                Vector2ic position = generatedChunk.getPosition();
-                //fixme: needs to iterate 0-7
-                // Render stack 0 (y coordinate 0 to 15)
-                ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
-            }
-            while (ChunkMeshGenerator.hasUpdate()) {
-                ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
-//                System.out.println("------- BEGIN RECORD DEBUGGING --------");
-//                System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
-//                System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
-//                System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
-//                System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
-//                System.out.println("------- END RECORD DEBUGGING --------");
-
-                // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
-                // TODO: Make sure this is done within the main thread!
-
-                final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
-
-                if (ChunkStorage.hasPosition(destinationPosition)) {
-                    ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
-                } // Else nothing happens to it and it's GCed
-            }
-
-
-            if (ChunkStorage.hasPosition(new Vector2i(0,0))) {
-                ChunkStorage.getChunk(new Vector2i(0, 0)).render();
-            }
-
-
-            Window.swapBuffers();
-
+            Vector2ic position = generatedChunk.getPosition();
+            //fixme: needs to iterate 0-7
+            // Render stack 0 (y coordinate 0 to 15)
+            ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
         }
+        while (ChunkMeshGenerator.hasUpdate()) {
+            ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
+//            System.out.println("------- BEGIN RECORD DEBUGGING --------");
+//            System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
+//            System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
+//            System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
+//            System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
+//            System.out.println("------- END RECORD DEBUGGING --------");
+
+            // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
+            // TODO: Make sure this is done within the main thread!
+
+            final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
+
+            if (ChunkStorage.hasPosition(destinationPosition)) {
+                ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
+            } // Else nothing happens to it and it's GCed
+        }
+
+
+        if (ChunkStorage.hasPosition(new Vector2i(0,0))) {
+            ChunkStorage.getChunk(new Vector2i(0, 0)).render();
+        }
+
+
+        Window.swapBuffers();
 
     }
 }
