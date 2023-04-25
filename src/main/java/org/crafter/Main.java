@@ -2,6 +2,7 @@ package org.crafter;
 
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
@@ -18,6 +19,8 @@ import org.joml.Vector2ic;
 
 import java.util.Date;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class Main {
 
     private static final String DEVELOPMENT_CYCLE = "Pre-Alpha";
@@ -28,6 +31,9 @@ public class Main {
     private static String getVersionInfo() {
         return VERSION_INFO + (PROTOTYPE_BUILD ? " (Prototype Build)" : "");
     }
+
+    // Fixme: This is only for debugging and prototyping, remove this eventually
+    private static final Random random = new Random(new Date().getTime()/1000);
 
     public static void main(String[] args) {
 
@@ -51,8 +57,6 @@ public class Main {
         Window.setClearColor(0.75f);
         Window.setVsync(false);
 
-
-        Random random = new Random(new Date().getTime()/1000);
 
         ChunkGenerator.pushRequest(new Vector2i(0,0));
 
@@ -99,6 +103,16 @@ public class Main {
 //                    random.nextInt(100) - 51
 //            ));
 //        }
+
+        if (Keyboard.keyDown(GLFW_KEY_W)) {
+            System.out.println("forwards" + random.nextFloat());
+        } else if (Keyboard.keyDown(GLFW_KEY_S)) {
+            System.out.println("backwards" + random.nextFloat());
+        } else if (Keyboard.keyDown(GLFW_KEY_A)) {
+            System.out.println("left" + random.nextFloat());
+        } else if (Keyboard.keyDown(GLFW_KEY_D)) {
+            System.out.println("right" + random.nextFloat());
+        }
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
