@@ -123,6 +123,12 @@ public class Main {
         if (Keyboard.keyDown(GLFW_KEY_D)) {
             cameraMovement.x += 1;
         }
+        if (Keyboard.keyDown(GLFW_KEY_SPACE)) {
+            cameraMovement.y += 1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_LEFT_SHIFT) || Keyboard.keyDown(GLFW_KEY_RIGHT_SHIFT)) {
+            cameraMovement.y -= 1;
+        }
 
         // This makes it so the camera movement is actually usable
         cameraMovement.mul(Delta.getDelta() * 10);
