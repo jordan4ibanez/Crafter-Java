@@ -3,6 +3,7 @@ package org.crafter;
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
+import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
@@ -13,9 +14,7 @@ import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
-import org.joml.Random;
-import org.joml.Vector2i;
-import org.joml.Vector2ic;
+import org.joml.*;
 
 import java.util.Date;
 
@@ -34,6 +33,10 @@ public class Main {
 
     // Fixme: This is only for debugging and prototyping, remove this eventually
     private static final Random random = new Random(new Date().getTime()/1000);
+
+    // Fixme: these are only for debugging and prototyping, move this into another class eventually
+    private static final Vector3f cameraMovement = new Vector3f();
+    private static final Vector3f newCameraPosition = new Vector3f();
 
     public static void main(String[] args) {
 
@@ -104,15 +107,29 @@ public class Main {
 //            ));
 //        }
 
+
+        cameraMovement.set(0);
+
+
         if (Keyboard.keyDown(GLFW_KEY_W)) {
-            System.out.println("forwards" + random.nextFloat());
+            cameraMovement.z = -1;
+//            System.out.println("forwards" + random.nextFloat());
         } else if (Keyboard.keyDown(GLFW_KEY_S)) {
-            System.out.println("backwards" + random.nextFloat());
+            cameraMovement.z = 1;
+//            System.out.println("backwards" + random.nextFloat());
         } else if (Keyboard.keyDown(GLFW_KEY_A)) {
-            System.out.println("left" + random.nextFloat());
+            cameraMovement.x = -1;
+//            System.out.println("left" + random.nextFloat());
         } else if (Keyboard.keyDown(GLFW_KEY_D)) {
-            System.out.println("right" + random.nextFloat());
+            cameraMovement.x = 1;
+//            System.out.println("right" + random.nextFloat());
         }
+
+        // This makes it so the camera movement is actually usable
+        cameraMovement.mul(Delta.getDelta() * 10);
+        Vector3fc cameraPosition = Camera.getPosition();
+        cameraPosition.add(cameraMovement, newCameraPosition);
+        Camera.setPosition(newCameraPosition.x(), newCameraPosition.y(), newCameraPosition.z());
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
