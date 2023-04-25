@@ -4,6 +4,7 @@ import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 /**
  * For now - There can only be one camera.
@@ -104,8 +105,13 @@ public final class Camera {
         FOV = newFOV;
     }
 
+    public static Vector3fc getPosition() {
+        return position;
+    }
 
-
+    public static Vector3fc getRotation() {
+        return rotation;
+    }
 
 
 
