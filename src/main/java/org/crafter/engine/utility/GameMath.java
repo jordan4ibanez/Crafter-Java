@@ -72,4 +72,8 @@ public final class GameMath {
     public static void printVector(String info, Vector2fc i) {
         System.out.println(info + ": " + i.x() + ", " + i.y());
     }
+
+    public static float getPIHalf_f() {
+        return PIHalf_f;
+    }
 }
