@@ -2,6 +2,7 @@ package org.crafter.engine.utility;
 
 import org.joml.Math;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.joml.Vector3ic;
 
 public final class GameMath {
@@ -16,17 +17,17 @@ public final class GameMath {
     /**
      * Utilized for calculation of 2d movement from yaw
      */
-    public static Vector3ic getHorizontalDirection(final float yaw) {
+    public static Vector3fc getHorizontalDirection(final float yaw) {
         startWork();
 
-        workerVector.x = Math.sin(yaw);
+        workerVector.x = Math.sin(-yaw);
         workerVector.z = Math.cos(yaw);
 
         return getWork();
     }
 
     public static float yawToLeft(final float yaw) {
-        return yaw + PIHalf_f;
+        return yaw - PIHalf_f;
     }
 
 
@@ -40,7 +41,7 @@ public final class GameMath {
     /**
      * this is because I don't feel like casting the worker vector into 3ic every time
      */
-    private static Vector3ic getWork() {
-        return (Vector3ic) workerVector;
+    private static Vector3fc getWork() {
+        return workerVector;
     }
 }
