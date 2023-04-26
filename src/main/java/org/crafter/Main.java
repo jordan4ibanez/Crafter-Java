@@ -38,6 +38,8 @@ public class Main {
     // Fixme: these are only for debugging and prototyping, move this into another class eventually
     private static final Vector3f cameraMovement = new Vector3f();
     private static final Vector3f newCameraPosition = new Vector3f();
+    private static final Vector3f cameraDelta = new Vector3f();
+    private static final Vector3f newCameraRotation = new Vector3f();
 
     public static void main(String[] args) {
 
@@ -107,7 +109,20 @@ public class Main {
 //            ));
 //        }
 
+        // FIXME: BEGIN CAMERA INPUT DEBUGGING
 
+        // Rotation
+        Vector2fc mouseDelta = Mouse.getDelta();
+        // Very, very important note: Notice that x & y are swapped. Because the window 2d matrix is 90 degrees rotated from the 3d matrix!
+        cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0).mul(Camera.getSensitivity());
+        Camera.getRotation().add(cameraDelta, newCameraRotation);
+        Camera.setRotation(newCameraRotation);
+
+
+
+
+
+        // Movement
         cameraMovement.set(0);
 
 
@@ -135,9 +150,11 @@ public class Main {
 
         Vector3fc cameraPosition = Camera.getPosition();
         cameraPosition.add(cameraMovement, newCameraPosition);
-        Camera.setPosition(newCameraPosition.x(), newCameraPosition.y(), newCameraPosition.z());
+        Camera.setPosition(newCameraPosition);
 
         Camera.updateCameraMatrix();
+
+        // FIXME: END CAMERA INPUT DEBUGGING
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
