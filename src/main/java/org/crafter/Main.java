@@ -188,7 +188,10 @@ public class Main {
             Vector2ic position = generatedChunk.getPosition();
             //fixme: needs to iterate 0-7
             // Render stack 0 (y coordinate 0 to 15)
-            ChunkMeshGenerator.pushRequest(position.x(), 0, position.y());
+            for (int i = 0; i < generatedChunk.getStacks(); i++) {
+                System.out.println(i);
+                ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
+            }
         }
         while (ChunkMeshGenerator.hasUpdate()) {
             ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
