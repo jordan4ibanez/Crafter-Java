@@ -94,8 +94,6 @@ public class Main {
 
         ShaderStorage.start("3d");
 
-        Camera.updateCameraMatrix();
-
 
         // Note: This is an EXTREME test! This is so out of the scope of this game
         // that it's basically the equivalent of a few servers with thousands of people on them all loading in
@@ -134,9 +132,12 @@ public class Main {
 
         // This makes it so the camera movement is actually usable
         cameraMovement.mul(Delta.getDelta() * 10);
+
         Vector3fc cameraPosition = Camera.getPosition();
         cameraPosition.add(cameraMovement, newCameraPosition);
         Camera.setPosition(newCameraPosition.x(), newCameraPosition.y(), newCameraPosition.z());
+
+        Camera.updateCameraMatrix();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
