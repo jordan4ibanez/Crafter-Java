@@ -19,6 +19,8 @@ import org.joml.*;
 
 import java.util.Date;
 
+import static org.crafter.engine.utility.GameMath.getHorizontalDirection;
+import static org.crafter.engine.utility.GameMath.yawToLeft;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Main {
@@ -36,7 +38,10 @@ public class Main {
     private static final Random random = new Random(new Date().getTime()/1000);
 
     // Fixme: these are only for debugging and prototyping, move this into another class eventually
-    private static final Vector3f cameraMovement = new Vector3f();
+    private static final Vector3f cameraMovementX = new Vector3f();
+    private static final Vector3f cameraMovementY = new Vector3f();
+    private static final Vector3f cameraMovementZ = new Vector3f();
+    private static final Vector3f finalCameraMovement = new Vector3f();
     private static final Vector3f newCameraPosition = new Vector3f();
     private static final Vector3f cameraDelta = new Vector3f();
     private static final Vector3f newCameraRotation = new Vector3f();
@@ -118,38 +123,55 @@ public class Main {
         Camera.getRotation().add(cameraDelta, newCameraRotation);
         Camera.setRotation(newCameraRotation);
 
-
-
-
+        // newCameraRotation is now used below
 
         // Movement
-        cameraMovement.set(0);
 
+
+        //fixme: this should probably be a vector
+        float movementX = 0;
+        float movementY = 0;
+        float movementZ = 0;
 
         if (Keyboard.keyDown(GLFW_KEY_W)) {
-            cameraMovement.z += -1;
+            movementZ += -1;
         }
         if (Keyboard.keyDown(GLFW_KEY_S)) {
-            cameraMovement.z += 1;
+            movementZ += 1;
         }
         if (Keyboard.keyDown(GLFW_KEY_A)) {
-            cameraMovement.x += -1;
+            movementX += -1;
         }
         if (Keyboard.keyDown(GLFW_KEY_D)) {
-            cameraMovement.x += 1;
+            movementX += 1;
         }
+
         if (Keyboard.keyDown(GLFW_KEY_SPACE)) {
-            cameraMovement.y += 1;
+            movementY += 1;
         }
         if (Keyboard.keyDown(GLFW_KEY_LEFT_SHIFT) || Keyboard.keyDown(GLFW_KEY_RIGHT_SHIFT)) {
-            cameraMovement.y -= 1;
+            movementY -= 1;
         }
 
-        // This makes it so the camera movement is actually usable
-        cameraMovement.mul(Delta.getDelta() * 10);
+
+        final float yaw = newCameraRotation.y();
+        final float movementDelta = Delta.getDelta() * 10;
+
+        // Layered
+        cameraMovementX.zero();
+        cameraMovementY.zero();
+        cameraMovementZ.zero();
+        finalCameraMovement.zero();
+
+        cameraMovementX.set(getHorizontalDirection(yawToLeft(yaw))).mul(movementX);
+        cameraMovementY.set(0,movementY, 0);
+        cameraMovementZ.set(getHorizontalDirection(yaw)).mul(movementZ);
+
+        // Layer in, and then make it usable with delta
+        finalCameraMovement.set(cameraMovementX.add(cameraMovementY).add(cameraMovementZ)).mul(movementDelta);
 
         Vector3fc cameraPosition = Camera.getPosition();
-        cameraPosition.add(cameraMovement, newCameraPosition);
+        cameraPosition.add(finalCameraMovement, newCameraPosition);
         Camera.setPosition(newCameraPosition);
 
         Camera.updateCameraMatrix();
