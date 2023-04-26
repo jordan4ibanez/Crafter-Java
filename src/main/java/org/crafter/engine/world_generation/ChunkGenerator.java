@@ -74,14 +74,61 @@ public class ChunkGenerator implements Runnable {
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
     private Chunk processBiomesAndBlocks(Chunk chunk) {
+
         Random random = new Random((int) (new Date().getTime()/1000));
-        for (int i = 0; i < chunk.getArraySize(); i++) {
-            int blockData = chunk.getBlockData(i);
-            final int randomlyChosen = random.nextInt(5);
-            BlockDefinition definition = blockDefinitionContainer.getDefinition(randomlyChosen); //"crafter:grass"
-            blockData = chunk.setBlockID(blockData, definition.getID());
-            chunk.setBlockData(i, blockData);
+
+        final int grass = blockDefinitionContainer.getDefinition("crafter:grass").getID(); //"crafter:grass"
+        final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
+        final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getID(); //"crafter:stone"
+
+
+
+        for (int x = 0; x < chunk.getWidth(); x++) {
+            for (int z = 0; z < chunk.getDepth(); z++) {
+
+                final float test = noise.GetSimplex(x,z) + 0.5f;
+
+                System.out.println("test: " + test);
+
+                final int height = (int)(test * 20.0f) + 40;
+
+                for (int y = 0; y < chunk.getHeight(); y++) {
+
+                    int id = 0; // Start off as air
+
+
+                    if (y < height - 6) {
+                        id = stone;
+                    }  else if (y < height - 1) {
+                        id = dirt;
+                    } else if (y < height) {
+                        id = grass;
+                    }
+                    int index = chunk.positionToIndex(x,y,z);
+                    int blockData = chunk.getBlockData(index);
+
+                    blockData = chunk.setBlockID(blockData, id);
+                    chunk.setBlockData(index, blockData);
+                }
+            }
         }
+//        for (int i = 0; i < chunk.getArraySize(); i++) {
+//            int blockData = chunk.getBlockData(i);
+//
+//
+////            int randomlyChosen = random.nextInt(5);
+//            int randomlyChosen = 0;
+//
+//            if (chunk.indexToPosition(i).y() < 30) {
+//                randomlyChosen = 1;
+//            }
+//
+//
+//
+//            BlockDefinition definition = blockDefinitionContainer.getDefinition(randomlyChosen); //"crafter:grass"
+//            blockData = chunk.setBlockID(blockData, definition.getID());
+//            chunk.setBlockData(i, blockData);
+//        }
 //        System.out.println("ChunkGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
 
         return chunk;
