@@ -8,6 +8,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public final class Mouse {
     private static final Vector2f position = new Vector2f(-1,-1);
+    private static final Vector2f oldPosition = new Vector2f(-1, -1);
+    private static final Vector2f delta = new Vector2f(0,0);
 
     private static boolean leftClick = false;
     private static boolean leftHeld = false;
@@ -42,6 +44,10 @@ public final class Mouse {
      * This is automatically called in Window.pollEvents()
      */
     public static void poll() {
+
+        getPosition().sub(oldPosition, delta);
+        oldPosition.set(position);
+
         int leftButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_LEFT);
         int rightButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_RIGHT);
 
@@ -84,6 +90,10 @@ public final class Mouse {
         return position;
     }
 
+    public static Vector2fc getDelta() {
+        return delta;
+    }
+
 
     public static void capture() {
         glfwSetInputMode(Window.getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -91,5 +101,9 @@ public final class Mouse {
 
     public static void release() {
         glfwSetInputMode(Window.getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    public static boolean isCaptured() {
+        return glfwGetInputMode(Window.getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
     }
 }
