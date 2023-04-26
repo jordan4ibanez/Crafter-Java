@@ -136,10 +136,10 @@ public final class Camera {
     private static void yawLock() {
         if (rotation.y > PI) {
             rotation.y -= PI2;
-            System.out.println("overflow" + Math.random());
+//            System.out.println("overflow" + Math.random());
         } else if (rotation.y < -PI) {
             rotation.y += PI2;
-            System.out.println("underflow" + Math.random());
+//            System.out.println("underflow" + Math.random());
         }
     }
 
