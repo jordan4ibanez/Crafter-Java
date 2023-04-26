@@ -324,6 +324,10 @@ public final class Window {
         monitorSize.y = videoMode.height();
     }
 
+    public static void maximize() {
+        glfwMaximizeWindow(window);
+    }
+
     public static void setVsync(boolean onOrOff) {
         glfwSwapInterval(onOrOff ? 1 : 0);
     }
