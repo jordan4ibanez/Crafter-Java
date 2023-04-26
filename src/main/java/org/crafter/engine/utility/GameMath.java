@@ -1,5 +1,6 @@
 package org.crafter.engine.utility;
 
+import org.joml.Math;
 import org.joml.Vector3f;
 import org.joml.Vector3ic;
 
@@ -10,14 +11,14 @@ public final class GameMath {
     private GameMath(){}
 
     /**
-     * Utilized for calculation of 2d movement in player's direction
+     * Utilized for calculation of 2d movement from yaw
      */
     public static Vector3ic getHorizontalDirection(Vector3ic inputRotationVector) {
         startWork();
 
-
-        // Work goes here
-
+        final float yaw = inputRotationVector.y();
+        workerVector.x = Math.sin(yaw);
+        workerVector.z = Math.cos(yaw);
 
         return getWork();
     }
