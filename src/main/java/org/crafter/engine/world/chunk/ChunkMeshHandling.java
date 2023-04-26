@@ -41,9 +41,10 @@ public class ChunkMeshHandling extends ChunkArrayManipulation implements Seriali
 
     /**
      * Stacks, as in, mesh stacks. There are 8 individual meshes which make up a chunk, for speed of processing the chunk.
+     * TODO: Give this a better name!
      * @return integral position in array. Literal position is bottom to top 0-7
      */
-    protected int getStacks() {
+    public int getStacks() {
         return STACKS;
     }
 
