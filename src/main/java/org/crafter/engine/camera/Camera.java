@@ -5,6 +5,7 @@ import org.crafter.engine.window.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
+import org.joml.Vector3ic;
 
 /**
  * For now - There can only be one camera.
@@ -14,6 +15,7 @@ import org.joml.Vector3fc;
 public final class Camera {
 
     // Important note: -Z is facing forwards
+    // Important note: Only expose internals as readonly
 
     // All fields utilize RADIANS
     private static float FOV = (float)Math.toRadians(60.0);
@@ -33,6 +35,8 @@ public final class Camera {
     private static final Vector3f position = new Vector3f();
 
     private static final Vector3f rotation = new Vector3f();
+
+    private static final Vector3f workerVector = new Vector3f();
 
     private Camera(){};
 
@@ -113,6 +117,19 @@ public final class Camera {
         return rotation;
     }
 
+    public static float getYaw() {
+        return rotation.y();
+    }
 
+    public static float getPitch() {
+        return rotation.x();
+    }
 
+    public static float getRoll() {
+        return rotation.z();
+    }
+
+    public static Vector3ic getHorizontalDirection() {
+
+    }
 }
