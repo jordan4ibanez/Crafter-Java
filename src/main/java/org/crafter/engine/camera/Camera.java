@@ -27,7 +27,7 @@ public final class Camera {
 
     private static final float PIHalf_f = getPIHalf_f();
     private static final float PI2 = getPi2();
-    private static float sensitivity = 100.0f;
+    private static float sensitivity = 500.0f;
     private static float FOV = (float)Math.toRadians(60.0);
 
     private static final float zNear = 0.1f;
