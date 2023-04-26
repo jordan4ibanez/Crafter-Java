@@ -67,6 +67,7 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
+        Window.maximize();
         Mouse.capture();
 
 
