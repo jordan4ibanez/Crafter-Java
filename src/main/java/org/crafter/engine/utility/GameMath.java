@@ -11,6 +11,7 @@ public final class GameMath {
 
     // For some reason, JOML does not expose this variable
     private static final float PIHalf_f = (float) (Math.PI * 0.5);
+    private static final float PI2 = (float) (Math.PI * 2.0);
 
     private GameMath(){}
 
@@ -75,5 +76,8 @@ public final class GameMath {
 
     public static float getPIHalf_f() {
         return PIHalf_f;
+    }
+    public static float getPi2() {
+        return PI2;
     }
 }
