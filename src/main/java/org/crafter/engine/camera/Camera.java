@@ -7,10 +7,16 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.joml.Vector3ic;
 
+import static org.crafter.engine.utility.GameMath.getPIHalf_f;
+import static org.crafter.engine.utility.GameMath.getPi2;
+import static org.joml.Math.PI;
+
 /**
  * For now - There can only be one camera.
  * In the future - Perhaps this will be a generic object
  * with a CameraStorage static class to accompany it.
+ * Camera notes:
+ * camera pitch is limited to -90 to 90 degrees pitch, -180 to 180 yaw. This is to keep precision!
  */
 public final class Camera {
 
@@ -18,6 +24,9 @@ public final class Camera {
     // Important note: Only expose internals as readonly
 
     // All fields utilize RADIANS
+
+    private static final float PIHalf_f = getPIHalf_f();
+    private static final float PI2 = getPi2();
     private static float sensitivity = 100.0f;
     private static float FOV = (float)Math.toRadians(60.0);
 
@@ -100,15 +109,38 @@ public final class Camera {
     }
     public static void setPosition(Vector3fc newPosition) {
         position.set(newPosition);
+        pitchLock();
     }
 
     public static void setRotation(float x, float y, float z) {
         rotation.x = x;
         rotation.y = y;
         rotation.z = z;
+        axesLock();
     }
     public static void setRotation(Vector3fc newRotation) {
         rotation.set(newRotation);
+        axesLock();
+    }
+    private static void axesLock() {
+        pitchLock();
+        yawLock();
+    }
+    private static void pitchLock() {
+        if (rotation.x > PIHalf_f) {
+            rotation.x = PIHalf_f;
+        } else if (rotation.x < -PIHalf_f) {
+            rotation.x = -PIHalf_f;
+        }
+    }
+    private static void yawLock() {
+        if (rotation.y > PI) {
+            rotation.y -= PI2;
+            System.out.println("overflow" + Math.random());
+        } else if (rotation.y < -PI) {
+            rotation.y += PI2;
+            System.out.println("underflow" + Math.random());
+        }
     }
 
     public static void setFOV(float newFOV) {
