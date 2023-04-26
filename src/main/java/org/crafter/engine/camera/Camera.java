@@ -130,6 +130,26 @@ public final class Camera {
     }
 
     public static Vector3ic getHorizontalDirection() {
+        startWork();
 
+        // Work goes here
+
+
+        return getWork();
+    }
+
+
+    /**
+     * This is simply to neaten up the plain english readability of this.
+     * I also don't want to forget to clear out the old data
+     */
+    private static void startWork() {
+        workerVector.zero();
+    }
+    /**
+     * this is because I don't feel like casting the worker vector into 3ic every time
+     */
+    private static Vector3ic getWork() {
+        return (Vector3ic) workerVector;
     }
 }
