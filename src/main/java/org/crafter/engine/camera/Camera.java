@@ -18,6 +18,7 @@ public final class Camera {
     // Important note: Only expose internals as readonly
 
     // All fields utilize RADIANS
+    private static float sensitivity = 100.0f;
     private static float FOV = (float)Math.toRadians(60.0);
 
     private static final float zNear = 0.1f;
@@ -97,11 +98,17 @@ public final class Camera {
         position.y = y;
         position.z = z;
     }
+    public static void setPosition(Vector3fc newPosition) {
+        position.set(newPosition);
+    }
 
     public static void setRotation(float x, float y, float z) {
         rotation.x = x;
         rotation.y = y;
         rotation.z = z;
+    }
+    public static void setRotation(Vector3fc newRotation) {
+        rotation.set(newRotation);
     }
 
     public static void setFOV(float newFOV) {
@@ -126,6 +133,11 @@ public final class Camera {
 
     public static float getRoll() {
         return rotation.z();
+    }
+
+    public static float getSensitivity() {
+        // This is a simple calculation to make the sensitivity number applicable to rotating the camera
+        return 1.0f / sensitivity;
     }
 
 
