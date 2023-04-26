@@ -3,6 +3,7 @@ package org.crafter;
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
+import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -59,6 +60,7 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
+        Mouse.capture();
 
 
         ChunkGenerator.pushRequest(new Vector2i(0,0));
