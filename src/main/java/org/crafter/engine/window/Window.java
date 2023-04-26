@@ -328,6 +328,10 @@ public final class Window {
         glfwMaximizeWindow(window);
     }
 
+    public static boolean isFocused() {
+        return glfwGetWindowAttrib(window, GLFW_FOCUSED) == 1;
+    }
+
     public static void setVsync(boolean onOrOff) {
         glfwSwapInterval(onOrOff ? 1 : 0);
     }
