@@ -19,6 +19,8 @@ public final class Mouse {
     private static boolean rightHeld = false;
     private static boolean rightWasHeld = false;
 
+    private static boolean needsDeltaReset = true;
+
     private Mouse(){}
 
     public static void initialize() {
@@ -45,8 +47,14 @@ public final class Mouse {
      */
     public static void poll() {
 
-        getPosition().sub(oldPosition, delta);
+        // If it needs a reset, this will automatically ignore the delta calculation and zero it out
+        if (!needsDeltaReset) {
+            getPosition().sub(oldPosition, delta);
+        } else {
+            doReset();
+        }
         oldPosition.set(position);
+
 
         int leftButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_LEFT);
         int rightButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_RIGHT);
@@ -97,13 +105,27 @@ public final class Mouse {
 
     public static void capture() {
         glfwSetInputMode(Window.getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        enableReset();
     }
 
     public static void release() {
         glfwSetInputMode(Window.getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        enableReset();
     }
 
     public static boolean isCaptured() {
         return glfwGetInputMode(Window.getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
+    }
+
+
+    /**
+     * These two are very basic gates to allow this to be more readable in english.
+     */
+    private static void enableReset() {
+        needsDeltaReset = true;
+    }
+    private static void doReset() {
+        delta.zero();
+        needsDeltaReset = false;
     }
 }
