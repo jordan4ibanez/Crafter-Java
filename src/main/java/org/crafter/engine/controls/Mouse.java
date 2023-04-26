@@ -4,6 +4,9 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
+import java.nio.DoubleBuffer;
+
+import static org.crafter.engine.utility.GameMath.printVector;
 import static org.lwjgl.glfw.GLFW.*;
 
 public final class Mouse {
@@ -29,6 +32,7 @@ public final class Mouse {
             glfwSetInputMode(Window.getWindowPointer(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
         }
 
+        // This causes problems on X11 and Wayland - Todo: Test on Windows - Mouse jolt!
         glfwSetCursorPosCallback(Window.getWindowPointer(),(windowPointer, xPos, yPos) -> {
             position.set(xPos, yPos);
         });
@@ -36,6 +40,7 @@ public final class Mouse {
         glfwSetCursorEnterCallback(Window.getWindowPointer(), (windowPointer, entered) -> {
             // Only resetting to -1 when the mouse leaves
             if (!entered) {
+                System.out.println("Mouse: RESETTING TO -1 -1!");
                 position.set(-1, -1);
             }
         });
@@ -47,14 +52,7 @@ public final class Mouse {
      */
     public static void poll() {
 
-        // If it needs a reset, this will automatically ignore the delta calculation and zero it out
-        if (!needsDeltaReset) {
-            getPosition().sub(oldPosition, delta);
-        } else {
-            doReset();
-        }
-        oldPosition.set(position);
-
+        calculateDeltaWhenCaptured();
 
         int leftButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_LEFT);
         int rightButtonState = glfwGetMouseButton(Window.getWindowPointer(), GLFW_MOUSE_BUTTON_RIGHT);
@@ -77,6 +75,18 @@ public final class Mouse {
             rightClick = false;
             rightHeld = false;
             rightWasHeld = false;
+        }
+    }
+    private static void calculateDeltaWhenCaptured() {
+        // If it needs a reset, this will automatically ignore the delta calculation and zero it out
+        if (isCaptured()) {
+            // Only calculated if mouse is captured
+            if (!needsDeltaReset) {
+                getPosition().sub(oldPosition, delta);
+            } else {
+                doReset();
+            }
+            oldPosition.set(position);
         }
     }
 
@@ -126,6 +136,7 @@ public final class Mouse {
     }
     private static void doReset() {
         delta.zero();
+        glfwSetCursorPos(Window.getWindowPointer(), 0, 0);
         needsDeltaReset = false;
     }
 }
