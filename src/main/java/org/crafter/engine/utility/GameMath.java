@@ -8,19 +8,25 @@ public final class GameMath {
 
     private static final Vector3f workerVector = new Vector3f();
 
+    // For some reason, JOML does not expose this variable
+    private static final float PIHalf_f = (float) (Math.PI * 0.5);
+
     private GameMath(){}
 
     /**
      * Utilized for calculation of 2d movement from yaw
      */
-    public static Vector3ic getHorizontalDirection(Vector3ic inputRotationVector) {
+    public static Vector3ic getHorizontalDirection(final float yaw) {
         startWork();
 
-        final float yaw = inputRotationVector.y();
         workerVector.x = Math.sin(yaw);
         workerVector.z = Math.cos(yaw);
 
         return getWork();
+    }
+
+    public static float yawToLeft(final float yaw) {
+        return yaw + PIHalf_f;
     }
 
 
