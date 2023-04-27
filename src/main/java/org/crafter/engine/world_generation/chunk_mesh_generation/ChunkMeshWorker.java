@@ -3,15 +3,33 @@ package org.crafter.engine.world_generation.chunk_mesh_generation;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.block.DrawType;
 import org.crafter.engine.world.chunk.Chunk;
+import org.crafter.engine.world.chunk.ChunkStorage;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ChunkMeshWorker {
 
     private final BlockDefinitionContainer definitionContainer;
 
     private final ChunkFaceGenerator faceGenerator;
+
+    // These chunk neighbors are reused over & over so that the methods do not have huge amounts of parameters
+    // Note: These are chunk deep clones
+    private Chunk neighborFront = null;
+    private Chunk neighborBack = null;
+    private Chunk neighborLeft = null;
+    private Chunk neighborRight = null;
+
+    // Same reason for chunk neighbors!
+    boolean blockNeighborFrontIsBlock = false;
+    boolean blockNeighborBackIsBlock = false;
+    boolean blockNeighborLeftIsBlock = false;
+    boolean blockNeighborRightIsBlock = false;
+    boolean blockNeighborBottomIsBlock = false;
+    boolean blockNeighborTopIsBlock = false;
+
 
 
     public ChunkMeshWorker(BlockDefinitionContainer definitionContainer) {
@@ -31,6 +49,22 @@ public class ChunkMeshWorker {
         final int WIDTH = chunk.getWidth();
         final int DEPTH = chunk.getDepth();
 
+        final Vector2ic chunkPosition = chunk.getPosition();
+
+        // Right-handed coordinate system - Scoped for clarification & so not reused on accident
+        {
+            final Vector2ic front = new Vector2i(chunkPosition.x(), chunkPosition.y() - 1);
+            final Vector2ic back = new Vector2i(chunkPosition.x(), chunkPosition.y() + 1);
+            final Vector2ic left = new Vector2i(chunkPosition.x() - 1, chunkPosition.y());
+            final Vector2ic right = new Vector2i(chunkPosition.x() + 1, chunkPosition.y());
+            neighborFront = ChunkStorage.hasPosition(front) ? ChunkStorage.getThreadSafeChunkClone(front) : null;
+            neighborBack = ChunkStorage.hasPosition(back) ? ChunkStorage.getThreadSafeChunkClone(back) : null;
+            neighborLeft = ChunkStorage.hasPosition(left) ? ChunkStorage.getThreadSafeChunkClone(left) : null;
+            neighborRight = ChunkStorage.hasPosition(right) ? ChunkStorage.getThreadSafeChunkClone(right) : null;
+        }
+
+
+
         /*
         It works its way:
         Left to right (0-15 x)
@@ -40,7 +74,6 @@ public class ChunkMeshWorker {
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
-
                     branchPathOfGeneration(chunk, x, y, z, positions, textureCoordinates, indices);
                 }
             }
@@ -59,19 +92,16 @@ public class ChunkMeshWorker {
             return;
         }
 
-        // Testing
-//        chunk.printBits(ID);
-//        String internalName = definitionContainer.getDefinition(ID).getInternalName();
-//        System.out.println("Block (" + internalName + ") is at: (" + x + ", " + y + ", " + z + ")");
 
         // Note: -Z is facing forwards +X is facing right
-        //TODO: implement this
-        final int neighborFront = getNeighbor(chunk, x, y, z - 1);
-        final int neighborBack = getNeighbor(chunk, x, y, z + 1);
-        final int neighborLeft = getNeighbor(chunk, x - 1, y, z);
-        final int neighborRight = getNeighbor(chunk, x + 1, y, z);
-        final int neighborBottom = getNeighbor(chunk, x, y - 1, z);
-        final int neighborTop = getNeighbor(chunk, x, y + 1, z);
+        blockNeighborFrontIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y, z - 1));
+        blockNeighborBackIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y, z + 1));
+        blockNeighborLeftIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x - 1, y, z));
+        blockNeighborRightIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x + 1, y, z));
+        blockNeighborBottomIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y - 1, z));
+        blockNeighborTopIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y + 1, z));
+
+
 
         //fixme: for now, just render out each normal block brute force
 
@@ -98,16 +128,35 @@ public class ChunkMeshWorker {
         //Fixme: This will check neighbors etc when completed
 
         // Note: Right handed coordinate system - to + all axes
-        faceGenerator.attachFront(ID, x, y, z, positions, textureCoordinates, indices);
-        faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices);
-        faceGenerator.attachLeft(ID, x, y, z, positions, textureCoordinates, indices);
-        faceGenerator.attachRight(ID, x, y, z, positions, textureCoordinates, indices);
-        faceGenerator.attachBottom(ID, x, y, z, positions, textureCoordinates, indices);
-        faceGenerator.attachTop(ID, x, y, z, positions, textureCoordinates, indices);
+        if (!blockNeighborFrontIsBlock) {
+            faceGenerator.attachFront(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+        if (!blockNeighborBackIsBlock) {
+            faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+        if (!blockNeighborLeftIsBlock) {
+            faceGenerator.attachLeft(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+        if (!blockNeighborRightIsBlock) {
+            faceGenerator.attachRight(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+        if (!blockNeighborBottomIsBlock) {
+            faceGenerator.attachBottom(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+        if (!blockNeighborTopIsBlock) {
+            faceGenerator.attachTop(ID, x, y, z, positions, textureCoordinates, indices);
+        }
+    }
+
+
+    private boolean neighborIsBlockDrawType(int inputID) {
+        return definitionContainer.getDefinition(inputID).getDrawType().equals(DrawType.BLOCK);
     }
 
     private int getNeighbor(Chunk chunk, final int x, final int y, final int z) {
-        // todo: replace with neighbor edge chunk
+
+        // todo: Implement neighbor chunk getter
+
         if (xyzIsOutOfBoundsCheck(x, y, z, chunk.getWidth(), chunk.getHeight(), chunk.getDepth())) {
             // Out of bounds within the chunk
             // Zero is reserved for air
@@ -121,5 +170,18 @@ public class ChunkMeshWorker {
         return x < 0 || x >= width ||
                 y < 0 || y >= height ||
                 z < 0 || z >= depth;
+    }
+
+    private boolean frontNeighborExists() {
+        return neighborFront != null;
+    }
+    private boolean backNeighborExists() {
+        return neighborBack != null;
+    }
+    private boolean leftNeighborExists() {
+        return neighborLeft != null;
+    }
+    private boolean rightNeighborExists() {
+        return neighborRight != null;
     }
 }
