@@ -1,4 +1,4 @@
-package org.crafter.engine.api;
+package org.crafter.engine.api.lua;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
