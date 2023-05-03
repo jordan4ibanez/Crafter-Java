@@ -42,9 +42,6 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    implementation 'org.apache.groovy:groovy:4.0.11'
-
-
 
     for (OS in natives) {
         runtimeOnly "org.lwjgl:lwjgl::$OS"
@@ -104,8 +101,7 @@ shadowJar {
     archiveBaseName.set('Crafter')
     archiveClassifier.set('')
     archiveVersion.set('')
-    // THIS MAKES GROOVY NOT LOAD! Todo: fix this somehow
-//    minimize()
+    minimize()
 }
 
 buildScan {

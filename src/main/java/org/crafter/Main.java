@@ -1,6 +1,5 @@
 package org.crafter;
 
-
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
@@ -54,10 +53,6 @@ public class Main {
 
         API.initialize();
 
-        /*
-
-//        API.initialize();
-
         ChunkGenerator.start();
         ChunkMeshGenerator.start();
 
@@ -78,7 +73,6 @@ public class Main {
 
         ChunkGenerator.pushRequest(new Vector2i(0,0));
 
-
         try {
             while(!Window.shouldClose()) {
                 mainLoop();
@@ -89,19 +83,16 @@ public class Main {
             ChunkGenerator.stop();
             throw new RuntimeException(e);
         }
-         */
 
 
-//        ChunkMeshGenerator.stop();
-//        ChunkGenerator.stop();
+        ChunkMeshGenerator.stop();
+        ChunkGenerator.stop();
         TextureStorage.destroyAll();
         MeshStorage.destroyAll();
         ShaderStorage.destroyAll();
-//        API.destroy();
+        API.destroy();
         Window.destroy();
     }
-
-
 
     private static void mainLoop() {
 
