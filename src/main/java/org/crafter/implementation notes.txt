@@ -121,3 +121,5 @@
         //        indices.add(0);
 
                 // FIXME: end verbose mess here
+
+                Test
