@@ -217,7 +217,6 @@ public class Main {
             ChunkStorage.getChunk(new Vector2i(0, 0)).render();
         }
 
-
         Window.swapBuffers();
 
     }
