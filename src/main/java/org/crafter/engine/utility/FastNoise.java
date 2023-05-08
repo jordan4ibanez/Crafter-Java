@@ -155,24 +155,9 @@ public class FastNoise {
         m_gradientPerturbAmp = gradientPerturbAmp / (float) 0.45;
     }
 
-    private static class Float2 {
-        public final float x, y;
+    private record Float2(float x, float y) {}
 
-        public Float2(float x, float y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    private static class Float3 {
-        public final float x, y, z;
-
-        public Float3(float x, float y, float z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-    }
+    private record Float3(float x, float y, float z) {}
 
     private static final Float2[] GRAD_2D = {
             new Float2(-1, -1), new Float2(1, -1), new Float2(-1, 1), new Float2(1, 1),
