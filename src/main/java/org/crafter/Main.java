@@ -48,6 +48,27 @@ public class Main {
 
     public static void main(String[] args) {
 
+
+        initialize();
+
+
+        ChunkGenerator.pushRequest(new Vector2i(0,0));
+
+        try {
+            while(!Window.shouldClose()) {
+                mainLoop();
+            }
+        } catch (Exception e) {
+            // Game must shut down external threads or it WILL hang
+            ChunkMeshGenerator.stop();
+            ChunkGenerator.stop();
+            throw new RuntimeException(e);
+        }
+
+        destroy();
+    }
+
+    private static void initialize() {
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
 
@@ -70,28 +91,6 @@ public class Main {
         Window.maximize();
         Mouse.capture();
 
-
-        ChunkGenerator.pushRequest(new Vector2i(0,0));
-
-        try {
-            while(!Window.shouldClose()) {
-                mainLoop();
-            }
-        } catch (Exception e) {
-            // Game must shut down external threads or it WILL hang
-            ChunkMeshGenerator.stop();
-            ChunkGenerator.stop();
-            throw new RuntimeException(e);
-        }
-
-
-        ChunkMeshGenerator.stop();
-        ChunkGenerator.stop();
-        TextureStorage.destroyAll();
-        MeshStorage.destroyAll();
-        ShaderStorage.destroyAll();
-        API.destroy();
-        Window.destroy();
     }
 
     private static void mainLoop() {
@@ -218,6 +217,15 @@ public class Main {
         }
 
         Window.swapBuffers();
+    }
 
+    private static void destroy() {
+        ChunkMeshGenerator.stop();
+        ChunkGenerator.stop();
+        TextureStorage.destroyAll();
+        MeshStorage.destroyAll();
+        ShaderStorage.destroyAll();
+        API.destroy();
+        Window.destroy();
     }
 }
