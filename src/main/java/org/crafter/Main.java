@@ -48,7 +48,9 @@ public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println("hello!");
 
+/*
         initialize();
 
 
@@ -66,6 +68,8 @@ public class Main {
         }
 
         destroy();
+
+ */
     }
 
     private static void initialize() {
