@@ -16,17 +16,28 @@ var doFile;
 // Lua addition!
 var readFileToString;
 
-// Auto executing lambda localized variable scope discards
-!function(){
-    var FileReader = Java.type("org.crafter.engine.utility.FileReader");
-    var API = Java.type("org.crafter.engine.api.API");
-    doFile = API.runCode;
-    readFileToString = FileReader.getFileString;
-}()
-
+// Very similar to minetest's api table, basically a clone of it in JS
 var crafter = [];
 
-doFile("api/testing.js");
+// Auto executing lambda localized variable scope discards
+!function(){
+    // Classes from the engine which will disappear after this scope
+    var FileReader = Java.type("org.crafter.engine.utility.FileReader");
+    var API = Java.type("org.crafter.engine.api.API");
 
-var stringy = readFileToString("api/testing.js");
-print(stringy);
+    // Global scope variables
+    doFile = API.runCode;
+    readFileToString = FileReader.getFileString;
+
+    // Crafter array functions
+    crafter.blah = function() {
+        print("I'm a blah!");
+    }
+}()
+
+
+//doFile("api/testing.js");
+//var stringy = readFileToString("api/testing.js");
+//print(stringy);
+
+
