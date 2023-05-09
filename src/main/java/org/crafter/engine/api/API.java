@@ -46,18 +46,14 @@ public final class API {
 
     /**
      * This is a runtime exception version of the javax invoker method.
+     * Object needs to have it's class checked or instanceOf switch statement.
      */
     public static Object invoke(String functionName, Object... args) {
-
         try {
             return invoker.invokeFunction(functionName, args);
         } catch (Exception e) {
             throw new RuntimeException("API ERROR!: " + e);
         }
-//        return test;
     }
-    /**
-     * Below are the basic typing implementations of the invoke function.
-     */
 
 }
