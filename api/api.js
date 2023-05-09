@@ -1,14 +1,9 @@
-"use strict";
+var FileReader = Java.type("org.crafter.engine.utility.FileReader");
+var JavaScriptAPI = Java.type("org.crafter.engine.api.JavaScriptAPI");
 
-function test() {
-    print("hi there");
-}
+// Lua equivalent!
+var doFile = JavaScriptAPI.runCode;
 
-test();
+var crafter = [];
 
-var x = 555;
-
-function getX() {
-    print("Invokation worked!")
-    return x;
-}
+doFile("api/testing.js");
