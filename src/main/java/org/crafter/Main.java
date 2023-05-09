@@ -1,7 +1,6 @@
 package org.crafter;
 
-import org.crafter.engine.api.JavaScriptAPI;
-import org.crafter.engine.api.LuaAPI.API;
+import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
@@ -50,8 +49,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        JavaScriptAPI.initialize();
-
+        API.initialize();
 /*
         initialize();
 
@@ -77,8 +75,6 @@ public class Main {
     private static void initialize() {
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
-
-        API.initialize();
 
         ChunkGenerator.start();
         ChunkMeshGenerator.start();
@@ -231,7 +227,6 @@ public class Main {
         TextureStorage.destroyAll();
         MeshStorage.destroyAll();
         ShaderStorage.destroyAll();
-        API.destroy();
         Window.destroy();
     }
 }
