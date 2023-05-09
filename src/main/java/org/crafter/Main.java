@@ -1,6 +1,6 @@
 package org.crafter;
 
-import org.crafter.engine.api.API;
+import org.crafter.engine.api.LuaAPI.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
@@ -17,6 +17,10 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenera
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.*;
 
+import javax.script.Bindings;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.util.Date;
 
 import static org.crafter.engine.utility.GameMath.getHorizontalDirection;
@@ -48,7 +52,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("hello!");
+        ScriptEngine javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
+        Bindings bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
+
+        javaScript.put("test", "hi there");
+
+        try {
+            javaScript.eval("print(test)");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
 
 /*
         initialize();
