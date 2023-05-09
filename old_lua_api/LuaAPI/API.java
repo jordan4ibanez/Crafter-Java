@@ -47,7 +47,7 @@ public final class API {
 
     private static void loadModTextures() {
         // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        String[] modFolderList = getFolderList(modPath);
+        String[] modFolderList = FileReader.getFolderList(modPath);
 
         for (String modFolder : modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
@@ -67,12 +67,12 @@ public final class API {
 
         String texturesDirectory = modDirectory + "/textures";
 
-        if (!isFolder(texturesDirectory)) {
+        if (!FileReader.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return;
         }
 
-        String[] foundFiles = getFileList(texturesDirectory);
+        String[] foundFiles = FileReader.getFileList(texturesDirectory);
 
         if (foundFiles.length == 0) {
 //            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
@@ -101,19 +101,19 @@ public final class API {
 
         String texturesDirectory = modDirectory + "/textures";
 
-        if (!isFolder(texturesDirectory)) {
+        if (!FileReader.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return;
         }
 
         String blockTexturesDirectory = texturesDirectory + "/blocks";
 
-        if (!isFolder(blockTexturesDirectory)) {
+        if (!FileReader.isFolder(blockTexturesDirectory)) {
 //            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
             return;
         }
 
-        String[] foundFiles = getFileList(blockTexturesDirectory);
+        String[] foundFiles = FileReader.getFileList(blockTexturesDirectory);
 
         if (foundFiles.length == 0) {
 //            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
@@ -143,13 +143,13 @@ public final class API {
     private static void loadMods() {
 
         // Basic mod loading
-        for (String modFolder : getFolderList(modPath)) {
+        for (String modFolder : FileReader.getFolderList(modPath)) {
 
 //            System.out.println("Got mod: " + modFolder);
 
             // We need to look through this multiple times so turn it into an indexable container
             HashMap<String, Boolean> fileExistence = new HashMap<>();
-            Arrays.stream(getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
+            Arrays.stream(FileReader.getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
                 fileExistence.put(fileName, true);
             });
 
@@ -381,7 +381,7 @@ public final class API {
     }
 
     private static void runFile(String luaCodeDirectory) {
-        String luaCode = getFileString(luaCodeDirectory);
+        String luaCode = FileReader.getFileString(luaCodeDirectory);
         runCode(luaCode);
     }
 
