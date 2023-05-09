@@ -23,11 +23,11 @@ public final class JavaScriptAPI {
         // javaScript.put("test", "hi there");
         runCode("api/api.js");
 
-        Object blah = invoke("getX");
-        System.out.println(blah.getClass());
-        System.out.println(blah);
-
-        runCode("mods/crafter/main.js");
+//        Object blah = invoke("getX");
+//        System.out.println(blah.getClass());
+//        System.out.println(blah);
+//
+//        runCode("mods/crafter/main.js");
 
     }
 
