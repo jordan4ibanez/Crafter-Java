@@ -1,5 +1,6 @@
-package org.crafter.engine.api;
+package org.crafter.engine.api.LuaAPI;
 
+import org.crafter.engine.api.ModConfParser;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.texture.texture_packer.TexturePacker;
