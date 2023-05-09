@@ -48,11 +48,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        API.initialize();
-/*
         initialize();
-
 
         ChunkGenerator.pushRequest(new Vector2i(0,0));
 
@@ -69,12 +65,13 @@ public class Main {
 
         destroy();
 
- */
     }
 
     private static void initialize() {
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
+
+        API.initialize();
 
         ChunkGenerator.start();
         ChunkMeshGenerator.start();
