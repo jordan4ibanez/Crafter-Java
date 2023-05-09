@@ -1,19 +1,17 @@
 package org.crafter.engine.api;
 
-import org.openjdk.nashorn.api.scripting.JSObject;
-
 import javax.script.*;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
 
-public final class JavaScriptAPI {
+public final class API {
     private static ScriptEngine javaScript;
     private static Bindings bindings;
 
     private static Compilable compiler;
     private static Invocable invoker;
 
-    private JavaScriptAPI(){}
+    private API(){}
     public static void initialize() {
         javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
         bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
