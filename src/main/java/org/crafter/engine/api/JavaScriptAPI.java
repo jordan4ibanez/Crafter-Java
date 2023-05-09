@@ -23,6 +23,7 @@ public final class JavaScriptAPI {
         // javaScript.put("test", "hi there");
         runCode("api/api.js");
 
+        // Todo Note: This is how you invoke from java into javascript
 //        Object blah = invoke("getX");
 //        System.out.println(blah.getClass());
 //        System.out.println(blah);
