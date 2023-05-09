@@ -17,10 +17,6 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenera
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.*;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import java.util.Date;
 
 import static org.crafter.engine.utility.GameMath.getHorizontalDirection;
@@ -52,16 +48,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ScriptEngine javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
-        Bindings bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
 
-        javaScript.put("test", "hi there");
-
-        try {
-            javaScript.eval("print(test)");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
 
 /*
