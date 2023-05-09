@@ -7,4 +7,4 @@
 <font>- Discord</font>
 </a>
 
-![Matrix Space](https://matrix.org/images/matrix-logo-white.svg)
+[![Matrix Space](https://matrix.org/images/matrix-logo-white.svg)](https://matrix.to/#/#crafter:matrix.org)
