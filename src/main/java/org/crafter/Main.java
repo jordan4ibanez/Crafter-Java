@@ -1,5 +1,6 @@
 package org.crafter;
 
+import org.crafter.engine.api.JavaScriptAPI;
 import org.crafter.engine.api.LuaAPI.API;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
@@ -49,7 +50,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-
+        JavaScriptAPI.initialize();
 
 /*
         initialize();
