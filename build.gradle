@@ -42,6 +42,8 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
+    implementation 'org.openjdk.nashorn:nashorn-core:15.4'
+
 
     for (OS in natives) {
         runtimeOnly "org.lwjgl:lwjgl::$OS"
