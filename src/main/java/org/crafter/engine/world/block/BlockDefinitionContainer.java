@@ -37,7 +37,7 @@ public class BlockDefinitionContainer implements Serializable {
         cache.lock();
     }
 
-    public void addDefinition(BlockDefinition definition) {
+    public void registerBlock(BlockDefinition definition) {
         if (isClone) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to manipulate a clone of the master object!");
         }
