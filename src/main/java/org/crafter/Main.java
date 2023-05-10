@@ -215,8 +215,13 @@ public class Main {
         }
 
 
-        if (ChunkStorage.hasPosition(new Vector2i(0,0))) {
-            ChunkStorage.getChunk(new Vector2i(0, 0)).render();
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                final Vector2i requestingPosition = new Vector2i(x,z);
+                if (ChunkStorage.hasPosition(requestingPosition)) {
+                    ChunkStorage.getChunk(requestingPosition).render();
+                }
+            }
         }
 
         Window.swapBuffers();
