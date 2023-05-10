@@ -36,6 +36,7 @@ local function nameSpaceCheck(internalName)
 end
 
 function Block:new(definition)
+    -- required data
     assert(type(definition) == "table", "registerBlock: ERROR! definition is a (" .. type(definition) .. ")! It must be a (table)!");
     assert(definition.internalName ~= nil and type(definition.internalName) == "string", "registerBlock: ERROR! definition internalName is invalid!");
     --assert(definition.ID == nil or type(definition.ID) == "number" and definition.ID > 0, "registerBlock: ERROR! definition ID is invalid!")
@@ -45,7 +46,12 @@ function Block:new(definition)
             assert(definition.textures[i] ~= nil and type(definition.textures[i]) == "string", "registerBlock: ERROR! texture definition " .. tostring(i) .. " is invalid for block (" .. definition.internalName .. ")!")
         end
     end
+    -- This needs to be implemented in java
     nameSpaceCheck(definition.internalName)
+
+    -- End required data
+
+
     -- Private data
     local data = {
         --ID = definition.ID or -1;
