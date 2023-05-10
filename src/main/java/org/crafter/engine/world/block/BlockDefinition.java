@@ -1,5 +1,8 @@
 package org.crafter.engine.world.block;
 
+import org.crafter.engine.texture.WorldAtlas;
+import org.crafter.engine.texture.texture_packer.TexturePacker;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -186,7 +189,7 @@ public class BlockDefinition implements Serializable {
      * Finalizer method for BlockDefinitions. Utilized by Block Definition Container to ensure no corrupted blocks
      * will be inserted into the library. This will cause Block Definition Container to throw an error if true.
      */
-    public void checkRequired() {
+    public void validate() {
 
         if (ID == -1) {
             // If the internal name is missing then OOPS
@@ -200,10 +203,22 @@ public class BlockDefinition implements Serializable {
             return;
         }
 
+        // Check the array
         if (textures == null) {
             throw new RuntimeException("BlockDefinition: Block (" + internalName + ") is MISSING texture array!");
         } else if (textures.length != 6) {
             throw new RuntimeException("BlockDefinition: Block(" + internalName + ") has the WRONG array length for textures!" );
+        }
+
+        TexturePacker atlas = WorldAtlas.getInstance();
+
+        // Now check that all the textures are valid
+        int i = 0;
+        for (String texture : textures) {
+            if (!atlas.fileNameExists(texture)) {
+                throw new RuntimeException("BlockDefinition: Block (" + internalName + ") has INVALID texture in index (" + i + ")! (" + texture + ") is not a valid block texture in the texture atlas!");
+            }
+            i++;
         }
     }
 }
