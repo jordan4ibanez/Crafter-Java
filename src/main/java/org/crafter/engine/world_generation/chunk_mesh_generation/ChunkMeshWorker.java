@@ -116,8 +116,6 @@ public class ChunkMeshWorker {
                 // do nothing
                 return;
             }
-            case DEFAULT ->
-                    throw new RuntimeException("ChunkMeshWorker: A block definition has a DEFAULT drawtype!");
 
             default ->
                     throw new IllegalStateException("Unexpected value: " + definitionContainer.getDefinition(ID).getDrawType());
