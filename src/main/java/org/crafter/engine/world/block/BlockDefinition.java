@@ -11,21 +11,21 @@ public class BlockDefinition implements Serializable {
     // Required
     private int ID = -1;
     private final String internalName;
-    private String[] textures;
+    private String[] textures = null;
+    private String readableName = null;
 
     // Optional
-    private String readableName = null;
-    private DrawType drawType = DrawType.DEFAULT;
-    private int walkable = -1;
-    private int liquid = -1;
-    private int liquidFlow = -1;
-    private int liquidViscosity = -1;
-    private int climbable = -1;
-    private int sneakJumpClimbable = -1;
-    private int falling = -1;
-    private int clear = -1;
-    private int damagePerSecond = -1;
-    private int light = -1;
+    private DrawType drawType = DrawType.BLOCK;
+    private boolean walkable = true;
+    private boolean liquid = false;
+    private int liquidFlow = 0;
+    private int liquidViscosity = 0;
+    private boolean climbable = false;
+    private boolean sneakJumpClimbable = false;
+    private boolean falling = false;
+    private boolean clear = false;
+    private int damagePerSecond = 0;
+    private int light = 0;
 
     private final HashMap<String, float[]> textureCoordinates;
 
@@ -39,7 +39,6 @@ public class BlockDefinition implements Serializable {
     }
 
     public BlockDefinition setID(int ID) {
-        duplicateCheck(this.ID, "ID");
         this.ID = ID;
         return this;
     }
@@ -64,22 +63,18 @@ public class BlockDefinition implements Serializable {
         if (drawType.value() == -1) {
             throw new RuntimeException("BlockDefinition: Tried to set DrawType of block (" + this.internalName + ") to DEFAULT!");
         }
-        duplicateCheck(this.drawType, "drawType");
         this.drawType = drawType;
         return this;
     }
     public BlockDefinition setWalkable(boolean walkable) {
-        duplicateCheck(this.walkable, "walkable");
-        this.walkable = boolToInt(walkable);
+        this.walkable = walkable;
         return this;
     }
     public BlockDefinition setLiquid(boolean liquid) {
-        duplicateCheck(this.liquid, "liquid");
-        this.liquid = boolToInt(liquid);
+        this.liquid = liquid;
         return this;
     }
     public BlockDefinition setLiquidFlow(int liquidFlow) {
-        duplicateCheck(this.liquidFlow, "liquidFlow");
         if (liquidFlow <= 0 || liquidFlow > 8) {
             throw new RuntimeException("BlockDefinition: liquidFlow (" + liquidFlow + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
@@ -87,7 +82,6 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setLiquidViscosity(int liquidViscosity) {
-        duplicateCheck(this.liquidViscosity, "liquidViscosity");
         if (liquidViscosity <= 0 || liquidViscosity > 8) {
             throw new RuntimeException("BlockDefinition: liquidViscosity (" + liquidViscosity + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
@@ -95,27 +89,22 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setClimbable(boolean climbable) {
-        duplicateCheck(this.climbable, "climbable");
-        this.climbable = boolToInt(climbable);
+        this.climbable = climbable;
         return this;
     }
     public BlockDefinition setSneakJumpClimbable(boolean sneakJumpClimbable) {
-        duplicateCheck(this.sneakJumpClimbable, "sneakJumpClimbable");
-        this.sneakJumpClimbable = boolToInt(sneakJumpClimbable);
+        this.sneakJumpClimbable = sneakJumpClimbable;
         return this;
     }
     public BlockDefinition setFalling(boolean falling) {
-        duplicateCheck(this.falling, "falling");
-        this.falling = boolToInt(falling);
+        this.falling = falling;
         return this;
     }
     public BlockDefinition setClear(boolean clear) {
-        duplicateCheck(this.clear, "clear");
-        this.clear = boolToInt(clear);
+        this.clear = clear;
         return this;
     }
     public BlockDefinition setDamagePerSecond(int damagePerSecond) {
-        duplicateCheck(this.damagePerSecond, "damagePerSecond");
         if (damagePerSecond <= 0) {
             throw new RuntimeException("BlockDefinition: damagePerSecond (" + damagePerSecond + ") on block (" + this.internalName + ") must be higher than 0!");
         }
@@ -123,7 +112,6 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setLight(int light) {
-        duplicateCheck(this.light, "light");
         if (light <= 0 || light > 15) {
             throw new RuntimeException("BlockDefinition: light (" + light + ") on block (" + this.internalName + ") is out of bounds! Min: 1 | Max: 15");
         }
@@ -158,10 +146,10 @@ public class BlockDefinition implements Serializable {
         return drawType;
     }
     public boolean getWalkable() {
-        return intToBool(walkable);
+        return walkable;
     }
     public boolean getLiquid() {
-        return intToBool(liquid);
+        return liquid;
     }
     public int getLiquidFlow() {
         return liquidFlow;
@@ -170,16 +158,16 @@ public class BlockDefinition implements Serializable {
         return liquidViscosity;
     }
     public boolean getClimbable() {
-        return intToBool(climbable);
+        return climbable;
     }
     public boolean getSneakJumpClimbable() {
-        return intToBool(sneakJumpClimbable);
+        return sneakJumpClimbable;
     }
     public boolean getFalling() {
-        return intToBool(falling);
+        return falling;
     }
     public boolean getClear() {
-        return intToBool(clear);
+        return clear;
     }
     public int getDamagePerSecond() {
         return damagePerSecond;
@@ -199,23 +187,5 @@ public class BlockDefinition implements Serializable {
     }
     private boolean intToBool(int input) {
         return input == 1;
-    }
-
-    private void duplicateCheck(DrawType input, String fieldName) {
-        if (duplicateDrawTypeSetCheck(input)) {
-            throw new RuntimeException("BlockDefinition: Tried to set (" + fieldName + ") of block (" + this.internalName + ") more than once!");
-        }
-
-    }
-    private void duplicateCheck(int input, String fieldName) {
-        if (duplicateIntSetCheck(input)) {
-            throw new RuntimeException("BlockDefinition: Tried to set (" + fieldName + ") of block (" + this.internalName + ") more than once!");
-        }
-    }
-    private boolean duplicateDrawTypeSetCheck(DrawType input) {
-        return input.value() != -1;
-    }
-    private boolean duplicateIntSetCheck(int input) {
-        return input != -1;
     }
 }
