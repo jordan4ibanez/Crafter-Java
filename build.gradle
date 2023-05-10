@@ -103,7 +103,6 @@ shadowJar {
     archiveBaseName.set('Crafter')
     archiveClassifier.set('')
     archiveVersion.set('')
-    minimize()
 }
 
 buildScan {
