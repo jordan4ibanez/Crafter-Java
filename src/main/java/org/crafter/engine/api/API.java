@@ -31,7 +31,7 @@ public final class API {
         invoker  = (Invocable) javaScript;
 
         // javaScript.put("test", "hi there");
-        runCode("api/api.js");
+        runFile("api/api.js");
 
         // Todo Note: This is how you invoke from java into javascript
 //        Object blah = invoke("getX");
@@ -75,7 +75,7 @@ public final class API {
 
             // Now run main.js
 //            runFile(modPath + modFolder + "/main.lua");
-            runCode();
+            runFile();
 
             // todo
 //            // Now check it in case someone tried to mess with another mod
@@ -99,15 +99,15 @@ public final class API {
      * Runs a javascript file. Extracts the string of the text & passes it into runCodeRaw.
      * @param fileLocation The location of the javascript file.
      */
-    public static void runCode(String fileLocation) {
-        runCodeRaw(getFileString(fileLocation));
+    public static void runFile(String fileLocation) {
+        runCode(getFileString(fileLocation));
     }
 
     /**
      * Run raw javascript code.
      * @param rawCode The raw code string.
      */
-    public static void runCodeRaw(String rawCode) {
+    public static void runCode(String rawCode) {
         //TODO: Maybe a game error catcher thing, print out the string like minetest?
         try {
             javaScript.eval(rawCode);
