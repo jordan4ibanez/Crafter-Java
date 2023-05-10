@@ -75,7 +75,7 @@ public final class API {
                 throw new RuntimeException("API: Mod (" + modFolder + ") does not have mod.json!");
             }
 
-            // Check main.lua existence
+            // Check main.js existence
             if (!fileExistence.containsKey("main.js")) {
                 throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.js!");
             }
@@ -87,7 +87,6 @@ public final class API {
 //            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
 
             // Now run main.js
-//            runFile(modPath + modFolder + "/main.lua");
             runFile(modPath + modFolder + "/main.js");
 
             // todo
@@ -106,10 +105,10 @@ public final class API {
 
         for (String modFolder : modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
-            loadLuaModBlockTextures(modPath + modFolder);
+            loadModBlockTextures(modPath + modFolder);
 
             // Loads up all png files within mod's /textures/ folder EXCLUDING /blocks/. These are individual textures.
-            loadLuaModIndividualTextures(modPath + modFolder);
+            loadModIndividualTextures(modPath + modFolder);
 
         }
         // All mod textures are loaded, close it out.
@@ -117,7 +116,7 @@ public final class API {
         // TextureStorage now has an entry of "worldAtlas" that can be easily gotten!
     }
 
-    private static void loadLuaModIndividualTextures(String modDirectory) {
+    private static void loadModIndividualTextures(String modDirectory) {
 
         String texturesDirectory = modDirectory + "/textures";
 
@@ -151,7 +150,7 @@ public final class API {
         }
     }
 
-    private static void loadLuaModBlockTextures(String modDirectory) {
+    private static void loadModBlockTextures(String modDirectory) {
 
         String texturesDirectory = modDirectory + "/textures";
 
