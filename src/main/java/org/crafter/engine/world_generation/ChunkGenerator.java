@@ -81,12 +81,14 @@ public class ChunkGenerator implements Runnable {
         final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
         final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getID(); //"crafter:stone"
 
-
+        final int xOffset = chunk.getX() * chunk.getWidth();
+        // Y is Z in 2d!
+        final int zOffset = chunk.getY() * chunk.getDepth();
 
         for (int x = 0; x < chunk.getWidth(); x++) {
             for (int z = 0; z < chunk.getDepth(); z++) {
 
-                final float test = noise.GetSimplex(x,z) + 0.5f;
+                final float test = noise.GetSimplex(x + xOffset,z + zOffset) + 0.5f;
 
 //                System.out.println("test: " + test);
 
