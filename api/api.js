@@ -19,6 +19,7 @@ var readFileToString;
 
 // Global java types
 var BlockDefinition;
+var DrawType;
 
 // Very similar to minetest's api table, basically a clone of it in JS
 var crafter = [];
@@ -30,6 +31,7 @@ var crafter = [];
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
+    DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 
     // Global scope variables
     doFile = API.runCode;
@@ -42,4 +44,7 @@ var crafter = [];
 }()
 
 // Air is reserved here
-crafter.registerBlock(new BlockDefinition("air"));
+crafter.registerBlock(
+    new BlockDefinition("air")
+        .setDrawType(DrawType.AIR);
+);
