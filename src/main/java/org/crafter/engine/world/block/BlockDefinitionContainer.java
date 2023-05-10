@@ -63,6 +63,7 @@ public class BlockDefinitionContainer implements Serializable {
 //        System.out.println("BlockDefinitionContainer: Added block (" + definition.getInternalName() + ") at ID (" + definition.getID() + ")");
 
         definition.validate();
+        definition.attachFaces();
 
         // TODO: inject texture coordinates
         idMap.put(definition.getID(), definition);
