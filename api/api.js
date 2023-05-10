@@ -41,11 +41,5 @@ var crafter = [];
     }
 }()
 
-
-//doFile("api/testing.js");
-//var stringy = readFileToString("api/testing.js");
-//print(stringy);
-
-
 // Air is reserved here
 crafter.registerBlock(new BlockDefinition("air"));
