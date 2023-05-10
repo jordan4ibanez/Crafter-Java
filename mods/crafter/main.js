@@ -1,1 +1,3 @@
-print("Crafter main mod loaded!");
+crafter.registerBlock(
+    new BlockDefinition("crafter:grass")
+)
