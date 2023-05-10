@@ -75,7 +75,7 @@ public class ChunkGenerator implements Runnable {
      */
     private Chunk processBiomesAndBlocks(Chunk chunk) {
 
-        Random random = new Random((int) (new Date().getTime()/1000));
+//        Random random = new Random((int) (new Date().getTime()/1000));
 
         final int grass = blockDefinitionContainer.getDefinition("crafter:grass").getID(); //"crafter:grass"
         final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
