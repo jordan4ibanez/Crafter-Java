@@ -49,8 +49,9 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
      */
     public void render() {
 
-        // A gimbal locking rotation showcase
-        Camera.setObjectMatrix(new Vector3f(0,0,-30), new Vector3f(0,0, 0), new Vector3f(1,1,1));
+        //Fixme: This is HORRIBLE TO CREATE A NEW OBJECT EVERY FRAME!
+//        System.out.println(position.x());
+        Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), new Vector3f(0,0,0), new Vector3f(1,1,1));
 
         boolean got = false;
         for (int i = 0; i < getStacks(); i++) {
