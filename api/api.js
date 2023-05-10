@@ -24,6 +24,7 @@ var crafter = [];
     // Classes from the engine which will disappear after this scope
     var FileReader = Java.type("org.crafter.engine.utility.FileReader");
     var API = Java.type("org.crafter.engine.api.API");
+    var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
 
     // Global scope variables
     doFile = API.runCode;
