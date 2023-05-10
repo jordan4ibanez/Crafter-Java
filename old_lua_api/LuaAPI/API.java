@@ -28,9 +28,7 @@ public final class API {
 
         runFile("api/api.lua");
 
-        // The gist: it loads mod textures
-        // Read method for more information
-        loadModTextures();
+
 
         // This runs the main.lua file of all mods, so they can be dynamically loaded into memory (crafter.registerBlock, crafter.registerEntity, etc)
         loadMods();
@@ -42,100 +40,7 @@ public final class API {
 //        runCode("crafter.closeAPI()");
     }
 
-    private static void loadModTextures() {
-        // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        String[] modFolderList = FileReader.getFolderList(modPath);
 
-        for (String modFolder : modFolderList) {
-            // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
-            loadLuaModBlockTextures(modPath + modFolder);
-
-            // Loads up all png files within mod's /textures/ folder EXCLUDING /blocks/. These are individual textures.
-            loadLuaModIndividualTextures(modPath + modFolder);
-
-        }
-        // All mod textures are loaded, close it out.
-        WorldAtlas.lock();
-        // TextureStorage now has an entry of "worldAtlas" that can be easily gotten!
-
-    }
-
-    private static void loadLuaModIndividualTextures(String modDirectory) {
-
-        String texturesDirectory = modDirectory + "/textures";
-
-        if (!FileReader.isFolder(texturesDirectory)) {
-//            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
-            return;
-        }
-
-        String[] foundFiles = FileReader.getFileList(texturesDirectory);
-
-        if (foundFiles.length == 0) {
-//            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
-            return;
-        }
-
-        int foundPNGs = 0;
-        for (String thisFile : foundFiles) {
-            if (thisFile.contains(".png")) {
-                foundPNGs++;
-            }
-        }
-        if (foundPNGs == 0) {
-//            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + texturesDirectory + "). Skipping!");
-            return;
-        }
-
-        for (String thisFile : foundFiles) {
-            if (thisFile.contains(".png")) {
-                TextureStorage.createTexture(thisFile, texturesDirectory + "/" + thisFile);
-            }
-        }
-    }
-
-    private static void loadLuaModBlockTextures(String modDirectory) {
-
-        String texturesDirectory = modDirectory + "/textures";
-
-        if (!FileReader.isFolder(texturesDirectory)) {
-//            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
-            return;
-        }
-
-        String blockTexturesDirectory = texturesDirectory + "/blocks";
-
-        if (!FileReader.isFolder(blockTexturesDirectory)) {
-//            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
-            return;
-        }
-
-        String[] foundFiles = FileReader.getFileList(blockTexturesDirectory);
-
-        if (foundFiles.length == 0) {
-//            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
-            return;
-        }
-
-        int foundPNGs = 0;
-        for (String thisFile : foundFiles) {
-            if (thisFile.contains(".png")) {
-                foundPNGs++;
-            }
-        }
-        if (foundPNGs == 0) {
-//            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
-            return;
-        }
-
-        TexturePacker worldAtlasTexturePacker = WorldAtlas.getInstance();
-
-        for (String thisFile : foundFiles) {
-            if (thisFile.contains(".png")) {
-                worldAtlasTexturePacker.add(thisFile, blockTexturesDirectory + "/" + thisFile);
-            }
-        }
-    }
 
 
 
