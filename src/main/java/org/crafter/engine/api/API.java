@@ -35,10 +35,18 @@ public final class API {
     }
 
 
+    /**
+     * Runs a javascript file. Extracts the string of the text & passes it into runCodeRaw.
+     * @param fileLocation The location of the javascript file.
+     */
     public static void runCode(String fileLocation) {
         runCodeRaw(getFileString(fileLocation));
     }
 
+    /**
+     * Run raw javascript code.
+     * @param rawCode The raw code string.
+     */
     public static void runCodeRaw(String rawCode) {
         //TODO: Maybe a game error catcher thing, print out the string like minetest?
         try {
@@ -51,6 +59,9 @@ public final class API {
     /**
      * This is a runtime exception version of the javax invoker method.
      * Object needs to have it's class checked or instanceOf switch statement.
+     * @param functionName Name of a global scope javascript function.
+     * @param args Function arguments.
+     * @return Object, can be of any Java type.
      */
     public static Object invoke(String functionName, Object... args) {
         try {
