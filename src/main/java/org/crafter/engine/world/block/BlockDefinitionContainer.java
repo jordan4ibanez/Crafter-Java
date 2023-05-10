@@ -60,12 +60,9 @@ public class BlockDefinitionContainer implements Serializable {
 
         checkDuplicate(definition);
 
-        // Silently override DEFAULT into BLOCK
-        if (drawTypeIsDefault(definition.getDrawType())) {
-            definition.setDrawType(DrawType.BLOCK);
-        }
-
 //        System.out.println("BlockDefinitionContainer: Added block (" + definition.getInternalName() + ") at ID (" + definition.getID() + ")");
+
+        definition.checkRequired();
 
         // TODO: inject texture coordinates
         idMap.put(definition.getID(), definition);
@@ -136,9 +133,6 @@ public class BlockDefinitionContainer implements Serializable {
     }
     private boolean checkName(String name) {
         return nameMap.containsKey(name);
-    }
-    private boolean drawTypeIsDefault(DrawType drawType) {
-        return drawType.value() == -1;
     }
 
     private boolean isUnequal() {
