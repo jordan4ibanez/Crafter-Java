@@ -3,6 +3,10 @@ package org.crafter.engine.world.block;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * A simple container object for block definitions.
+ * Can utilize the builder pattern.
+ */
 public class BlockDefinition implements Serializable {
     // Required
     private int ID = -1;
@@ -34,11 +38,12 @@ public class BlockDefinition implements Serializable {
         this.textureCoordinates = new HashMap<>();
     }
 
-    public void setID(int ID) {
+    public BlockDefinition setID(int ID) {
         duplicateCheck(this.ID, "ID");
         this.ID = ID;
+        return this;
     }
-    public void setTextures(String[] textures) {
+    public BlockDefinition setTextures(String[] textures) {
         if (this.textures != null) {
             throw new RuntimeException("BlockDefinition: Attempted to set textures more than once for block (" + internalName + ")!");
         }
@@ -46,78 +51,92 @@ public class BlockDefinition implements Serializable {
             throw new RuntimeException("BlockDefinition: Textures must have 6 faces in block (" + internalName + ")!");
         }
         this.textures = textures;
+        return this;
     }
-    public void setReadableName(String readableName) {
+    public BlockDefinition setReadableName(String readableName) {
         if (this.readableName != null) {
             throw new RuntimeException("BlockDefinition: Tried to set (readableName) of block (" + this.internalName + ") more than once!");
         }
         this.readableName = readableName;
+        return this;
     }
-    public void setDrawType(DrawType drawType) {
+    public BlockDefinition setDrawType(DrawType drawType) {
         if (drawType.value() == -1) {
             throw new RuntimeException("BlockDefinition: Tried to set DrawType of block (" + this.internalName + ") to DEFAULT!");
         }
         duplicateCheck(this.drawType, "drawType");
         this.drawType = drawType;
+        return this;
     }
-    public void setWalkable(boolean walkable) {
+    public BlockDefinition setWalkable(boolean walkable) {
         duplicateCheck(this.walkable, "walkable");
         this.walkable = boolToInt(walkable);
+        return this;
     }
-    public void setLiquid(boolean liquid) {
+    public BlockDefinition setLiquid(boolean liquid) {
         duplicateCheck(this.liquid, "liquid");
         this.liquid = boolToInt(liquid);
+        return this;
     }
-    public void setLiquidFlow(int liquidFlow) {
+    public BlockDefinition setLiquidFlow(int liquidFlow) {
         duplicateCheck(this.liquidFlow, "liquidFlow");
         if (liquidFlow <= 0 || liquidFlow > 8) {
             throw new RuntimeException("BlockDefinition: liquidFlow (" + liquidFlow + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
         this.liquidFlow = liquidFlow;
+        return this;
     }
-    public void setLiquidViscosity(int liquidViscosity) {
+    public BlockDefinition setLiquidViscosity(int liquidViscosity) {
         duplicateCheck(this.liquidViscosity, "liquidViscosity");
         if (liquidViscosity <= 0 || liquidViscosity > 8) {
             throw new RuntimeException("BlockDefinition: liquidViscosity (" + liquidViscosity + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
         this.liquidViscosity = liquidViscosity;
+        return this;
     }
-    public void setClimbable(boolean climbable) {
+    public BlockDefinition setClimbable(boolean climbable) {
         duplicateCheck(this.climbable, "climbable");
         this.climbable = boolToInt(climbable);
+        return this;
     }
-    public void setSneakJumpClimbable(boolean sneakJumpClimbable) {
+    public BlockDefinition setSneakJumpClimbable(boolean sneakJumpClimbable) {
         duplicateCheck(this.sneakJumpClimbable, "sneakJumpClimbable");
         this.sneakJumpClimbable = boolToInt(sneakJumpClimbable);
+        return this;
     }
-    public void setFalling(boolean falling) {
+    public BlockDefinition setFalling(boolean falling) {
         duplicateCheck(this.falling, "falling");
         this.falling = boolToInt(falling);
+        return this;
     }
-    public void setClear(boolean clear) {
+    public BlockDefinition setClear(boolean clear) {
         duplicateCheck(this.clear, "clear");
         this.clear = boolToInt(clear);
+        return this;
     }
-    public void setDamagePerSecond(int damagePerSecond) {
+    public BlockDefinition setDamagePerSecond(int damagePerSecond) {
         duplicateCheck(this.damagePerSecond, "damagePerSecond");
         if (damagePerSecond <= 0) {
             throw new RuntimeException("BlockDefinition: damagePerSecond (" + damagePerSecond + ") on block (" + this.internalName + ") must be higher than 0!");
         }
         this.damagePerSecond = damagePerSecond;
+        return this;
     }
-    public void setLight(int light) {
+    public BlockDefinition setLight(int light) {
         duplicateCheck(this.light, "light");
         if (light <= 0 || light > 15) {
             throw new RuntimeException("BlockDefinition: light (" + light + ") on block (" + this.internalName + ") is out of bounds! Min: 1 | Max: 15");
         }
         this.light = light;
+        return this;
     }
-    public void setTextureCoordinates(String face, float[] value) {
+    public BlockDefinition setTextureCoordinates(String face, float[] value) {
         if (textureCoordinates.containsKey(face)) {
             throw new RuntimeException("BlockDefinition: Tried to put duplicate of texture coordinate (" + face + ") into block (" + internalName + ")!");
         }
 //        System.out.println("BlockDefinition: Put texture coordinate (" + face + ") into block (" + internalName + ")!");
         textureCoordinates.put(face, value);
+        return this;
     }
 
     public int getID() {
