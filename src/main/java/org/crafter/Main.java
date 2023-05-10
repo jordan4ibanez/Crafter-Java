@@ -50,7 +50,11 @@ public class Main {
 
         initialize();
 
-        ChunkGenerator.pushRequest(new Vector2i(0,0));
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                ChunkGenerator.pushRequest(new Vector2i(x,z));
+            }
+        }
 
         try {
             while(!Window.shouldClose()) {
