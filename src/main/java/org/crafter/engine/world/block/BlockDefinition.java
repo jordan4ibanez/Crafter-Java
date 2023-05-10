@@ -12,9 +12,9 @@ public class BlockDefinition implements Serializable {
     private int ID = -1;
     private final String internalName;
     private String[] textures = null;
-    private String readableName = null;
 
     // Optional
+    private String readableName = null;
     private DrawType drawType = DrawType.BLOCK;
     private boolean walkable = true;
     private boolean liquid = false;
@@ -182,10 +182,28 @@ public class BlockDefinition implements Serializable {
         return textureCoordinates.get(name);
     }
 
-    private int boolToInt(boolean input) {
-        return input ? 1 : 0;
-    }
-    private boolean intToBool(int input) {
-        return input == 1;
+    /**
+     * Finalizer method for BlockDefinitions. Utilized by Block Definition Container to ensure no corrupted blocks
+     * will be inserted into the library. This will cause Block Definition Container to throw an error if true.
+     */
+    public void checkRequired() {
+
+        if (ID == -1) {
+            // If the internal name is missing then OOPS
+            throw new RuntimeException("BlockDefinition: Block (" + internalName + ") was never assigned a block ID!");
+        } else if (internalName == null) {
+            throw new RuntimeException("BlockDefinition: Block with ID (" + ID + ") is somehow MISSING an internal name!");
+        }
+
+        // Skip air block types because it does not need texturing
+        if (drawType == DrawType.AIR) {
+            return;
+        }
+
+        if (textures == null) {
+            throw new RuntimeException("BlockDefinition: Block (" + internalName + ") is MISSING a texture array!");
+        } else if (textures.length != 6) {
+            throw new RuntimeException("BlockDefinition: Block(" + internalName + ") has the WRONG array length for textures!" );
+        }
     }
 }
