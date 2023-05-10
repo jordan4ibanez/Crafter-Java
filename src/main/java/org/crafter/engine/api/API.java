@@ -76,7 +76,7 @@ public final class API {
             // Automate required values in conf are checked here
             ModConfParser confParser = checkParserConfValues(new ModConfParser(modPath + modFolder), modFolder);
 
-            // todo, but in java so it's readonly in api scope >:D
+            // todo, but in java so it's readonly in the javascript API scope >:D
 //            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
 
             // Now run main.js
