@@ -46,5 +46,5 @@ var crafter = [];
 // Air is reserved here
 crafter.registerBlock(
     new BlockDefinition("air")
-        .setDrawType(DrawType.AIR);
+        .setDrawType(DrawType.AIR)
 );
