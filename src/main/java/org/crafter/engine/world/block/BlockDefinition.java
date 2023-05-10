@@ -201,7 +201,7 @@ public class BlockDefinition implements Serializable {
         }
 
         if (textures == null) {
-            throw new RuntimeException("BlockDefinition: Block (" + internalName + ") is MISSING a texture array!");
+            throw new RuntimeException("BlockDefinition: Block (" + internalName + ") is MISSING texture array!");
         } else if (textures.length != 6) {
             throw new RuntimeException("BlockDefinition: Block(" + internalName + ") has the WRONG array length for textures!" );
         }
