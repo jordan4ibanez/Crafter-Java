@@ -1,17 +1,18 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'java'
-    id 'application'
-    id 'base'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "java"
+    id "application"
+    id "base"
+    id "org.jetbrains.kotlin.jvm" version "1.8.21"
 }
 
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 
-group 'org.crafter'
-version 'Continuous-Build'
+group "org.crafter"
+version "Continuous-Build"
 
-final String releaseVersion = 'v0.0.2 - Pre-Alpha'
+final String releaseVersion = "v0.0.2 - Pre-Alpha"
 final String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 repositories {
@@ -20,8 +21,8 @@ repositories {
 
 dependencies {
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
@@ -32,17 +33,17 @@ dependencies {
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-stb"
 
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
+    implementation "com.fasterxml.jackson.core:jackson-core:2.14.2"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.14.2"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.14.2"
 
-    implementation 'party.iroiro.luajava:luajava:3.4.0'
-    implementation 'party.iroiro.luajava:luajit:3.4.0'
-    runtimeOnly 'party.iroiro.luajava:luajit-platform:3.4.0:natives-desktop'
+    implementation "party.iroiro.luajava:luajava:3.4.0"
+    implementation "party.iroiro.luajava:luajit:3.4.0"
+    runtimeOnly "party.iroiro.luajava:luajit-platform:3.4.0:natives-desktop"
 
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation "org.apache.commons:commons-lang3:3.12.0"
 
-    implementation 'org.openjdk.nashorn:nashorn-core:15.4'
+    implementation "org.openjdk.nashorn:nashorn-core:15.4"
 
 
     for (OS in natives) {
@@ -55,6 +56,7 @@ dependencies {
     }
 
     implementation "org.joml:joml:${jomlVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 java {
@@ -74,12 +76,12 @@ application {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'org.crafter.Main'
+                "Main-Class": "org.crafter.Main"
         )
     }
 }
 
-// This is deprecated, but there's no alternative I can find
+// This is deprecated, but there"s no alternative I can find
 gradle.taskGraph.afterTask {
     Task task,TaskState state ->
         if (task.name == "startShadowScripts") {
@@ -100,14 +102,14 @@ gradle.taskGraph.afterTask {
 
 shadowJar {
     mainClassName = "org.crafter.Main"
-    archiveBaseName.set('Crafter')
-    archiveClassifier.set('')
-    archiveVersion.set('')
+    archiveBaseName.set("Crafter")
+    archiveClassifier.set("")
+    archiveVersion.set("")
 }
 
 buildScan {
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-    termsOfServiceAgree = 'yes'
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
 }
 
 // This runs the runShadowScripts then packs up the full game so users can run it easily, but only if fullGame flag given
@@ -146,4 +148,7 @@ tasks.register("packageFullGame", Zip)  {
         }
         println("Zipping: Release folder cleaned!")
     }
+}
+kotlin {
+    jvmToolchain(11)
 }
