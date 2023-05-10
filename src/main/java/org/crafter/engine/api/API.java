@@ -1,5 +1,7 @@
 package org.crafter.engine.api;
 
+import org.crafter.engine.world.block.BlockDefinitionContainer;
+
 import javax.script.*;
 
 import static org.crafter.engine.utility.FileReader.getFileString;
@@ -28,6 +30,8 @@ public final class API {
 //
 //        runCode("mods/crafter/main.js");
 
+        // Fully lockout the container
+        BlockDefinitionContainer.getMainInstance().lockCache();
     }
 
 
