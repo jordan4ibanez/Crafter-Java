@@ -1,7 +1,6 @@
 package org.crafter.engine.world.block;
 
 public enum DrawType {
-    DEFAULT(-1),
     AIR(0),
     BLOCK(1),
     BLOCK_BOX(2),
