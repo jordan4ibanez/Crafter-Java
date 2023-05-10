@@ -1,10 +1,15 @@
 package org.crafter.engine.api;
 
+import org.crafter.engine.utility.FileReader;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 
 import javax.script.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 import static org.crafter.engine.utility.FileReader.getFileString;
+import static org.crafter.engine.utility.FileReader.getFolderList;
 
 public final class API {
     private static ScriptEngine javaScript;
@@ -12,6 +17,11 @@ public final class API {
 
     private static Compilable compiler;
     private static Invocable invoker;
+
+    // Keep this as a field in case it is ever decided to relocate it!
+    private static final String modPath = "mods/";
+
+    private static final String[] requiredValues = new String[]{"name", "version", "description"};
 
     private API(){}
     public static void initialize() {
@@ -32,6 +42,56 @@ public final class API {
 
         // Fully lockout the container
         BlockDefinitionContainer.getMainInstance().lockCache();
+    }
+
+    private static void loadMods() {
+
+        // Basic mod loading
+        for (String modFolder : getFolderList(modPath)) {
+
+//            System.out.println("Got mod: " + modFolder);
+
+            // We need to look through this multiple times so turn it into an indexable container
+            HashMap<String, Boolean> fileExistence = new HashMap<>();
+            Arrays.stream(FileReader.getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
+                fileExistence.put(fileName, true);
+            });
+
+            // Check mod.json existence
+            if (!fileExistence.containsKey("mod.json")) {
+                throw new RuntimeException("API: Mod (" + modFolder + ") does not have mod.json!");
+            }
+
+            // Check main.lua existence
+            if (!fileExistence.containsKey("main.lua")) {
+                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
+            }
+
+            // Automate required values in conf are checked here
+            ModConfParser confParser = checkParserConfValues(new ModConfParser(modPath + modFolder), modFolder);
+
+            // todo, but in java so it's readonly in api scope >:D
+//            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
+
+            // Now run main.js
+//            runFile(modPath + modFolder + "/main.lua");
+            runCode();
+
+            // todo
+//            // Now check it in case someone tried to mess with another mod
+//            int newNameSpaceTimeStamp = getInteger("return crafter.getVerifier()");
+//            if (nameSpaceTimeStamp != newNameSpaceTimeStamp) {
+//                throw new RuntimeException("API: You CANNOT change your mod's namespace!");
+//            }
+        }
+    }
+    private static ModConfParser checkParserConfValues(ModConfParser modConfParser, String modDirectory) {
+        for (String requiredValue : requiredValues) {
+            if (!modConfParser.containsDirectValue(requiredValue)) {
+                throw new RuntimeException("API: Mod (" + modDirectory + ") is missing (" + requiredValue + ")!");
+            }
+        }
+        return modConfParser;
     }
 
 

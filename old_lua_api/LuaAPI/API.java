@@ -19,10 +19,7 @@ import static org.crafter.engine.utility.FileReader.*;
 public final class API {
     private static final LuaJit luaJIT = new LuaJit();
 
-    // Keep this as a field in case it is ever decided to relocate it!
-    private static final String modPath = "mods/";
 
-    private static final String[] requiredValues = new String[]{"name", "version", "description"};
 
     private API(){}
 
@@ -140,53 +137,8 @@ public final class API {
         }
     }
 
-    private static void loadMods() {
 
-        // Basic mod loading
-        for (String modFolder : FileReader.getFolderList(modPath)) {
 
-//            System.out.println("Got mod: " + modFolder);
-
-            // We need to look through this multiple times so turn it into an indexable container
-            HashMap<String, Boolean> fileExistence = new HashMap<>();
-            Arrays.stream(FileReader.getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
-                fileExistence.put(fileName, true);
-            });
-
-            // Check mod.json existence
-            if (!fileExistence.containsKey("mod.json")) {
-                throw new RuntimeException("API: Mod (" + modFolder + ") does not have mod.json!");
-            }
-
-            // Check main.lua existence
-            if (!fileExistence.containsKey("main.lua")) {
-                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
-            }
-
-            // Automate required values in conf are checked here
-            ModConfParser confParser = checkParserConfValues(new ModConfParser(modPath + modFolder), modFolder);
-
-            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
-
-            // Now run main.lua
-            runFile(modPath + modFolder + "/main.lua");
-
-            // Now check it in case someone tried to mess with another mod
-            int newNameSpaceTimeStamp = getInteger("return crafter.getVerifier()");
-            if (nameSpaceTimeStamp != newNameSpaceTimeStamp) {
-                throw new RuntimeException("API: You CANNOT change your mod's namespace!");
-            }
-        }
-
-    }
-    private static ModConfParser checkParserConfValues(ModConfParser modConfParser, String modDirectory) {
-        for (String requiredValue : requiredValues) {
-            if (!modConfParser.containsDirectValue(requiredValue)) {
-                throw new RuntimeException("API: Mod (" + modDirectory + ") is missing (" + requiredValue + ")!");
-            }
-        }
-        return modConfParser;
-    }
 
     private static void parseBlocks() {
         BlockDefinitionContainer container = BlockDefinitionContainer.getMainInstance();
