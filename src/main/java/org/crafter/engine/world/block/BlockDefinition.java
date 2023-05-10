@@ -186,6 +186,22 @@ public class BlockDefinition implements Serializable {
     }
 
     /**
+     * Attaches the faces of blocks into the block definition.
+     * TODO: Will become extremely complex with different drawtypes, perhaps this needs to be handled by the container with an assembler object?
+     */
+    public void attachFaces() {
+        if (drawType == DrawType.AIR) {
+            return;
+        }
+        final String[] faces = new String[]{"front", "back", "left", "right", "bottom", "top"};
+        TexturePacker atlas = WorldAtlas.getInstance();
+        for (int i = 0; i < textures.length; i++) {
+            final float[] textureCoordinates = atlas.getQuadOf(textures[i]);
+            setTextureCoordinates(faces[i], textureCoordinates);
+        }
+    }
+
+    /**
      * Finalizer method for BlockDefinitions. Utilized by Block Definition Container to ensure no corrupted blocks
      * will be inserted into the library. This will cause Block Definition Container to throw an error if true.
      */
