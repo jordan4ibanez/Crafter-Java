@@ -46,12 +46,14 @@ public class Main {
     private static final Vector3f cameraDelta = new Vector3f();
     private static final Vector3f newCameraRotation = new Vector3f();
 
+    private static final int debugChunkSizeRememberToRemoveThisGarbage = 3;
+
     public static void main(String[] args) {
 
         initialize();
 
-        for (int x = -1; x <= 1; x++) {
-            for (int z = -1; z <= 1; z++) {
+        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
+            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
                 ChunkGenerator.pushRequest(new Vector2i(x,z));
             }
         }
@@ -215,8 +217,8 @@ public class Main {
         }
 
 
-        for (int x = -1; x <= 1; x++) {
-            for (int z = -1; z <= 1; z++) {
+        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
+            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
                 final Vector2i requestingPosition = new Vector2i(x,z);
                 if (ChunkStorage.hasPosition(requestingPosition)) {
                     ChunkStorage.getChunk(requestingPosition).render();
