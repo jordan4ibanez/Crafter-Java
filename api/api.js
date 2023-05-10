@@ -2,7 +2,9 @@
 /*
 TODO: Use java classes as if they were compiled :D
 TODO: Figure out more things like biomes
-TODO:
+
+
+TODO! VERY IMPORTANT! Add comments!
 */
 
 /*
@@ -11,10 +13,12 @@ This allows for mods to index DIRECTLY into the engine without needing to be com
 Limitations: Ecmascript 5 :( No constants, anything can be overridden.
 */
 
-// Lua equivalent!
+// Lua equivalents!
 var doFile;
-// Lua addition!
 var readFileToString;
+
+// Global java types
+var BlockDefinition;
 
 // Very similar to minetest's api table, basically a clone of it in JS
 var crafter = [];
@@ -25,14 +29,15 @@ var crafter = [];
     var FileReader = Java.type("org.crafter.engine.utility.FileReader");
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
+    BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
 
     // Global scope variables
     doFile = API.runCode;
     readFileToString = FileReader.getFileString;
 
     // Crafter array functions
-    crafter.blah = function() {
-        print("I'm a blah!");
+    crafter.registerBlock = function(newBlockDefinition) {
+        BlockDefinitionContainer.getMainInstance().registerBlock(newBlockDefinition);
     }
 }()
 
@@ -42,3 +47,5 @@ var crafter = [];
 //print(stringy);
 
 
+// Air is reserved here
+crafter.registerBlock(new BlockDefinition("air"));
