@@ -30,8 +30,11 @@ public final class API {
         compiler = (Compilable) javaScript;
         invoker  = (Invocable) javaScript;
 
-        // javaScript.put("test", "hi there");
+        // Load up the actual javascript API elements
         runFile("api/api.js");
+
+        // Now load up all mods
+        loadMods();
 
         // Todo Note: This is how you invoke from java into javascript
 //        Object blah = invoke("getX");
@@ -39,6 +42,9 @@ public final class API {
 //        System.out.println(blah);
 //
 //        runCode("mods/crafter/main.js");
+
+        // todo, Note: This is how you can create global javascript variables from Java!
+//         javaScript.put("test", "hi there");
 
         // Fully lockout the container
         BlockDefinitionContainer.getMainInstance().lockCache();
@@ -63,8 +69,8 @@ public final class API {
             }
 
             // Check main.lua existence
-            if (!fileExistence.containsKey("main.lua")) {
-                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.lua!");
+            if (!fileExistence.containsKey("main.js")) {
+                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.js!");
             }
 
             // Automate required values in conf are checked here
@@ -75,7 +81,7 @@ public final class API {
 
             // Now run main.js
 //            runFile(modPath + modFolder + "/main.lua");
-            runFile();
+            runFile(modPath + modFolder + "/main.js");
 
             // todo
 //            // Now check it in case someone tried to mess with another mod
