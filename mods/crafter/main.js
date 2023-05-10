@@ -1,1 +1,1 @@
-print(getX());
+print("Crafter main mod loaded!");
