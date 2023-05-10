@@ -88,7 +88,7 @@ public class ChunkGenerator implements Runnable {
 
                 final float test = noise.GetSimplex(x,z) + 0.5f;
 
-                System.out.println("test: " + test);
+//                System.out.println("test: " + test);
 
                 final int height = (int)(test * 20.0f) + 40;
 
