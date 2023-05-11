@@ -77,116 +77,29 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     var mSeed = 1337
-        private set
     var mFrequency = 0.01.toFloat()
-        private set
     var mInterp = Interp.Quintic
-        private set
     var mNoiseType = NoiseType.Simplex
-        private set
     var mOctaves = 3
-        private set
+        set(value) {
+            field = value
+            CalculateFractalBounding()
+        }
     var mLacunarity = 2.0.toFloat()
-        private set
     var mGain = 0.5.toFloat()
-        private set
+        set(value) {
+            field = value
+            CalculateFractalBounding()
+        }
     var mFractalType = FractalType.FBM
-        private set
     var mFractalBounding = 0f
-        private set
     var mCellularDistanceFunction = CellularDistanceFunction.Euclidean
-        private set
     var mCellularReturnType = CellularReturnType.CellValue
-        private set
     var mCellularNoiseLookup: FastNoise? = null
-        private set
-    var mGradientPerturbamp = (1.0 / 0.45).toFloat()
-        private set
-
-    // Returns the seed used by this object
-    fun GetSeed(): Int {
-        return mSeed
-    }
-
-    // Sets seed used for all noise types
-    // Default: 1337
-    fun SetSeed(seed: Int) {
-        mSeed = seed
-    }
-
-    // Sets frequency for all noise types
-    // Default: 0.01
-    fun SetFrequency(frequency: Float) {
-        mFrequency = frequency
-    }
-
-    // Changes the interpolation method used to smooth between noise values
-    // Possible interpolation methods (lowest to highest quality) :
-    // - Linear
-    // - Hermite
-    // - Quintic
-    // Used in Value, Gradient Noise and Position Perturbing
-    // Default: Quintic
-    fun SetInterp(interp: Interp) {
-        mInterp = interp
-    }
-
-    // Sets noise return type of GetNoise(...)
-    // Default: Simplex
-    fun SetNoiseType(noiseType: NoiseType) {
-        mNoiseType = noiseType
-    }
-
-    // Sets octave count for all fractal noise types
-    // Default: 3
-    fun SetFractalOctaves(octaves: Int) {
-        mOctaves = octaves
-        CalculateFractalBounding()
-    }
-
-    // Sets octave lacunarity for all fractal noise types
-    // Default: 2.0
-    fun SetFractalLacunarity(lacunarity: Float) {
-        mLacunarity = lacunarity
-    }
-
-    // Sets octave gain for all fractal noise types
-    // Default: 0.5
-    fun SetFractalGain(gain: Float) {
-        mGain = gain
-        CalculateFractalBounding()
-    }
-
-    // Sets method for combining octaves in all fractal noise types
-    // Default: FBM
-    fun SetFractalType(fractalType: FractalType) {
-        mFractalType = fractalType
-    }
-
-    // Sets return type from cellular noise calculations
-    // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
-    // Default: CellValue
-    fun SetCellularDistanceFunction(cellularDistanceFunction: CellularDistanceFunction) {
-        mCellularDistanceFunction = cellularDistanceFunction
-    }
-
-    // Sets distance function used in cellular noise calculations
-    // Default: Euclidean
-    fun SetCellularReturnType(cellularReturnType: CellularReturnType) {
-        mCellularReturnType = cellularReturnType
-    }
-
-    // Noise used to calculate a cell value if cellular return type is NoiseLookup
-    // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
-    fun SetCellularNoiseLookup(noise: FastNoise?) {
-        mCellularNoiseLookup = noise
-    }
-
-    // Sets the maximum perturb distance from original location when using GradientPerturb{Fractal}(...)
-    // Default: 1.0
-    fun SetGradientPerturbAmp(gradientPerturbAmp: Float) {
-        mGradientPerturbamp = gradientPerturbAmp / 0.45.toFloat()
-    }
+    var mGradientPerturbamp = (1.0f / 0.45f)
+        set(value) {
+            field = value / 0.45f
+        }
 
     @JvmRecord
     private data class Float2(val x: Float, val y: Float)
