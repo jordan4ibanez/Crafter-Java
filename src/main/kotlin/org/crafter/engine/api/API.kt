@@ -1,4 +1,4 @@
-package org.crafter.api
+package org.crafter.engine.api
 
 import org.crafter.engine.texture.TextureStorage
 import org.crafter.engine.texture.WorldAtlas
@@ -19,7 +19,7 @@ object API {
     private val requiredValues = arrayOf("name", "version", "description")
     fun initialize() {
         javaScript = ScriptEngineManager().getEngineByName("Nashorn")
-        bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE)
+        bindings = javaScript?.getBindings(ScriptContext.ENGINE_SCOPE)
         compiler = javaScript as Compilable?
         invoker = javaScript as Invocable?
 
@@ -76,7 +76,7 @@ object API {
 //            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
 
             // Now run main.js
-            runFile(modPath + modFolder + "/main.js")
+            runFile("$modPath$modFolder/main.js")
 
             // todo
 //            // Now check it in case someone tried to mess with another mod
@@ -109,7 +109,7 @@ object API {
             return
         }
         val foundFiles = FileReader.getFileList(texturesDirectory)
-        if (foundFiles.size == 0) {
+        if (foundFiles.isEmpty()) {
 //            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
             return
         }
@@ -142,7 +142,7 @@ object API {
             return
         }
         val foundFiles = FileReader.getFileList(blockTexturesDirectory)
-        if (foundFiles.size == 0) {
+        if (foundFiles.isEmpty()) {
 //            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return
         }
