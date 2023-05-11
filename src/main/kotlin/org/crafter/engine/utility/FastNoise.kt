@@ -76,19 +76,32 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         Distance2Div
     }
 
-    private var mSeed = 1337
-    private var mFrequency = 0.01.toFloat()
-    private var mInterp = Interp.Quintic
-    private var mNoiseType = NoiseType.Simplex
-    private var mOctaves = 3
-    private var mLacunarity = 2.0.toFloat()
-    private var mGain = 0.5.toFloat()
-    private var mFractalType = FractalType.FBM
-    private var mFractalBounding = 0f
-    private var mCellularDistanceFunction = CellularDistanceFunction.Euclidean
-    private var mCellularReturnType = CellularReturnType.CellValue
-    private var mCellularNoiseLookup: FastNoise? = null
-    private var mGradientPerturbamp = (1.0 / 0.45).toFloat()
+    var mSeed = 1337
+        private set
+    var mFrequency = 0.01.toFloat()
+        private set
+    var mInterp = Interp.Quintic
+        private set
+    var mNoiseType = NoiseType.Simplex
+        private set
+    var mOctaves = 3
+        private set
+    var mLacunarity = 2.0.toFloat()
+        private set
+    var mGain = 0.5.toFloat()
+        private set
+    var mFractalType = FractalType.FBM
+        private set
+    var mFractalBounding = 0f
+        private set
+    var mCellularDistanceFunction = CellularDistanceFunction.Euclidean
+        private set
+    var mCellularReturnType = CellularReturnType.CellValue
+        private set
+    var mCellularNoiseLookup: FastNoise? = null
+        private set
+    var mGradientPerturbamp = (1.0 / 0.45).toFloat()
+        private set
 
     // Returns the seed used by this object
     fun GetSeed(): Int {
