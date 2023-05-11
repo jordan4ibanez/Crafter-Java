@@ -43,7 +43,7 @@ private val newCameraRotation = Vector3f()
 private const val debugChunkSizeRememberToRemoveThisGarbage = 1
 private const val debugON = true
 
-fun blarf(args: Array<String>) {
+fun main(args: Array<String>) {
     if (debugON) {
         return
     }
