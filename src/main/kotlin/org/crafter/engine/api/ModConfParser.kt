@@ -10,15 +10,12 @@ import org.crafter.engine.utility.FileReader
  * Will throw an error if it does not have required file & definitions.
  * Optional values do not throw errors.
  */
-class ModConfParser(modDirectory: String?) {
+class ModConfParser(modDirectory: String) {
     private val jsonLocation: String
     private val directValues: HashMap<String, String>
     private val arrayValues: HashMap<String, Array<String>>
 
     init {
-        if (modDirectory == null) {
-            throw RuntimeException("ModConfParser: Initialized with a NULL mod directory!")
-        }
         if (!FileReader.isFolder(modDirectory)) {
             throw RuntimeException("ModConfParser: Initialized with an INVALID mod directory!")
         }
@@ -33,8 +30,7 @@ class ModConfParser(modDirectory: String?) {
 
     private fun parseJson() {
         val mapper = ObjectMapper()
-        val nodes: JsonNode
-        nodes = try {
+        val nodes: JsonNode = try {
             mapper.readTree(FileReader.getFileString(jsonLocation))
         } catch (e: Exception) {
             throw RuntimeException("Font: ERROR loading! $e")
