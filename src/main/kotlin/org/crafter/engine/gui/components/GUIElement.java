@@ -1,9 +1,10 @@
 package org.crafter.engine.gui.components;
 
 import org.crafter.engine.gui.GUI;
-import org.crafter.engine.gui.actions.*;
 import org.crafter.engine.gui.enumerators.Alignment;
+import org.crafter.engine.gui.actions.*;
 import org.crafter.engine.window.Window;
+import org.gui.actions.*;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 

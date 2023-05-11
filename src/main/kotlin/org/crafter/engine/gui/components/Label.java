@@ -2,9 +2,9 @@ package org.crafter.engine.gui.components;
 
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.gui.GUI;
+import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.gui.enumerators.Alignment;
 import org.crafter.engine.gui.font.Font;
-import org.crafter.engine.gui.implementations.Text;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
