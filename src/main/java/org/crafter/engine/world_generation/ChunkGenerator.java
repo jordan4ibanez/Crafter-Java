@@ -73,9 +73,9 @@ public class ChunkGenerator implements Runnable {
 
 //        Random random = new Random((int) (new Date().getTime()/1000));
 
-        final int grass = blockDefinitionContainer.getDefinition("crafter:grass").getID(); //"crafter:grass"
-        final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
-        final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getID(); //"crafter:stone"
+        final int grass = blockDefinitionContainer.getDefinition("crafter:grass").getId(); //"crafter:grass"
+        final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getId(); //"crafter:dirt"
+        final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getId(); //"crafter:stone"
 
         final int xOffset = chunk.getX() * chunk.getWidth();
         // Y is Z in 2d!

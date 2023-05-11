@@ -31,7 +31,7 @@ public class BlockDefinitionTest {
             BlockDefinition testDefinition = new BlockDefinition(namePrefix + i);
             testDefinition.setTextures(chosenTextures);
 
-            assertEquals(namePrefix + i, testDefinition.getInternalName());
+            assertEquals(namePrefix + i, testDefinition.internalName);
 
             final String[] gottenTextures = testDefinition.getTextures();
             for (int w = 0; w < chosenTextures.length; w++) {

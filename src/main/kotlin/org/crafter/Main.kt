@@ -12,6 +12,7 @@ import org.crafter.engine.texture.TextureStorage
 import org.crafter.engine.utility.GameMath
 import org.crafter.engine.window.Window
 import org.crafter.engine.world.chunk.ChunkStorage
+import org.crafter.engine.world.chunk.render
 import org.crafter.engine.world_generation.ChunkGenerator
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator
 import org.joml.Vector2i
@@ -109,14 +110,14 @@ private fun mainLoop() {
         // TODO: Make sure this is done within the main thread!
         val destinationPosition = generatedMesh.destinationChunkPosition
         if (ChunkStorage.hasPosition(destinationPosition)) {
-            ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
+            ChunkStorage.getChunk(destinationPosition)?.setMesh(generatedMesh.stack, generatedMesh)
         } // Else nothing happens to it and it's GCed
     }
     for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
         for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
             val requestingPosition = Vector2i(x, z)
             if (ChunkStorage.hasPosition(requestingPosition)) {
-                ChunkStorage.getChunk(requestingPosition).render()
+                ChunkStorage.getChunk(requestingPosition)?.render()
             }
         }
     }

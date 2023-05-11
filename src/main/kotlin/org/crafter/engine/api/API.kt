@@ -44,7 +44,7 @@ object API {
 //         javaScript.put("test", "hi there");
 
         // Fully lockout the container
-        BlockDefinitionContainer.getMainInstance().lockCache()
+        BlockDefinitionContainer.mainInstance?.lockCache()
     }
 
     private fun loadMods() {
