@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package org.crafter.engine.utility
 
@@ -83,13 +83,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     var mOctaves = 3
         set(value) {
             field = value
-            CalculateFractalBounding()
+            calculateFractalBounding()
         }
     var mLacunarity = 2.0.toFloat()
     var mGain = 0.5.toFloat()
         set(value) {
             field = value
-            CalculateFractalBounding()
+            calculateFractalBounding()
         }
     var mFractalType = FractalType.FBM
     var mFractalBounding = 0f
@@ -106,7 +106,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     @JvmRecord
     private data class Float3(val x: Float, val y: Float, val z: Float)
 
-    private fun CalculateFractalBounding() {
+    private fun calculateFractalBounding() {
         var amp = mGain
         var ampFractal = 1f
         for (i in 1 until mOctaves) {
@@ -116,7 +116,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         mFractalBounding = 1 / ampFractal
     }
 
-    fun GetNoise(x: Float, y: Float, z: Float): Float {
+    fun getNoise(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -124,46 +124,46 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mNoiseType) {
-            NoiseType.Value -> SingleValue(mSeed, x, y, z)
+            NoiseType.Value -> singleValue(mSeed, x, y, z)
             NoiseType.ValueFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleValueFractalFBM(x, y, z)
-                FractalType.Billow -> SingleValueFractalBillow(x, y, z)
-                FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y, z)
+                FractalType.FBM -> singleValueFractalFBM(x, y, z)
+                FractalType.Billow -> singleValueFractalBillow(x, y, z)
+                FractalType.RigidMulti -> singleValueFractalRigidMulti(x, y, z)
                 else -> 0f
             }
 
-            NoiseType.Perlin -> SinglePerlin(mSeed, x, y, z)
+            NoiseType.Perlin -> singlePerlin(mSeed, x, y, z)
             NoiseType.PerlinFractal -> when (mFractalType) {
-                FractalType.FBM -> SinglePerlinFractalFBM(x, y, z)
-                FractalType.Billow -> SinglePerlinFractalBillow(x, y, z)
-                FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y, z)
+                FractalType.FBM -> singlePerlinFractalFBM(x, y, z)
+                FractalType.Billow -> singlePerlinFractalBillow(x, y, z)
+                FractalType.RigidMulti -> singlePerlinFractalRigidMulti(x, y, z)
                 else -> 0f
             }
 
-            NoiseType.Simplex -> SingleSimplex(mSeed, x, y, z)
+            NoiseType.Simplex -> singleSimplex(mSeed, x, y, z)
             NoiseType.SimplexFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleSimplexFractalFBM(x, y, z)
-                FractalType.Billow -> SingleSimplexFractalBillow(x, y, z)
-                FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y, z)
+                FractalType.FBM -> singleSimplexFractalFBM(x, y, z)
+                FractalType.Billow -> singleSimplexFractalBillow(x, y, z)
+                FractalType.RigidMulti -> singleSimplexFractalRigidMulti(x, y, z)
                 else -> 0f
             }
 
             NoiseType.Cellular -> when (mCellularReturnType) {
-                CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> SingleCellular(
+                CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> singleCellular(
                     x,
                     y,
                     z
                 )
 
-                else -> SingleCellular2Edge(x, y, z)
+                else -> singleCellular2Edge(x, y, z)
             }
 
-            NoiseType.WhiteNoise -> GetWhiteNoise(x, y, z)
-            NoiseType.Cubic -> SingleCubic(mSeed, x, y, z)
+            NoiseType.WhiteNoise -> getWhiteNoise(x, y, z)
+            NoiseType.Cubic -> singleCubic(mSeed, x, y, z)
             NoiseType.CubicFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleCubicFractalFBM(x, y, z)
-                FractalType.Billow -> SingleCubicFractalBillow(x, y, z)
-                FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y, z)
+                FractalType.FBM -> singleCubicFractalFBM(x, y, z)
+                FractalType.Billow -> singleCubicFractalBillow(x, y, z)
+                FractalType.RigidMulti -> singleCubicFractalRigidMulti(x, y, z)
                 else -> 0f
             }
 
@@ -171,51 +171,51 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         }
     }
 
-    fun GetNoise(x: Float, y: Float): Float {
+    fun getNoise(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mNoiseType) {
-            NoiseType.Value -> SingleValue(mSeed, x, y)
+            NoiseType.Value -> singleValue(mSeed, x, y)
             NoiseType.ValueFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleValueFractalFBM(x, y)
-                FractalType.Billow -> SingleValueFractalBillow(x, y)
-                FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y)
+                FractalType.FBM -> singleValueFractalFBM(x, y)
+                FractalType.Billow -> singleValueFractalBillow(x, y)
+                FractalType.RigidMulti -> singleValueFractalRigidMulti(x, y)
                 else -> 0f
             }
 
-            NoiseType.Perlin -> SinglePerlin(mSeed, x, y)
+            NoiseType.Perlin -> singlePerlin(mSeed, x, y)
             NoiseType.PerlinFractal -> when (mFractalType) {
-                FractalType.FBM -> SinglePerlinFractalFBM(x, y)
-                FractalType.Billow -> SinglePerlinFractalBillow(x, y)
-                FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y)
+                FractalType.FBM -> singlePerlinFractalFBM(x, y)
+                FractalType.Billow -> singlePerlinFractalBillow(x, y)
+                FractalType.RigidMulti -> singlePerlinFractalRigidMulti(x, y)
                 else -> 0f
             }
 
-            NoiseType.Simplex -> SingleSimplex(mSeed, x, y)
+            NoiseType.Simplex -> singleSimplex(mSeed, x, y)
             NoiseType.SimplexFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleSimplexFractalFBM(x, y)
-                FractalType.Billow -> SingleSimplexFractalBillow(x, y)
-                FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y)
+                FractalType.FBM -> singleSimplexFractalFBM(x, y)
+                FractalType.Billow -> singleSimplexFractalBillow(x, y)
+                FractalType.RigidMulti -> singleSimplexFractalRigidMulti(x, y)
                 else -> 0f
             }
 
             NoiseType.Cellular -> when (mCellularReturnType) {
-                CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> SingleCellular(
+                CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> singleCellular(
                     x,
                     y
                 )
 
-                else -> SingleCellular2Edge(x, y)
+                else -> singleCellular2Edge(x, y)
             }
 
-            NoiseType.WhiteNoise -> GetWhiteNoise(x, y)
-            NoiseType.Cubic -> SingleCubic(mSeed, x, y)
+            NoiseType.WhiteNoise -> getWhiteNoise(x, y)
+            NoiseType.Cubic -> singleCubic(mSeed, x, y)
             NoiseType.CubicFractal -> when (mFractalType) {
-                FractalType.FBM -> SingleCubicFractalFBM(x, y)
-                FractalType.Billow -> SingleCubicFractalBillow(x, y)
-                FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y)
+                FractalType.FBM -> singleCubicFractalFBM(x, y)
+                FractalType.Billow -> singleCubicFractalBillow(x, y)
+                FractalType.RigidMulti -> singleCubicFractalRigidMulti(x, y)
                 else -> 0f
             }
 
@@ -224,46 +224,46 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     // White Noise
-    private fun FloatCast2Int(f: Float): Int {
+    private fun floatCast2Int(f: Float): Int {
         val i = java.lang.Float.floatToRawIntBits(f)
         return i xor (i shr 16)
     }
 
-    fun GetWhiteNoise(x: Float, y: Float, z: Float, w: Float): Float {
-        val xi = FloatCast2Int(x)
-        val yi = FloatCast2Int(y)
-        val zi = FloatCast2Int(z)
-        val wi = FloatCast2Int(w)
+    fun getWhiteNoise(x: Float, y: Float, z: Float, w: Float): Float {
+        val xi = floatCast2Int(x)
+        val yi = floatCast2Int(y)
+        val zi = floatCast2Int(z)
+        val wi = floatCast2Int(w)
         return ValCoord4D(mSeed, xi, yi, zi, wi)
     }
 
-    fun GetWhiteNoise(x: Float, y: Float, z: Float): Float {
-        val xi = FloatCast2Int(x)
-        val yi = FloatCast2Int(y)
-        val zi = FloatCast2Int(z)
+    fun getWhiteNoise(x: Float, y: Float, z: Float): Float {
+        val xi = floatCast2Int(x)
+        val yi = floatCast2Int(y)
+        val zi = floatCast2Int(z)
         return ValCoord3D(mSeed, xi, yi, zi)
     }
 
-    fun GetWhiteNoise(x: Float, y: Float): Float {
-        val xi = FloatCast2Int(x)
-        val yi = FloatCast2Int(y)
+    fun getWhiteNoise(x: Float, y: Float): Float {
+        val xi = floatCast2Int(x)
+        val yi = floatCast2Int(y)
         return ValCoord2D(mSeed, xi, yi)
     }
 
-    fun GetWhiteNoiseInt(x: Int, y: Int, z: Int, w: Int): Float {
+    fun getWhiteNoiseInt(x: Int, y: Int, z: Int, w: Int): Float {
         return ValCoord4D(mSeed, x, y, z, w)
     }
 
-    fun GetWhiteNoiseInt(x: Int, y: Int, z: Int): Float {
+    fun getWhiteNoiseInt(x: Int, y: Int, z: Int): Float {
         return ValCoord3D(mSeed, x, y, z)
     }
 
-    fun GetWhiteNoiseInt(x: Int, y: Int): Float {
+    fun getWhiteNoiseInt(x: Int, y: Int): Float {
         return ValCoord2D(mSeed, x, y)
     }
 
     // Value Noise
-    fun GetValueFractal(x: Float, y: Float, z: Float): Float {
+    fun getValueFractal(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -271,69 +271,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleValueFractalFBM(x, y, z)
-            FractalType.Billow -> SingleValueFractalBillow(x, y, z)
-            FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y, z)
+            FractalType.FBM -> singleValueFractalFBM(x, y, z)
+            FractalType.Billow -> singleValueFractalBillow(x, y, z)
+            FractalType.RigidMulti -> singleValueFractalRigidMulti(x, y, z)
             else -> 0f
         }
     }
 
-    private fun SingleValueFractalFBM(x: Float, y: Float, z: Float): Float {
+    private fun singleValueFractalFBM(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = SingleValue(seed, x, y, z)
+        var sum = singleValue(seed, x, y, z)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += SingleValue(++seed, x, y, z) * amp
+            sum += singleValue(++seed, x, y, z) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleValueFractalBillow(x: Float, y: Float, z: Float): Float {
+    private fun singleValueFractalBillow(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = abs(SingleValue(seed, x, y, z)) * 2 - 1
+        var sum = abs(singleValue(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleValue(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(singleValue(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleValueFractalRigidMulti(x: Float, y: Float, z: Float): Float {
+    private fun singleValueFractalRigidMulti(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = 1 - abs(SingleValue(seed, x, y, z))
+        var sum = 1 - abs(singleValue(seed, x, y, z))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleValue(++seed, x, y, z))) * amp
+            sum -= (1 - abs(singleValue(++seed, x, y, z))) * amp
         }
         return sum
     }
 
-    fun GetValue(x: Float, y: Float, z: Float): Float {
-        return SingleValue(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
+    fun getValue(x: Float, y: Float, z: Float): Float {
+        return singleValue(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
     }
 
-    private fun SingleValue(seed: Int, x: Float, y: Float, z: Float): Float {
+    private fun singleValue(seed: Int, x: Float, y: Float, z: Float): Float {
         val x0 = FastFloor(x)
         val y0 = FastFloor(y)
         val z0 = FastFloor(z)
@@ -377,69 +377,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         return Lerp(yf0, yf1, zs)
     }
 
-    fun GetValueFractal(x: Float, y: Float): Float {
+    fun getValueFractal(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleValueFractalFBM(x, y)
-            FractalType.Billow -> SingleValueFractalBillow(x, y)
-            FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y)
+            FractalType.FBM -> singleValueFractalFBM(x, y)
+            FractalType.Billow -> singleValueFractalBillow(x, y)
+            FractalType.RigidMulti -> singleValueFractalRigidMulti(x, y)
             else -> 0f
         }
     }
 
-    private fun SingleValueFractalFBM(x: Float, y: Float): Float {
+    private fun singleValueFractalFBM(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = SingleValue(seed, x, y)
+        var sum = singleValue(seed, x, y)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += SingleValue(++seed, x, y) * amp
+            sum += singleValue(++seed, x, y) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleValueFractalBillow(x: Float, y: Float): Float {
+    private fun singleValueFractalBillow(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = abs(SingleValue(seed, x, y)) * 2 - 1
+        var sum = abs(singleValue(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleValue(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(singleValue(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleValueFractalRigidMulti(x: Float, y: Float): Float {
+    private fun singleValueFractalRigidMulti(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = 1 - abs(SingleValue(seed, x, y))
+        var sum = 1 - abs(singleValue(seed, x, y))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleValue(++seed, x, y))) * amp
+            sum -= (1 - abs(singleValue(++seed, x, y))) * amp
         }
         return sum
     }
 
-    fun GetValue(x: Float, y: Float): Float {
-        return SingleValue(mSeed, x * mFrequency, y * mFrequency)
+    fun getValue(x: Float, y: Float): Float {
+        return singleValue(mSeed, x * mFrequency, y * mFrequency)
     }
 
-    private fun SingleValue(seed: Int, x: Float, y: Float): Float {
+    private fun singleValue(seed: Int, x: Float, y: Float): Float {
         val x0 = FastFloor(x)
         val y0 = FastFloor(y)
         val x1 = x0 + 1
@@ -473,7 +473,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     // Gradient Noise
-    fun GetPerlinFractal(x: Float, y: Float, z: Float): Float {
+    fun getPerlinFractal(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -481,69 +481,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SinglePerlinFractalFBM(x, y, z)
-            FractalType.Billow -> SinglePerlinFractalBillow(x, y, z)
-            FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y, z)
+            FractalType.FBM -> singlePerlinFractalFBM(x, y, z)
+            FractalType.Billow -> singlePerlinFractalBillow(x, y, z)
+            FractalType.RigidMulti -> singlePerlinFractalRigidMulti(x, y, z)
             else -> 0f
         }
     }
 
-    private fun SinglePerlinFractalFBM(x: Float, y: Float, z: Float): Float {
+    private fun singlePerlinFractalFBM(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = SinglePerlin(seed, x, y, z)
+        var sum = singlePerlin(seed, x, y, z)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += SinglePerlin(++seed, x, y, z) * amp
+            sum += singlePerlin(++seed, x, y, z) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SinglePerlinFractalBillow(x: Float, y: Float, z: Float): Float {
+    private fun singlePerlinFractalBillow(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = abs(SinglePerlin(seed, x, y, z)) * 2 - 1
+        var sum = abs(singlePerlin(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += (abs(SinglePerlin(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(singlePerlin(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SinglePerlinFractalRigidMulti(x: Float, y: Float, z: Float): Float {
+    private fun singlePerlinFractalRigidMulti(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = 1 - abs(SinglePerlin(seed, x, y, z))
+        var sum = 1 - abs(singlePerlin(seed, x, y, z))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SinglePerlin(++seed, x, y, z))) * amp
+            sum -= (1 - abs(singlePerlin(++seed, x, y, z))) * amp
         }
         return sum
     }
 
-    fun GetPerlin(x: Float, y: Float, z: Float): Float {
-        return SinglePerlin(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
+    fun getPerlin(x: Float, y: Float, z: Float): Float {
+        return singlePerlin(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
     }
 
-    private fun SinglePerlin(seed: Int, x: Float, y: Float, z: Float): Float {
+    private fun singlePerlin(seed: Int, x: Float, y: Float, z: Float): Float {
         val x0 = FastFloor(x)
         val y0 = FastFloor(y)
         val z0 = FastFloor(z)
@@ -593,69 +593,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         return Lerp(yf0, yf1, zs)
     }
 
-    fun GetPerlinFractal(x: Float, y: Float): Float {
+    fun getPerlinFractal(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SinglePerlinFractalFBM(x, y)
-            FractalType.Billow -> SinglePerlinFractalBillow(x, y)
-            FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y)
+            FractalType.FBM -> singlePerlinFractalFBM(x, y)
+            FractalType.Billow -> singlePerlinFractalBillow(x, y)
+            FractalType.RigidMulti -> singlePerlinFractalRigidMulti(x, y)
             else -> 0f
         }
     }
 
-    private fun SinglePerlinFractalFBM(x: Float, y: Float): Float {
+    private fun singlePerlinFractalFBM(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = SinglePerlin(seed, x, y)
+        var sum = singlePerlin(seed, x, y)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += SinglePerlin(++seed, x, y) * amp
+            sum += singlePerlin(++seed, x, y) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SinglePerlinFractalBillow(x: Float, y: Float): Float {
+    private fun singlePerlinFractalBillow(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = abs(SinglePerlin(seed, x, y)) * 2 - 1
+        var sum = abs(singlePerlin(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += (abs(SinglePerlin(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(singlePerlin(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SinglePerlinFractalRigidMulti(x: Float, y: Float): Float {
+    private fun singlePerlinFractalRigidMulti(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = 1 - abs(SinglePerlin(seed, x, y))
+        var sum = 1 - abs(singlePerlin(seed, x, y))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SinglePerlin(++seed, x, y))) * amp
+            sum -= (1 - abs(singlePerlin(++seed, x, y))) * amp
         }
         return sum
     }
 
-    fun GetPerlin(x: Float, y: Float): Float {
-        return SinglePerlin(mSeed, x * mFrequency, y * mFrequency)
+    fun getPerlin(x: Float, y: Float): Float {
+        return singlePerlin(mSeed, x * mFrequency, y * mFrequency)
     }
 
-    private fun SinglePerlin(seed: Int, x: Float, y: Float): Float {
+    private fun singlePerlin(seed: Int, x: Float, y: Float): Float {
         val x0 = FastFloor(x)
         val y0 = FastFloor(y)
         val x1 = x0 + 1
@@ -693,7 +693,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     // Simplex Noise
-    fun GetSimplexFractal(x: Float, y: Float, z: Float): Float {
+    fun getSimplexFractal(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -701,69 +701,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleSimplexFractalFBM(x, y, z)
-            FractalType.Billow -> SingleSimplexFractalBillow(x, y, z)
-            FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y, z)
+            FractalType.FBM -> singleSimplexFractalFBM(x, y, z)
+            FractalType.Billow -> singleSimplexFractalBillow(x, y, z)
+            FractalType.RigidMulti -> singleSimplexFractalRigidMulti(x, y, z)
             else -> 0f
         }
     }
 
-    private fun SingleSimplexFractalFBM(x: Float, y: Float, z: Float): Float {
+    private fun singleSimplexFractalFBM(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = SingleSimplex(seed, x, y, z)
+        var sum = singleSimplex(seed, x, y, z)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += SingleSimplex(++seed, x, y, z) * amp
+            sum += singleSimplex(++seed, x, y, z) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleSimplexFractalBillow(x: Float, y: Float, z: Float): Float {
+    private fun singleSimplexFractalBillow(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = abs(SingleSimplex(seed, x, y, z)) * 2 - 1
+        var sum = abs(singleSimplex(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleSimplex(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(singleSimplex(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleSimplexFractalRigidMulti(x: Float, y: Float, z: Float): Float {
+    private fun singleSimplexFractalRigidMulti(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = 1 - abs(SingleSimplex(seed, x, y, z))
+        var sum = 1 - abs(singleSimplex(seed, x, y, z))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleSimplex(++seed, x, y, z))) * amp
+            sum -= (1 - abs(singleSimplex(++seed, x, y, z))) * amp
         }
         return sum
     }
 
-    fun GetSimplex(x: Float, y: Float, z: Float): Float {
-        return SingleSimplex(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
+    fun getSimplex(x: Float, y: Float, z: Float): Float {
+        return singleSimplex(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
     }
 
-    private fun SingleSimplex(seed: Int, x: Float, y: Float, z: Float): Float {
+    private fun singleSimplex(seed: Int, x: Float, y: Float, z: Float): Float {
         var t = (x + y + z) * F3
         val i = FastFloor(x + t)
         val j = FastFloor(y + t)
@@ -864,69 +864,69 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         return 32 * (n0 + n1 + n2 + n3)
     }
 
-    fun GetSimplexFractal(x: Float, y: Float): Float {
+    fun getSimplexFractal(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleSimplexFractalFBM(x, y)
-            FractalType.Billow -> SingleSimplexFractalBillow(x, y)
-            FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y)
+            FractalType.FBM -> singleSimplexFractalFBM(x, y)
+            FractalType.Billow -> singleSimplexFractalBillow(x, y)
+            FractalType.RigidMulti -> singleSimplexFractalRigidMulti(x, y)
             else -> 0f
         }
     }
 
-    private fun SingleSimplexFractalFBM(x: Float, y: Float): Float {
+    private fun singleSimplexFractalFBM(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = SingleSimplex(seed, x, y)
+        var sum = singleSimplex(seed, x, y)
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += SingleSimplex(++seed, x, y) * amp
+            sum += singleSimplex(++seed, x, y) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleSimplexFractalBillow(x: Float, y: Float): Float {
+    private fun singleSimplexFractalBillow(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = abs(SingleSimplex(seed, x, y)) * 2 - 1
+        var sum = abs(singleSimplex(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleSimplex(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(singleSimplex(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleSimplexFractalRigidMulti(x: Float, y: Float): Float {
+    private fun singleSimplexFractalRigidMulti(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = 1 - abs(SingleSimplex(seed, x, y))
+        var sum = 1 - abs(singleSimplex(seed, x, y))
         var amp = 1f
         for (i in 1 until mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleSimplex(++seed, x, y))) * amp
+            sum -= (1 - abs(singleSimplex(++seed, x, y))) * amp
         }
         return sum
     }
 
-    fun GetSimplex(x: Float, y: Float): Float {
-        return SingleSimplex(mSeed, x * mFrequency, y * mFrequency)
+    fun getSimplex(x: Float, y: Float): Float {
+        return singleSimplex(mSeed, x * mFrequency, y * mFrequency)
     }
 
-    private fun SingleSimplex(seed: Int, x: Float, y: Float): Float {
+    private fun singleSimplex(seed: Int, x: Float, y: Float): Float {
         var t = (x + y) * F2
         val i = FastFloor(x + t)
         val j = FastFloor(y + t)
@@ -969,11 +969,11 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         return 50 * (n0 + n1 + n2)
     }
 
-    fun GetSimplex(x: Float, y: Float, z: Float, w: Float): Float {
-        return SingleSimplex(mSeed, x * mFrequency, y * mFrequency, z * mFrequency, w * mFrequency)
+    fun getSimplex(x: Float, y: Float, z: Float, w: Float): Float {
+        return singleSimplex(mSeed, x * mFrequency, y * mFrequency, z * mFrequency, w * mFrequency)
     }
 
-    private fun SingleSimplex(seed: Int, x: Float, y: Float, z: Float, w: Float): Float {
+    private fun singleSimplex(seed: Int, x: Float, y: Float, z: Float, w: Float): Float {
         val n0: Float
         val n1: Float
         val n2: Float
@@ -1057,7 +1057,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     // Cubic Noise
-    fun GetCubicFractal(x: Float, y: Float, z: Float): Float {
+    fun getCubicFractal(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -1065,19 +1065,19 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleCubicFractalFBM(x, y, z)
-            FractalType.Billow -> SingleCubicFractalBillow(x, y, z)
-            FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y, z)
+            FractalType.FBM -> singleCubicFractalFBM(x, y, z)
+            FractalType.Billow -> singleCubicFractalBillow(x, y, z)
+            FractalType.RigidMulti -> singleCubicFractalRigidMulti(x, y, z)
             else -> 0f
         }
     }
 
-    private fun SingleCubicFractalFBM(x: Float, y: Float, z: Float): Float {
+    private fun singleCubicFractalFBM(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = SingleCubic(seed, x, y, z)
+        var sum = singleCubic(seed, x, y, z)
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
@@ -1085,17 +1085,17 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += SingleCubic(++seed, x, y, z) * amp
+            sum += singleCubic(++seed, x, y, z) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleCubicFractalBillow(x: Float, y: Float, z: Float): Float {
+    private fun singleCubicFractalBillow(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = abs(SingleCubic(seed, x, y, z)) * 2 - 1
+        var sum = abs(singleCubic(seed, x, y, z)) * 2 - 1
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
@@ -1103,17 +1103,17 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleCubic(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(singleCubic(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleCubicFractalRigidMulti(x: Float, y: Float, z: Float): Float {
+    private fun singleCubicFractalRigidMulti(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
         var seed = mSeed
-        var sum = 1 - abs(SingleCubic(seed, x, y, z))
+        var sum = 1 - abs(singleCubic(seed, x, y, z))
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
@@ -1121,16 +1121,16 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             y *= mLacunarity
             z *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleCubic(++seed, x, y, z))) * amp
+            sum -= (1 - abs(singleCubic(++seed, x, y, z))) * amp
         }
         return sum
     }
 
-    fun GetCubic(x: Float, y: Float, z: Float): Float {
-        return SingleCubic(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
+    fun getCubic(x: Float, y: Float, z: Float): Float {
+        return singleCubic(mSeed, x * mFrequency, y * mFrequency, z * mFrequency)
     }
 
-    private fun SingleCubic(seed: Int, x: Float, y: Float, z: Float): Float {
+    private fun singleCubic(seed: Int, x: Float, y: Float, z: Float): Float {
         val x1 = FastFloor(x)
         val y1 = FastFloor(y)
         val z1 = FastFloor(z)
@@ -1275,81 +1275,81 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         ) * CUBIC_3D_BOUNDING
     }
 
-    fun GetCubicFractal(x: Float, y: Float): Float {
+    fun getCubicFractal(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mFractalType) {
-            FractalType.FBM -> SingleCubicFractalFBM(x, y)
-            FractalType.Billow -> SingleCubicFractalBillow(x, y)
-            FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y)
+            FractalType.FBM -> singleCubicFractalFBM(x, y)
+            FractalType.Billow -> singleCubicFractalBillow(x, y)
+            FractalType.RigidMulti -> singleCubicFractalRigidMulti(x, y)
             else -> 0f
         }
     }
 
-    private fun SingleCubicFractalFBM(x: Float, y: Float): Float {
+    private fun singleCubicFractalFBM(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = SingleCubic(seed, x, y)
+        var sum = singleCubic(seed, x, y)
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += SingleCubic(++seed, x, y) * amp
+            sum += singleCubic(++seed, x, y) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleCubicFractalBillow(x: Float, y: Float): Float {
+    private fun singleCubicFractalBillow(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = abs(SingleCubic(seed, x, y)) * 2 - 1
+        var sum = abs(singleCubic(seed, x, y)) * 2 - 1
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum += (abs(SingleCubic(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(singleCubic(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * mFractalBounding
     }
 
-    private fun SingleCubicFractalRigidMulti(x: Float, y: Float): Float {
+    private fun singleCubicFractalRigidMulti(x: Float, y: Float): Float {
         var x = x
         var y = y
         var seed = mSeed
-        var sum = 1 - abs(SingleCubic(seed, x, y))
+        var sum = 1 - abs(singleCubic(seed, x, y))
         var amp = 1f
         var i = 0
         while (++i < mOctaves) {
             x *= mLacunarity
             y *= mLacunarity
             amp *= mGain
-            sum -= (1 - abs(SingleCubic(++seed, x, y))) * amp
+            sum -= (1 - abs(singleCubic(++seed, x, y))) * amp
         }
         return sum
     }
 
-    fun GetCubic(x: Float, y: Float): Float {
+    fun getCubic(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
-        return SingleCubic(0, x, y)
+        return singleCubic(0, x, y)
     }
 
     init {
         mSeed = seed
-        CalculateFractalBounding()
+        calculateFractalBounding()
     }
 
-    private fun SingleCubic(seed: Int, x: Float, y: Float): Float {
+    private fun singleCubic(seed: Int, x: Float, y: Float): Float {
         val x1 = FastFloor(x)
         val y1 = FastFloor(y)
         val x0 = x1 - 1
@@ -1382,7 +1382,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     }
 
     // Cellular Noise
-    fun GetCellular(x: Float, y: Float, z: Float): Float {
+    fun getCellular(x: Float, y: Float, z: Float): Float {
         var x = x
         var y = y
         var z = z
@@ -1390,17 +1390,17 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         y *= mFrequency
         z *= mFrequency
         return when (mCellularReturnType) {
-            CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> SingleCellular(
+            CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> singleCellular(
                 x,
                 y,
                 z
             )
 
-            else -> SingleCellular2Edge(x, y, z)
+            else -> singleCellular2Edge(x, y, z)
         }
     }
 
-    private fun SingleCellular(x: Float, y: Float, z: Float): Float {
+    private fun singleCellular(x: Float, y: Float, z: Float): Float {
         val xr = FastRound(x)
         val yr = FastRound(y)
         val zr = FastRound(z)
@@ -1492,7 +1492,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             CellularReturnType.CellValue -> ValCoord3D(0, xc, yc, zc)
             CellularReturnType.NoiseLookup -> {
                 val vec = CELL_3D[Hash3D(mSeed, xc, yc, zc) and 255]
-                mCellularNoiseLookup!!.GetNoise(xc + vec.x, yc + vec.y, zc + vec.z)
+                mCellularNoiseLookup!!.getNoise(xc + vec.x, yc + vec.y, zc + vec.z)
             }
 
             CellularReturnType.Distance -> distance - 1
@@ -1500,7 +1500,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         }
     }
 
-    private fun SingleCellular2Edge(x: Float, y: Float, z: Float): Float {
+    private fun singleCellular2Edge(x: Float, y: Float, z: Float): Float {
         val xr = FastRound(x)
         val yr = FastRound(y)
         val zr = FastRound(z)
@@ -1586,22 +1586,22 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         }
     }
 
-    fun GetCellular(x: Float, y: Float): Float {
+    fun getCellular(x: Float, y: Float): Float {
         var x = x
         var y = y
         x *= mFrequency
         y *= mFrequency
         return when (mCellularReturnType) {
-            CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> SingleCellular(
+            CellularReturnType.CellValue, CellularReturnType.NoiseLookup, CellularReturnType.Distance -> singleCellular(
                 x,
                 y
             )
 
-            else -> SingleCellular2Edge(x, y)
+            else -> singleCellular2Edge(x, y)
         }
     }
 
-    private fun SingleCellular(x: Float, y: Float): Float {
+    private fun singleCellular(x: Float, y: Float): Float {
         val xr = FastRound(x)
         val yr = FastRound(y)
         var distance = 999999f
@@ -1692,7 +1692,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             CellularReturnType.CellValue -> ValCoord2D(0, xc, yc)
             CellularReturnType.NoiseLookup -> {
                 val (x1, y1) = CELL_2D[Hash2D(mSeed, xc, yc) and 255]
-                mCellularNoiseLookup!!.GetNoise(xc + x1, yc + y1)
+                mCellularNoiseLookup!!.getNoise(xc + x1, yc + y1)
             }
 
             CellularReturnType.Distance -> distance - 1
@@ -1700,7 +1700,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         }
     }
 
-    private fun SingleCellular2Edge(x: Float, y: Float): Float {
+    private fun singleCellular2Edge(x: Float, y: Float): Float {
         val xr = FastRound(x)
         val yr = FastRound(y)
         var distance = 999999f
@@ -1784,23 +1784,23 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         }
     }
 
-    fun GradientPerturb(v3: Vector3f) {
-        SingleGradientPerturb(mSeed, mGradientPerturbamp, mFrequency, v3)
+    fun gradientPerturb(v3: Vector3f) {
+        singleGradientPerturb(mSeed, mGradientPerturbamp, mFrequency, v3)
     }
 
-    fun GradientPerturbFractal(v3: Vector3f) {
+    fun gradientPerturbFractal(v3: Vector3f) {
         var seed = mSeed
         var amp = mGradientPerturbamp * mFractalBounding
         var freq = mFrequency
-        SingleGradientPerturb(seed, amp, mFrequency, v3)
+        singleGradientPerturb(seed, amp, mFrequency, v3)
         for (i in 1 until mOctaves) {
             freq *= mLacunarity
             amp *= mGain
-            SingleGradientPerturb(++seed, amp, freq, v3)
+            singleGradientPerturb(++seed, amp, freq, v3)
         }
     }
 
-    private fun SingleGradientPerturb(seed: Int, perturbAmp: Float, frequency: Float, v3: Vector3f) {
+    private fun singleGradientPerturb(seed: Int, perturbAmp: Float, frequency: Float, v3: Vector3f) {
         val xf = v3.x * frequency
         val yf = v3.y * frequency
         val zf = v3.z * frequency
@@ -1866,23 +1866,23 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         v3.z += Lerp(lz0y, Lerp(lz0x, lz1x, ys), zs) * perturbAmp
     }
 
-    fun GradientPerturb(v2: Vector2f) {
-        SingleGradientPerturb(mSeed, mGradientPerturbamp, mFrequency, v2)
+    fun gradientPerturb(v2: Vector2f) {
+        singleGradientPerturb(mSeed, mGradientPerturbamp, mFrequency, v2)
     }
 
-    fun GradientPerturbFractal(v2: Vector2f) {
+    fun gradientPerturbFractal(v2: Vector2f) {
         var seed = mSeed
         var amp = mGradientPerturbamp * mFractalBounding
         var freq = mFrequency
-        SingleGradientPerturb(seed, amp, mFrequency, v2)
+        singleGradientPerturb(seed, amp, mFrequency, v2)
         for (i in 1 until mOctaves) {
             freq *= mLacunarity
             amp *= mGain
-            SingleGradientPerturb(++seed, amp, freq, v2)
+            singleGradientPerturb(++seed, amp, freq, v2)
         }
     }
 
-    private fun SingleGradientPerturb(seed: Int, perturbAmp: Float, frequency: Float, v2: Vector2f) {
+    private fun singleGradientPerturb(seed: Int, perturbAmp: Float, frequency: Float, v2: Vector2f) {
         val xf = v2.x * frequency
         val yf = v2.y * frequency
         val x0 = FastFloor(xf)
@@ -1926,7 +1926,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
 
     companion object {
         // Returns a 0 float/double
-        fun GetDecimalType(): Float {
+        fun getDecimalType(): Float {
             return 0f
         }
 
