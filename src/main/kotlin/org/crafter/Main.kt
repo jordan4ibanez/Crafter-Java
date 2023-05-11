@@ -45,6 +45,7 @@ private const val debugON = true
 
 fun main(args: Array<String>) {
     if (debugON) {
+        println("debug is ON!")
         return
     }
     initialize()
