@@ -69,13 +69,13 @@ tasks.test {
 }
 
 application {
-    mainClass.set("org.crafter.engine.MainKt")
+    mainClass.set("org.crafter.MainKt")
 }
 
 tasks.jar {
     manifest {
         // This is a hashmap! I'm writing this comment in case you reading this are learning from this project!
-        attributes["Main-Class"] = "org.crafter.engine.MainKt"
+        attributes["Main-Class"] = "org.crafter.MainKt"
     }
 }
 
@@ -101,7 +101,7 @@ gradle.taskGraph.afterTask {
 }
 
 tasks.shadowJar {
-    project.setProperty("mainClassName", "org.crafter.engine.MainKt")
+    project.setProperty("mainClassName", "org.crafter.MainKt")
     archiveBaseName.set("Crafter")
     archiveClassifier.set("")
     archiveVersion.set("")
