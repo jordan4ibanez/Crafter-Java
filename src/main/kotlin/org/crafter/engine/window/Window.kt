@@ -9,7 +9,8 @@ import org.crafter.engine.controls.Mouse
 import org.crafter.engine.controls.Mouse.poll
 import org.crafter.engine.delta.Delta.calculateDelta
 import org.crafter.engine.delta.Delta.delta
-import org.crafter.engine.gui.components.GUIElement
+//FIXME
+// import org.crafter.engine.gui.components.GUIElement
 import org.joml.Vector2f
 import org.joml.Vector2i
 import org.joml.Vector3f
@@ -20,13 +21,7 @@ import org.lwjgl.opengl.*
 import org.lwjgl.system.Callback
 import org.lwjgl.system.MemoryUtil
 
-/**
- * Window interops with OpenGL 4.1 and GLFW 3.3.
- * There can be only 1 Window in this game. So it's a final class with static methods
- */
 object Window {
-    // This is for internal usage only, to stop this class from becoming a MEGA class
-    // Pointer to the window memory address
     var windowPointer: Long = 0
         private set
 
@@ -104,7 +99,8 @@ object Window {
         GLFW.glfwSwapInterval(1)
         GLFW.glfwShowWindow(windowPointer)
         startOpenGL()
-        GUIElement.recalculateGUIScale()
+        //FIXME:
+        // GUIElement.recalculateGUIScale()
     }
 
     private fun startOpenGL() {
@@ -168,7 +164,7 @@ object Window {
         calculateDelta()
         calculateFPS()
 
-        // Fixme: If having the FPS in the window title is annoying, remove this
+        //Fixme: If having the FPS in the window title is annoying, remove this
         autoInjectFPSIntoWindowTitle()
         pollMemory()
 
