@@ -188,7 +188,7 @@ public final class Window {
 
     public static void pollEvents() {
         // Delta and PollMemory are special cases from what is said below
-        Delta.calculateDelta();
+        Delta.INSTANCE.calculateDelta();
 
         calculateFPS();
 
@@ -216,7 +216,7 @@ public final class Window {
 
     private static void calculateFPS() {
         framesPerSecondUpdate = false;
-        fpsTimeAccumulator += Delta.getDelta();
+        fpsTimeAccumulator += Delta.INSTANCE.getDelta();
 
         if (fpsTimeAccumulator >= 1.0f) {
             fpsTimeAccumulator -= 1.0f;
