@@ -46,7 +46,7 @@ public class Main {
     private static final Vector3f cameraDelta = new Vector3f();
     private static final Vector3f newCameraRotation = new Vector3f();
 
-    private static final int debugChunkSizeRememberToRemoveThisGarbage = 3;
+    private static final int debugChunkSizeRememberToRemoveThisGarbage = 1;
 
     public static void main(String[] args) {
 
