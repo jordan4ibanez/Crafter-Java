@@ -13,6 +13,7 @@ import kotlin.math.min
 // MIT License
 //
 // Copyright(c) 2017 Jordan Peck
+// Completely destroyed by jordan4ibanez
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
