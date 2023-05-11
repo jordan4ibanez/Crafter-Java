@@ -110,7 +110,7 @@ class Chunk {
     //TODO begin array manipulation --------------------------------------------------------
     // Consists of bit shifted integral values
     var data: IntArray = IntArray(arraySize)
-        get() = data.clone()
+        get() = field.copyOf()
         set(value) { field = value.clone() }
 
     /**

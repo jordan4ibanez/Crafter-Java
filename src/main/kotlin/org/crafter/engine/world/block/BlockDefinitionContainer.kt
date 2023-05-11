@@ -150,6 +150,8 @@ class BlockDefinitionContainer private constructor() : Serializable {
 
     companion object {
         private var instance: BlockDefinitionContainer? = null
+
+        @JvmStatic
         val mainInstance: BlockDefinitionContainer?
             /**
              * Only call this on the main thread when loading the game!
