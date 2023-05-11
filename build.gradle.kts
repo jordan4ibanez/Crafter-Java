@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("java")
@@ -115,7 +117,7 @@ val dirs = arrayOf("fonts", "shaders", "textures")
 
 tasks.register<Zip>("packageFullGame") {
 
-    println("Zipping full build of " + releaseVersion + "!")
+    println("Zipping full build of $releaseVersion!")
 
     // This is just called "crafter" so people can simply drop the folder into the existing one and replace contents
     val baseFolder = "crafter"
