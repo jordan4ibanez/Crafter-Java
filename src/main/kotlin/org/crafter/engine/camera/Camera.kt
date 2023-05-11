@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.camera
 
 import org.crafter.engine.shader.ShaderStorage
@@ -39,7 +41,7 @@ object Camera {
     fun updateCameraMatrix() {
         cameraMatrix
             .identity()
-            .perspective(FOV, Window.getAspectRatio(), zNear, zFar)
+            .perspective(FOV, Window.aspectRatio, zNear, zFar)
             .rotateX(rotation.x)
             .rotateY(rotation.y)
         ShaderStorage.setUniform("cameraMatrix", cameraMatrix)
@@ -48,8 +50,8 @@ object Camera {
     // This automatically updates the 2dCameraMatrix
     @JvmStatic
     fun updateGuiCameraMatrix() {
-        val windowWidth = Window.getWindowWidth().toFloat()
-        val windowHeight = Window.getWindowHeight().toFloat()
+        val windowWidth = Window.windowWidth.toFloat()
+        val windowHeight = Window.windowHeight.toFloat()
         guiCameraMatrix
             .identity() // Top left is the base position, like Love2D
             .setOrtho2D(0f, windowWidth, windowHeight, 0f)
