@@ -194,7 +194,7 @@ public class BlockDefinition implements Serializable {
             return;
         }
         final String[] faces = new String[]{"front", "back", "left", "right", "bottom", "top"};
-        TexturePacker atlas = WorldAtlas.getInstance();
+        TexturePacker atlas = WorldAtlas.INSTANCE.getInstance();
         for (int i = 0; i < textures.length; i++) {
             final float[] textureCoordinates = atlas.getQuadOf(textures[i]);
             setTextureCoordinates(faces[i], textureCoordinates);
@@ -226,7 +226,7 @@ public class BlockDefinition implements Serializable {
             throw new RuntimeException("BlockDefinition: Block(" + internalName + ") has the WRONG array length for textures!" );
         }
 
-        TexturePacker atlas = WorldAtlas.getInstance();
+        TexturePacker atlas = WorldAtlas.INSTANCE.getInstance();
 
         // Now check that all the textures are valid
         int i = 0;
