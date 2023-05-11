@@ -44,6 +44,14 @@ object Window {
 
     // Create the window
     init {
+        initializeGLFW()
+        // OpenGL depends on GLFW
+        initializeOpenGL()
+        //FIXME:
+        // GUIElement.recalculateGUIScale()
+    }
+
+    private fun initializeGLFW() {
         // Using default callback
         GLFWErrorCallback.createPrint(System.err).set()
 
@@ -102,12 +110,8 @@ object Window {
         GLFW.glfwMakeContextCurrent(pointer)
         GLFW.glfwSwapInterval(1)
         GLFW.glfwShowWindow(pointer)
-        startOpenGL()
-        //FIXME:
-        // GUIElement.recalculateGUIScale()
     }
-
-    private fun startOpenGL() {
+    private fun initializeOpenGL() {
         GL.createCapabilities()
         println(GL11.glGetString(GL11.GL_VERSION))
         GL11.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f)
