@@ -18,8 +18,8 @@ object Camera {
     // Important note: -Z is facing forwards
     // Important note: Only expose internals as readonly
     // All fields utilize RADIANS
-    private val PIHalf_f = GameMath.getPIHalf_f()
-    private val PI2 = GameMath.getPi2()
+    private val PIHalf_f = GameMath.pIHalf_f
+    private val PI2 = GameMath.pi2
 
     // This is a simple calculation to make the sensitivity number applicable to rotating the camera
     val sensitivity = 500.0f

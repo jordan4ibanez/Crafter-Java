@@ -50,7 +50,7 @@ object API {
     private fun loadMods() {
 
         // Basic mod loading
-        for (modFolder in FileReader.getFolderList(modPath)) {
+        for (modFolder in FileReader.getFolderList(modPath)!!) {
 
 //            System.out.println("Got mod: " + modFolder);
 
@@ -89,7 +89,7 @@ object API {
 
     private fun loadModTextures() {
         // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        val modFolderList = FileReader.getFolderList(modPath)
+        val modFolderList = FileReader.getFolderList(modPath)!!
         for (modFolder in modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
             loadModBlockTextures(modPath + modFolder)
@@ -177,7 +177,7 @@ object API {
      * Runs a javascript file. Extracts the string of the text & passes it into runCodeRaw.
      * @param fileLocation The location of the javascript file.
      */
-    fun runFile(fileLocation: String?) {
+    fun runFile(fileLocation: String) {
         runCode(FileReader.getFileString(fileLocation))
     }
 
