@@ -94,7 +94,7 @@ public class TextBox extends Text {
             return;
         }
 
-        cursorTimer += Delta.delta;
+        cursorTimer += Delta.INSTANCE.getDelta();
         if (cursorTimer >= 0.25) {
             cursorTimer = 0.0f;
             cursorBlink = !cursorBlink;
@@ -125,7 +125,7 @@ public class TextBox extends Text {
             } else if (repeatTimer == 0.0f) {
                 backspaceTrim();
             }
-            repeatTimer += Delta.getDelta();
+            repeatTimer += Delta.INSTANCE.getDelta();
 
             if (repeatTimer >= 0.5f) {
                 repeating = true;
