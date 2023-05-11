@@ -1,4 +1,4 @@
-package org.crafter.engine
+package org.crafter
 
 import org.crafter.engine.api.API
 import org.crafter.engine.camera.Camera
