@@ -77,7 +77,8 @@ tasks.jar {
     }
 }
 
-// This is deprecated, but there"s no alternative I can find
+// This is deprecated, but there's no alternative I can find
+@Suppress("Deprecated")
 gradle.taskGraph.afterTask {
     val name = this.name
 
