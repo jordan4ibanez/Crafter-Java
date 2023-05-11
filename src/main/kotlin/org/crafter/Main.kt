@@ -92,7 +92,7 @@ private fun mainLoop() {
 
     //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
     while (ChunkGenerator.hasUpdate()) {
-        val generatedChunk = ChunkGenerator.getUpdate()
+        val generatedChunk = ChunkGenerator.update
 
         ChunkStorage.addOrUpdate(generatedChunk)
         val position = generatedChunk.position
@@ -104,7 +104,7 @@ private fun mainLoop() {
         }
     }
     while (ChunkMeshGenerator.hasUpdate()) {
-        val generatedMesh = ChunkMeshGenerator.getUpdate()
+        val generatedMesh = ChunkMeshGenerator.update
 
         // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
         // TODO: Make sure this is done within the main thread!
