@@ -1142,7 +1142,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleCubicFractalFBM(x, y, z)
             FractalType.Billow -> SingleCubicFractalBillow(x, y, z)
             FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y, z)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -1358,7 +1358,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleCubicFractalFBM(x, y)
             FractalType.Billow -> SingleCubicFractalBillow(x, y)
             FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -1570,7 +1570,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             }
 
             CellularReturnType.Distance -> distance - 1
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -1656,7 +1656,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             CellularReturnType.Distance2Sub -> distance2 - distance - 1
             CellularReturnType.Distance2Mul -> distance2 * distance - 1
             CellularReturnType.Distance2Div -> distance / distance2 - 1
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -1770,7 +1770,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             }
 
             CellularReturnType.Distance -> distance - 1
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -1854,7 +1854,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             CellularReturnType.Distance2Sub -> distance2 - distance - 1
             CellularReturnType.Distance2Mul -> distance2 * distance - 1
             CellularReturnType.Distance2Div -> distance / distance2 - 1
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -2001,7 +2001,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
     companion object {
         // Returns a 0 float/double
         fun GetDecimalType(): Float {
-            return 0
+            return 0f
         }
 
         private val GRAD_2D = arrayOf(
