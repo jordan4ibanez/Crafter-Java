@@ -20,9 +20,11 @@ object Camera {
     // All fields utilize RADIANS
     private val PIHalf_f = GameMath.getPIHalf_f()
     private val PI2 = GameMath.getPi2()
+
+    // This is a simple calculation to make the sensitivity number applicable to rotating the camera
     val sensitivity = 500.0f
-        get() =// This is a simple calculation to make the sensitivity number applicable to rotating the camera
-            1.0f / field
+        get() = 1.0f / field
+
     private var FOV = Math.toRadians(60.0).toFloat()
     private const val zNear = 0.1f
     private const val zFar = 1000.0f

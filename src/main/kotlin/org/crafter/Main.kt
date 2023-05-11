@@ -128,7 +128,7 @@ private fun doCameraDebug() {
     // Rotation
     val mouseDelta = Mouse.getDelta()
     // Very, very important note: Notice that x & y are swapped. Because the window 2d matrix is 90 degrees rotated from the 3d matrix!
-    cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0f).mul(Camera.getSensitivity())
+    cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0f).mul(Camera.sensitivity);
     Camera.getRotation().add(cameraDelta, newCameraRotation)
     Camera.setRotation(newCameraRotation)
 
