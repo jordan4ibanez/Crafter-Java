@@ -11,7 +11,7 @@ plugins {
 val lwjglVersion = "3.3.1"
 val jomlVersion = "1.10.5"
 
-val group = "org.crafter"
+val group = "org.crafter.engine"
 val version = "Continuous-Build"
 
 val releaseVersion = "v0.0.2 - Pre-Alpha"
@@ -69,13 +69,13 @@ tasks.test {
 }
 
 application {
-    mainClass.set("org.crafter.MainKt")
+    mainClass.set("org.crafter.engine.MainKt")
 }
 
 tasks.jar {
     manifest {
         // This is a hashmap! I'm writing this comment in case you reading this are learning from this project!
-        attributes["Main-Class"] = "org.crafter.MainKt"
+        attributes["Main-Class"] = "org.crafter.engine.MainKt"
     }
 }
 
@@ -101,7 +101,7 @@ gradle.taskGraph.afterTask {
 }
 
 tasks.shadowJar {
-    project.setProperty("mainClassName", "org.crafter.MainKt")
+    project.setProperty("mainClassName", "org.crafter.engine.MainKt")
     archiveBaseName.set("Crafter")
     archiveClassifier.set("")
     archiveVersion.set("")
