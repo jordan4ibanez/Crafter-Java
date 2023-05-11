@@ -3,8 +3,6 @@ package org.crafter.engine.world.chunk;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.mesh.MeshStorage;
-import org.crafter.engine.shader.ShaderStorage;
-import org.joml.Math;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 import org.joml.Vector3f;

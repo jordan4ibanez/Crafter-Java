@@ -94,7 +94,7 @@ public class TextBox extends Text {
             return;
         }
 
-        cursorTimer += Delta.getDelta();
+        cursorTimer += Delta.delta;
         if (cursorTimer >= 0.25) {
             cursorTimer = 0.0f;
             cursorBlink = !cursorBlink;

@@ -160,7 +160,7 @@ private fun doCameraDebug() {
         movementY -= 1f
     }
     val yaw = newCameraRotation.y()
-    val movementDelta = Delta.getDelta() * 10
+    val movementDelta = Delta.delta * 10
 
     // Layered
     cameraMovementX.zero()

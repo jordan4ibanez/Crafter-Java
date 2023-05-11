@@ -5,7 +5,6 @@ import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.joml.Vector2i;
-import org.joml.Vector2ic;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
