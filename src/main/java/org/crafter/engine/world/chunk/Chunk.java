@@ -62,7 +62,7 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
         }
 
         if (got) {
-            rotation += Delta.getDelta() * 15.0f;
+            rotation += Delta.INSTANCE.getDelta() * 15.0f;
         }
     }
 
