@@ -21,16 +21,20 @@ import org.lwjgl.opengl.*
 import org.lwjgl.system.Callback
 import org.lwjgl.system.MemoryUtil
 
+/**
+ * Window class is auto initializing. It is quite literally the base for the entire game.
+ * Initializes: GLFW, OpenGL
+ */
 object Window {
-    var windowPointer: Long = 0
+    var pointer: Long = 0
         private set
 
     // The debugging process callbacks
     private var debugCallback: Callback? = null
-    private var _wasResized = false
+    private var wasResized = false
     private val clearColor = Vector3f()
     private val monitorSize = Vector2i()
-    private val windowSize = Vector2i()
+    private val size = Vector2i()
     private var title: String? = null
     var framesPerSecond = 0
         private set
@@ -39,7 +43,7 @@ object Window {
     private var framesPerSecondUpdate = false
 
     // Create the window
-    fun initialize() {
+    init {
         // Using default callback
         GLFWErrorCallback.createPrint(System.err).set()
 
@@ -66,12 +70,12 @@ object Window {
         getMonitorSize()
 
         // Now we can automatically use that to set the initial window size before any C call is called
-        windowSize.x = monitorSize.x / 2
-        windowSize.y = monitorSize.y / 2
-        windowPointer = GLFW.glfwCreateWindow(windowSize.x, windowSize.y, "", MemoryUtil.NULL, MemoryUtil.NULL)
+        size.x = monitorSize.x / 2
+        size.y = monitorSize.y / 2
+        pointer = GLFW.glfwCreateWindow(size.x, size.y, "", MemoryUtil.NULL, MemoryUtil.NULL)
 
         // Uh oh
-        if (windowPointer == MemoryUtil.NULL) {
+        if (pointer == MemoryUtil.NULL) {
             throw RuntimeException("Window: Failed to create the GLFW window!")
         }
 
@@ -82,22 +86,22 @@ object Window {
         Keyboard.initialize()
 
         // Fancy frame buffer callback - called when window is resized
-        GLFW.glfwSetFramebufferSizeCallback(windowPointer) { window: Long, width: Int, height: Int ->
-            windowSize.x = width
-            windowSize.y = height
-            _wasResized = true
+        GLFW.glfwSetFramebufferSizeCallback(pointer) { window: Long, width: Int, height: Int ->
+            size.x = width
+            size.y = height
+            wasResized = true
             GL11.glViewport(0, 0, width, height)
         }
 
         // Now center the window
         GLFW.glfwSetWindowPos(
-            windowPointer,
-            (monitorSize.x - windowSize.x) / 2,
-            (monitorSize.y - windowSize.y) / 2
+            pointer,
+            (monitorSize.x - size.x) / 2,
+            (monitorSize.y - size.y) / 2
         )
-        GLFW.glfwMakeContextCurrent(windowPointer)
+        GLFW.glfwMakeContextCurrent(pointer)
         GLFW.glfwSwapInterval(1)
-        GLFW.glfwShowWindow(windowPointer)
+        GLFW.glfwShowWindow(pointer)
         startOpenGL()
         //FIXME:
         // GUIElement.recalculateGUIScale()
@@ -138,25 +142,25 @@ object Window {
     fun destroy() {
 
         // Now clean the C memory up
-        Callbacks.glfwFreeCallbacks(windowPointer)
-        GLFW.glfwDestroyWindow(windowPointer)
+        Callbacks.glfwFreeCallbacks(pointer)
+        GLFW.glfwDestroyWindow(pointer)
         GLFW.glfwTerminate()
         GLFW.glfwSetErrorCallback(null)!!.free()
     }
 
     // I think this one is pretty obvious
     fun shouldClose(): Boolean {
-        return GLFW.glfwWindowShouldClose(windowPointer)
+        return GLFW.glfwWindowShouldClose(pointer)
     }
 
     @JvmStatic
     fun wasResized(): Boolean {
-        return _wasResized
+        return wasResized
     }
 
     fun swapBuffers() {
-        GLFW.glfwSwapBuffers(windowPointer)
-        _wasResized = false
+        GLFW.glfwSwapBuffers(pointer)
+        wasResized = false
     }
 
     fun pollEvents() {
@@ -210,7 +214,7 @@ object Window {
 
     @JvmStatic
     fun getWindowSize(): Vector2f {
-        return Vector2f(windowSize)
+        return Vector2f(size)
     }
 
     val windowCenter: Vector2f
@@ -219,13 +223,13 @@ object Window {
          */
         get() = Vector2f(windowWidth / 2.0f, windowHeight / 2.0f)
     val windowWidth: Int
-        get() = windowSize.x
+        get() = size.x
     val windowHeight: Int
-        get() = windowSize.y
+        get() = size.y
     val windowCenterX: Float
-        get() = windowSize.x / 2.0f
+        get() = size.x / 2.0f
     val windowCenterY: Float
-        get() = windowSize.y / 2.0f
+        get() = size.y / 2.0f
 
     // RGB version of setting clear color
     fun setClearColor(r: Float, g: Float, b: Float) {
@@ -254,7 +258,7 @@ object Window {
         if (storeNewTitle) {
             title = newTitle
         }
-        GLFW.glfwSetWindowTitle(windowPointer, newTitle)
+        GLFW.glfwSetWindowTitle(pointer, newTitle)
     }
 
     fun getTitle(): String? {
@@ -271,7 +275,7 @@ object Window {
     }
 
     val aspectRatio: Float
-        get() = windowSize.x.toFloat() / windowSize.y.toFloat()
+        get() = size.x.toFloat() / size.y.toFloat()
 
     private fun getMonitorSize() {
         val videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
@@ -281,17 +285,21 @@ object Window {
     }
 
     fun maximize() {
-        GLFW.glfwMaximizeWindow(windowPointer)
+        GLFW.glfwMaximizeWindow(pointer)
     }
 
     val isFocused: Boolean
-        get() = GLFW.glfwGetWindowAttrib(windowPointer, GLFW.GLFW_FOCUSED) == 1
+        get() = GLFW.glfwGetWindowAttrib(pointer, GLFW.GLFW_FOCUSED) == 1
 
     fun setVsync(onOrOff: Boolean) {
         GLFW.glfwSwapInterval(if (onOrOff) 1 else 0)
     }
 
     fun close() {
-        GLFW.glfwSetWindowShouldClose(windowPointer, true)
+        GLFW.glfwSetWindowShouldClose(pointer, true)
     }
+}
+
+fun Window.scream() {
+    println("ahhhhh")
 }

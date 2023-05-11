@@ -19,14 +19,14 @@ object Mouse {
     @JvmStatic
     fun initialize() {
         if (GLFW.glfwRawMouseMotionSupported()) {
-            GLFW.glfwSetInputMode(Window.windowPointer, GLFW.GLFW_RAW_MOUSE_MOTION, GLFW.GLFW_TRUE)
+            GLFW.glfwSetInputMode(Window.pointer, GLFW.GLFW_RAW_MOUSE_MOTION, GLFW.GLFW_TRUE)
         }
 
         // This causes problems on X11 and Wayland - Todo: Test on Windows - Mouse jolt!
-        GLFW.glfwSetCursorPosCallback(Window.windowPointer) { windowPointer: Long, xPos: Double, yPos: Double ->
+        GLFW.glfwSetCursorPosCallback(Window.pointer) { windowPointer: Long, xPos: Double, yPos: Double ->
             position[xPos] = yPos
         }
-        GLFW.glfwSetCursorEnterCallback(Window.windowPointer) { windowPointer: Long, entered: Boolean ->
+        GLFW.glfwSetCursorEnterCallback(Window.pointer) { windowPointer: Long, entered: Boolean ->
             // Only resetting to -1 when the mouse leaves
             if (!entered) {
                 println("Mouse: RESETTING TO -1 -1!")
@@ -42,8 +42,8 @@ object Mouse {
     @JvmStatic
     fun poll() {
         calculateDeltaWhenCaptured()
-        val leftButtonState = GLFW.glfwGetMouseButton(Window.windowPointer, GLFW.GLFW_MOUSE_BUTTON_LEFT)
-        val rightButtonState = GLFW.glfwGetMouseButton(Window.windowPointer, GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+        val leftButtonState = GLFW.glfwGetMouseButton(Window.pointer, GLFW.GLFW_MOUSE_BUTTON_LEFT)
+        val rightButtonState = GLFW.glfwGetMouseButton(Window.pointer, GLFW.GLFW_MOUSE_BUTTON_RIGHT)
         if (leftButtonState == GLFW.GLFW_PRESS) {
             leftHeld = true
             leftClick = !leftWasHeld
@@ -104,17 +104,17 @@ object Mouse {
     }
 
     fun capture() {
-        GLFW.glfwSetInputMode(Window.windowPointer, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED)
+        GLFW.glfwSetInputMode(Window.pointer, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED)
         enableReset()
     }
 
     fun release() {
-        GLFW.glfwSetInputMode(Window.windowPointer, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL)
+        GLFW.glfwSetInputMode(Window.pointer, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL)
         enableReset()
     }
 
     val isCaptured: Boolean
-        get() = GLFW.glfwGetInputMode(Window.windowPointer, GLFW.GLFW_CURSOR) == GLFW.GLFW_CURSOR_DISABLED
+        get() = GLFW.glfwGetInputMode(Window.pointer, GLFW.GLFW_CURSOR) == GLFW.GLFW_CURSOR_DISABLED
 
     /**
      * These two are very basic gates to allow this to be more readable in english.
@@ -125,7 +125,7 @@ object Mouse {
 
     private fun doReset() {
         delta.zero()
-        GLFW.glfwSetCursorPos(Window.windowPointer, 0.0, 0.0)
+        GLFW.glfwSetCursorPos(Window.pointer, 0.0, 0.0)
         needsDeltaReset = false
     }
 }

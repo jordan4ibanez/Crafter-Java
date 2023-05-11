@@ -65,8 +65,10 @@ fun main(args: Array<String>) {
 }
 
 private fun initialize() {
-    Window.initialize()
+
+    /** Window auto initializes */
     Window.setTitle(versionInfo, true)
+
     API.initialize()
     ChunkGenerator.start()
     ChunkMeshGenerator.start()

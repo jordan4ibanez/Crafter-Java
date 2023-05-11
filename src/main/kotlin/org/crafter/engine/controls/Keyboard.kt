@@ -17,10 +17,10 @@ object Keyboard {
     private val memoryFlush: Queue<Int> = LinkedList()
     @JvmStatic
     fun initialize() {
-        GLFW.glfwSetCharCallback(Window.windowPointer) { window: Long, codePoint: Int ->
+        GLFW.glfwSetCharCallback(Window.pointer) { window: Long, codePoint: Int ->
             lastKey = codePoint.toChar()
         }
-        GLFW.glfwSetKeyCallback(Window.windowPointer) { window: Long, key: Int, scancode: Int, action: Int, mods: Int ->
+        GLFW.glfwSetKeyCallback(Window.pointer) { window: Long, key: Int, scancode: Int, action: Int, mods: Int ->
             if (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT) {
                 setMemory(key)
                 setCurrent(key, true)
