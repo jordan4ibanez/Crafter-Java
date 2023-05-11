@@ -23,7 +23,7 @@ import java.util.*
 
 private const val DEVELOPMENT_CYCLE = "Pre-Alpha"
 private const val VERSION = "v0.0.2"
-private const val VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION
+private const val VERSION_INFO = "Crafter $DEVELOPMENT_CYCLE $VERSION"
 private const val PROTOTYPE_BUILD = true
 private val versionInfo: String
 
@@ -44,10 +44,7 @@ private const val debugChunkSizeRememberToRemoveThisGarbage = 1
 private const val debugON = true
 
 fun main(args: Array<String>) {
-    if (debugON) {
-        println("debug is ON!")
-        return
-    }
+
     initialize()
     for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
         for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
@@ -91,19 +88,44 @@ private fun mainLoop() {
     ShaderStorage.start("3d")
 
 
-    // Note: This is an EXTREME test! This is so out of the scope of this game
-    // that it's basically the equivalent of a few servers with thousands of people on them all loading in
-    // at the same time running on one instance!
-//        System.out.println("--------- MAIN THREAD STARTED REQUESTS ----------");
-//        for (int i = 0; i < random.nextInt(100); i++) {
-//            // -25 to 25
-//            ChunkGenerator.pushRequest(new Vector2i(
-//                    random.nextInt(100) - 51,
-//                    random.nextInt(100) - 51
-//            ));
-//        }
+    doCameraDebug()
 
-    // FIXME: BEGIN CAMERA INPUT DEBUGGING
+
+    //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
+    while (ChunkGenerator.hasUpdate()) {
+        val generatedChunk = ChunkGenerator.getUpdate()
+
+        ChunkStorage.addOrUpdate(generatedChunk)
+        val position = generatedChunk.position
+        //fixme: needs to iterate 0-7
+        // Render stack 0 (y coordinate 0 to 15)
+        for (i in 0 until generatedChunk.stacks) {
+            println(i)
+            ChunkMeshGenerator.pushRequest(position.x(), i, position.y())
+        }
+    }
+    while (ChunkMeshGenerator.hasUpdate()) {
+        val generatedMesh = ChunkMeshGenerator.getUpdate()
+
+        // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
+        // TODO: Make sure this is done within the main thread!
+        val destinationPosition = generatedMesh.destinationChunkPosition
+        if (ChunkStorage.hasPosition(destinationPosition)) {
+            ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
+        } // Else nothing happens to it and it's GCed
+    }
+    for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
+        for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
+            val requestingPosition = Vector2i(x, z)
+            if (ChunkStorage.hasPosition(requestingPosition)) {
+                ChunkStorage.getChunk(requestingPosition).render()
+            }
+        }
+    }
+    Window.swapBuffers()
+}
+
+private fun doCameraDebug() {
 
     // Rotation
     val mouseDelta = Mouse.getDelta()
@@ -158,46 +180,6 @@ private fun mainLoop() {
     Camera.setPosition(newCameraPosition)
     Camera.updateCameraMatrix()
 
-    // FIXME: END CAMERA INPUT DEBUGGING
-
-    //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-    while (ChunkGenerator.hasUpdate()) {
-        val generatedChunk = ChunkGenerator.getUpdate()
-        //                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
-        ChunkStorage.addOrUpdate(generatedChunk)
-        val position = generatedChunk.position
-        //fixme: needs to iterate 0-7
-        // Render stack 0 (y coordinate 0 to 15)
-        for (i in 0 until generatedChunk.stacks) {
-            println(i)
-            ChunkMeshGenerator.pushRequest(position.x(), i, position.y())
-        }
-    }
-    while (ChunkMeshGenerator.hasUpdate()) {
-        val generatedMesh = ChunkMeshGenerator.getUpdate()
-        //            System.out.println("------- BEGIN RECORD DEBUGGING --------");
-//            System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
-//            System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
-//            System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
-//            System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
-//            System.out.println("------- END RECORD DEBUGGING --------");
-
-        // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
-        // TODO: Make sure this is done within the main thread!
-        val destinationPosition = generatedMesh.destinationChunkPosition
-        if (ChunkStorage.hasPosition(destinationPosition)) {
-            ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
-        } // Else nothing happens to it and it's GCed
-    }
-    for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
-        for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
-            val requestingPosition = Vector2i(x, z)
-            if (ChunkStorage.hasPosition(requestingPosition)) {
-                ChunkStorage.getChunk(requestingPosition).render()
-            }
-        }
-    }
-    Window.swapBuffers()
 }
 
 private fun destroy() {
