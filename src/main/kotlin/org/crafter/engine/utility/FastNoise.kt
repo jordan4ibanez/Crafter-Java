@@ -1,9 +1,10 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "PrivatePropertyName", "FunctionName")
 
 package org.crafter.engine.utility
 
 import org.joml.Vector2f
 import org.joml.Vector3f
+import kotlin.math.abs
 
 // FastNoise.java
 //
@@ -373,14 +374,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = Math.abs(SingleValue(seed, x, y, z)) * 2 - 1
+        var sum = abs(SingleValue(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleValue(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(SingleValue(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -390,14 +391,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleValue(seed, x, y, z))
+        var sum = 1 - abs(SingleValue(seed, x, y, z))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleValue(++seed, x, y, z))) * amp
+            sum -= (1 - abs(SingleValue(++seed, x, y, z))) * amp
         }
         return sum
     }
@@ -482,13 +483,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = Math.abs(SingleValue(seed, x, y)) * 2 - 1
+        var sum = abs(SingleValue(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleValue(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(SingleValue(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -497,13 +498,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleValue(seed, x, y))
+        var sum = 1 - abs(SingleValue(seed, x, y))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleValue(++seed, x, y))) * amp
+            sum -= (1 - abs(SingleValue(++seed, x, y))) * amp
         }
         return sum
     }
@@ -583,14 +584,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = Math.abs(SinglePerlin(seed, x, y, z)) * 2 - 1
+        var sum = abs(SinglePerlin(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SinglePerlin(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(SinglePerlin(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -600,14 +601,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = 1 - Math.abs(SinglePerlin(seed, x, y, z))
+        var sum = 1 - abs(SinglePerlin(seed, x, y, z))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SinglePerlin(++seed, x, y, z))) * amp
+            sum -= (1 - abs(SinglePerlin(++seed, x, y, z))) * amp
         }
         return sum
     }
@@ -675,7 +676,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SinglePerlinFractalFBM(x, y)
             FractalType.Billow -> SinglePerlinFractalBillow(x, y)
             FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -698,13 +699,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = Math.abs(SinglePerlin(seed, x, y)) * 2 - 1
+        var sum = abs(SinglePerlin(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SinglePerlin(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(SinglePerlin(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -713,13 +714,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = 1 - Math.abs(SinglePerlin(seed, x, y))
+        var sum = 1 - abs(SinglePerlin(seed, x, y))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SinglePerlin(++seed, x, y))) * amp
+            sum -= (1 - abs(SinglePerlin(++seed, x, y))) * amp
         }
         return sum
     }
@@ -777,7 +778,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleSimplexFractalFBM(x, y, z)
             FractalType.Billow -> SingleSimplexFractalBillow(x, y, z)
             FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y, z)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -803,14 +804,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = Math.abs(SingleSimplex(seed, x, y, z)) * 2 - 1
+        var sum = abs(SingleSimplex(seed, x, y, z)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleSimplex(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(SingleSimplex(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -820,14 +821,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleSimplex(seed, x, y, z))
+        var sum = 1 - abs(SingleSimplex(seed, x, y, z))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleSimplex(++seed, x, y, z))) * amp
+            sum -= (1 - abs(SingleSimplex(++seed, x, y, z))) * amp
         }
         return sum
     }
@@ -946,7 +947,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleSimplexFractalFBM(x, y)
             FractalType.Billow -> SingleSimplexFractalBillow(x, y)
             FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -969,13 +970,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = Math.abs(SingleSimplex(seed, x, y)) * 2 - 1
+        var sum = abs(SingleSimplex(seed, x, y)) * 2 - 1
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleSimplex(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(SingleSimplex(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -984,13 +985,13 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleSimplex(seed, x, y))
+        var sum = 1 - abs(SingleSimplex(seed, x, y))
         var amp = 1f
         for (i in 1 until m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleSimplex(++seed, x, y))) * amp
+            sum -= (1 - abs(SingleSimplex(++seed, x, y))) * amp
         }
         return sum
     }
@@ -1168,7 +1169,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = Math.abs(SingleCubic(seed, x, y, z)) * 2 - 1
+        var sum = abs(SingleCubic(seed, x, y, z)) * 2 - 1
         var amp = 1f
         var i = 0
         while (++i < m_octaves) {
@@ -1176,7 +1177,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleCubic(++seed, x, y, z)) * 2 - 1) * amp
+            sum += (abs(SingleCubic(++seed, x, y, z)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -1186,7 +1187,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var y = y
         var z = z
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleCubic(seed, x, y, z))
+        var sum = 1 - abs(SingleCubic(seed, x, y, z))
         var amp = 1f
         var i = 0
         while (++i < m_octaves) {
@@ -1194,7 +1195,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             y *= m_lacunarity
             z *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleCubic(++seed, x, y, z))) * amp
+            sum -= (1 - abs(SingleCubic(++seed, x, y, z))) * amp
         }
         return sum
     }
@@ -1381,14 +1382,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = Math.abs(SingleCubic(seed, x, y)) * 2 - 1
+        var sum = abs(SingleCubic(seed, x, y)) * 2 - 1
         var amp = 1f
         var i = 0
         while (++i < m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum += (Math.abs(SingleCubic(++seed, x, y)) * 2 - 1) * amp
+            sum += (abs(SingleCubic(++seed, x, y)) * 2 - 1) * amp
         }
         return sum * m_fractalBounding
     }
@@ -1397,14 +1398,14 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
         var x = x
         var y = y
         var seed = m_seed
-        var sum = 1 - Math.abs(SingleCubic(seed, x, y))
+        var sum = 1 - abs(SingleCubic(seed, x, y))
         var amp = 1f
         var i = 0
         while (++i < m_octaves) {
             x *= m_lacunarity
             y *= m_lacunarity
             amp *= m_gain
-            sum -= (1 - Math.abs(SingleCubic(++seed, x, y))) * amp
+            sum -= (1 - abs(SingleCubic(++seed, x, y))) * amp
         }
         return sum
     }
@@ -1519,7 +1520,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                             val vecX = xi - x + vec.x
                             val vecY = yi - y + vec.y
                             val vecZ = zi - z + vec.z
-                            val newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)
+                            val newDistance = abs(vecX) + abs(vecY) + abs(vecZ)
                             if (newDistance < distance) {
                                 distance = newDistance
                                 xc = xi
@@ -1546,7 +1547,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                             val vecY = yi - y + vec.y
                             val vecZ = zi - z + vec.z
                             val newDistance =
-                                Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ)
+                                abs(vecX) + abs(vecY) + abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ)
                             if (newDistance < distance) {
                                 distance = newDistance
                                 xc = xi
@@ -1613,7 +1614,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                             val vecX = xi - x + vec.x
                             val vecY = yi - y + vec.y
                             val vecZ = zi - z + vec.z
-                            val newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)
+                            val newDistance = abs(vecX) + abs(vecY) + abs(vecZ)
                             distance2 = Math.max(Math.min(distance2, newDistance), distance)
                             distance = Math.min(distance, newDistance)
                             zi++
@@ -1636,7 +1637,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                             val vecY = yi - y + vec.y
                             val vecZ = zi - z + vec.z
                             val newDistance =
-                                Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ)
+                                abs(vecX) + abs(vecY) + abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ)
                             distance2 = Math.max(Math.min(distance2, newDistance), distance)
                             distance = Math.min(distance, newDistance)
                             zi++
@@ -1709,7 +1710,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                         val (x1, y1) = CELL_2D[Hash2D(m_seed, xi, yi) and 255]
                         val vecX = xi - x + x1
                         val vecY = yi - y + y1
-                        val newDistance = Math.abs(vecX) + Math.abs(vecY)
+                        val newDistance = abs(vecX) + abs(vecY)
                         if (newDistance < distance) {
                             distance = newDistance
                             xc = xi
@@ -1729,7 +1730,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                         val (x1, y1) = CELL_2D[Hash2D(m_seed, xi, yi) and 255]
                         val vecX = xi - x + x1
                         val vecY = yi - y + y1
-                        val newDistance = Math.abs(vecX) + Math.abs(vecY) + (vecX * vecX + vecY * vecY)
+                        val newDistance = abs(vecX) + abs(vecY) + (vecX * vecX + vecY * vecY)
                         if (newDistance < distance) {
                             distance = newDistance
                             xc = xi
@@ -1804,7 +1805,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                         val (x1, y1) = CELL_2D[Hash2D(m_seed, xi, yi) and 255]
                         val vecX = xi - x + x1
                         val vecY = yi - y + y1
-                        val newDistance = Math.abs(vecX) + Math.abs(vecY)
+                        val newDistance = abs(vecX) + abs(vecY)
                         distance2 = Math.max(Math.min(distance2, newDistance), distance)
                         distance = Math.min(distance, newDistance)
                         yi++
@@ -1821,7 +1822,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                         val (x1, y1) = CELL_2D[Hash2D(m_seed, xi, yi) and 255]
                         val vecX = xi - x + x1
                         val vecY = yi - y + y1
-                        val newDistance = Math.abs(vecX) + Math.abs(vecY) + (vecX * vecX + vecY * vecY)
+                        val newDistance = abs(vecX) + abs(vecY) + (vecX * vecX + vecY * vecY)
                         distance2 = Math.max(Math.min(distance2, newDistance), distance)
                         distance = Math.min(distance, newDistance)
                         yi++
