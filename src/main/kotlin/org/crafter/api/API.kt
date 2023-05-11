@@ -1,47 +1,37 @@
-package org.crafter.api;
+package org.crafter.api
 
-import org.crafter.engine.texture.TextureStorage;
-import org.crafter.engine.texture.WorldAtlas;
-import org.crafter.engine.texture.texture_packer.TexturePacker;
-import org.crafter.engine.utility.FileReader;
-import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.texture.TextureStorage
+import org.crafter.engine.texture.WorldAtlas
+import org.crafter.engine.utility.FileReader
+import org.crafter.engine.world.block.BlockDefinitionContainer
+import java.util.*
+import java.util.function.Consumer
+import javax.script.*
 
-import javax.script.*;
-
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static org.crafter.engine.utility.FileReader.getFileString;
-import static org.crafter.engine.utility.FileReader.getFolderList;
-
-public final class API {
-    private static ScriptEngine javaScript;
-    private static Bindings bindings;
-
-    private static Compilable compiler;
-    private static Invocable invoker;
+object API {
+    private var javaScript: ScriptEngine? = null
+    private var bindings: Bindings? = null
+    private var compiler: Compilable? = null
+    private var invoker: Invocable? = null
 
     // Keep this as a field in case it is ever decided to relocate it!
-    private static final String modPath = "mods/";
-
-    private static final String[] requiredValues = new String[]{"name", "version", "description"};
-
-    private API(){}
-    public static void initialize() {
-        javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
-        bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
-        compiler = (Compilable) javaScript;
-        invoker  = (Invocable) javaScript;
+    private const val modPath = "mods/"
+    private val requiredValues = arrayOf("name", "version", "description")
+    fun initialize() {
+        javaScript = ScriptEngineManager().getEngineByName("Nashorn")
+        bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE)
+        compiler = javaScript as Compilable?
+        invoker = javaScript as Invocable?
 
         // Load up the actual javascript API elements
-        runFile("api/api.js");
+        runFile("api/api.js")
 
         // The gist: it loads mod textures
         // Read method for more information
-        loadModTextures();
+        loadModTextures()
 
         // Now load up all mods
-        loadMods();
+        loadMods()
 
         // Todo Note: This is how you invoke from java into javascript
 //        Object blah = invoke("getX");
@@ -54,40 +44,39 @@ public final class API {
 //         javaScript.put("test", "hi there");
 
         // Fully lockout the container
-        BlockDefinitionContainer.getMainInstance().lockCache();
+        BlockDefinitionContainer.getMainInstance().lockCache()
     }
 
-    private static void loadMods() {
+    private fun loadMods() {
 
         // Basic mod loading
-        for (String modFolder : getFolderList(modPath)) {
+        for (modFolder in FileReader.getFolderList(modPath)) {
 
 //            System.out.println("Got mod: " + modFolder);
 
             // We need to look through this multiple times so turn it into an indexable container
-            HashMap<String, Boolean> fileExistence = new HashMap<>();
-            Arrays.stream(FileReader.getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
-                fileExistence.put(fileName, true);
-            });
+            val fileExistence = HashMap<String, Boolean>()
+            Arrays.stream(FileReader.getFileList(modPath + modFolder)).toList().forEach(
+                Consumer { fileName: String -> fileExistence[fileName] = true })
 
             // Check mod.json existence
             if (!fileExistence.containsKey("mod.json")) {
-                throw new RuntimeException("API: Mod (" + modFolder + ") does not have mod.json!");
+                throw RuntimeException("API: Mod ($modFolder) does not have mod.json!")
             }
 
             // Check main.js existence
             if (!fileExistence.containsKey("main.js")) {
-                throw new RuntimeException("API: Mod (" + modFolder + ") does not have main.js!");
+                throw RuntimeException("API: Mod ($modFolder) does not have main.js!")
             }
 
             // Automate required values in conf are checked here
-            ModConfParser confParser = checkParserConfValues(new ModConfParser(modPath + modFolder), modFolder);
+            val confParser = checkParserConfValues(ModConfParser(modPath + modFolder), modFolder)
 
             // todo, but in java so it's readonly in the javascript API scope >:D
 //            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
 
             // Now run main.js
-            runFile(modPath + modFolder + "/main.js");
+            runFile(modPath + modFolder + "/main.js")
 
             // todo
 //            // Now check it in case someone tried to mess with another mod
@@ -98,128 +87,110 @@ public final class API {
         }
     }
 
-
-    private static void loadModTextures() {
+    private fun loadModTextures() {
         // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        String[] modFolderList = FileReader.getFolderList(modPath);
-
-        for (String modFolder : modFolderList) {
+        val modFolderList = FileReader.getFolderList(modPath)
+        for (modFolder in modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
-            loadModBlockTextures(modPath + modFolder);
+            loadModBlockTextures(modPath + modFolder)
 
             // Loads up all png files within mod's /textures/ folder EXCLUDING /blocks/. These are individual textures.
-            loadModIndividualTextures(modPath + modFolder);
-
+            loadModIndividualTextures(modPath + modFolder)
         }
         // All mod textures are loaded, close it out.
-        WorldAtlas.lock();
+        WorldAtlas.lock()
         // TextureStorage now has an entry of "worldAtlas" that can be easily gotten!
     }
 
-    private static void loadModIndividualTextures(String modDirectory) {
-
-        String texturesDirectory = modDirectory + "/textures";
-
+    private fun loadModIndividualTextures(modDirectory: String) {
+        val texturesDirectory = "$modDirectory/textures"
         if (!FileReader.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        String[] foundFiles = FileReader.getFileList(texturesDirectory);
-
-        if (foundFiles.length == 0) {
+        val foundFiles = FileReader.getFileList(texturesDirectory)
+        if (foundFiles.size == 0) {
 //            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        int foundPNGs = 0;
-        for (String thisFile : foundFiles) {
+        var foundPNGs = 0
+        for (thisFile in foundFiles) {
             if (thisFile.contains(".png")) {
-                foundPNGs++;
+                foundPNGs++
             }
         }
         if (foundPNGs == 0) {
 //            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + texturesDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        for (String thisFile : foundFiles) {
+        for (thisFile in foundFiles) {
             if (thisFile.contains(".png")) {
-                TextureStorage.createTexture(thisFile, texturesDirectory + "/" + thisFile);
+                TextureStorage.createTexture(thisFile, "$texturesDirectory/$thisFile")
             }
         }
     }
 
-    private static void loadModBlockTextures(String modDirectory) {
-
-        String texturesDirectory = modDirectory + "/textures";
-
+    private fun loadModBlockTextures(modDirectory: String) {
+        val texturesDirectory = "$modDirectory/textures"
         if (!FileReader.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        String blockTexturesDirectory = texturesDirectory + "/blocks";
-
+        val blockTexturesDirectory = "$texturesDirectory/blocks"
         if (!FileReader.isFolder(blockTexturesDirectory)) {
 //            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        String[] foundFiles = FileReader.getFileList(blockTexturesDirectory);
-
-        if (foundFiles.length == 0) {
+        val foundFiles = FileReader.getFileList(blockTexturesDirectory)
+        if (foundFiles.size == 0) {
 //            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        int foundPNGs = 0;
-        for (String thisFile : foundFiles) {
+        var foundPNGs = 0
+        for (thisFile in foundFiles) {
             if (thisFile.contains(".png")) {
-                foundPNGs++;
+                foundPNGs++
             }
         }
         if (foundPNGs == 0) {
 //            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
-            return;
+            return
         }
-
-        TexturePacker worldAtlasTexturePacker = WorldAtlas.getInstance();
-
-        for (String thisFile : foundFiles) {
+        val worldAtlasTexturePacker = WorldAtlas.getInstance()
+        for (thisFile in foundFiles) {
             if (thisFile.contains(".png")) {
-                worldAtlasTexturePacker.add(thisFile, blockTexturesDirectory + "/" + thisFile);
+                worldAtlasTexturePacker.add(thisFile, "$blockTexturesDirectory/$thisFile")
             }
         }
-    }
-    private static ModConfParser checkParserConfValues(ModConfParser modConfParser, String modDirectory) {
-        for (String requiredValue : requiredValues) {
-            if (!modConfParser.containsDirectValue(requiredValue)) {
-                throw new RuntimeException("API: Mod (" + modDirectory + ") is missing (" + requiredValue + ")!");
-            }
-        }
-        return modConfParser;
     }
 
+    private fun checkParserConfValues(modConfParser: ModConfParser, modDirectory: String): ModConfParser {
+        for (requiredValue in requiredValues) {
+            if (!modConfParser.containsDirectValue(requiredValue)) {
+                throw RuntimeException("API: Mod ($modDirectory) is missing ($requiredValue)!")
+            }
+        }
+        return modConfParser
+    }
 
     /**
      * Runs a javascript file. Extracts the string of the text & passes it into runCodeRaw.
      * @param fileLocation The location of the javascript file.
      */
-    public static void runFile(String fileLocation) {
-        runCode(getFileString(fileLocation));
+    fun runFile(fileLocation: String?) {
+        runCode(FileReader.getFileString(fileLocation))
     }
 
     /**
      * Run raw javascript code.
      * @param rawCode The raw code string.
      */
-    public static void runCode(String rawCode) {
+    fun runCode(rawCode: String?) {
         //TODO: Maybe a game error catcher thing, print out the string like minetest?
         try {
-            javaScript.eval(rawCode);
-        } catch (Exception e) {
-            throw new RuntimeException("API ERROR!: " + e);
+            javaScript!!.eval(rawCode)
+        } catch (e: Exception) {
+            throw RuntimeException("API ERROR!: $e")
         }
     }
 
@@ -230,12 +201,11 @@ public final class API {
      * @param args Function arguments.
      * @return Object, can be of any Java type.
      */
-    public static Object invoke(String functionName, Object... args) {
-        try {
-            return invoker.invokeFunction(functionName, args);
-        } catch (Exception e) {
-            throw new RuntimeException("API ERROR!: " + e);
+    operator fun invoke(functionName: String?, vararg args: Any?): Any {
+        return try {
+            invoker!!.invokeFunction(functionName, *args)
+        } catch (e: Exception) {
+            throw RuntimeException("API ERROR!: $e")
         }
     }
-
 }
