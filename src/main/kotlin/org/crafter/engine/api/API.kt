@@ -156,7 +156,7 @@ object API {
 //            System.out.println("API: (exit 2) No block textures (.png) found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return
         }
-        val worldAtlasTexturePacker = WorldAtlas.getInstance()
+        val worldAtlasTexturePacker = WorldAtlas.instance
         for (thisFile in foundFiles) {
             if (thisFile.contains(".png")) {
                 worldAtlasTexturePacker.add(thisFile, "$blockTexturesDirectory/$thisFile")
