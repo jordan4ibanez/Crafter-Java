@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.crafter.engine.utility
 
 import org.joml.Vector2f
@@ -174,15 +176,8 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
 
     @JvmRecord
     private data class Float2(val x: Float, val y: Float)
-    private class Float3(val x: Float, val y: Float, z: Float) {
-        val z: Float
-
-        init {
-            x = x
-            y = y
-            this.z = z
-        }
-    }
+    @JvmRecord
+    private data class Float3(val x: Float, val y: Float, val z: Float)
 
     private fun CalculateFractalBounding() {
         var amp = m_gain
@@ -207,7 +202,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleValueFractalFBM(x, y, z)
                 FractalType.Billow -> SingleValueFractalBillow(x, y, z)
                 FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y, z)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Perlin -> SinglePerlin(m_seed, x, y, z)
@@ -215,7 +210,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SinglePerlinFractalFBM(x, y, z)
                 FractalType.Billow -> SinglePerlinFractalBillow(x, y, z)
                 FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y, z)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Simplex -> SingleSimplex(m_seed, x, y, z)
@@ -223,7 +218,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleSimplexFractalFBM(x, y, z)
                 FractalType.Billow -> SingleSimplexFractalBillow(x, y, z)
                 FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y, z)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Cellular -> when (m_cellularReturnType) {
@@ -242,10 +237,10 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleCubicFractalFBM(x, y, z)
                 FractalType.Billow -> SingleCubicFractalBillow(x, y, z)
                 FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y, z)
-                else -> 0
+                else -> 0f
             }
 
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -260,7 +255,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleValueFractalFBM(x, y)
                 FractalType.Billow -> SingleValueFractalBillow(x, y)
                 FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Perlin -> SinglePerlin(m_seed, x, y)
@@ -268,7 +263,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SinglePerlinFractalFBM(x, y)
                 FractalType.Billow -> SinglePerlinFractalBillow(x, y)
                 FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Simplex -> SingleSimplex(m_seed, x, y)
@@ -276,7 +271,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleSimplexFractalFBM(x, y)
                 FractalType.Billow -> SingleSimplexFractalBillow(x, y)
                 FractalType.RigidMulti -> SingleSimplexFractalRigidMulti(x, y)
-                else -> 0
+                else -> 0f
             }
 
             NoiseType.Cellular -> when (m_cellularReturnType) {
@@ -294,10 +289,10 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
                 FractalType.FBM -> SingleCubicFractalFBM(x, y)
                 FractalType.Billow -> SingleCubicFractalBillow(x, y)
                 FractalType.RigidMulti -> SingleCubicFractalRigidMulti(x, y)
-                else -> 0
+                else -> 0f
             }
 
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -352,7 +347,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleValueFractalFBM(x, y, z)
             FractalType.Billow -> SingleValueFractalBillow(x, y, z)
             FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y, z)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -464,7 +459,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SingleValueFractalFBM(x, y)
             FractalType.Billow -> SingleValueFractalBillow(x, y)
             FractalType.RigidMulti -> SingleValueFractalRigidMulti(x, y)
-            else -> 0
+            else -> 0f
         }
     }
 
@@ -562,7 +557,7 @@ class FastNoise @JvmOverloads constructor(seed: Int = 1337) {
             FractalType.FBM -> SinglePerlinFractalFBM(x, y, z)
             FractalType.Billow -> SinglePerlinFractalBillow(x, y, z)
             FractalType.RigidMulti -> SinglePerlinFractalRigidMulti(x, y, z)
-            else -> 0
+            else -> 0f
         }
     }
 
