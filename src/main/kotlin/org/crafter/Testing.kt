@@ -1,4 +1,4 @@
-package org.crafter.engine
+package org.crafter
 
 class Blah {
     // That's pretty neat

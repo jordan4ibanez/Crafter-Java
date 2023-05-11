@@ -1,4 +1,4 @@
-package org.crafter.engine.api;
+package org.crafter.api;
 
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.texture.WorldAtlas;

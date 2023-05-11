@@ -1,6 +1,6 @@
 package org.crafter
 
-import org.crafter.engine.api.API
+import org.crafter.api.API
 import org.crafter.engine.camera.Camera
 import org.crafter.engine.controls.Keyboard
 import org.crafter.engine.controls.Mouse
