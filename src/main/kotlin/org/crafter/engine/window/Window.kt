@@ -31,18 +31,39 @@ object Window {
         private set
 
     // The debugging process callbacks
+    // Note: callbacks must be null due to how they are set in Java
     private var callback: Callback? = null
     private var debugCallback: Callback? = null
+
     private var wasResized = false
     private val clearColor = Vector3f()
     private val monitorSize = Vector2i()
     private val size = Vector2i()
-    private var title: String? = null
+    private var title: String = ""
     var framesPerSecond = 0
         private set
     private var framesPerSecondAccumulator = 0
     private var fpsTimeAccumulator = 1.0f
     private var framesPerSecondUpdate = false
+
+    // Window size calculations
+    val windowCenter: Vector2f
+        /**
+         * This is a float because it's a literal window center. Floaty.
+         */
+        get() = Vector2f(windowWidth / 2.0f, windowHeight / 2.0f)
+    val windowWidth: Int
+        get() = size.x
+    val windowHeight: Int
+        get() = size.y
+    val windowCenterX: Float
+        get() = size.x / 2.0f
+    val windowCenterY: Float
+        get() = size.y / 2.0f
+    val aspectRatio: Float
+        get() = size.x.toFloat() / size.y.toFloat()
+    val isFocused: Boolean
+        get() = GLFW.glfwGetWindowAttrib(pointer, GLFW.GLFW_FOCUSED) == 1
 
     const val wireFrameMode = false
 
@@ -97,7 +118,7 @@ object Window {
         Keyboard.initialize()
 
         // Fancy frame buffer callback - called when window is resized
-        GLFW.glfwSetFramebufferSizeCallback(pointer) { window: Long, width: Int, height: Int ->
+        GLFW.glfwSetFramebufferSizeCallback(pointer) { _: Long, width: Int, height: Int ->
             size.x = width
             size.y = height
             wasResized = true
@@ -151,7 +172,6 @@ object Window {
 
     // Destroy the window
     fun destroy() {
-
         // Now clean the C memory up
         Callbacks.glfwFreeCallbacks(pointer)
         GLFW.glfwDestroyWindow(pointer)
@@ -159,7 +179,6 @@ object Window {
         GLFW.glfwSetErrorCallback(null)!!.free()
     }
 
-    // I think this one is pretty obvious
     fun shouldClose(): Boolean {
         return GLFW.glfwWindowShouldClose(pointer)
     }
@@ -189,12 +208,6 @@ object Window {
 
         // Integrate the clearing of the frame buffer in here because otherwise it gets messy
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-        /*
-         The rest is D code:
-
-         pollMouse();
-         calculateFPS();
-        */
     }
 
     private fun calculateFPS() {
@@ -226,20 +239,6 @@ object Window {
         return Vector2f(size)
     }
 
-    val windowCenter: Vector2f
-        /**
-         * This is a float because it's a literal window center. Floaty.
-         */
-        get() = Vector2f(windowWidth / 2.0f, windowHeight / 2.0f)
-    val windowWidth: Int
-        get() = size.x
-    val windowHeight: Int
-        get() = size.y
-    val windowCenterX: Float
-        get() = size.x / 2.0f
-    val windowCenterY: Float
-        get() = size.y / 2.0f
-
     // RGB version of setting clear color
     fun setClearColor(r: Float, g: Float, b: Float) {
         clearColor.x = r
@@ -270,7 +269,7 @@ object Window {
         GLFW.glfwSetWindowTitle(pointer, newTitle)
     }
 
-    fun getTitle(): String? {
+    fun getTitle(): String {
         return title
     }
 
@@ -281,9 +280,6 @@ object Window {
     fun clearDepthBuffer() {
         glClear(GL_DEPTH_BUFFER_BIT)
     }
-
-    val aspectRatio: Float
-        get() = size.x.toFloat() / size.y.toFloat()
 
     private fun getMonitorSize() {
         val videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
@@ -296,8 +292,6 @@ object Window {
         GLFW.glfwMaximizeWindow(pointer)
     }
 
-    val isFocused: Boolean
-        get() = GLFW.glfwGetWindowAttrib(pointer, GLFW.GLFW_FOCUSED) == 1
 
     fun setVsync(onOrOff: Boolean) {
         GLFW.glfwSwapInterval(if (onOrOff) 1 else 0)
