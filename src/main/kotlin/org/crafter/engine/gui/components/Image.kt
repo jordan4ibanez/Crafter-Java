@@ -16,11 +16,11 @@ class Image @JvmOverloads constructor(
     private val fileLocation: String,
     private var scale: Float,
     alignment: Alignment,
-    offset: Vector2f?,
+    offset: Vector2f,
     trimmingEnabled: Boolean = false
 ) : GUIElement(alignment, offset) {
     // Used to keep aspect ratio of raw image
-    private val originalImageSize: Vector2fc?
+    private val originalImageSize: Vector2fc
 
     // Used to keep aspect ratio of trimmed image
     private val trimmedImageSize = Vector2f(0f)
@@ -47,7 +47,7 @@ class Image @JvmOverloads constructor(
 
     override fun render() {
         setGuiObjectMatrix(position.x, position.y)
-        render(_meshUUID)
+        render(meshUUID)
     }
 
     override fun collisionDetect(mousePosition: Vector2fc): Boolean {
@@ -56,18 +56,18 @@ class Image @JvmOverloads constructor(
     }
 
     override fun recalculateMesh() {
-        if (_meshUUID != null) {
-            destroy(_meshUUID)
+        if (meshUUID != "") {
+            destroy(meshUUID)
         }
         if (trimmingEnabled) {
-            _meshUUID =
-                ImageMeshFactory.createTrimmedImageMesh(scale * GUIElement.Companion.getGuiScale(), fileLocation)
-            _size.set(ImageMeshFactory.getSizeOfTrimmed(scale * GUIElement.Companion.getGuiScale(), fileLocation))
+            meshUUID =
+                ImageMeshFactory.createTrimmedImageMesh(scale * guiScale, fileLocation)
+            size.set(ImageMeshFactory.getSizeOfTrimmed(scale * guiScale, fileLocation))
         } else {
-            _meshUUID = ImageMeshFactory.createImageMesh(scale * GUIElement.Companion.getGuiScale(), fileLocation)
-            _size.set(
-                originalImageSize!!.x() * scale * GUIElement.Companion.getGuiScale(),
-                originalImageSize!!.y() * scale * GUIElement.Companion.getGuiScale()
+            meshUUID = ImageMeshFactory.createImageMesh(scale * guiScale, fileLocation)
+            size.set(
+                originalImageSize.x() * scale * guiScale,
+                originalImageSize.y() * scale * guiScale
             )
         }
         recalculatePosition()
@@ -85,5 +85,5 @@ class Image @JvmOverloads constructor(
     }
 
     override fun internalOnHover(mousePosition: Vector2fc) {}
-    override fun internalOnClick(mousePosition: Vector2fc?) {}
+    override fun internalOnClick(mousePosition: Vector2fc) {}
 }
