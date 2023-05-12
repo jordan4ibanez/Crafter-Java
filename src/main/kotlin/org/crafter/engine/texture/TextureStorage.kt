@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.texture
 
 import org.joml.Vector2f
@@ -14,14 +16,13 @@ object TextureStorage {
     private val container = HashMap<String, Texture>()
 
     // Create a new texture from a buffer directly
-    fun createTexture(name: String, buffer: ByteBuffer?, size: Vector2ic?) {
+    fun createTexture(name: String, buffer: ByteBuffer, size: Vector2ic) {
         checkDuplicate(name)
         //        System.out.println("TextureStorage: Created texture (" + name + ")");
         container[name] = Texture(name, buffer, size)
     }
 
     // Create a new texture
-    @JvmStatic
     fun createTexture(fileLocation: String) {
         checkDuplicate(fileLocation)
         //        System.out.println("TextureStorage: Created texture (" + fileLocation + ")");
@@ -44,18 +45,17 @@ object TextureStorage {
     // Get the OpenGL ID of a texture
     fun getID(fileLocation: String): Int {
         checkExistence(fileLocation)
-        return container[fileLocation]?.textureID ?: throw RuntimeException("TextureStorage: ERROR! Texture ID was null! for (" + container[fileLocation]?.name + ")!");
+        return container[fileLocation]?.textureID ?: throw RuntimeException("TextureStorage: ERROR! Texture ID was null! for (" + container[fileLocation]?.name + ")!")
     }
 
     // Get Vector2i(width, height) of texture - Useful for mapping
-    fun getSize(fileLocation: String): Vector2i? {
+    fun getSize(fileLocation: String): Vector2i {
         checkExistence(fileLocation)
         return container[fileLocation]!!.size
     }
 
     // Get Vector2f(width, height) of texture - Useful for mapping
-    @JvmStatic
-    fun getFloatingSize(fileLocation: String): Vector2f? {
+    fun getFloatingSize(fileLocation: String): Vector2f {
         checkExistence(fileLocation)
         return container[fileLocation]!!.floatingSize
     }
