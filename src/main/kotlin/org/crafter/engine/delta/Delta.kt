@@ -1,7 +1,7 @@
 package org.crafter.engine.delta
 
 object Delta {
-    public var delta = 0f
+    var delta = 0f
         private set
 
     private var oldTime = System.nanoTime()
