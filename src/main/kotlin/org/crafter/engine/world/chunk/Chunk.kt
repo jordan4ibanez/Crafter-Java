@@ -1,3 +1,5 @@
+
+
 package org.crafter.engine.world.chunk
 
 import org.crafter.engine.camera.Camera.setObjectMatrix
@@ -6,6 +8,7 @@ import org.crafter.engine.mesh.MeshStorage
 import org.crafter.engine.mesh.MeshStorage.render
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
 import org.joml.*
+import java.util.Arrays
 
 //Todo: idea: metadata hashmap
 
@@ -109,9 +112,7 @@ class Chunk {
 
     //TODO begin array manipulation --------------------------------------------------------
     // Consists of bit shifted integral values
-    var data: IntArray = IntArray(arraySize)
-        get() = field.copyOf()
-        set(value) { field = value.clone() }
+    private val data: IntArray = IntArray(arraySize)
 
     /**
      * Set a single block, think of this as minetest.set_node();
@@ -132,6 +133,7 @@ class Chunk {
      */
     fun setBlockData(index: Int, blockData: Int) {
         check(index)
+        println("setting block data! new value is $blockData at index $index")
         data[index] = blockData
     }
 
@@ -155,6 +157,27 @@ class Chunk {
     fun getBlockData(position: Vector3ic): Int {
         check(position)
         return data[positionToIndex(position)]
+    }
+
+    /**
+     * Allows a chunk to get entirely new block data from a pre bit-shifted array.
+     */
+    fun streamNewBlockData(newData: IntArray) {
+        for (i in 0..arraySize) {
+            data[i] = newData[i]
+        }
+    }
+
+    /**
+     * Returns the raw data of a chunk. This is a cloned data set. It is a completely separate object from
+     * the internal data structure inside this chunk.
+     */
+    fun getRawData(): IntArray {
+        val dataClone: IntArray = IntArray(arraySize)
+        for (i in 0..arraySize) {
+            dataClone[i] = data[i]
+        }
+        return dataClone
     }
 
     fun positionToIndex(position: Vector3ic): Int {
@@ -205,11 +228,7 @@ class Chunk {
 
 
     //TODO begin bit manipulation -------------------------------------------------------------------
-    var output: StringBuilder? = null
-
-    fun ChunkBitManipulation() {
-        output = StringBuilder()
-    }
+    private var output: StringBuilder? = null
 
     fun printBits(input: Int) {
         for (i in 31 downTo 0) {
@@ -320,35 +339,38 @@ class Chunk {
     fun combine(blockID: Int, light: Int, state: Int): Int {
         return blockID or light or state
     }
-}
 
+    fun clone(): Chunk {
+        val clone = Chunk(Vector2i(position.x(), position.y()))
+        for (i in 0..arraySize) {
+            clone.data[i] = data[i]
+        }
+        return clone
+    }
 
+    fun render() {
 
-fun Chunk.render() {
-
-    //Fixme: This is HORRIBLE TO CREATE A NEW OBJECT EVERY FRAME!
+        //Fixme: This is HORRIBLE TO CREATE A NEW OBJECT EVERY FRAME!
 //    println(position.x());
-    setObjectMatrix(
-        Vector3f((position.x() * width).toFloat(), 0f, (position.y() * depth).toFloat()),
-        Vector3f(0f, 0f, 0f),
-        Vector3f(1f, 1f, 1f)
-    )
-    var got = false
-    for (i in 0 until stacks) {
-        val gottenMeshUUID = getMesh(i)
-        if (gottenMeshUUID != null) {
-            got = true
-            //                System.out.println("rendering: " + gottenMeshUUID);
-            render(gottenMeshUUID)
+        setObjectMatrix(
+            Vector3f((position.x() * width).toFloat(), 0f, (position.y() * depth).toFloat()),
+            Vector3f(0f, 0f, 0f),
+            Vector3f(1f, 1f, 1f)
+        )
+        var got = false
+        for (i in 0 until stacks) {
+            val gottenMeshUUID = getMesh(i)
+            if (gottenMeshUUID != null) {
+                got = true
+                //                System.out.println("rendering: " + gottenMeshUUID);
+                render(gottenMeshUUID)
+            }
+        }
+        if (got) {
+            rotation += delta * 15.0f
         }
     }
-    if (got) {
-        rotation += delta * 15.0f
-    }
 }
 
-fun Chunk.clone(): Chunk {
-    val clone = Chunk(Vector2i(position))
-    clone.data = data
-    return clone
-}
+
+
