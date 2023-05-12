@@ -1,35 +1,34 @@
 package org.crafter.engine.world.chunk
 
-import org.apache.commons.lang3.SerializationUtils
 import org.joml.Vector2ic
 
 /**
  * This is where all the chunks live!
  */
 object ChunkStorage {
-    private val container = HashMap<Vector2ic?, Chunk>()
-    fun getChunk(position: Vector2ic): Chunk? {
+    private val container = HashMap<Vector2ic, Chunk>()
+
+    fun getChunk(position: Vector2ic): Chunk {
         positionCheck(position, "getChunk")
-        return container[position]
+        return container[position]!!
     }
 
     fun addOrUpdate(chunk: Chunk) {
         val position = chunk.position
         if (hasPosition(position)) {
             println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")")
-            container[position]!!.data = chunk.data
+            container[position]!!.streamNewBlockData(chunk.getRawData())
             return
         }
         container[position] = chunk
         println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")")
     }
 
-    @JvmStatic
     @Synchronized
-    fun getThreadSafeChunkClone(position: Vector2ic): Chunk? {
+    fun getThreadSafeChunkClone(position: Vector2ic): Chunk {
         positionCheck(position, "getThreadSafeChunkClone")
         // Create a deep clone of the chunk
-        return container[position]?.clone()
+        return container[position]!!.clone()
     }
 
     private fun positionCheck(position: Vector2ic, methodName: String) {
@@ -38,9 +37,8 @@ object ChunkStorage {
         }
     }
 
-    @JvmStatic
     @Synchronized
-    fun hasPosition(position: Vector2ic?): Boolean {
+    fun hasPosition(position: Vector2ic): Boolean {
         return container.containsKey(position)
     }
 }
