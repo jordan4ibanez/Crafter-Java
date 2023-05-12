@@ -13,7 +13,6 @@ import org.crafter.engine.texture.TextureStorage
 import org.crafter.engine.utility.GameMath
 import org.crafter.engine.window.Window
 import org.crafter.engine.world.chunk.ChunkStorage
-import org.crafter.engine.world.chunk.render
 import org.crafter.engine.world_generation.ChunkGenerator
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator
 import org.joml.Vector2i
