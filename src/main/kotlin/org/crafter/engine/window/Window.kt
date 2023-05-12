@@ -164,7 +164,6 @@ object Window {
         return GLFW.glfwWindowShouldClose(pointer)
     }
 
-    @JvmStatic
     fun wasResized(): Boolean {
         return wasResized
     }
@@ -223,7 +222,6 @@ object Window {
         }
     }
 
-    @JvmStatic
     fun getWindowSize(): Vector2f {
         return Vector2f(size)
     }
@@ -280,7 +278,6 @@ object Window {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
     }
 
-    @JvmStatic
     fun clearDepthBuffer() {
         glClear(GL_DEPTH_BUFFER_BIT)
     }
