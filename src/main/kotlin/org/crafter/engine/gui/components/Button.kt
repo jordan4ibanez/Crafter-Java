@@ -13,7 +13,7 @@ import org.crafter.engine.window.Window.wasResized
 import org.joml.Vector2f
 import org.joml.Vector2fc
 
-class Button(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f?) :
+class Button(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f) :
     Text(textData, fontSize, alignment, offset) {
     private var buttonBackGroundMeshUUID: String = ""
 
