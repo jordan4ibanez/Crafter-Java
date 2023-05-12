@@ -7,17 +7,16 @@ import org.joml.Vector4i
 import org.joml.Vector4ic
 import java.util.*
 
-class TexturePackerObject(val fileLocation: String) {
+class TexturePackerObject(fileLocation: String) {
     var position: Vector2ic
         private set
     val size: Vector2ic
-    private val data: RawTextureObject
+    private val data: RawTextureObject = RawTextureObject(fileLocation)
     val uuid: UUID
     var packed = false
         private set
 
     init {
-        data = RawTextureObject(fileLocation)
         size = Vector2i(data.width, data.height)
         position = Vector2i(0, 0)
         uuid = UUID.randomUUID()
