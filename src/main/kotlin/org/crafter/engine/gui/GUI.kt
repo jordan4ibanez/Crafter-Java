@@ -24,7 +24,7 @@ class GUI(private val name: String) {
 
     fun addGUIElement(elementName: String, element: GUIElement): GUI {
         checkDuplicates(elementName)
-        element.setName(elementName)
+        element.name = elementName
         container[elementName] = element
         return this
     }
@@ -126,10 +126,10 @@ class GUI(private val name: String) {
         existenceCheck(elementName)
         val gottenElement = container[elementName]
         if (gottenElement is Label) {
-            gottenElement.setFontSize(fontSize)
+            gottenElement.fontSize = fontSize
             return
         } else if (gottenElement is Button) {
-            gottenElement.setFontSize(fontSize)
+            gottenElement.fontSize = fontSize
             return
         }
         incompatibleThrow(gottenElement, "setFontSize")

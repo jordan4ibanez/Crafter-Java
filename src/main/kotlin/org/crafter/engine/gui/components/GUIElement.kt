@@ -10,9 +10,14 @@ import org.joml.Vector2f
 import org.joml.Vector2fc
 
 abstract class GUIElement protected constructor(alignment: Alignment, offset: Vector2f) {
-    protected var name: String = ""
+    var name: String = ""
+        set(value) {
+            if (field != "") {
+                throw RuntimeException("GUIElement : ERROR! Tried to set name for element ($field) more than once!")
+            }
+            field = value
+        }
     var meshUUID: String = ""
-        protected set
     protected var onStep: OnStep? = null
     protected var click: Click? = null
     protected var hover: Hover? = null
@@ -36,13 +41,6 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
             field.set(newVector)
         }
     protected val position: Vector2f = Vector2f(0f, 0f)
-
-    fun setName(name: String) {
-        if (name != "") {
-            throw RuntimeException("GUIElement : ERROR! Tried to set name for element ($name) more than once!")
-        }
-        this.name = name
-    }
 
     protected fun alignment(): Vector2f {
         return Vector2f(alignment.value())

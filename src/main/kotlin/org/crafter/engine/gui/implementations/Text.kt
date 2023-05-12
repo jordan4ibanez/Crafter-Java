@@ -9,7 +9,12 @@ import org.joml.Vector3f
 abstract class Text protected constructor(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f) :
     GUIElement(alignment, offset) {
     protected var textData = ""
-    protected var fontSize: Float
+    var fontSize: Float = 0f
+        set(value) {
+            field = value
+            // System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
+            recalculateMesh()
+        }
     protected val foreGroundColor = Vector3f(1f, 1f, 1f)
     protected val shadowColor = Vector3f(0f, 0f, 0f)
 
@@ -31,11 +36,6 @@ abstract class Text protected constructor(textData: String?, fontSize: Float, al
         recalculateMesh()
     }
 
-    fun setFontSize(fontSize: Float) {
-        this.fontSize = fontSize
-        // System.out.println("Fontsize for " + this.name() + " is " + this.fontSize);
-        recalculateMesh()
-    }
 
     fun setText(textData: String) {
         this.textData = textData
