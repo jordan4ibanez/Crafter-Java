@@ -50,7 +50,7 @@ object API {
     private fun loadMods() {
 
         // Basic mod loading
-        for (modFolder in FileUtility.getFolderList(modPath)!!) {
+        for (modFolder in FileUtility.getFolderList(modPath)) {
 
 //            System.out.println("Got mod: " + modFolder);
 
@@ -89,7 +89,7 @@ object API {
 
     private fun loadModTextures() {
         // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        val modFolderList = FileUtility.getFolderList(modPath)!!
+        val modFolderList = FileUtility.getFolderList(modPath)
         for (modFolder in modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
             loadModBlockTextures(modPath + modFolder)
