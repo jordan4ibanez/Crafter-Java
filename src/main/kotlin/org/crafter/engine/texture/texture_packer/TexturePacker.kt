@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.texture.texture_packer
 
 import org.joml.*
@@ -21,10 +23,10 @@ class TexturePacker {
     private val expansionAmount = 16
     private val width = 16
     private val height = 16
-    private var CANVAS_MAX_WIDTH = 0
-    private var CANVAS_MAX_HEIGHT = 0
-    private val textures: HashMap<String, TexturePackerObject>
-    private val canvas: Canvas
+    private var canvasMaxWidth = 0
+    private var canvasMaxHeight = 0
+    private val textures: HashMap<String, TexturePackerObject> = HashMap()
+    private val canvas: Canvas = Canvas(width, height)
     private val availableX: SortedSet<Int>
     private val availableY: SortedSet<Int>
 
@@ -36,8 +38,6 @@ class TexturePacker {
     private var lockedOut = false
 
     init {
-        textures = HashMap()
-        canvas = Canvas(width, height)
         availableX = TreeSet()
         availableY = TreeSet()
 
@@ -81,10 +81,10 @@ class TexturePacker {
 
 //        System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
         return Vector4f( // Position X
-            gottenIntegralPositionAndSize.x().toFloat() / CANVAS_MAX_WIDTH.toFloat(),  // Position Y
-            gottenIntegralPositionAndSize.y().toFloat() / CANVAS_MAX_HEIGHT.toFloat(),  // Width
-            gottenIntegralPositionAndSize.z().toFloat() / CANVAS_MAX_WIDTH.toFloat(),  // Height
-            gottenIntegralPositionAndSize.w().toFloat() / CANVAS_MAX_HEIGHT.toFloat()
+            gottenIntegralPositionAndSize.x().toFloat() / canvasMaxWidth.toFloat(),  // Position Y
+            gottenIntegralPositionAndSize.y().toFloat() / canvasMaxHeight.toFloat(),  // Width
+            gottenIntegralPositionAndSize.z().toFloat() / canvasMaxWidth.toFloat(),  // Height
+            gottenIntegralPositionAndSize.w().toFloat() / canvasMaxHeight.toFloat()
         )
     }
 
@@ -156,8 +156,6 @@ class TexturePacker {
 
     fun add(fileName: String, fileLocation: String) {
         lockoutCheck("add")
-        nullCheck("name", fileName)
-        nullCheck("fileLocation", fileLocation)
         duplicateCheck(fileName)
         textures[fileName] = TexturePackerObject(fileLocation)
     }
@@ -175,7 +173,7 @@ class TexturePacker {
         )
     }
 
-    fun flush(): ByteBuffer? {
+    fun flush(): ByteBuffer {
         lockoutCheck("flush")
         pack()
         return canvas.data
@@ -192,7 +190,7 @@ class TexturePacker {
     }
 
     private fun flushCanvas() {
-        canvas.resize(CANVAS_MAX_WIDTH, CANVAS_MAX_HEIGHT)
+        canvas.resize(canvasMaxWidth, canvasMaxHeight)
         canvas.allocate()
         for (`object` in textures.values) {
             val posX = `object`.position.x()
@@ -269,11 +267,11 @@ class TexturePacker {
         val spotBelow = bestY + thisHeight + padding
         availableX.add(spotRight)
         availableY.add(spotBelow)
-        if (spotRight > CANVAS_MAX_WIDTH) {
-            CANVAS_MAX_WIDTH = spotRight
+        if (spotRight > canvasMaxWidth) {
+            canvasMaxWidth = spotRight
         }
-        if (spotBelow > CANVAS_MAX_HEIGHT) {
-            CANVAS_MAX_HEIGHT = spotBelow
+        if (spotBelow > canvasMaxHeight) {
+            canvasMaxHeight = spotBelow
         }
         return true
     }
@@ -287,12 +285,6 @@ class TexturePacker {
     private fun duplicateCheck(fileLocation: String) {
         if (textures.containsKey(fileLocation)) {
             throw RuntimeException("TexturePacker: Attempted to put duplicate of ($fileLocation)!")
-        }
-    }
-
-    private fun nullCheck(name: String, data: String?) {
-        if (data == null) {
-            throw RuntimeException("TexturePacker: ($name) cannot be null!")
         }
     }
 
