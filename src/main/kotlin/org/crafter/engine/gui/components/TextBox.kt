@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.gui.components
 
 import org.crafter.engine.camera.Camera.setGuiObjectMatrix
@@ -20,7 +22,7 @@ import org.joml.Vector2fc
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 
-class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, offset: Vector2f?, boxWidth: Float) :
+class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, offset: Vector2f, boxWidth: Float) :
     Text("", fontSize, alignment, offset) {
     private var buttonBackGroundMeshUUID: String? = null
     private val placeHolderText: String
@@ -45,7 +47,7 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
 
     override fun render() {
         setGuiObjectMatrix(position.x + padding, position.y + padding)
-        render(_meshUUID)
+        render(meshUUID)
         setGuiObjectMatrix(position.x, position.y)
         render(buttonBackGroundMeshUUID!!)
     }
@@ -69,7 +71,7 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
         val enterKeyPressed = keyPressed(GLFW.GLFW_KEY_ENTER)
         if (enterKeyPressed) {
             if (enterInputable()) {
-                enterInput.action(gui, this, textData)
+                enterInput!!.action(gui, this, textData)
                 if (clearOnSend) {
                     textData = ""
                     entryCursorPosition = 0
@@ -85,10 +87,10 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
         }
         if (hasTyped()) {
             textData += lastInput
-            var textWidth = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textWithCursorPos).x
-            while (textWidth > boxWidth * GUIElement.Companion.getGuiScale()) {
+            var textWidth = Font.getTextSize(fontSize * guiScale, textWithCursorPos).x
+            while (textWidth > boxWidth * guiScale) {
                 entryCursorPosition++
-                textWidth = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textWithCursorPos).x
+                textWidth = Font.getTextSize(fontSize * guiScale, textWithCursorPos).x
             }
         } else if (keyDown(GLFW.GLFW_KEY_BACKSPACE)) {
             val textLength = textData.length
@@ -116,14 +118,14 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
     private fun backspaceTrim() {
         textData = textData.substring(0, textData.length - 1)
         var hit = false
-        var textWidth = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textWithCursorPos).x
-        while (textWidth > boxWidth * GUIElement.Companion.getGuiScale()) {
+        var textWidth = Font.getTextSize(fontSize * guiScale, textWithCursorPos).x
+        while (textWidth > boxWidth * guiScale) {
             if (entryCursorPosition <= 0) {
                 break
             }
             hit = true
             entryCursorPosition--
-            textWidth = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textWithCursorPos).x
+            textWidth = Font.getTextSize(fontSize * guiScale, textWithCursorPos).x
         }
         if (entryCursorPosition <= 0) {
             return
@@ -134,7 +136,7 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
     }
 
     private val textWithCursorPos: String
-        private get() {
+        get() {
             var manipulationString = textData.substring(entryCursorPosition)
             manipulationString += if (cursorBlink) {
                 "_"
@@ -149,27 +151,27 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
     }
 
     override fun collisionDetect(mousePosition: Vector2fc): Boolean {
-        return GUIElement.Companion.pointCollisionDetect(
+        return pointCollisionDetect(
             mousePosition.x(),
             mousePosition.y(),
             position.x(),
             position.y(),
-            _size.x(),
-            _size.y()
+            size.x(),
+            size.y()
         )
     }
 
     override fun recalculateMesh() {
-        if (_meshUUID != null) {
-            destroy(_meshUUID)
+        if (meshUUID != "") {
+            destroy(meshUUID)
         }
         if (buttonBackGroundMeshUUID != null) {
             destroy(buttonBackGroundMeshUUID!!)
         }
 
         // Only needs the height, so ship it nothing
-        val boxSize = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), "")
-        boxSize!!.x = getBoxWidth()
+        val boxSize = Font.getTextSize(fontSize * guiScale, "")
+        boxSize.x = getBoxWidth()
         buttonBackGroundMeshUUID =
             FramedMeshFactory.generateMesh(boxSize, padding, pixelEdge, borderScale, "textures/text_box.png")
         recalculateText()
@@ -177,6 +179,10 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
         this.size = boxSize.add(Vector2f(padding * 2))
         recalculatePosition()
+    }
+
+    override fun internalOnClick(mousePosition: Vector2fc) {
+        TODO("Not yet implemented")
     }
 
     private fun recalculateText() {
@@ -189,14 +195,14 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
             Font.switchColor(foreGroundColor)
         }
         Font.switchShadowColor(shadowColor)
-        _meshUUID = Font.grabText(fontSize * GUIElement.Companion.getGuiScale(), shownText)
+        meshUUID = Font.grabText(fontSize * guiScale, shownText)
     }
 
     val text: String
         get() = textData
 
     fun getBoxWidth(): Float {
-        return boxWidth * GUIElement.Companion.getGuiScale()
+        return boxWidth * guiScale
     }
 
     // This might be useful for something
@@ -208,7 +214,7 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
     companion object {
         // We want these to be constant throughout the entire game, class members only
         val padding = 16.0f
-            get() = field * GUIElement.Companion.getGuiScale()
+            get() = field * guiScale
         const val pixelEdge = 1.0f
         const val borderScale = 2.0f
         private val placeHolderColor = Vector3f(0.5f)
