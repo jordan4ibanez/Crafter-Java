@@ -112,14 +112,14 @@ private fun mainLoop() {
         // TODO: Make sure this is done within the main thread!
         val destinationPosition = generatedMesh.destinationChunkPosition
         if (ChunkStorage.hasPosition(destinationPosition)) {
-            ChunkStorage.getChunk(destinationPosition)?.setMesh(generatedMesh.stack, generatedMesh)
+            ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
         } // Else nothing happens to it and it's GCed
     }
     for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
         for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
             val requestingPosition = Vector2i(x, z)
             if (ChunkStorage.hasPosition(requestingPosition)) {
-                ChunkStorage.getChunk(requestingPosition)?.render()
+                ChunkStorage.getChunk(requestingPosition).render()
             }
         }
     }

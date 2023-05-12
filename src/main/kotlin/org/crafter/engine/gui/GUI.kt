@@ -119,7 +119,7 @@ class GUI(private val name: String) {
 
     fun setAlignment(elementName: String?, alignment: Alignment) {
         existenceCheck(elementName)
-        container[elementName]!!.setAlignment(alignment)
+        container[elementName]!!.alignment = alignment
     }
 
     fun setFontSize(elementName: String?, fontSize: Float) {

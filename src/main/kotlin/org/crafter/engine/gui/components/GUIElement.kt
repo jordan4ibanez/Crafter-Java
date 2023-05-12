@@ -27,7 +27,11 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     protected var collide = false
 
     protected val offset: Vector2f
-    protected var alignment: Alignment
+    var alignment: Alignment = Alignment.TOP_LEFT
+        set(value) {
+            field = value
+            recalculatePosition()
+        }
 
     init {
         this.offset = offset
@@ -134,10 +138,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         recalculatePosition()
     }
 
-    fun setAlignment(alignment: Alignment) {
-        this.alignment = alignment
-        recalculatePosition()
-    }
+
 
     fun name(): String {
         return name
