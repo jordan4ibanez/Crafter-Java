@@ -9,9 +9,9 @@ import org.joml.Vector2fc
  * A GUI Mesh is a mesh which exists in 3d, yet in 2d at the same time.
  * Optionally, exists without perspective.
  */
-class GUIMesh(uuid: String?, alignment: Alignment, offset: Vector2f?) : GUIElement(alignment, offset) {
+class GUIMesh(uuid: String, alignment: Alignment, offset: Vector2f) : GUIElement(alignment, offset) {
     init {
-        _meshUUID = uuid
+        meshUUID = uuid
     }
 
     override fun render() {}
@@ -23,5 +23,5 @@ class GUIMesh(uuid: String?, alignment: Alignment, offset: Vector2f?) : GUIEleme
     override fun internalOnStep(gui: GUI) {}
     override fun recalculatePosition() {}
     override fun internalOnHover(mousePosition: Vector2fc) {}
-    override fun internalOnClick(mousePosition: Vector2fc?) {}
+    override fun internalOnClick(mousePosition: Vector2fc) {}
 }
