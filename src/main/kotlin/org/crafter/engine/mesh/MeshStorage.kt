@@ -9,7 +9,6 @@ object MeshStorage {
     private val container = HashMap<String, Mesh>()
 
     // Create a new mesh
-    @JvmStatic
     fun newMesh(
         meshName: String,
         positions: FloatArray?,
@@ -34,14 +33,12 @@ object MeshStorage {
     }
 
     // Render a mesh
-    @JvmStatic
     fun render(meshName: String) {
         checkExistence(meshName)
         container[meshName]!!.render()
     }
 
     // Destroy a SINGLE mesh in the container
-    @JvmStatic
     fun destroy(meshName: String) {
         checkExistence(meshName)
         container[meshName]!!.destroy()
