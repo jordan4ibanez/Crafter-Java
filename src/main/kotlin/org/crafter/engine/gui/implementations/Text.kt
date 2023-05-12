@@ -6,7 +6,7 @@ import org.joml.Vector2f
 import org.joml.Vector2fc
 import org.joml.Vector3f
 
-abstract class Text protected constructor(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f?) :
+abstract class Text protected constructor(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f) :
     GUIElement(alignment, offset) {
     protected var textData = ""
     protected var fontSize: Float
@@ -45,5 +45,5 @@ abstract class Text protected constructor(textData: String?, fontSize: Float, al
     abstract override fun collisionDetect(mousePosition: Vector2fc): Boolean
     abstract override fun recalculateMesh()
     override fun internalOnHover(mousePosition: Vector2fc) {}
-    override fun internalOnClick(mousePosition: Vector2fc?) {}
+    override fun internalOnClick(mousePosition: Vector2fc) {}
 }
