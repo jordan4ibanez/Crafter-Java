@@ -48,7 +48,6 @@ object Camera {
     }
 
     // This automatically updates the 2dCameraMatrix
-    @JvmStatic
     fun updateGuiCameraMatrix() {
         val windowWidth = Window.windowWidth.toFloat()
         val windowHeight = Window.windowHeight.toFloat()
@@ -59,7 +58,6 @@ object Camera {
     }
 
     // This updates the objectMatrix exactly as you tell it to
-    @JvmStatic
     fun setObjectMatrix(objectPosition: Vector3f, objectRotation: Vector3f, objectScale: Vector3f?) {
         objectMatrix
             .identity()
@@ -75,12 +73,10 @@ object Camera {
         ShaderStorage.setUniform("objectMatrix", objectMatrix)
     }
 
-    @JvmStatic
     fun setGuiObjectMatrix(posX: Float, posY: Float) {
         setGuiObjectMatrix(posX, posY, 1f, 1f)
     }
-
-    @JvmStatic
+    
     fun setGuiObjectMatrix(posX: Float, posY: Float, scaleX: Float, scaleY: Float) {
         guiObjectMatrix
             .identity()

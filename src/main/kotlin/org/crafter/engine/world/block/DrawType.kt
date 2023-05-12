@@ -25,7 +25,6 @@ enum class DrawType(private val value: Int) {
             throw RuntimeException("DrawType: Attempted to convert invalid value! ($input)")
         }
 
-        @JvmStatic
         val asArray: Array<DrawType>
             get() = arrayOf(AIR, BLOCK, BLOCK_BOX, TORCH, LIQUID_SOURCE, LIQUID_FLOW, GLASS, PLANT, LEAVES)
     }

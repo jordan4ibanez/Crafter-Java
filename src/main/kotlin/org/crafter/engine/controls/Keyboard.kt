@@ -16,7 +16,7 @@ object Keyboard {
 
     // This is needed to utilize memory, it needs to poll right after initial value set because GLFW_PRESS delays before GLFW_REPEAT
     private val memoryFlush: Queue<Int> = LinkedList()
-    @JvmStatic
+
     fun initialize() {
         GLFW.glfwSetCharCallback(Window.pointer) { _: Long, codePoint: Int ->
             lastKey = codePoint.toChar()

@@ -16,7 +16,7 @@ object Mouse {
     private var rightHeld = false
     private var rightWasHeld = false
     private var needsDeltaReset = true
-    @JvmStatic
+
     fun initialize() {
         if (GLFW.glfwRawMouseMotionSupported()) {
             GLFW.glfwSetInputMode(Window.pointer, GLFW.GLFW_RAW_MOUSE_MOTION, GLFW.GLFW_TRUE)
@@ -39,7 +39,6 @@ object Mouse {
      * This needs to be polled like this to simultaneously poll mouse button down & held.
      * This is automatically called in Window.pollEvents()
      */
-    @JvmStatic
     fun poll() {
         calculateDeltaWhenCaptured()
         val leftButtonState = GLFW.glfwGetMouseButton(Window.pointer, GLFW.GLFW_MOUSE_BUTTON_LEFT)
@@ -77,7 +76,6 @@ object Mouse {
         }
     }
 
-    @JvmStatic
     fun leftClick(): Boolean {
         return leftClick
     }
@@ -94,7 +92,6 @@ object Mouse {
         return rightHeld
     }
 
-    @JvmStatic
     fun getPosition(): Vector2fc {
         return position
     }

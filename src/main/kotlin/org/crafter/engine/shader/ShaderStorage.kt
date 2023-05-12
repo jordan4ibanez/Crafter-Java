@@ -68,7 +68,6 @@ object ShaderStorage {
     }
 
     // Start a shader
-    @JvmStatic
     fun start(shaderName: String) {
         checkExistence(shaderName)
         currentShader = container[shaderName]
