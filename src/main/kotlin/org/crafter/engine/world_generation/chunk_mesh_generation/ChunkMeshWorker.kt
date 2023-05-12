@@ -85,7 +85,7 @@ class ChunkMeshWorker(private val definitionContainer: BlockDefinitionContainer?
         indices: ArrayList<Int>
     ) {
         // Fixme: This might be a bit too slow
-        val chunkData = chunk!!.data
+        val chunkData = chunk!!.getRawData()
         val ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x, y, z)])
 
         // 0 is reserved for air! Also don't process air drawtype blocks!
