@@ -15,7 +15,7 @@ import org.joml.Vector2fc
 /**
  * Holds text data in memory.
  */
-class Label(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f?) :
+class Label(textData: String, fontSize: Float, alignment: Alignment, offset: Vector2f) :
     Text(textData, fontSize, alignment, offset) {
     init {
         recalculateMesh()
@@ -23,7 +23,7 @@ class Label(textData: String?, fontSize: Float, alignment: Alignment, offset: Ve
 
     override fun render() {
         setGuiObjectMatrix(position.x, position.y)
-        render(_meshUUID)
+        render(meshUUID)
     }
 
     override fun collisionDetect(mousePosition: Vector2fc): Boolean {
@@ -33,16 +33,20 @@ class Label(textData: String?, fontSize: Float, alignment: Alignment, offset: Ve
 
     override fun recalculateMesh() {
 //        System.out.println("Label: generating a new mesh");
-        if (_meshUUID != null) {
-            destroy(_meshUUID)
+        if (meshUUID != "") {
+            destroy(meshUUID)
         }
         Font.switchColor(foreGroundColor)
         Font.switchShadowColor(shadowColor)
         this.meshUUID =
-            Font.grabText(fontSize * GUIElement.Companion.getGuiScale(), textData)
+            Font.grabText(fontSize * guiScale, textData)
         this.size =
-            Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textData)
+            Font.getTextSize(fontSize * guiScale, textData)
         recalculatePosition()
+    }
+
+    override fun internalOnClick(mousePosition: Vector2fc) {
+        TODO("Not yet implemented")
     }
 
     override fun internalOnStep(gui: GUI) {

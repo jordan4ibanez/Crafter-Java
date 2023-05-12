@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.gui.components
 
 import org.crafter.engine.camera.Camera.setGuiObjectMatrix
