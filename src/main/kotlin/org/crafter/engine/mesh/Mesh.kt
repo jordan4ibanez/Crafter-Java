@@ -1,6 +1,7 @@
 package org.crafter.engine.mesh
 
 import org.crafter.engine.texture.TextureStorage
+import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.*
 import org.lwjgl.system.MemoryUtil
 import java.nio.FloatBuffer
@@ -20,6 +21,9 @@ class Mesh(
     textureFileLocation: String,
     is2d: Boolean
 ) {
+
+    private val invalid = Int.MAX_VALUE
+
     // Reserved mesh name for internal debugging
     private val name: String
 
@@ -34,8 +38,8 @@ class Mesh(
     private var textureID = 0
 
     // Optional Vertex Buffer Objects
-    private var bonesVboID = INVALID
-    private var colorsVboID = INVALID
+    private var bonesVboID = invalid
+    private var colorsVboID = invalid
 
     // Not using builder pattern in Java because I'm trying out a new structure implementation
     init {
@@ -122,7 +126,7 @@ class Mesh(
     // float[] automator method
     private fun uploadFloatArray(floatArray: FloatArray, glslPosition: Int, componentsInStructure: Int): Int {
         // Starts off as: float* var = nullptr;
-        var buffer: FloatBuffer? = null
+        var buffer: FloatBuffer = BufferUtils.createFloatBuffer(0)
         val returningID: Int
         try {
             buffer = MemoryUtil.memAllocFloat(floatArray.size)
@@ -142,9 +146,7 @@ class Mesh(
             GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
         } finally {
             // Free the C float*
-            if (buffer != null) {
-                MemoryUtil.memFree(buffer)
-            }
+            MemoryUtil.memFree(buffer)
         }
         return returningID
     }
@@ -152,7 +154,7 @@ class Mesh(
     // int[] automator method
     private fun uploadIntArray(intArray: IntArray, glslPosition: Int, componentsInStructure: Int): Int {
         // Starts off as: int* var = nullptr;
-        var buffer: IntBuffer? = null
+        var buffer: IntBuffer= BufferUtils.createIntBuffer(0)
         val returningID: Int
         try {
             buffer = MemoryUtil.memAllocInt(intArray.size)
@@ -172,9 +174,7 @@ class Mesh(
             GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
         } finally {
             // Free the C int*
-            if (buffer != null) {
-                MemoryUtil.memFree(buffer)
-            }
+            MemoryUtil.memFree(buffer)
         }
         return returningID
     }
@@ -183,7 +183,7 @@ class Mesh(
     private fun uploadIndices(indicesArray: IntArray): Int {
 
         // Starts off as: int* var = nullptr;
-        var buffer: IntBuffer? = null
+        var buffer: IntBuffer = BufferUtils.createIntBuffer(0)
         val returningID: Int
         try {
             returningID = GL15.glGenBuffers()
@@ -196,9 +196,7 @@ class Mesh(
 
             // Note: Do note unbind GL_ELEMENT_ARRAY_BUFFER
         } finally {
-            if (buffer != null) {
-                MemoryUtil.memFree(buffer)
-            }
+            MemoryUtil.memFree(buffer)
         }
         return returningID
     }
@@ -215,10 +213,10 @@ class Mesh(
         destroyVBO(indicesVboID, -1, "indices")
 
         // Destroy OPTIONAL Vertex Buffer Objects
-        if (bonesVboID != INVALID) {
+        if (bonesVboID != invalid) {
             destroyVBO(bonesVboID, 2, "bones")
         }
-        if (colorsVboID != INVALID) {
+        if (colorsVboID != invalid) {
             destroyVBO(colorsVboID, 2, "colors")
         }
 
@@ -266,10 +264,5 @@ class Mesh(
 
         }*/
         // Required data is all there, nice
-    }
-
-    companion object {
-        // Reserved invalidation token
-        private const val INVALID = Int.MAX_VALUE
     }
 }
