@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.gui.components
 
 import org.crafter.engine.gui.GUI
@@ -6,7 +8,6 @@ import org.crafter.engine.gui.enumerators.Alignment
 import org.crafter.engine.window.Window
 import org.joml.Vector2f
 import org.joml.Vector2fc
-import java.util.*
 
 abstract class GUIElement protected constructor(alignment: Alignment, offset: Vector2f) {
     protected var name: String = ""
@@ -18,44 +19,39 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     protected var keyInput: KeyInput? = null
     protected var enterInput: EnterInput? = null
     protected var onRender: OnRender? = null
-    protected var _collide = false
-    protected var _alignment: Alignment
+    protected var collide = false
 
-    // Size is the width and height of the element
-    protected val _size: Vector2f = Vector2f(0f, 0f)
-    protected val _offset: Vector2f = Vector2f(0f, 0f)
-    protected val _position: Vector2f = Vector2f(0f, 0f)
+    protected val offset: Vector2f
+    protected var alignment: Alignment
 
     init {
-        _alignment = Objects.requireNonNullElse(alignment, Alignment.DEFAULT)
-        /*
-         * Offset input is how far off it is from the root alignment.
-         */if (offset != null) {
-            _offset.set(offset)
-        }
+        this.offset = offset
+        this.alignment = alignment
     }
 
-    fun setName(name: String) {
-        if (name != null) {
-            throw RuntimeException("GUIElement : ERROR! Tried to set name for element (" + name + ") more than once!")
+    // Size is the width and height of the element
+    protected var size: Vector2f = Vector2f()
+        get() = Vector2f(field)
+        protected set(newVector) {
+            field.set(newVector)
         }
-        name = name
+    protected val position: Vector2f = Vector2f(0f, 0f)
+
+    fun setName(name: String) {
+        if (name != "") {
+            throw RuntimeException("GUIElement : ERROR! Tried to set name for element ($name) more than once!")
+        }
+        this.name = name
     }
 
     protected fun alignment(): Vector2f {
-        return Vector2f(_alignment.value())
+        return Vector2f(alignment.value())
     }
 
     protected fun offset(): Vector2f {
         // I like to have +y be up when setting offset, so I made it like this
-        return Vector2f(_offset.x, -_offset.y).mul(guiScale)
+        return Vector2f(offset.x, -offset.y).mul(guiScale)
     }
-
-    protected var size: Vector2f
-        protected get() = Vector2f(_size)
-        protected set(newVector) {
-            _size.set(newVector)
-        }
 
     fun onStepable(): Boolean {
         return onStep != null
@@ -82,21 +78,21 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     }
 
     fun collideable(): Boolean {
-        return _collide
+        return collide
     }
 
     // Callbacks are only available on element creation
     fun addOnStepCallback(onStep: OnStep): GUIElement {
         if (onStepable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element ($name)!")
         }
-        onStep = onStep
+        this.onStep = onStep
         return this
     }
 
     fun addHoverCallback(hover: Hover): GUIElement {
         if (hoverable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (hover) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (hover) more than once in element ($name)!")
         }
         this.hover = hover
         return this
@@ -104,7 +100,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
 
     fun addClickCallback(click: Click): GUIElement {
         if (clickable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (click) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (click) more than once in element ($name)!")
         }
         this.click = click
         return this
@@ -112,7 +108,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
 
     fun addKeyInputCallback(keyInput: KeyInput): GUIElement {
         if (keyInputable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element ($name)!")
         }
         this.keyInput = keyInput
         return this
@@ -120,7 +116,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
 
     fun addEnterInputCallback(enterInput: EnterInput): GUIElement {
         if (enterInputable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element ($name)!")
         }
         this.enterInput = enterInput
         return this
@@ -128,20 +124,20 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
 
     fun addOnRenderCallback(onRender: OnRender): GUIElement {
         if (onRenderable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (onRender) more than once in element (" + name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (onRender) more than once in element ($name)!")
         }
-        onRender = onRender
+        this.onRender = onRender
         return this
     }
 
     fun setOffset(offset: Vector2f) {
-        _offset.x = offset.x
-        _offset.y = offset.y
+        this.offset.x = offset.x
+        this.offset.y = offset.y
         recalculatePosition()
     }
 
     fun setAlignment(alignment: Alignment) {
-        _alignment = alignment
+        this.alignment = alignment
         recalculatePosition()
     }
 
@@ -152,30 +148,30 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     // What the GUI element can do when nothing is happening, cool effect, etc
     fun onStep(gui: GUI) {
         if (onStepable()) {
-            onStep.action(gui, this)
+            onStep!!.action(gui, this)
         }
     }
 
     fun onHover(gui: GUI) {
         if (hoverable()) {
-            hover.action(gui, this)
+            hover!!.action(gui, this)
         }
     }
 
     fun onClick(gui: GUI) {
         if (clickable()) {
-            click.action(gui, this)
+            click!!.action(gui, this)
         }
     }
 
     fun onKeyInput(gui: GUI, keyboardKey: Int /*Replace with real input*/) {
         if (keyInputable()) {
-            keyInput.action(gui, this, keyboardKey)
+            keyInput!!.action(gui, this, keyboardKey)
         }
     }
 
     /**
-     * This is only used for GUIMesh. The fact that this is inherited, well, could be useful down the road maybe.
+     * This is only used for GUIMesh. The fact that this is inherited, well, could be useful down the road, maybe.
      * It has a guarantee that it is a GUIMesh, casting to GUIMesh is safe.
      */
     fun onRender(gui: GUI) {
@@ -187,9 +183,9 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         So it MUST contain a render delegate.
         This also is a runtime error, so it exists with a name now.
         */if (!onRenderable()) {
-            throw RuntimeException("GUIMesh: (" + name() + ") MUST have an OnRender function!")
+            throw RuntimeException("GUIMesh: ($name) MUST have an OnRender function!")
         }
-        onRender.action(gui, this)
+        onRender!!.action(gui, this)
     }
 
     abstract fun render()
@@ -202,6 +198,18 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     abstract fun internalOnHover(mousePosition: Vector2fc)
     abstract fun internalOnClick(mousePosition: Vector2fc)
 
+    // Internal point calculation, specifically for mouse. Class member. Utilizes stack.
+    protected fun pointCollisionDetect(
+        pointX: Float,
+        pointY: Float,
+        posX: Float,
+        posY: Float,
+        width: Float,
+        height: Float
+    ): Boolean {
+        return pointX >= posX && pointX <= posX + width && pointY >= posY && pointY <= posY + height
+    }
+
     companion object {
         var guiScale = 1f
             private set
@@ -212,19 +220,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
             // 1080p is the gold standard resolution
             val xCompare: Float = test.x() / 1920.0f
             val yCompare: Float = test.y() / 1080.0f
-            guiScale = Math.min(xCompare, yCompare)
-        }
-
-        // Internal point calculation, specifically for mouse. Class member. Utilizes stack.
-        protected fun pointCollisionDetect(
-            pointX: Float,
-            pointY: Float,
-            posX: Float,
-            posY: Float,
-            width: Float,
-            height: Float
-        ): Boolean {
-            return pointX >= posX && pointX <= posX + width && pointY >= posY && pointY <= posY + height
+            guiScale = xCompare.coerceAtMost(yCompare)
         }
     }
 }

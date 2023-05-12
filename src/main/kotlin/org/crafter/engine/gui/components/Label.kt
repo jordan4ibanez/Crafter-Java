@@ -22,7 +22,7 @@ class Label(textData: String?, fontSize: Float, alignment: Alignment, offset: Ve
     }
 
     override fun render() {
-        setGuiObjectMatrix(_position.x, _position.y)
+        setGuiObjectMatrix(position.x, position.y)
         render(_meshUUID)
     }
 
@@ -52,7 +52,7 @@ class Label(textData: String?, fontSize: Float, alignment: Alignment, offset: Ve
     }
 
     override fun recalculatePosition() {
-        _position.set(_alignment.value().mul(getWindowSize()).sub(size.mul(_alignment.value())).add(offset()))
+        position.set(alignment.value().mul(getWindowSize()).sub(size.mul(alignment.value())).add(offset()))
         //        System.out.println("Label (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 }

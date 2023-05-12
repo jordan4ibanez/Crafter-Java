@@ -15,65 +15,69 @@ import org.joml.Vector2fc
 
 class Button(textData: String?, fontSize: Float, alignment: Alignment, offset: Vector2f?) :
     Text(textData, fontSize, alignment, offset) {
-    private var buttonBackGroundMeshUUID: String? = null
+    private var buttonBackGroundMeshUUID: String = ""
 
     init {
-        _collide = true
+        collide = true
         recalculateMesh()
     }
 
     override fun render() {
-        setGuiObjectMatrix(_position.x + padding, _position.y + padding)
-        render(_meshUUID)
-        setGuiObjectMatrix(_position.x, _position.y)
-        render(buttonBackGroundMeshUUID!!)
+        setGuiObjectMatrix(position.x + padding, position.y + padding)
+        render(meshUUID)
+        setGuiObjectMatrix(position.x, position.y)
+        render(buttonBackGroundMeshUUID)
     }
 
     override fun collisionDetect(mousePosition: Vector2fc): Boolean {
-        return GUIElement.Companion.pointCollisionDetect(
+        return pointCollisionDetect(
             mousePosition.x(),
             mousePosition.y(),
-            _position.x(),
-            _position.y(),
-            _size.x(),
-            _size.y()
+            position.x(),
+            position.y(),
+            size.x(),
+            size.y()
         )
     }
 
     override fun recalculateMesh() {
-        if (_meshUUID != null) {
-            destroy(_meshUUID)
+        if (meshUUID != "") {
+            destroy(meshUUID)
         }
-        if (buttonBackGroundMeshUUID != null) {
-            destroy(buttonBackGroundMeshUUID!!)
+        if (buttonBackGroundMeshUUID != "") {
+            destroy(buttonBackGroundMeshUUID)
         }
-        val textSize = Font.getTextSize(fontSize * GUIElement.Companion.getGuiScale(), textData)
+        val textSize = Font.getTextSize(fontSize * guiScale, textData)
         buttonBackGroundMeshUUID =
             FramedMeshFactory.generateMesh(textSize, padding, pixelEdge, borderScale, "textures/button.png")
         Font.switchColor(foreGroundColor)
         Font.switchShadowColor(shadowColor)
-        _meshUUID = Font.grabText(fontSize * GUIElement.Companion.getGuiScale(), textData)
+        meshUUID = Font.grabText(fontSize * guiScale, textData)
 
         // Padding times 2 because all edges of the button are padding, doubled on X and Y
-        this.size = textSize!!.add(Vector2f(padding * 2))
+        this.size = textSize.add(Vector2f(padding * 2))
         recalculatePosition()
     }
 
-    override fun internalOnStep(ui: GUI) {
+    override fun internalOnClick(mousePosition: Vector2fc) {
+        TODO("Not yet implemented")
+    }
+
+    override fun internalOnStep(gui: GUI) {
         if (wasResized()) {
             recalculateMesh()
         }
     }
 
     override fun recalculatePosition() {
-        _position.set(_alignment.value().mul(getWindowSize()).sub(size.mul(_alignment.value())).add(offset()))
+        position.set(alignment.value().mul(getWindowSize()).sub(size.mul(alignment.value())).add(offset()))
         //        System.out.println("Button (" + this.name() + ") POSITION: " + _position.x + ", " + _position.y);
     }
 
     companion object {
         // We want these to be constant throughout the entire game, class members only
         val padding = 16.0f
-            get() = field * GUIElement.Companion.getGuiScale()
+            get() = field * guiScale
         const val pixelEdge = 1.0f
         const val borderScale = 2.0f
     }

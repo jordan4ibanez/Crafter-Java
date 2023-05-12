@@ -37,16 +37,16 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
     private var wasFocused = false
 
     init {
-        _collide = true
+        collide = true
         this.placeHolderText = placeHolderText
         this.boxWidth = boxWidth
         recalculateMesh()
     }
 
     override fun render() {
-        setGuiObjectMatrix(_position.x + padding, _position.y + padding)
+        setGuiObjectMatrix(position.x + padding, position.y + padding)
         render(_meshUUID)
-        setGuiObjectMatrix(_position.x, _position.y)
+        setGuiObjectMatrix(position.x, position.y)
         render(buttonBackGroundMeshUUID!!)
     }
 
@@ -145,15 +145,15 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
         }
 
     override fun recalculatePosition() {
-        _position.set(_alignment.value().mul(getWindowSize()).sub(size.mul(_alignment.value())).add(offset()))
+        position.set(alignment.value().mul(getWindowSize()).sub(size.mul(alignment.value())).add(offset()))
     }
 
     override fun collisionDetect(mousePosition: Vector2fc): Boolean {
         return GUIElement.Companion.pointCollisionDetect(
             mousePosition.x(),
             mousePosition.y(),
-            _position.x(),
-            _position.y(),
+            position.x(),
+            position.y(),
             _size.x(),
             _size.y()
         )

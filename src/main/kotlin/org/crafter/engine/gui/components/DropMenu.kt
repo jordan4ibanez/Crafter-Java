@@ -66,7 +66,7 @@ class DropMenu(
             }
             selectedOption = defaultSelection
         }
-        _collide = true
+        collide = true
         recalculateMesh()
     }
 
@@ -93,23 +93,23 @@ class DropMenu(
     override fun render() {
         if (collapsed) {
             // Main panel
-            setGuiObjectMatrix(_position.x + padding, _position.y + padding)
+            setGuiObjectMatrix(position.x + padding, position.y + padding)
             render(collapsedOptionUUID!!)
-            setGuiObjectMatrix(_position.x, _position.y)
+            setGuiObjectMatrix(position.x, position.y)
             render(dropDownCollapsedUUID!!)
 
             // Drop down button
-            setGuiObjectMatrix(_position.x + buttonTextOffset, _position.y + padding)
+            setGuiObjectMatrix(position.x + buttonTextOffset, position.y + padding)
             render(buttonTextUUID!!)
-            setGuiObjectMatrix(_position.x + collapsedBoxWidth, _position.y)
+            setGuiObjectMatrix(position.x + collapsedBoxWidth, position.y)
             render(buttonUUID!!)
         } else {
 
             // Text options
             for (i in options.indices) {
                 setGuiObjectMatrix(
-                    _position.x + padding,
-                    _position.y + padding + i * textHeight * GUIElement.Companion.getGuiScale()
+                    position.x + padding,
+                    position.y + padding + i * textHeight * GUIElement.Companion.getGuiScale()
                 )
                 render(optionsUUIDs[i]!!)
             }
@@ -117,14 +117,14 @@ class DropMenu(
             // Selection box
             if (hoverSelection != -1) {
                 setGuiObjectMatrix(
-                    _position.x + padding,
-                    _position.y + padding + hoverSelection * textHeight * GUIElement.Companion.getGuiScale()
+                    position.x + padding,
+                    position.y + padding + hoverSelection * textHeight * GUIElement.Companion.getGuiScale()
                 )
                 render(selectionBoxUUID!!)
             }
 
             // Background
-            setGuiObjectMatrix(_position.x, _position.y)
+            setGuiObjectMatrix(position.x, position.y)
             render(fullSizeBackgroundUUID!!)
         }
     }
@@ -133,8 +133,8 @@ class DropMenu(
         val collided: Boolean = GUIElement.Companion.pointCollisionDetect(
             mousePosition.x(),
             mousePosition.y(),
-            _position.x(),
-            _position.y(),
+            position.x(),
+            position.y(),
             _size.x(),
             _size.y()
         )
@@ -176,7 +176,7 @@ class DropMenu(
     }
 
     override fun recalculatePosition() {
-        _position.set(_alignment.value().mul(getWindowSize()).sub(size.mul(_alignment.value())).add(offset()))
+        position.set(alignment.value().mul(getWindowSize()).sub(size.mul(alignment.value())).add(offset()))
     }
 
     override fun internalOnHover(mousePosition: Vector2fc) {
@@ -189,8 +189,8 @@ class DropMenu(
             if (GUIElement.Companion.pointCollisionDetect(
                     mousePosition.x(),
                     mousePosition.y(),
-                    _position.x() + padding,
-                    _position.y() + padding + textHeight * GUIElement.Companion.getGuiScale() * i.toFloat(),
+                    position.x() + padding,
+                    position.y() + padding + textHeight * GUIElement.Companion.getGuiScale() * i.toFloat(),
                     getBoxWidth(),
                     textHeight * GUIElement.Companion.getGuiScale()
                 )

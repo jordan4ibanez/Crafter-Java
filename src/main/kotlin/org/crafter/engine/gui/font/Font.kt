@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType
 import org.crafter.engine.mesh.MeshStorage.newMesh
 import org.crafter.engine.texture.RawTextureObject
 import org.crafter.engine.texture.TextureStorage.createTexture
-import org.crafter.engine.utility.FileReader.getFileString
+import org.crafter.engine.utility.FileUtility.getFileString
 import org.joml.Vector2f
 import org.joml.Vector3f
 import java.io.File
@@ -18,12 +18,10 @@ import java.util.*
  * We seriously do NOT want to create new objects every frame.
  * This NEEDS to be only one object, reused every frame.
  * See original here: [Fancy Link](https://github.com/jordan4ibanez/RazorFont/blob/main/source/razor_font.d)
- * You can see this is built like a static D module.
- * No, I will not make this a singleton.
  */
 object Font {
     // The current character limit (letters in string)
-    const val maxChars = 4096
+    private const val maxChars = 4096
 
     // 4 vec2 (so 8 per char) vertex positions
     private val vertexCache = FloatArray(maxChars * 8)
@@ -42,8 +40,7 @@ object Font {
     private var textureCoordinateCount = 0
     private var indicesCount = 0
     private var colorCount = 0
-    var currentCharacterIndex = 0
-        private set
+    private var currentCharacterIndex = 0
     private val RAW_VERTEX = floatArrayOf(
         0f, 0f,
         0f, 1f,
@@ -290,11 +287,11 @@ object Font {
     }
 
     // This now gives you back a mesh UUID in the storage container
-    fun grabText(fontSize: Float, text: String?): String? {
+    fun grabText(fontSize: Float, text: String): String {
         return grabText(0f, 0f, fontSize, text, true)
     }
 
-    private fun grabText(posX: Float, posY: Float, fontSize: Float, text: String?, returnMesh: Boolean): String? {
+    private fun grabText(posX: Float, posY: Float, fontSize: Float, text: String, returnMesh: Boolean): String {
 
         // Can't render if no font is selected
         if (currentFont == null) {
@@ -311,7 +308,7 @@ object Font {
 
         // Cache space (' ') character
         val spaceCharacterSize = currentFont!!.spaceCharacterSize * fontSize
-        for (character in text!!.toCharArray()) {
+        for (character in text.toCharArray()) {
 
             // Skip space
             if (character == ' ') {
@@ -332,7 +329,7 @@ object Font {
             }
 
             // Font stores character width in index 9 (8 [0 count])
-            val textureData = Arrays.copyOfRange(currentFont!!.map[stringCharacter], 0, 9)
+            val textureData = currentFont!!.map[stringCharacter]!!.copyOfRange(0, 9)
 
             //Now dispatch into the cache
             System.arraycopy(textureData, 0, textureCoordinateCache, textureCoordinateCount, 8)
@@ -342,7 +339,7 @@ object Font {
             val characterWidth = textureData[8]
 
             // Keep this on the stack
-            val rawVertex = Arrays.copyOf(RAW_VERTEX, RAW_VERTEX.size)
+            val rawVertex = RAW_VERTEX.copyOf(RAW_VERTEX.size)
 
 
             // ( 0 x 1 y 2 x 3 y ) <- left side ( 4 x 5 y 6 x 7 y ) <- right side is goal
@@ -377,7 +374,7 @@ object Font {
             // vertexData ~= rawVertex;
             // Now dispatch into the cache
             System.arraycopy(rawVertex, 0, vertexCache, vertexCount, 8)
-            val rawIndices = Arrays.copyOf(RAW_INDICES, RAW_INDICES.size)
+            val rawIndices = RAW_INDICES.copyOf(RAW_INDICES.size)
             for (i in rawIndices.indices) {
                 rawIndices[i] += vertexCount / 2
             }
@@ -393,7 +390,7 @@ object Font {
             // This one is characters literal
             currentCharacterIndex++
             if (vertexCount >= maxChars || indicesCount >= maxChars) {
-                throw RuntimeException("Font: Exceeded character limit! Character limit is: " + maxChars)
+                throw RuntimeException("Font: Exceeded character limit! Character limit is: $maxChars")
             }
         }
 
@@ -421,7 +418,7 @@ object Font {
             // Now render it if told to do so
             return generateMesh()
         }
-        return null
+        return ""
     }
 
     // ^ v Keep these two next to each other, easier to understand
@@ -430,11 +427,11 @@ object Font {
         val uuid = UUID.randomUUID().toString()
         newMesh(
             uuid,
-            Arrays.copyOfRange(vertexCache, 0, vertexCount),
-            Arrays.copyOfRange(textureCoordinateCache, 0, textureCoordinateCount),
-            Arrays.copyOfRange(indicesCache, 0, indicesCount),
+            vertexCache.copyOfRange(0, vertexCount),
+            textureCoordinateCache.copyOfRange(0, textureCoordinateCount),
+            indicesCache.copyOfRange(0, indicesCount),
             null,
-            Arrays.copyOfRange(colorCache, 0, colorCount),
+            colorCache.copyOfRange(0, colorCount),
             currentFont!!.fileLocation,
             true
         )
@@ -586,8 +583,7 @@ object Font {
 
     private fun parseJson(fontObject: FontData, jsonLocation: String) {
         val mapper = ObjectMapper()
-        val nodes: JsonNode
-        nodes = try {
+        val nodes: JsonNode = try {
             mapper.readTree(getFileString(jsonLocation))
         } catch (e: Exception) {
             throw RuntimeException("Font: ERROR loading! $e")

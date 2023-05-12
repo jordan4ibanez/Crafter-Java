@@ -51,14 +51,10 @@ internal class FontData {
      * double[] myCoolBlah = map["whatever letter/unicode thing you're getting"];
      * The last value specifies width of the character.
      */
-    var map: HashMap<String?, FloatArray?>
+    var map: HashMap<String, FloatArray> = HashMap()
 
     // Stores the map raw as a linear array before processed
     var rawMap: String? = null
-
-    init {
-        map = HashMap()
-    }
 
     val asString: String
         // Debug util
