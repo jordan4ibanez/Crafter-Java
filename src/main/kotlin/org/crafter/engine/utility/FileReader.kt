@@ -21,12 +21,12 @@ object FileReader {
     /**
      * You can combine getFolderList and getFileList to dance through a directory!
      */
-    fun getFolderList(folderLocation: String): Array<out String>? {
+    fun getFolderList(folderLocation: String): Array<out String> {
         val file = grabFile(folderLocation)
         if (!file.isDirectory) {
             throw RuntimeException("FileReader: Folder ($folderLocation) is not a directory!")
         }
-        return file.list { current: File?, name: String? -> File(current, name!!).isDirectory }
+        return file.list {current: File, name: String -> File(current, name).isDirectory }!!
     }
 
     fun getFileList(folderLocation: String): Array<out String> {
