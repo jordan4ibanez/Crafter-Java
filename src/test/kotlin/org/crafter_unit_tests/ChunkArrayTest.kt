@@ -23,7 +23,9 @@ class ChunkArrayTest {
 
         // Basic test
         for (i in 0 until testChunk.arraySize) {
+//            println("I is: $i")
             testChunk.setBlockData(i, i)
+//            println(testChunk.data.joinToString(separator = "," ))
             var gottenBlockData = testChunk.getBlockData(i)
             Assertions.assertEquals(i, gottenBlockData)
             val position = testChunk.indexToPosition(i)
@@ -35,11 +37,11 @@ class ChunkArrayTest {
         }
 
         // Now test data stream
-        val workerChunkData = testChunk.data
+        val workerChunkData = testChunk.getRawData()
         for (i in 0 until testChunk.arraySize) {
             workerChunkData[i] = i + 10
         }
-        testChunk.data = workerChunkData
+        testChunk.streamNewBlockData(workerChunkData)
         for (i in 0 until testChunk.arraySize) {
             val gottenBlockData = testChunk.getBlockData(i)
             Assertions.assertEquals(i + 10, gottenBlockData)
@@ -49,7 +51,7 @@ class ChunkArrayTest {
         for (i in 0 until testChunk.arraySize) {
             testChunk.setBlockData(i, i)
         }
-        val doubleCheck = testChunk.data
+        val doubleCheck = testChunk.getRawData()
         for (i in 0 until testChunk.arraySize) {
             Assertions.assertEquals(doubleCheck[i], testChunk.getBlockData(i))
         }
