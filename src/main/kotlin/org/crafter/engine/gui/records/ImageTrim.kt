@@ -7,7 +7,6 @@ package org.crafter.engine.gui.records
  * @param startY
  * @param endY
  */
-@JvmRecord
 data class ImageTrim(
     val width: Float,
     val height: Float,
