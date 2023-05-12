@@ -1,20 +1,23 @@
 package org.crafter.engine.gui.components
 
+import org.crafter.engine.gui.GUI
+import org.crafter.engine.gui.actions.*
 import org.crafter.engine.gui.enumerators.Alignment
 import org.crafter.engine.window.Window
-import org.gui.actions.*
+import org.joml.Vector2f
+import org.joml.Vector2fc
 import java.util.*
 
-abstract class GUIElement protected constructor(alignment: Alignment, offset: Vector2f?) {
-    protected var _name: String? = null
-    var meshUUID: String? = null
+abstract class GUIElement protected constructor(alignment: Alignment, offset: Vector2f) {
+    protected var name: String = ""
+    var meshUUID: String = ""
         protected set
-    protected var _onStep: OnStep? = null
-    protected var _click: Click? = null
-    protected var _hover: Hover? = null
-    protected var _keyInput: KeyInput? = null
-    protected var _enterInput: EnterInput? = null
-    protected var _onRender: OnRender? = null
+    protected var onStep: OnStep? = null
+    protected var click: Click? = null
+    protected var hover: Hover? = null
+    protected var keyInput: KeyInput? = null
+    protected var enterInput: EnterInput? = null
+    protected var onRender: OnRender? = null
     protected var _collide = false
     protected var _alignment: Alignment
 
@@ -32,11 +35,11 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         }
     }
 
-    fun setName(name: String?) {
-        if (_name != null) {
-            throw RuntimeException("GUIElement : ERROR! Tried to set name for element (" + _name + ") more than once!")
+    fun setName(name: String) {
+        if (name != null) {
+            throw RuntimeException("GUIElement : ERROR! Tried to set name for element (" + name + ") more than once!")
         }
-        _name = name
+        name = name
     }
 
     protected fun alignment(): Vector2f {
@@ -55,27 +58,27 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         }
 
     fun onStepable(): Boolean {
-        return _onStep != null
+        return onStep != null
     }
 
     fun hoverable(): Boolean {
-        return _hover != null
+        return hover != null
     }
 
     fun clickable(): Boolean {
-        return _click != null
+        return click != null
     }
 
     fun keyInputable(): Boolean {
-        return _keyInput != null
+        return keyInput != null
     }
 
     fun enterInputable(): Boolean {
-        return _enterInput != null
+        return enterInput != null
     }
 
     fun onRenderable(): Boolean {
-        return _onRender != null
+        return onRender != null
     }
 
     fun collideable(): Boolean {
@@ -83,51 +86,51 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     }
 
     // Callbacks are only available on element creation
-    fun addOnStepCallback(onStep: OnStep?): GUIElement {
+    fun addOnStepCallback(onStep: OnStep): GUIElement {
         if (onStepable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (onStep) more than once in element (" + name + ")!")
         }
-        _onStep = onStep
+        onStep = onStep
         return this
     }
 
-    fun addHoverCallback(hover: Hover?): GUIElement {
+    fun addHoverCallback(hover: Hover): GUIElement {
         if (hoverable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (hover) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (hover) more than once in element (" + name + ")!")
         }
-        _hover = hover
+        this.hover = hover
         return this
     }
 
-    fun addClickCallback(click: Click?): GUIElement {
+    fun addClickCallback(click: Click): GUIElement {
         if (clickable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (click) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (click) more than once in element (" + name + ")!")
         }
-        _click = click
+        this.click = click
         return this
     }
 
-    fun addKeyInputCallback(keyInput: KeyInput?): GUIElement {
+    fun addKeyInputCallback(keyInput: KeyInput): GUIElement {
         if (keyInputable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (keyInput) more than once in element (" + name + ")!")
         }
-        _keyInput = keyInput
+        this.keyInput = keyInput
         return this
     }
 
-    fun addEnterInputCallback(enterInput: EnterInput?): GUIElement {
+    fun addEnterInputCallback(enterInput: EnterInput): GUIElement {
         if (enterInputable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (enterInput) more than once in element (" + name + ")!")
         }
-        _enterInput = enterInput
+        this.enterInput = enterInput
         return this
     }
 
-    fun addOnRenderCallback(onRender: OnRender?): GUIElement {
+    fun addOnRenderCallback(onRender: OnRender): GUIElement {
         if (onRenderable()) {
-            throw RuntimeException("GUIElement: ERROR! Attempted to add (onRender) more than once in element (" + _name + ")!")
+            throw RuntimeException("GUIElement: ERROR! Attempted to add (onRender) more than once in element (" + name + ")!")
         }
-        _onRender = onRender
+        onRender = onRender
         return this
     }
 
@@ -142,32 +145,32 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         recalculatePosition()
     }
 
-    fun name(): String? {
-        return _name
+    fun name(): String {
+        return name
     }
 
     // What the GUI element can do when nothing is happening, cool effect, etc
-    fun onStep(gui: GUI?) {
+    fun onStep(gui: GUI) {
         if (onStepable()) {
-            _onStep.action(gui, this)
+            onStep.action(gui, this)
         }
     }
 
-    fun onHover(gui: GUI?) {
+    fun onHover(gui: GUI) {
         if (hoverable()) {
-            _hover.action(gui, this)
+            hover.action(gui, this)
         }
     }
 
-    fun onClick(gui: GUI?) {
+    fun onClick(gui: GUI) {
         if (clickable()) {
-            _click.action(gui, this)
+            click.action(gui, this)
         }
     }
 
-    fun onKeyInput(gui: GUI?, keyboardKey: Int /*Replace with real input*/) {
+    fun onKeyInput(gui: GUI, keyboardKey: Int /*Replace with real input*/) {
         if (keyInputable()) {
-            _keyInput.action(gui, this, keyboardKey)
+            keyInput.action(gui, this, keyboardKey)
         }
     }
 
@@ -175,7 +178,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
      * This is only used for GUIMesh. The fact that this is inherited, well, could be useful down the road maybe.
      * It has a guarantee that it is a GUIMesh, casting to GUIMesh is safe.
      */
-    fun onRender(gui: GUI?) {
+    fun onRender(gui: GUI) {
         if (this !is GUIMesh) {
             return
         }
@@ -186,7 +189,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
         */if (!onRenderable()) {
             throw RuntimeException("GUIMesh: (" + name() + ") MUST have an OnRender function!")
         }
-        _onRender.action(gui, this)
+        onRender.action(gui, this)
     }
 
     abstract fun render()
@@ -197,7 +200,7 @@ abstract class GUIElement protected constructor(alignment: Alignment, offset: Ve
     // Enforce recalculation, it's very important to keep gui elements in correct position
     protected abstract fun recalculatePosition()
     abstract fun internalOnHover(mousePosition: Vector2fc)
-    abstract fun internalOnClick(mousePosition: Vector2fc?)
+    abstract fun internalOnClick(mousePosition: Vector2fc)
 
     companion object {
         var guiScale = 1f

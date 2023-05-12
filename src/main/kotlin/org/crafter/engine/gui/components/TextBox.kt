@@ -69,7 +69,7 @@ class TextBox(placeHolderText: String, fontSize: Float, alignment: Alignment, of
         val enterKeyPressed = keyPressed(GLFW.GLFW_KEY_ENTER)
         if (enterKeyPressed) {
             if (enterInputable()) {
-                _enterInput.action(gui, this, textData)
+                enterInput.action(gui, this, textData)
                 if (clearOnSend) {
                     textData = ""
                     entryCursorPosition = 0
