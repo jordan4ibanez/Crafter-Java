@@ -34,7 +34,7 @@ object FileReader {
         if (!file.isDirectory) {
             throw RuntimeException("FileReader: Folder ($folderLocation) is not a directory!")
         }
-        return file.list { current: File?, name: String? -> File(current, name!!).isFile }!!
+        return file.list { current: File, name: String -> File(current, name).isFile }!!
     }
 
     private fun grabFile(fileLocation: String): File {
@@ -53,11 +53,11 @@ object FileReader {
         return File(fileLocation).isFile
     }
 
-    fun makeFolder(folderLocation: String?): Boolean {
+    fun makeFolder(folderLocation: String): Boolean {
         return File(folderLocation).mkdir()
     }
 
-    fun makeFile(fileLocation: String?): File {
+    fun makeFile(fileLocation: String): File {
         return File(fileLocation)
     }
 }
