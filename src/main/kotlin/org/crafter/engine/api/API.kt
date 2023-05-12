@@ -2,7 +2,7 @@ package org.crafter.engine.api
 
 import org.crafter.engine.texture.TextureStorage
 import org.crafter.engine.texture.WorldAtlas
-import org.crafter.engine.utility.FileReader
+import org.crafter.engine.utility.FileUtility
 import org.crafter.engine.world.block.BlockDefinitionContainer
 import java.util.*
 import java.util.function.Consumer
@@ -50,13 +50,13 @@ object API {
     private fun loadMods() {
 
         // Basic mod loading
-        for (modFolder in FileReader.getFolderList(modPath)!!) {
+        for (modFolder in FileUtility.getFolderList(modPath)!!) {
 
 //            System.out.println("Got mod: " + modFolder);
 
             // We need to look through this multiple times so turn it into an indexable container
             val fileExistence = HashMap<String, Boolean>()
-            Arrays.stream(FileReader.getFileList(modPath + modFolder)).toList().forEach(
+            Arrays.stream(FileUtility.getFileList(modPath + modFolder)).toList().forEach(
                 Consumer { fileName: String -> fileExistence[fileName] = true })
 
             // Check mod.json existence
@@ -89,7 +89,7 @@ object API {
 
     private fun loadModTextures() {
         // Each individual mod folder in root of /mods/ (crafter_base, my_cool_mod, etc)
-        val modFolderList = FileReader.getFolderList(modPath)!!
+        val modFolderList = FileUtility.getFolderList(modPath)!!
         for (modFolder in modFolderList) {
             // Loads up all png files within mod's /textures/blocks/ folder into the WorldAtlas texture packer.
             loadModBlockTextures(modPath + modFolder)
@@ -104,11 +104,11 @@ object API {
 
     private fun loadModIndividualTextures(modDirectory: String) {
         val texturesDirectory = "$modDirectory/textures"
-        if (!FileReader.isFolder(texturesDirectory)) {
+        if (!FileUtility.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return
         }
-        val foundFiles = FileReader.getFileList(texturesDirectory)
+        val foundFiles = FileUtility.getFileList(texturesDirectory)
         if (foundFiles.isEmpty()) {
 //            System.out.println("API: (exit 1) No files found in mod texture directory (" + texturesDirectory + "). Skipping!");
             return
@@ -132,16 +132,16 @@ object API {
 
     private fun loadModBlockTextures(modDirectory: String) {
         val texturesDirectory = "$modDirectory/textures"
-        if (!FileReader.isFolder(texturesDirectory)) {
+        if (!FileUtility.isFolder(texturesDirectory)) {
 //            System.out.println("API: No (textures) folder in mod directory (" + modDirectory + "). Skipping!");
             return
         }
         val blockTexturesDirectory = "$texturesDirectory/blocks"
-        if (!FileReader.isFolder(blockTexturesDirectory)) {
+        if (!FileUtility.isFolder(blockTexturesDirectory)) {
 //            System.out.println("API: No (textures/blocks) folder in mod directory (" + texturesDirectory + "). Skipping!");
             return
         }
-        val foundFiles = FileReader.getFileList(blockTexturesDirectory)
+        val foundFiles = FileUtility.getFileList(blockTexturesDirectory)
         if (foundFiles.isEmpty()) {
 //            System.out.println("API: (exit 1) No files found in mod blocks texture directory (" + blockTexturesDirectory + "). Skipping!");
             return
@@ -178,7 +178,7 @@ object API {
      * @param fileLocation The location of the javascript file.
      */
     fun runFile(fileLocation: String) {
-        runCode(FileReader.getFileString(fileLocation))
+        runCode(FileUtility.getFileString(fileLocation))
     }
 
     /**
