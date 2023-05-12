@@ -163,7 +163,7 @@ class Chunk {
      * Allows a chunk to get entirely new block data from a pre bit-shifted array.
      */
     fun streamNewBlockData(newData: IntArray) {
-        for (i in 0..arraySize) {
+        for (i in 0 until arraySize) {
             data[i] = newData[i]
         }
     }
@@ -171,10 +171,11 @@ class Chunk {
     /**
      * Returns the raw data of a chunk. This is a cloned data set. It is a completely separate object from
      * the internal data structure inside this chunk.
+     * This is done like this as to prevent a horrific headache from object mutability.
      */
     fun getRawData(): IntArray {
-        val dataClone: IntArray = IntArray(arraySize)
-        for (i in 0..arraySize) {
+        val dataClone = IntArray(arraySize)
+        for (i in 0 until arraySize) {
             dataClone[i] = data[i]
         }
         return dataClone
@@ -342,7 +343,7 @@ class Chunk {
 
     fun clone(): Chunk {
         val clone = Chunk(Vector2i(position.x(), position.y()))
-        for (i in 0..arraySize) {
+        for (i in 0 until arraySize) {
             clone.data[i] = data[i]
         }
         return clone
