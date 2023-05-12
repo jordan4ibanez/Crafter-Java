@@ -1,6 +1,6 @@
 //TODO: load up mods from JavaScript
 /*
-TODO: Use java classes as if they were compiled :D
+TODO: Use kotlin classes as if they were compiled :D
 TODO: Figure out more things like biomes
 
 
