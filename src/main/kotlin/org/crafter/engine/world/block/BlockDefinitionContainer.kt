@@ -162,7 +162,7 @@ class BlockDefinitionContainer private constructor() : Serializable {
             }
 
         @get:Synchronized
-        val threadSafeDuplicate: BlockDefinitionContainer?
+        val threadSafeDuplicate: BlockDefinitionContainer
             /**
              * Get a thread safe duplicate of the master instance of Block Definition Container.
              * @return A clone of the master instance of Block Definition Container.

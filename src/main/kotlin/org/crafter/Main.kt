@@ -101,7 +101,7 @@ private fun mainLoop() {
         //fixme: needs to iterate 0-7
         // Render stack 0 (y coordinate 0 to 15)
         for (i in 0 until generatedChunk.stacks) {
-            println(i)
+//            println(i)
             ChunkMeshGenerator.pushRequest(position.x(), i, position.y())
         }
     }

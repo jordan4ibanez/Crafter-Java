@@ -1,6 +1,5 @@
 package org.crafter.engine.world_generation.chunk_mesh_generation
 
-import org.crafter.engine.delta.DeltaObject
 import org.crafter.engine.world.block.BlockDefinitionContainer
 import org.crafter.engine.world.block.BlockDefinitionContainer.Companion.threadSafeDuplicate
 import org.crafter.engine.world.chunk.ChunkStorage.getThreadSafeChunkClone
@@ -14,18 +13,16 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class ChunkMeshGenerator private constructor() : Runnable {
     // Instance local
-    private val delta: DeltaObject
+//    private val delta: DeltaObject = DeltaObject()
 
     // This and meshWorker share the instance of this BlockDefinitionContainer!
-    private val blockDefinitionContainer: BlockDefinitionContainer?
+    private val blockDefinitionContainer: BlockDefinitionContainer = threadSafeDuplicate
     private val meshRequestQueue: BlockingQueue<Vector3ic>
     private val meshOutputQueue: BlockingQueue<ChunkMeshRecord>
     private val shouldRun: AtomicBoolean
     private val meshWorker: ChunkMeshWorker
 
     init {
-        delta = DeltaObject()
-        blockDefinitionContainer = threadSafeDuplicate
         meshRequestQueue = LinkedBlockingQueue()
         meshOutputQueue = LinkedBlockingQueue()
         shouldRun = AtomicBoolean(true)
@@ -35,7 +32,7 @@ class ChunkMeshGenerator private constructor() : Runnable {
 
     override fun run() {
         println("ChunkMeshGenerator: Started!")
-        println("ChunkMeshGenerator: gotten blocks (" + Arrays.toString(blockDefinitionContainer!!.allBlockNames) + ")!")
+        println("ChunkMeshGenerator: gotten blocks (" + blockDefinitionContainer.allBlockNames.contentToString() + ")!")
         while (shouldRun.get()) {
             sleepCheck()
             processInputQueue()
@@ -61,7 +58,7 @@ class ChunkMeshGenerator private constructor() : Runnable {
     private fun blockProcessingProcedure(position: Vector3ic): ChunkMeshRecord {
         val uuid = UUID.randomUUID().toString()
         val threadSafeClone = getThreadSafeChunkClone(Vector2i(position.x(), position.z()))
-        println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")")
+//        println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")")
 
         // Todo: Note! Perhaps a linked list would be more performant?
 
@@ -93,7 +90,8 @@ class ChunkMeshGenerator private constructor() : Runnable {
         }
 
         // todo: this will be created after the array builders have been filled out
-        val outputMesh = ChunkMeshRecord(
+        //        println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition.x() + ", " + outputMesh.destinationChunkPosition.y() + ")")
+        return ChunkMeshRecord(
             uuid,
             position.y(),  // Separates the pointer internally
             Vector2i(position.x(), position.z()),
@@ -101,8 +99,6 @@ class ChunkMeshGenerator private constructor() : Runnable {
             textureCoordinates,
             indices
         )
-        println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition.x() + ", " + outputMesh.destinationChunkPosition.y() + ")")
-        return outputMesh
     }
 
     fun checkUpdate(): Boolean {
@@ -138,9 +134,9 @@ class ChunkMeshGenerator private constructor() : Runnable {
     /**
      * This function is helpful in case something ever gets completely mangled.
      */
-    private fun debugQueueSizes() {
-        println("ChunkMeshGenerator: (INPUT: " + meshRequestQueue.size + ") | (OUTPUT: " + meshOutputQueue.size + ")")
-    }
+//    private fun debugQueueSizes() {
+//        println("ChunkMeshGenerator: (INPUT: " + meshRequestQueue.size + ") | (OUTPUT: " + meshOutputQueue.size + ")")
+//    }
 
     companion object {
         // Class local

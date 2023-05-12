@@ -101,7 +101,7 @@ class Chunk {
             "worldAtlas",
             false
         )
-        println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition.x() + ", " + newMesh.destinationChunkPosition.y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid + ")")
+//        println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition.x() + ", " + newMesh.destinationChunkPosition.y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid + ")")
         meshes[stack] = newMesh.uuid
     }
 
@@ -133,7 +133,7 @@ class Chunk {
      */
     fun setBlockData(index: Int, blockData: Int) {
         check(index)
-        println("setting block data! new value is $blockData at index $index")
+//        println("setting block data! new value is $blockData at index $index")
         data[index] = blockData
     }
 

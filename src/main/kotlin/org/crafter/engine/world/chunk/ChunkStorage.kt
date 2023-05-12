@@ -16,12 +16,12 @@ object ChunkStorage {
     fun addOrUpdate(chunk: Chunk) {
         val position = chunk.position
         if (hasPosition(position)) {
-            println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")")
+//            println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")")
             container[position]!!.streamNewBlockData(chunk.getRawData())
             return
         }
         container[position] = chunk
-        println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")")
+//        println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")")
     }
 
     @Synchronized
