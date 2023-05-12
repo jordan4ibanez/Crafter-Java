@@ -14,12 +14,11 @@ import org.lwjgl.system.MemoryStack
  */
 internal class Shader(name: String, vertexLocation: String, fragmentLocation: String) {
     private val name: String
-    private val programID: Int
+    private val programID: Int = GL20.glCreateProgram()
     private val uniforms: HashMap<String, Int>
 
     // An easy way to create shaders
     init {
-        programID = GL20.glCreateProgram()
         if (programID == 0) {
             throw RuntimeException("Shader: Failed to create shader!")
         }

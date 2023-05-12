@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package org.crafter.engine.shader
 
 import org.joml.Matrix4f
