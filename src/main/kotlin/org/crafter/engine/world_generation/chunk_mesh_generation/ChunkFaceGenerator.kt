@@ -3,11 +3,10 @@ package org.crafter.engine.world_generation.chunk_mesh_generation
 import org.crafter.engine.world.block.BlockDefinitionContainer
 
 class ChunkFaceGenerator(private val definitionContainer: BlockDefinitionContainer?) {
-    private val faces: HashMap<String, FloatArray>
+    private val faces: HashMap<String, FloatArray> = HashMap()
     private val indicesOrder = intArrayOf(0, 1, 2, 2, 3, 0)
 
     init {
-        faces = HashMap()
 
         // Blocks are rooted at 0,0,0 x,y,z floating so negative positions are zeroed
 
