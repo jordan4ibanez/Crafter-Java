@@ -1,3 +1,4 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 package org.crafter.engine.controls
 
 import org.crafter.engine.window.Window
@@ -17,10 +18,10 @@ object Keyboard {
     private val memoryFlush: Queue<Int> = LinkedList()
     @JvmStatic
     fun initialize() {
-        GLFW.glfwSetCharCallback(Window.pointer) { window: Long, codePoint: Int ->
+        GLFW.glfwSetCharCallback(Window.pointer) { _: Long, codePoint: Int ->
             lastKey = codePoint.toChar()
         }
-        GLFW.glfwSetKeyCallback(Window.pointer) { window: Long, key: Int, scancode: Int, action: Int, mods: Int ->
+        GLFW.glfwSetKeyCallback(Window.pointer) { _: Long, key: Int, _: Int, action: Int, _: Int ->
             if (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT) {
                 setMemory(key)
                 setCurrent(key, true)
@@ -44,7 +45,6 @@ object Keyboard {
         memoryMap[key] = currentMap[key]
     }
 
-    @JvmStatic
     fun pollMemory() {
         while (!memoryFlush.isEmpty()) {
             setMemory(memoryFlush.remove())
@@ -54,19 +54,16 @@ object Keyboard {
     /**
      * (FIXME) Remember: Remove this
      */
-    @JvmStatic
     fun pollQuitHack() {
         if (keyPressed(GLFW.GLFW_KEY_ESCAPE)) {
             Window.close()
         }
     }
 
-    @JvmStatic
     fun hasTyped(): Boolean {
         return lastKey != '\u0000'
     }
 
-    @JvmStatic
     val lastInput: Char
         get() {
             if (!hasTyped()) {
@@ -78,13 +75,11 @@ object Keyboard {
         }
 
     // IsDown doesn't need memory, just if the key is held down
-    @JvmStatic
     fun keyDown(key: Int): Boolean {
         return getCurrent(key)
     }
 
     // KeyPressed needs memory, only true in state on initial state change
-    @JvmStatic
     fun keyPressed(key: Int): Boolean {
         return getCurrent(key) && !getMemory(key)
     }
