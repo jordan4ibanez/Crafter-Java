@@ -18,6 +18,7 @@ import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.*
+import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.Callback
 import org.lwjgl.system.MemoryUtil
 
@@ -30,6 +31,7 @@ object Window {
         private set
 
     // The debugging process callbacks
+    private var callback: Callback? = null
     private var debugCallback: Callback? = null
     private var wasResized = false
     private val clearColor = Vector3f()
@@ -41,6 +43,8 @@ object Window {
     private var framesPerSecondAccumulator = 0
     private var fpsTimeAccumulator = 1.0f
     private var framesPerSecondUpdate = false
+
+    const val wireFrameMode = false
 
     // Create the window
     init {
@@ -55,7 +59,6 @@ object Window {
         // Using default callback
         GLFWErrorCallback.createPrint(System.err).set()
 
-        // Now initialize glfw
         if (!GLFW.glfwInit()) {
             throw RuntimeException("Window: Failed to initialize GLFW!")
         }
@@ -98,7 +101,7 @@ object Window {
             size.x = width
             size.y = height
             wasResized = true
-            GL11.glViewport(0, 0, width, height)
+            glViewport(0, 0, width, height)
         }
 
         // Now center the window
@@ -113,32 +116,36 @@ object Window {
     }
     private fun initializeOpenGL() {
         GL.createCapabilities()
-        println(GL11.glGetString(GL11.GL_VERSION))
-        GL11.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f)
+        println(glGetString(GL_VERSION))
+        glClearColor(clearColor.x, clearColor.y, clearColor.z, 1.0f)
 
         // Thanks, TheChubu!
-        val callback = GLUtil.setupDebugMessageCallback()
-        GL11.glEnable(KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS)
+        // These ensure JVM does not GC these
+        callback = GLUtil.setupDebugMessageCallback()
+        glEnable(KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS)
         debugCallback = GLUtil.setupDebugMessageCallback()
 
         // Alpha color blending
-        GL11.glEnable(GL11.GL_BLEND)
+        glEnable(GL_BLEND)
         GL14.glBlendEquation(GL14.GL_FUNC_ADD)
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
-        GL14.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        GL14.glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE)
 
         // Wireframe mode for debugging polygons
-//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        if (wireFrameMode) {
+            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE )
+        }
 
         // Enable depth testing
-        GL11.glEnable(GL11.GL_DEPTH_TEST)
-        GL11.glDepthFunc(GL11.GL_LESS)
-        GL11.glEnable(GL11.GL_BLEND)
+        glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LESS)
+        glEnable(GL_BLEND)
+
         val cull = true
         if (cull) {
-            GL11.glEnable(GL11.GL_CULL_FACE)
+            glEnable(GL_CULL_FACE)
         } else {
-            GL11.glDisable(GL11.GL_CULL_FACE)
+            glDisable(GL_CULL_FACE)
         }
     }
 
@@ -182,7 +189,7 @@ object Window {
         pollQuitHack()
 
         // Integrate the clearing of the frame buffer in here because otherwise it gets messy
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         /*
          The rest is D code:
 
@@ -240,7 +247,7 @@ object Window {
         clearColor.x = r
         clearColor.y = g
         clearColor.z = b
-        GL11.glClearColor(r, g, b, 1.0f)
+        glClearColor(r, g, b, 1.0f)
     }
 
     // 1D (black to white) setting clear color
@@ -248,17 +255,17 @@ object Window {
         clearColor.x = intensity
         clearColor.y = intensity
         clearColor.z = intensity
-        GL11.glClearColor(intensity, intensity, intensity, 1.0f)
+        glClearColor(intensity, intensity, intensity, 1.0f)
     }
 
     /**
      * Simple setter for updating the window title components
      */
-    fun setTitle(newTitle: String?) {
+    fun setTitle(newTitle: String) {
         setTitle(newTitle, false)
     }
 
-    fun setTitle(newTitle: String?, storeNewTitle: Boolean) {
+    fun setTitle(newTitle: String, storeNewTitle: Boolean) {
         if (storeNewTitle) {
             title = newTitle
         }
@@ -270,12 +277,12 @@ object Window {
     }
 
     fun clearAll() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
     }
 
     @JvmStatic
     fun clearDepthBuffer() {
-        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT)
+        glClear(GL_DEPTH_BUFFER_BIT)
     }
 
     val aspectRatio: Float
@@ -302,8 +309,4 @@ object Window {
     fun close() {
         GLFW.glfwSetWindowShouldClose(pointer, true)
     }
-}
-
-fun Window.scream() {
-    println("ahhhhh")
 }
