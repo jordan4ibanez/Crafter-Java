@@ -9,8 +9,7 @@ import org.crafter.engine.controls.Mouse
 import org.crafter.engine.controls.Mouse.poll
 import org.crafter.engine.delta.Delta.calculateDelta
 import org.crafter.engine.delta.Delta.delta
-//FIXME
-// import org.crafter.engine.gui.components.GUIElement
+import org.crafter.engine.gui.components.GUIElement
 import org.joml.Vector2f
 import org.joml.Vector2i
 import org.joml.Vector3f
@@ -72,8 +71,7 @@ object Window {
         initializeGLFW()
         // OpenGL depends on GLFW
         initializeOpenGL()
-        //FIXME:
-        // GUIElement.recalculateGUIScale()
+         GUIElement.recalculateGUIScale()
     }
 
     private fun initializeGLFW() {

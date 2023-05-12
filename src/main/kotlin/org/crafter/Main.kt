@@ -5,8 +5,7 @@ import org.crafter.engine.camera.Camera
 import org.crafter.engine.controls.Keyboard
 import org.crafter.engine.controls.Mouse
 import org.crafter.engine.delta.Delta
-//FIXME
-// import org.crafter.engine.gui.font.Font
+import org.crafter.engine.gui.font.Font
 import org.crafter.engine.mesh.MeshStorage
 import org.crafter.engine.shader.ShaderStorage
 import org.crafter.engine.texture.TextureStorage
@@ -76,8 +75,8 @@ private fun initialize() {
     ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag")
     ShaderStorage.createUniform("2d", arrayOf("cameraMatrix", "objectMatrix"))
     //FIXME
-    // Font.createFont("fonts/totally_original", "mc", true)
-    // Font.setShadowOffset(0.75f, 0.75f)
+    Font.createFont("fonts/totally_original", "mc", true)
+    Font.setShadowOffset(0.75f, 0.75f)
     Window.setClearColor(0.75f)
     Window.setVsync(false)
     Window.maximize()
