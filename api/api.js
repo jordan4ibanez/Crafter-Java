@@ -27,7 +27,7 @@ var crafter = [];
 // Auto executing lambda localized variable scope discards
 !function(){
     // Classes from the engine which will disappear after this scope
-    var FileReader = Java.type("org.crafter.engine.utility.FileReader");
+    var FileReader = Java.type("org.crafter.engine.utility.FileUtility");
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");

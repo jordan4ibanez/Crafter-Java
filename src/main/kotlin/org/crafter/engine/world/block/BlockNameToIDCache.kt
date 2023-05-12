@@ -3,11 +3,11 @@ package org.crafter.engine.world.block
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeType
-import org.crafter.engine.utility.FileReader.getFileString
-import org.crafter.engine.utility.FileReader.isFile
-import org.crafter.engine.utility.FileReader.isFolder
-import org.crafter.engine.utility.FileReader.makeFile
-import org.crafter.engine.utility.FileReader.makeFolder
+import org.crafter.engine.utility.FileUtility.getFileString
+import org.crafter.engine.utility.FileUtility.isFile
+import org.crafter.engine.utility.FileUtility.isFolder
+import org.crafter.engine.utility.FileUtility.makeFile
+import org.crafter.engine.utility.FileUtility.makeFolder
 import java.io.Serializable
 
 /**

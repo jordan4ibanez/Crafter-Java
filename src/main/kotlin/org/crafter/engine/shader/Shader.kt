@@ -1,6 +1,6 @@
 package org.crafter.engine.shader
 
-import org.crafter.engine.utility.FileReader
+import org.crafter.engine.utility.FileUtility
 import org.joml.Matrix4f
 import org.joml.Vector2f
 import org.joml.Vector3f
@@ -128,7 +128,7 @@ internal class Shader(name: String, vertexLocation: String, fragmentLocation: St
 
     // Turn that fancy text into machine code
     private fun compileCode(fileLocation: String, shaderType: Int): Int {
-        val code = FileReader.getFileString(fileLocation)
+        val code = FileUtility.getFileString(fileLocation)
         val shaderID = GL20.glCreateShader(shaderType)
         if (shaderID == 0) {
             val shaderTypeString = if (shaderType == GL20.GL_VERTEX_SHADER) "GL_VERTEX_SHADER" else "GL_FRAGMENT_SHADER"

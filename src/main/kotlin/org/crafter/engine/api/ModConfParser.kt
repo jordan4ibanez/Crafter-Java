@@ -3,7 +3,7 @@ package org.crafter.engine.api
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeType
-import org.crafter.engine.utility.FileReader
+import org.crafter.engine.utility.FileUtility
 
 /**
  * Automatically parses and stored required values from a mod.json file.
@@ -16,11 +16,11 @@ class ModConfParser(modDirectory: String) {
     private val arrayValues: HashMap<String, Array<String>>
 
     init {
-        if (!FileReader.isFolder(modDirectory)) {
+        if (!FileUtility.isFolder(modDirectory)) {
             throw RuntimeException("ModConfParser: Initialized with an INVALID mod directory!")
         }
         jsonLocation = "$modDirectory/mod.json"
-        if (!FileReader.isFile(jsonLocation)) {
+        if (!FileUtility.isFile(jsonLocation)) {
             throw RuntimeException("ModConfParser: ($modDirectory) MUST contain a mod.json!")
         }
         directValues = HashMap()
@@ -31,7 +31,7 @@ class ModConfParser(modDirectory: String) {
     private fun parseJson() {
         val mapper = ObjectMapper()
         val nodes: JsonNode = try {
-            mapper.readTree(FileReader.getFileString(jsonLocation))
+            mapper.readTree(FileUtility.getFileString(jsonLocation))
         } catch (e: Exception) {
             throw RuntimeException("Font: ERROR loading! $e")
         }
