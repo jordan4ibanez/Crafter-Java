@@ -8,7 +8,7 @@ import org.lwjgl.BufferUtils
 import java.nio.ByteBuffer
 
 class Canvas(width: Int, height: Int) {
-    var data: ByteBuffer? = null
+    var data: ByteBuffer = BufferUtils.createByteBuffer(0)
         private set
     private val size: Vector2i
 
@@ -47,10 +47,10 @@ class Canvas(width: Int, height: Int) {
         boundaryCheck(size.x(), size.y(), x, y)
         val tempWidth = size.x() * 4
         val index = y * tempWidth + x * 4
-        data!!.put(index, color.x().toByte())
-        data!!.put(index + 1, color.y().toByte())
-        data!!.put(index + 2, color.z().toByte())
-        data!!.put(index + 3, color.w().toByte())
+        data.put(index, color.x().toByte())
+        data.put(index + 1, color.y().toByte())
+        data.put(index + 2, color.z().toByte())
+        data.put(index + 3, color.w().toByte())
 
         // Testing to see if this reset
 //        System.out.println("buffer pointer: " + data.position());
