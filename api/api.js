@@ -39,7 +39,7 @@ var crafter = [];
 
     // Crafter array functions
     crafter.registerBlock = function(newBlockDefinition) {
-        BlockDefinitionContainer.getMainInstance().registerBlock(newBlockDefinition);
+        BlockDefinitionContainer.Companion.getMainInstance().registerBlock(newBlockDefinition)
     }
 }()
 
