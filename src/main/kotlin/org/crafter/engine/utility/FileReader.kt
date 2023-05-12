@@ -4,8 +4,7 @@ import java.io.File
 import java.nio.file.Files
 
 object FileReader {
-    // Loads a raw file into a usable string
-    @JvmStatic
+
     fun getFileString(fileLocation: String): String {
         // Check if it exists
         val file = grabFile(fileLocation)
@@ -46,25 +45,18 @@ object FileReader {
         return file
     }
 
-    /**
-     * Little helper methods.
-     */
-    @JvmStatic
     fun isFolder(folderLocation: String): Boolean {
         return File(folderLocation).isDirectory
     }
 
-    @JvmStatic
     fun isFile(fileLocation: String): Boolean {
         return File(fileLocation).isFile
     }
 
-    @JvmStatic
     fun makeFolder(folderLocation: String?): Boolean {
         return File(folderLocation).mkdir()
     }
 
-    @JvmStatic
     fun makeFile(fileLocation: String?): File {
         return File(fileLocation)
     }
