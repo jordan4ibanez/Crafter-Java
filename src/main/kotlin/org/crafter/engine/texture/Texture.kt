@@ -29,7 +29,7 @@ internal class Texture {
     }
 
     constructor(fileLocation: String) {
-        MemoryStack.stackPush().use { stack ->
+        MemoryStack.stackPush().use { _ ->
             name = fileLocation
             val rawData = RawTextureObject(fileLocation)
             size = Vector2i(rawData.width, rawData.height)
@@ -41,7 +41,7 @@ internal class Texture {
         }
     }
 
-    fun runGLTextureFunction(name: String, buffer: ByteBuffer?) {
+    private fun runGLTextureFunction(name: String, buffer: ByteBuffer?) {
         // Begin OpenGL upload
         textureID = GL11.glGenTextures()
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID)
