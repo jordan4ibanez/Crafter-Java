@@ -1,13 +1,11 @@
 package org.crafter.engine.world_generation
 
-import org.crafter.engine.delta.DeltaObject
 import org.crafter.engine.utility.FastNoise
 import org.crafter.engine.world.block.BlockDefinitionContainer
 import org.crafter.engine.world.block.BlockDefinitionContainer.Companion.threadSafeDuplicate
 import org.crafter.engine.world.chunk.Chunk
 import org.joml.Vector2i
 import org.joml.Vector2ic
-import java.util.*
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicBoolean
@@ -18,25 +16,16 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class ChunkGenerator private constructor() : Runnable {
     // Instance local
-    private val delta: DeltaObject
-    private val noise: FastNoise
-    private val blockDefinitionContainer: BlockDefinitionContainer?
-    private val chunkRequestQueue: BlockingQueue<Vector2ic>
-    private val chunkOutputQueue: BlockingQueue<Chunk>
-    private val shouldRun: AtomicBoolean
-
-    init {
-        delta = DeltaObject()
-        noise = FastNoise()
-        blockDefinitionContainer = threadSafeDuplicate
-        chunkRequestQueue = LinkedBlockingQueue()
-        chunkOutputQueue = LinkedBlockingQueue()
-        shouldRun = AtomicBoolean(true)
-    }
+//    private val delta: DeltaObject = DeltaObject()
+    private val noise: FastNoise = FastNoise()
+    private val blockDefinitionContainer: BlockDefinitionContainer = threadSafeDuplicate
+    private val chunkRequestQueue: BlockingQueue<Vector2ic> = LinkedBlockingQueue()
+    private val chunkOutputQueue: BlockingQueue<Chunk> = LinkedBlockingQueue()
+    private val shouldRun: AtomicBoolean = AtomicBoolean(true)
 
     override fun run() {
         println("ChunkGenerator: Started!")
-        println("ChunkGenerator: gotten blocks (" + Arrays.toString(blockDefinitionContainer!!.allBlockNames) + ")!")
+        println("ChunkGenerator: gotten blocks (" + blockDefinitionContainer.allBlockNames.contentToString() + ")!")
         while (shouldRun.get()) {
             sleepCheck()
             processInputQueue()
@@ -61,12 +50,12 @@ class ChunkGenerator private constructor() : Runnable {
      * Actual side effects happen here!
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
+    private val grass = blockDefinitionContainer.getDefinition("crafter:grass")!!.id //"crafter:grass"
+    private val dirt = blockDefinitionContainer.getDefinition("crafter:dirt")!!.id //"crafter:dirt"
+    private val stone = blockDefinitionContainer.getDefinition("crafter:stone")!!.id //"crafter:stone"
     private fun processBiomesAndBlocks(chunk: Chunk): Chunk {
 
 //        Random random = new Random((int) (new Date().getTime()/1000));
-        val grass = blockDefinitionContainer!!.getDefinition("crafter:grass")!!.id //"crafter:grass"
-        val dirt = blockDefinitionContainer.getDefinition("crafter:dirt")!!.id //"crafter:dirt"
-        val stone = blockDefinitionContainer.getDefinition("crafter:stone")!!.id //"crafter:stone"
         val xOffset = chunk.x * chunk.width
         // Y is Z in 2d!
         val zOffset = chunk.y * chunk.depth
@@ -109,7 +98,7 @@ class ChunkGenerator private constructor() : Runnable {
 //            blockData = chunk.setBlockID(blockData, definition.getID());
 //            chunk.setBlockData(i, blockData);
 //        }
-        println("ChunkGenerator: Generated Chunk(" + chunk.position.x() + ", " + chunk.position.y() + ")");
+//        println("ChunkGenerator: Generated Chunk(" + chunk.position.x() + ", " + chunk.position.y() + ")");
         return chunk
     }
 
@@ -142,9 +131,9 @@ class ChunkGenerator private constructor() : Runnable {
     /**
      * This function is helpful in case something ever gets completely mangled.
      */
-    private fun debugQueueSizes() {
-        println("ChunkGenerator: (INPUT: " + chunkRequestQueue.size + ") | (OUTPUT: " + chunkOutputQueue.size + ")")
-    }
+//    private fun debugQueueSizes() {
+//        println("ChunkGenerator: (INPUT: " + chunkRequestQueue.size + ") | (OUTPUT: " + chunkOutputQueue.size + ")")
+//    }
 
     companion object {
         // Class local
