@@ -9,19 +9,15 @@ import java.util.function.Consumer
 import javax.script.*
 
 object API {
-    private var javaScript: ScriptEngine? = null
-    private var bindings: Bindings? = null
-    private var compiler: Compilable? = null
-    private var invoker: Invocable? = null
+    private val javaScript: ScriptEngine = ScriptEngineManager().getEngineByName("Nashorn")
+    private val bindings: Bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE)
+    private val compiler: Compilable = javaScript as Compilable
+    private val invoker: Invocable = javaScript as Invocable
 
     // Keep this as a field in case it is ever decided to relocate it!
     private const val modPath = "mods/"
     private val requiredValues = arrayOf("name", "version", "description")
     fun initialize() {
-        javaScript = ScriptEngineManager().getEngineByName("Nashorn")
-        bindings = javaScript?.getBindings(ScriptContext.ENGINE_SCOPE)
-        compiler = javaScript as Compilable?
-        invoker = javaScript as Invocable?
 
         // Load up the actual javascript API elements
         runFile("api/api.js")
@@ -188,7 +184,7 @@ object API {
     fun runCode(rawCode: String?) {
         //TODO: Maybe a game error catcher thing, print out the string like minetest?
         try {
-            javaScript!!.eval(rawCode)
+            javaScript.eval(rawCode)
         } catch (e: Exception) {
             throw RuntimeException("API ERROR!: $e")
         }
@@ -203,7 +199,7 @@ object API {
      */
     operator fun invoke(functionName: String?, vararg args: Any?): Any {
         return try {
-            invoker!!.invokeFunction(functionName, *args)
+            invoker.invokeFunction(functionName, *args)
         } catch (e: Exception) {
             throw RuntimeException("API ERROR!: $e")
         }
