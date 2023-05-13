@@ -66,7 +66,8 @@ object API {
             }
 
             // Automate required values in conf are checked here
-            val confParser = checkParserConfValues(ModConfParser(modPath + modFolder), modFolder)
+            ModConfParser.reload(modPath + modFolder)
+            checkParserConfValues(modFolder)
 
             // todo, but in java so it's readonly in the javascript API scope >:D
 //            int nameSpaceTimeStamp = getInteger("return crafter.setNameSpace('" + confParser.getDirectValue("name") + "')");
@@ -160,13 +161,12 @@ object API {
         }
     }
 
-    private fun checkParserConfValues(modConfParser: ModConfParser, modDirectory: String): ModConfParser {
+    private fun checkParserConfValues(modDirectory: String) {
         for (requiredValue in requiredValues) {
-            if (!modConfParser.containsDirectValue(requiredValue)) {
+            if (!ModConfParser.containsDirectValue(requiredValue)) {
                 throw RuntimeException("API: Mod ($modDirectory) is missing ($requiredValue)!")
             }
         }
-        return modConfParser
     }
 
     /**

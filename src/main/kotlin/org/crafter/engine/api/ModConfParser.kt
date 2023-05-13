@@ -10,12 +10,12 @@ import org.crafter.engine.utility.FileUtility
  * Will throw an error if it does not have required file & definitions.
  * Optional values do not throw errors.
  */
-class ModConfParser(modDirectory: String) {
-    private val jsonLocation: String
-    private val directValues: HashMap<String, String>
-    private val arrayValues: HashMap<String, Array<String>>
+object ModConfParser {
+    private var jsonLocation: String = ""
+    private var directValues: HashMap<String, String> = HashMap()
+    private var arrayValues: HashMap<String, Array<String>> = HashMap()
 
-    init {
+    fun reload(modDirectory: String) {
         if (!FileUtility.isFolder(modDirectory)) {
             throw RuntimeException("ModConfParser: Initialized with an INVALID mod directory!")
         }
