@@ -50,9 +50,9 @@ class ChunkGenerator private constructor() : Runnable {
      * Actual side effects happen here!
      * This is where biomes & blocks are applied into the data container (Chunk)
      */
-    private val grass = blockDefinitionContainer.getDefinition("crafter:grass")!!.id //"crafter:grass"
-    private val dirt = blockDefinitionContainer.getDefinition("crafter:dirt")!!.id //"crafter:dirt"
-    private val stone = blockDefinitionContainer.getDefinition("crafter:stone")!!.id //"crafter:stone"
+    private val grass = blockDefinitionContainer.getDefinition("crafter:grass")!!.id
+    private val dirt = blockDefinitionContainer.getDefinition("crafter:dirt")!!.id
+    private val stone = blockDefinitionContainer.getDefinition("crafter:stone")!!.id
     private fun processBiomesAndBlocks(chunk: Chunk): Chunk {
 
 //        Random random = new Random((int) (new Date().getTime()/1000));

@@ -9,11 +9,11 @@ import java.io.Serializable
  */
 class BlockDefinitionContainer private constructor() : Serializable {
     // This is basically a 2 way street, name to ID, ID to name
-    private val idMap: HashMap<Int, BlockDefinition>
-    private val nameMap: HashMap<String?, BlockDefinition>
+    private val idMap: HashMap<Int, BlockDefinition> = HashMap()
+    private val nameMap: HashMap<String, BlockDefinition> = HashMap()
 
     // This maps the internal name into an ID automatically
-    private val cache: BlockNameToIDCache
+    private val cache: BlockNameToIDCache = BlockNameToIDCache()
 
     // This is an extreme edge case to prevent the cloned objects from being mutable
     private var isClone = false
@@ -21,22 +21,13 @@ class BlockDefinitionContainer private constructor() : Serializable {
     // Keeps track of IDs - 0 is reserved for air
     private var nextID = 1
 
-    init {
-        idMap = HashMap()
-        nameMap = HashMap()
-        cache = BlockNameToIDCache()
-    }
-
     fun lockCache() {
         cache.lock()
     }
 
-    fun registerBlock(definition: BlockDefinition?) {
+    fun registerBlock(definition: BlockDefinition) {
         if (isClone) {
             throw RuntimeException("BlockDefinitionContainer: Tried to manipulate a clone of the master object!")
-        }
-        if (definition == null) {
-            throw RuntimeException("BlockDefinitionContainer: Tried to upload a null block definition!")
         }
 
         // Ensure nothing else assigned an ID into the definition
@@ -79,7 +70,7 @@ class BlockDefinitionContainer private constructor() : Serializable {
     }
 
     private val thisID: Int
-        private get() {
+        get() {
             val thisID = nextID
             nextID++
             return thisID
@@ -140,24 +131,23 @@ class BlockDefinitionContainer private constructor() : Serializable {
     }
 
     private val isUnequal: Boolean
-        private get() = idMap.size != nameMap.size
+        get() = idMap.size != nameMap.size
     private val isEmpty: Boolean
-        private get() = idMap.isEmpty() || nameMap.isEmpty()
+        get() = idMap.isEmpty() || nameMap.isEmpty()
 
     private fun setClone() {
         isClone = true
     }
 
     companion object {
-        private var instance: BlockDefinitionContainer? = null
+        private var instance: BlockDefinitionContainer = BlockDefinitionContainer()
 
-        val mainInstance: BlockDefinitionContainer?
+        val mainInstance: BlockDefinitionContainer
             /**
              * Only call this on the main thread when loading the game!
              * @return the master instance of the Block Definition Container.
              */
             get() {
-                autoDispatch()
                 return instance
             }
 
@@ -169,21 +159,12 @@ class BlockDefinitionContainer private constructor() : Serializable {
              * WARNING! This is slow, only do this at start of game!
              */
             get() {
-                if (instance == null) {
-                    throw RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created!")
-                }
-                instance!!.doubleCheckData()
+                instance.doubleCheckData()
                 val clone = SerializationUtils.clone(
                     mainInstance
                 )
                 clone!!.setClone()
                 return clone
             }
-
-        private fun autoDispatch() {
-            if (instance == null) {
-                instance = BlockDefinitionContainer()
-            }
-        }
     }
 }
