@@ -79,7 +79,7 @@ private fun initialize() {
     Font.setShadowOffset(0.75f, 0.75f)
     Window.setClearColor(0.75f)
     Window.setVsync(false)
-    Window.maximize()
+//    Window.maximize()
     Mouse.capture()
 }
 

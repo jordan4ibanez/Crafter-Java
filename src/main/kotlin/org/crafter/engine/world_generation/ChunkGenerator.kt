@@ -109,7 +109,7 @@ class ChunkGenerator private constructor() : Runnable {
 //            blockData = chunk.setBlockID(blockData, definition.getID());
 //            chunk.setBlockData(i, blockData);
 //        }
-//        System.out.println("ChunkGenerator: Generated Chunk(" + chunk.getX() + ", " + chunk.getY() + ")");
+        println("ChunkGenerator: Generated Chunk(" + chunk.position.x() + ", " + chunk.position.y() + ")");
         return chunk
     }
 
