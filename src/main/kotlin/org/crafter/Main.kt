@@ -41,7 +41,7 @@ private val newCameraRotation = Vector3f()
 private const val debugChunkSizeRememberToRemoveThisGarbage = 1
 private const val debugON = true
 
-fun main(args: Array<String>) {
+fun main() {
 
     initialize()
     for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
