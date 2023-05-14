@@ -13,7 +13,8 @@ import org.crafter.engine.utility.GameMath
 import org.crafter.engine.window.Window
 import org.crafter.engine.world.chunk.ChunkStorage
 import org.crafter.engine.world_generation.ChunkGenerator
-import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator
+//Fixme
+// import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator
 import org.joml.Vector2i
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
@@ -55,7 +56,8 @@ fun main() {
         }
     } catch (e: Exception) {
         // Game must shut down external threads or it WILL hang
-        ChunkMeshGenerator.stop()
+        //Fixme
+        // ChunkMeshGenerator.stop()
         ChunkGenerator.stop()
         throw RuntimeException(e)
     }
@@ -69,7 +71,8 @@ private fun initialize() {
 
     API.initialize()
     ChunkGenerator.start()
-    ChunkMeshGenerator.start()
+    //Fixme
+    // ChunkMeshGenerator.start()
     ShaderStorage.createShader("3d", "shaders/3d_vertex.vert", "shaders/3d_fragment.frag")
     ShaderStorage.createUniform("3d", arrayOf("cameraMatrix", "objectMatrix"))
     ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag")
@@ -102,19 +105,27 @@ private fun mainLoop() {
         // Render stack 0 (y coordinate 0 to 15)
         for (i in 0 until generatedChunk.stacks) {
 //            println(i)
-            ChunkMeshGenerator.pushRequest(position.x(), i, position.y())
+            //Fixme
+            // ChunkMeshGenerator.pushRequest(position.x(), i, position.y())
         }
     }
-    while (ChunkMeshGenerator.hasUpdate()) {
-        val generatedMesh = ChunkMeshGenerator.update
+    //Fixme
+    // while (ChunkMeshGenerator.hasUpdate()) {
+        //Fixme
+       //  val generatedMesh = ChunkMeshGenerator.update
 
         // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
         // TODO: Make sure this is done within the main thread!
-        val destinationPosition = generatedMesh.destinationChunkPosition
-        if (ChunkStorage.hasPosition(destinationPosition)) {
-            ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
-        } // Else nothing happens to it and it's GCed
-    }
+        //Fixme
+        // val destinationPosition = generatedMesh.destinationChunkPosition
+        //Fixme
+        // if (ChunkStorage.hasPosition(destinationPosition)) {
+            //Fixme
+            // ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack, generatedMesh)
+        //Fixme
+        // } // Else nothing happens to it and it's GCed
+    //Fixme
+    // }
     for (x in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
         for (z in -debugChunkSizeRememberToRemoveThisGarbage..debugChunkSizeRememberToRemoveThisGarbage) {
             val requestingPosition = Vector2i(x, z)
@@ -184,7 +195,8 @@ private fun doCameraDebug() {
 }
 
 private fun destroy() {
-    ChunkMeshGenerator.stop()
+    //Fixme
+    // ChunkMeshGenerator.stop()
     ChunkGenerator.stop()
     TextureStorage.destroyAll()
     MeshStorage.destroyAll()

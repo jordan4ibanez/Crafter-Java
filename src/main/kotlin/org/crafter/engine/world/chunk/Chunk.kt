@@ -6,9 +6,9 @@ import org.crafter.engine.camera.Camera.setObjectMatrix
 import org.crafter.engine.delta.Delta.delta
 import org.crafter.engine.mesh.MeshStorage
 import org.crafter.engine.mesh.MeshStorage.render
-import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
+//Fixme
+// import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
 import org.joml.*
-import java.util.Arrays
 
 //Todo: idea: metadata hashmap
 
@@ -87,23 +87,24 @@ class Chunk {
 //        System.out.println("ChunkMeshHandling: Stacks: " + STACKS);
     }
 
-    fun setMesh(stack: Int, newMesh: ChunkMeshRecord) {
-        if (meshes[stack] != null) {
-            MeshStorage.destroy(meshes[stack]!!)
-        }
-        MeshStorage.newMesh(
-            newMesh.uuid,
-            newMesh.positions,
-            newMesh.textureCoordinates,
-            newMesh.indices,
-            null,  // Todo: Colors can be an easy way to implement light values!
-            null,
-            "worldAtlas",
-            false
-        )
-//        println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition.x() + ", " + newMesh.destinationChunkPosition.y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid + ")")
-        meshes[stack] = newMesh.uuid
-    }
+    //Fixme
+//    fun setMesh(stack: Int, newMesh: ChunkMeshRecord) {
+//        if (meshes[stack] != null) {
+//            MeshStorage.destroy(meshes[stack]!!)
+//        }
+//        MeshStorage.newMesh(
+//            newMesh.uuid,
+//            newMesh.positions,
+//            newMesh.textureCoordinates,
+//            newMesh.indices,
+//            null,  // Todo: Colors can be an easy way to implement light values!
+//            null,
+//            "worldAtlas",
+//            false
+//        )
+////        println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition.x() + ", " + newMesh.destinationChunkPosition.y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid + ")")
+//        meshes[stack] = newMesh.uuid
+//    }
 
     fun getMesh(stack: Int): String? {
         return meshes[stack]
