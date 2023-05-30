@@ -9,6 +9,10 @@ layout (location = 2) in vec4 color;
 
 out vec2 outputTextureCoordinate;
 out vec4 newColoring;
+// Workaround for Nvidia
+out gl_PerVertex {
+    vec4 gl_Position;
+};
 
 uniform mat4 cameraMatrix;
 uniform mat4 objectMatrix;
