@@ -1,15 +1,16 @@
 @file:Suppress("DEPRECATION")
 
+import org.lwjgl.Lwjgl
+import org.lwjgl.Lwjgl.Module.*
+import org.lwjgl.lwjgl
+
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("java")
+    kotlin("jvm") version "1.8.21"
     id("application")
     id("base")
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("org.lwjgl.plugin") version "0.0.34"
 }
-
-val lwjglVersion = "3.3.1"
-val jomlVersion = "1.10.5"
 
 val group = "org.crafter"
 val version = "Continuous-Build"
@@ -22,47 +23,30 @@ repositories {
 }
 
 dependencies {
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 
-    implementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
-
-    implementation("org.lwjgl:lwjgl")
-    implementation("org.lwjgl:lwjgl-assimp")
-    implementation("org.lwjgl:lwjgl-glfw")
-    implementation("org.lwjgl:lwjgl-openal")
-    implementation("org.lwjgl:lwjgl-opengl")
-    implementation("org.lwjgl:lwjgl-stb")
+    lwjgl {
+        implementation(core, assimp, glfw, opengl, opengl, stb)
+        implementation(Lwjgl.Addons.`joml 1_10_5`)
+    }
 
     implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.2")
 
     implementation("org.apache.commons:commons-lang3:3.12.0")
-
     implementation("org.openjdk.nashorn:nashorn-core:15.4")
-
-
-    natives.forEach{
-        runtimeOnly("org.lwjgl:lwjgl::$it")
-        runtimeOnly("org.lwjgl:lwjgl-assimp::$it")
-        runtimeOnly("org.lwjgl:lwjgl-glfw::$it")
-        runtimeOnly("org.lwjgl:lwjgl-openal::$it")
-        runtimeOnly("org.lwjgl:lwjgl-opengl::$it")
-        runtimeOnly("org.lwjgl:lwjgl-stb::$it")
-    }
-
-    implementation("org.joml:joml:${jomlVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-
 
 tasks.test {
     useJUnitPlatform()
