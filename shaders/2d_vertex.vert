@@ -13,6 +13,10 @@ out vec4 newColoring;
 uniform mat4 cameraMatrix;
 uniform mat4 objectMatrix;
 
+// Workaround for Nvidia
+out gl_PerVertex {
+    vec4 gl_Position;
+};
 void main() {
 
     vec4 objectPosition = vec4(position.x, position.y, 0.0, 1.0);

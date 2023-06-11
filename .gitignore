@@ -3,7 +3,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.log
-
+*.hprof
 cache/
 
 ### IntelliJ IDEA ###
@@ -45,4 +45,5 @@ bin/
 .idea/workspace.xml
 .idea/uiDesigner.xml
 .idea/inspectionProfiles/Project_Default.xml
-/.idea/gradle.xml
+*.xml
+.idea/misc.xml

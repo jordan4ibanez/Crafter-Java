@@ -1,6 +1,6 @@
 //TODO: load up mods from JavaScript
 /*
-TODO: Use java classes as if they were compiled :D
+TODO: Use kotlin classes as if they were compiled :D
 TODO: Figure out more things like biomes
 
 
@@ -27,7 +27,7 @@ var crafter = [];
 // Auto executing lambda localized variable scope discards
 !function(){
     // Classes from the engine which will disappear after this scope
-    var FileReader = Java.type("org.crafter.engine.utility.FileReader");
+    var FileReader = Java.type("org.crafter.engine.utility.FileUtility");
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
@@ -39,7 +39,7 @@ var crafter = [];
 
     // Crafter array functions
     crafter.registerBlock = function(newBlockDefinition) {
-        BlockDefinitionContainer.getMainInstance().registerBlock(newBlockDefinition);
+        BlockDefinitionContainer.Companion.getMainInstance().registerBlock(newBlockDefinition)
     }
 }()
 

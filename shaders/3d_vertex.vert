@@ -11,6 +11,10 @@ out vec2 outputTextureCoordinate;
 uniform mat4 cameraMatrix;
 uniform mat4 objectMatrix;
 
+// Workaround for Nvidia
+out gl_PerVertex {
+    vec4 gl_Position;
+};
 void main() {
 
     // Position in world without camera matrix application
