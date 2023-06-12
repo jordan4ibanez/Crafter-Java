@@ -35,7 +35,7 @@ public class Main {
     }
 
     // Fixme: This is only for debugging and prototyping, remove this eventually
-    private static final Random random = new Random(new Date().getTime()/1000);
+    // private static final Random random = new Random(new Date().getTime()/1000);
 
     // Fixme: these are only for debugging and prototyping, move this into another class eventually
     private static final Vector3f cameraMovementX = new Vector3f();
