@@ -33,7 +33,7 @@ public final class ChunkStorage {
     public static synchronized Chunk getThreadSafeChunkClone(Vector2ic position) {
         positionCheck(position, "getThreadSafeChunkClone");
         // Create a deep clone of the chunk
-        return SerializationUtils.clone(container.get(position));
+        return container.get(position).deepCopy();
     }
 
     private static void positionCheck(final Vector2ic position, String methodName) {

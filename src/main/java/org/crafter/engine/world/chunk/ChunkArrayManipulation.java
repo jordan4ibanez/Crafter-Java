@@ -14,7 +14,7 @@ import java.util.Arrays;
  * A chunk of map data. It is 16 wide, 128 high, and 16 long.
 
  */
-public abstract class ChunkArrayManipulation extends ChunkBitManipulation implements Serializable {
+public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
 
     // X
     private static final int WIDTH = 16;

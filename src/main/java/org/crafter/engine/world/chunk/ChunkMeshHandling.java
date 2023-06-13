@@ -5,7 +5,7 @@ import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord
 
 import java.io.Serializable;
 
-public class ChunkMeshHandling extends ChunkArrayManipulation implements Serializable {
+public class ChunkMeshHandling extends ChunkArrayManipulation {
     private static final int STACK_HEIGHT = 16;
     private static final int STACKS = getHeight() / STACK_HEIGHT;
 

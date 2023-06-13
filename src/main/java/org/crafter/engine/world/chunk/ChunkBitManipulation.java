@@ -16,7 +16,7 @@ import java.io.Serializable;
  * This is literal, here is an exact representation:
  * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
-public abstract class ChunkBitManipulation implements Serializable {
+public abstract class ChunkBitManipulation {
     StringBuilder output;
 
     public ChunkBitManipulation(){

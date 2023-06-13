@@ -15,7 +15,7 @@ import java.io.Serializable;
  * The final instance of chunk in the inheritance chain.
  * Java auto calls super() down the chain.
  */
-public class Chunk extends ChunkMeshHandling implements Serializable {
+public class Chunk extends ChunkMeshHandling {
 
     //Todo: idea: metadata hashmap
 
@@ -68,6 +68,15 @@ public class Chunk extends ChunkMeshHandling implements Serializable {
         }
     }
 
+    /**
+     * Create a deep copy of a chunk.
+     * @return Deep copy of chunk.
+     */
+    public Chunk deepCopy() {
+        Chunk copy = new Chunk(new Vector2i(this.position));
+        copy.setData(getDataDIRECT());
+        return copy;
+    }
 
 
 }
