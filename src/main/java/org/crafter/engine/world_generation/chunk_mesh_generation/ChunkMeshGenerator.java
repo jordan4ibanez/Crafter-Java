@@ -16,6 +16,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Performance debugging note: This is the actual thread of the chunk mesh generator
+ */
 public class ChunkMeshGenerator implements Runnable {
     // Class local
     private static ChunkMeshGenerator instance;
