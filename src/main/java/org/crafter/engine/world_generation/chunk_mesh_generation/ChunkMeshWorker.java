@@ -32,6 +32,17 @@ public class ChunkMeshWorker {
     boolean blockNeighborBottomIsBlock = false;
     boolean blockNeighborTopIsBlock = false;
 
+    //Todo: Remove this portion
+    private long beginTime = System.nanoTime();
+    private void startTimer() {
+        beginTime = System.nanoTime();
+    }
+    private void endTimer() {
+        final long endTime = System.nanoTime();
+        final long durationInMilliseconds = (endTime - beginTime) / 1_000_000;
+        System.out.println("ChunkMeshGenerator: timer recorded " + durationInMilliseconds + " milliseconds.");
+    }
+    //Todo: End removal portion
 
 
     public ChunkMeshWorker(BlockDefinitionContainer definitionContainer) {
@@ -73,12 +84,19 @@ public class ChunkMeshWorker {
 
 
 
+
+
+
+        // FIXME: This is taking 33 MS to process >:(
+
         /*
         It works its way:
         Left to right (0-15 x)
         -> Front to back (0-15 z)
         --> Bottom to top (0-15 [differs depending on stack] y)
          */
+
+        startTimer();
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -86,6 +104,7 @@ public class ChunkMeshWorker {
                 }
             }
         }
+        endTimer();
     }
 
     private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
