@@ -8,7 +8,9 @@ import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 import java.util.ArrayList;
-
+/**
+ * Performance debugging note: This is an object held inside of ChunkMeshGenerator
+ */
 public class ChunkMeshWorker {
 
     private final BlockDefinitionContainer definitionContainer;
