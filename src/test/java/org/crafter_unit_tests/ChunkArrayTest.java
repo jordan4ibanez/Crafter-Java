@@ -4,6 +4,7 @@ import org.crafter.engine.world.chunk.Chunk;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.Test;
 
+import static org.crafter.engine.utility.JOMLUtils.printVec;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChunkArrayTest {
@@ -13,6 +14,7 @@ public class ChunkArrayTest {
 
         for (int i = 0; i < Chunk.getArraySize(); i++) {
             Vector3ic position = Chunk.indexToPosition(i);
+//            printVec(position);
             int index = Chunk.positionToIndex(position);
             assertEquals(index, i);
             Vector3ic doubleCheck = Chunk.indexToPosition(index);
