@@ -65,8 +65,8 @@ public class ChunkMeshWorker {
     public void process(final int stackPosition, final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
 
         final int STACK_HEIGHT = chunk.getStackHeight();
-        final int WIDTH = chunk.getWidth();
-        final int DEPTH = chunk.getDepth();
+        final int WIDTH = Chunk.getWidth();
+        final int DEPTH = Chunk.getDepth();
 
         final Vector2ic chunkPosition = chunk.getPosition();
 
@@ -82,21 +82,12 @@ public class ChunkMeshWorker {
             neighborRight = ChunkStorage.hasPosition(right) ? ChunkStorage.getThreadSafeChunkClone(right) : null;
         }
 
-
-
-
-
-
-        // FIXME: This is taking 33 MS to process >:(
-
         /*
         It works its way:
         Left to right (0-15 x)
         -> Front to back (0-15 z)
         --> Bottom to top (0-15 [differs depending on stack] y)
          */
-
-        startTimer();
         final int[] chunkData = chunk.getDataDIRECT();
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
@@ -105,7 +96,6 @@ public class ChunkMeshWorker {
                 }
             }
         }
-        endTimer();
     }
 
     private void branchPathOfGeneration(final int[] chunkData, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
