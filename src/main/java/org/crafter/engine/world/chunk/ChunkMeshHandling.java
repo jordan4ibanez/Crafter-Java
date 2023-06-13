@@ -34,7 +34,7 @@ public class ChunkMeshHandling extends ChunkArrayManipulation implements Seriali
                 false
         );
 
-        System.out.println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition().x() + ", " + newMesh.destinationChunkPosition().y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid() + ")");
+//        System.out.println("ChunkMeshHandling: Chunk (" + newMesh.destinationChunkPosition().x() + ", " + newMesh.destinationChunkPosition().y() + ") stack (" + stack + ") has uuid (" + newMesh.uuid() + ")");
 
         meshes[stack] = newMesh.uuid();
     }
