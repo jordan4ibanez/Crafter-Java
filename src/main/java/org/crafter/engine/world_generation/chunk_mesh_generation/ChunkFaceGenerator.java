@@ -6,6 +6,10 @@ import org.crafter.engine.world.block.BlockDefinitionContainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Performance debugging note: There is literally no reason for this object to exist.
+ * This object exists within ChunkMeshWorker.
+ */
 public class ChunkFaceGenerator {
 
     private final BlockDefinitionContainer definitionContainer;
