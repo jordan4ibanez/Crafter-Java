@@ -27,7 +27,7 @@ public final class ChunkStorage {
             return;
         }
         container.put(position, chunk);
-        System.out.println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")");
+//        System.out.println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")");
     }
 
     public static synchronized Chunk getThreadSafeChunkClone(Vector2ic position) {
