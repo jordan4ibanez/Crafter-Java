@@ -33,7 +33,6 @@ public final class JOMLUtils {
 
             default -> println("JOMLUtils (printVec): Attempted to print something else. :(");
         }
-
     }
 
     private static void printVector3i(String debugPreface, Vector3ic input) {
