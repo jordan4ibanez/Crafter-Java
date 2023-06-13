@@ -15,11 +15,11 @@ public class ChunkFaceGenerator {
 
     public ChunkFaceGenerator(BlockDefinitionContainer definitionContainer) {
 
-        final boolean rewriteThis = true;
-
-        if (rewriteThis) {
-            throw new RuntimeException("This should not be assembling in objects like this, it's an absolute mess");
-        }
+//        final boolean rewriteThis = true;
+//
+//        if (rewriteThis) {
+//            throw new RuntimeException("This should not be assembling in objects like this, it's an absolute mess");
+//        }
 
         this.definitionContainer = definitionContainer;
 
