@@ -81,23 +81,22 @@ public class ChunkGenerator implements Runnable {
         final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
         final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getID(); //"crafter:stone"
 
-        final int xOffset = chunk.getX() * chunk.getWidth();
+        final int xOffset = chunk.getX() * Chunk.getWidth();
         // Y is Z in 2d!
-        final int zOffset = chunk.getY() * chunk.getDepth();
+        final int zOffset = chunk.getY() * Chunk.getDepth();
 
-        for (int x = 0; x < chunk.getWidth(); x++) {
-            for (int z = 0; z < chunk.getDepth(); z++) {
+        for (int x = 0; x < Chunk.getWidth(); x++) {
+            for (int z = 0; z < Chunk.getDepth(); z++) {
 
-                final float test = noise.GetSimplex(x + xOffset,z + zOffset) + 0.5f;
+                final float calculatedNoise = noise.GetSimplex(x + xOffset,z + zOffset) + 0.5f;
 
 //                System.out.println("test: " + test);
 
-                final int height = (int)(test * 20.0f) + 40;
+                final int height = (int)(calculatedNoise * 20.0f) + 40;
 
-                for (int y = 0; y < chunk.getHeight(); y++) {
+                for (int y = 0; y < Chunk.getHeight(); y++) {
 
                     int id = 0; // Start off as air
-
 
                     if (y < height - 6) {
                         id = stone;
@@ -106,10 +105,10 @@ public class ChunkGenerator implements Runnable {
                     } else if (y < height) {
                         id = grass;
                     }
-                    int index = chunk.positionToIndex(x,y,z);
+                    int index = Chunk.positionToIndex(x,y,z);
                     int blockData = chunk.getBlockData(index);
 
-                    blockData = chunk.setBlockID(blockData, id);
+                    blockData = Chunk.setBlockID(blockData, id);
                     chunk.setBlockData(index, blockData);
                 }
             }
