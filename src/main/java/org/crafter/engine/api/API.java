@@ -215,6 +215,7 @@ public final class API {
      * @param rawCode The raw code string.
      */
     public static void runCode(String rawCode) {
+
         //TODO: Maybe a game error catcher thing, print out the string like minetest?
         try {
             javaScript.eval(rawCode);
