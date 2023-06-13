@@ -10,13 +10,12 @@ public class ChunkArrayTest {
 
     @Test
     public void testChunkArrayIndexing() {
-        Chunk testChunk = new Chunk(0,0);
 
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
-            Vector3ic position = testChunk.indexToPosition(i);
-            int index = testChunk.positionToIndex(position);
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
+            Vector3ic position = Chunk.indexToPosition(i);
+            int index = Chunk.positionToIndex(position);
             assertEquals(index, i);
-            Vector3ic doubleCheck = testChunk.indexToPosition(index);
+            Vector3ic doubleCheck = Chunk.indexToPosition(index);
             assertEquals(doubleCheck, position);
         }
     }
@@ -26,14 +25,14 @@ public class ChunkArrayTest {
         Chunk testChunk = new Chunk(0,0);
 
         // Basic test
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
             testChunk.setBlockData(i, i);
             int gottenBlockData = testChunk.getBlockData(i);
 
             assertEquals(i, gottenBlockData);
 
-            Vector3ic position = testChunk.indexToPosition(i);
-            final int newIndex = testChunk.positionToIndex(position);
+            Vector3ic position = Chunk.indexToPosition(i);
+            final int newIndex = Chunk.positionToIndex(position);
             gottenBlockData = testChunk.getBlockData(position);
 
             assertEquals(newIndex, gottenBlockData);
@@ -43,21 +42,21 @@ public class ChunkArrayTest {
 
         // Now test data stream
         final int[] workerChunkData = testChunk.getData();
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
             workerChunkData[i] = i + 10;
         }
         testChunk.setData(workerChunkData);
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
             final int gottenBlockData = testChunk.getBlockData(i);
             assertEquals(i + 10, gottenBlockData);
         }
 
         // Now test it again
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
             testChunk.setBlockData(i, i);
         }
         final int[] doubleCheck = testChunk.getData();
-        for (int i = 0; i < testChunk.getArraySize(); i++) {
+        for (int i = 0; i < Chunk.getArraySize(); i++) {
             assertEquals(doubleCheck[i], testChunk.getBlockData(i));
         }
     }
