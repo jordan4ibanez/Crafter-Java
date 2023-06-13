@@ -35,11 +35,11 @@ public class ChunkMeshWorker {
     public ChunkMeshWorker(BlockDefinitionContainer definitionContainer) {
         this.definitionContainer = definitionContainer;
 
-        final boolean rewriteThis = true;
-
-        if (rewriteThis) {
-            throw new RuntimeException("Why is this an entire helper object?");
-        }
+//        final boolean rewriteThis = true;
+//
+//        if (rewriteThis) {
+//            throw new RuntimeException("Why is this an entire helper object?");
+//        }
         this.faceGenerator = new ChunkFaceGenerator(definitionContainer);
     }
 
