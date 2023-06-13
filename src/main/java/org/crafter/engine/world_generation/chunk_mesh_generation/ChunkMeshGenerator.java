@@ -112,7 +112,10 @@ public class ChunkMeshGenerator implements Runnable {
         }
 
         // todo: this will be created after the array builders have been filled out
-        ChunkMeshRecord outputMesh = new ChunkMeshRecord(
+
+//        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
+
+        return new ChunkMeshRecord(
                 uuid,
                 position.y(),
                 // Separates the pointer internally
@@ -121,10 +124,6 @@ public class ChunkMeshGenerator implements Runnable {
                 textureCoordinates,
                 indices
         );
-
-//        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
-
-        return outputMesh;
     }
 
     public boolean checkUpdate() {
@@ -137,6 +136,7 @@ public class ChunkMeshGenerator implements Runnable {
     private void sleepCheck() {
         if (meshRequestQueue.size() == 0) {
             try {
+                System.out.println("ChunkMeshGenerator: Sleeping");
                 Thread.sleep(200);
             } catch (Exception e) {
                 throw new RuntimeException("ChunkMeshGenerator: Thread failed to sleep! " + e);
