@@ -97,22 +97,20 @@ public class ChunkMeshWorker {
          */
 
         startTimer();
+        final int[] chunkData = chunk.getDataDIRECT();
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    branchPathOfGeneration(chunk, x, y, z, positions, textureCoordinates, indices);
+                    branchPathOfGeneration(chunkData, x, y, z, positions, textureCoordinates, indices);
                 }
             }
         }
         endTimer();
     }
 
-    private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        // Fixme: This might be a bit too slow
+    private void branchPathOfGeneration(final int[] chunkData, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
 
-        final int[] chunkData = chunk.getData();
-
-        final int ID = Chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
+        final int ID = Chunk.getBlockID(chunkData[Chunk.positionToIndex(x,y,z)]);
 
         // 0 is reserved for air! Also don't process air drawtype blocks!
         if (ID == 0 || definitionContainer.getDefinition(ID).getDrawType().equals(DrawType.AIR)) {
@@ -121,12 +119,12 @@ public class ChunkMeshWorker {
 
 
         // Note: -Z is facing forwards +X is facing right
-        blockNeighborFrontIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y, z - 1));
-        blockNeighborBackIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y, z + 1));
-        blockNeighborLeftIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x - 1, y, z));
-        blockNeighborRightIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x + 1, y, z));
-        blockNeighborBottomIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y - 1, z));
-        blockNeighborTopIsBlock = neighborIsBlockDrawType(getNeighbor(chunk, x, y + 1, z));
+        blockNeighborFrontIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y, z - 1));
+        blockNeighborBackIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y, z + 1));
+        blockNeighborLeftIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x - 1, y, z));
+        blockNeighborRightIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x + 1, y, z));
+        blockNeighborBottomIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y - 1, z));
+        blockNeighborTopIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y + 1, z));
 
 
 
@@ -178,17 +176,17 @@ public class ChunkMeshWorker {
         return definitionContainer.getDefinition(inputID).getDrawType().equals(DrawType.BLOCK);
     }
 
-    private int getNeighbor(Chunk chunk, final int x, final int y, final int z) {
+    private int getNeighbor(int[] chunkData, final int x, final int y, final int z) {
 
         // todo: Implement neighbor chunk getter
 
-        if (xyzIsOutOfBoundsCheck(x, y, z, chunk.getWidth(), chunk.getHeight(), chunk.getDepth())) {
+        if (xyzIsOutOfBoundsCheck(x, y, z, Chunk.getWidth(), Chunk.getHeight(), Chunk.getDepth())) {
             // Out of bounds within the chunk
             // Zero is reserved for air
             return 0;
         }
 
-        return chunk.getBlockID(chunk.getBlockData(chunk.positionToIndex(x,y,z)));
+        return Chunk.getBlockID(chunkData[Chunk.positionToIndex(x,y,z)]);
     }
 
     private boolean xyzIsOutOfBoundsCheck(final int x, final int y, final int z, final int width, final int height, final int depth) {
