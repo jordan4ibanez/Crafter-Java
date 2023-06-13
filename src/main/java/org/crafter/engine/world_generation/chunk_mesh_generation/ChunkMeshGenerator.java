@@ -36,19 +36,16 @@ public class ChunkMeshGenerator implements Runnable {
     private final ChunkMeshWorker meshWorker;
 
 
-    private long startTime = System.nanoTime();
-
     //Todo: Remove this portion
+    private long beginTime = System.nanoTime();
     private void startTimer() {
-        startTime = System.nanoTime();
+        beginTime = System.nanoTime();
     }
-    private void endTimer(String messageBeforeTime) {
+    private void endTimer() {
         final long endTime = System.nanoTime();
-        final long durationInMilliseconds = (endTime - startTime) / 1_000_000;
+        final long durationInMilliseconds = (endTime - beginTime) / 1_000_000;
         System.out.println("ChunkMeshGenerator: timer recorded " + durationInMilliseconds + " milliseconds.");
     }
-
-
     //Todo: End removal portion
 
     private ChunkMeshGenerator() {
@@ -98,6 +95,7 @@ public class ChunkMeshGenerator implements Runnable {
 
         final String uuid = UUID.randomUUID().toString();
 
+
         final Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
 //        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
@@ -106,14 +104,21 @@ public class ChunkMeshGenerator implements Runnable {
 
         // TODO: NOTE! REUSE THIS! UTILIZE (vertices.clear();) FOR EXAMPLE!
 
+
+
         final ArrayList<Float> positionsBuilder = new ArrayList<>();
         final ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
         final ArrayList<Integer> indicesBuilder = new ArrayList<>();
 
+
+
         // Insert block builder here
 
+
+        // FIXME: THIS IS TAKING 33 MS TO DO BASIC GARBAGE WTF
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
         meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
+
 
         // End block builder here
 
