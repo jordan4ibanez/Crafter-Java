@@ -35,6 +35,22 @@ public class ChunkMeshGenerator implements Runnable {
     private final AtomicBoolean shouldRun;
     private final ChunkMeshWorker meshWorker;
 
+
+    private long startTime = System.nanoTime();
+
+    //Todo: Remove this portion
+    private void startTimer() {
+        startTime = System.nanoTime();
+    }
+    private void endTimer(String messageBeforeTime) {
+        final long endTime = System.nanoTime();
+        final long durationInMilliseconds = (endTime - startTime) / 1_000_000;
+        System.out.println("ChunkMeshGenerator: timer recorded " + durationInMilliseconds + " milliseconds.");
+    }
+
+
+    //Todo: End removal portion
+
     private ChunkMeshGenerator() {
         delta = new DeltaObject();
         blockDefinitionContainer = BlockDefinitionContainer.getThreadSafeDuplicate();
@@ -59,18 +75,12 @@ public class ChunkMeshGenerator implements Runnable {
 
     private void processInputQueue() {
         if (!meshRequestQueue.isEmpty()) {
-            long startTime = System.nanoTime();
-
 
             // There is a performance bottleneck in this method :(
             createMesh(meshRequestQueue.remove());
 
-
-            long endTime = System.nanoTime();
-            long durationInMilliseconds = (endTime - startTime) / 1_000_000;
-
             // 33-ish milliseconds is very bad :(
-            System.out.println("ChunkMeshGenerator: Took " + durationInMilliseconds + " milliseconds to generate 1 mesh.");
+
         }
     }
     private void createMesh(Vector3ic position) {
