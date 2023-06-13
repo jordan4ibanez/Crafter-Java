@@ -110,13 +110,9 @@ public class ChunkMeshWorker {
     private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         // Fixme: This might be a bit too slow
 
-        if (true) {
-            return;
-        }
-
         final int[] chunkData = chunk.getData();
 
-        final int ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
+        final int ID = Chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
 
         // 0 is reserved for air! Also don't process air drawtype blocks!
         if (ID == 0 || definitionContainer.getDefinition(ID).getDrawType().equals(DrawType.AIR)) {
