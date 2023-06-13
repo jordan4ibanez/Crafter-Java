@@ -42,7 +42,7 @@ public final class Camera {
 
     private static final Matrix4f guiObjectMatrix = new Matrix4f();
 
-    private static final Vector3f position = new Vector3f();
+    private static final Vector3f position = new Vector3f(0,70,0);
 
     private static final Vector3f rotation = new Vector3f();
 
