@@ -28,13 +28,13 @@ public abstract class ChunkBitManipulation implements Serializable {
     /**
      * These are user-friendly direct value getters
      */
-    public int getBlockID(int input) {
+    public static int getBlockID(int input) {
         return input >>> 16;
     }
-    public int getBlockLight(int input) {
+    public static int getBlockLight(int input) {
         return input << 16 >>> 28;
     }
-    public int getBlockState(int input) {
+    public static int getBlockState(int input) {
         return input << 20 >>> 28;
     }
 
@@ -42,7 +42,7 @@ public abstract class ChunkBitManipulation implements Serializable {
      * These are internalized anti boilerplate methods for working with integers that represent a block.
      * Public so they can be used dynamically externally.
      */
-    public int setBlockID(int input, int newID) {
+    public static int setBlockID(int input, int newID) {
         if (newID > 65_535 || newID < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed ushort limit for block ID! Attempted to input value: (" + newID + ")");
         }
@@ -51,7 +51,7 @@ public abstract class ChunkBitManipulation implements Serializable {
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
-    public int setBlockLight(int input, int newLight) {
+    public static int setBlockLight(int input, int newLight) {
         if (newLight > 15 || newLight < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newLight + ")" );
         }
@@ -60,7 +60,7 @@ public abstract class ChunkBitManipulation implements Serializable {
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
-    public int setBlockState(int input, int newState) {
+    public static int setBlockState(int input, int newState) {
         if (newState > 15 || newState < 0) {
             throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newState + ")");
         }
@@ -74,18 +74,18 @@ public abstract class ChunkBitManipulation implements Serializable {
      * Get integral bit data raw.
      * These do not give out the true number, just the data held in that section of the buffer.
      */
-    public int parseBlockID(int input) {
+    public static int parseBlockID(int input) {
         // Clear out right 16 bits
         return input >>> 16 << 16;
     }
-    public int parseLightLevel(int input) {
+    public static int parseLightLevel(int input) {
         // Clear out left 16 bits
         input = input << 16 >>> 16;
         // Clear out right 12 bits
         input = input >>> 12 << 12;
         return input;
     }
-    public int parseBlockState(int input) {
+    public static int parseBlockState(int input) {
         // Clear out left 20 bits
         input = input << 20 >>> 20;
         // Clear out right 8 bits
@@ -96,20 +96,20 @@ public abstract class ChunkBitManipulation implements Serializable {
     /**
      * Set integral bit data raw. Used for chaining. This is at the bottom because it's just boilerplate bit manipulation
      */
-    public int shiftBlock(int input) {
+    private static int shiftBlock(int input) {
         return input << 16;
     }
-    public int shiftLight(int input) {
+    private static int shiftLight(int input) {
         return input << 12;
     }
-    public int shiftState(int input) {
+    private static int shiftState(int input) {
         return input << 8;
     }
 
     /**
      * Mini boilerplate combination method, makes code easier to read
      */
-    public int combine(int blockID, int light, int state) {
+    private static int combine(int blockID, int light, int state) {
         return blockID | light | state;
     }
 }
