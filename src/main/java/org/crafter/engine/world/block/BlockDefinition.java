@@ -194,17 +194,6 @@ public class BlockDefinition implements Serializable {
      
     public void attachFaces() {
 
-        final boolean rewriteThis = true;
-
-//        if (rewriteThis) {
-//
-//
-//            // FIXME: utilize something else that's NOT this. The game should have built in decipherment of this, not manual assignment
-//
-//
-//            throw new RuntimeException("Rewrite this mess, this should not be handling faces like this, it's an absolute mess.");
-//        }
-
         if (drawType == DrawType.AIR) {
             return;
         }
