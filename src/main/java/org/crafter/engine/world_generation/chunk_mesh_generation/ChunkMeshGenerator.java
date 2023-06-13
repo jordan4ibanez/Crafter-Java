@@ -76,7 +76,7 @@ public class ChunkMeshGenerator implements Runnable {
 
         final Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
-        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
+//        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
 
         // Todo: Note! Perhaps a linked list would be more performant?
 
@@ -119,7 +119,7 @@ public class ChunkMeshGenerator implements Runnable {
                 indices
         );
 
-        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
+//        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
 
         return outputMesh;
     }
