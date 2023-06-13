@@ -59,6 +59,14 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation implem
     }
 
     /**
+     * Get the DIRECT data. This needs to be used very carefully!!! This is the MUTABLE internal pointer!!!
+     * @return The MUTABLE DIRECT INTERNAL POINTER!!!
+     */
+    public int[] getDataDIRECT() {
+        return data;
+    }
+
+    /**
      * Set a single block, think of this as minetest.set_node();
      * For bulk setting, it is currently recommended to use the array methods.
      * @param position is the 3D position in the internal array.
