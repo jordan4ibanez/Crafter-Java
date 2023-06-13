@@ -1,7 +1,6 @@
 package org.crafter.engine.utility;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.nio.file.Files;
 
 public final class FileReader {
