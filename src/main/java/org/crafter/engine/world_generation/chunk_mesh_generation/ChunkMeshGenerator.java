@@ -58,7 +58,7 @@ public class ChunkMeshGenerator implements Runnable {
     }
 
     private void processInputQueue() {
-        while (!meshRequestQueue.isEmpty()) {
+        if (!meshRequestQueue.isEmpty()) {
             createMesh(meshRequestQueue.remove());
         }
     }
