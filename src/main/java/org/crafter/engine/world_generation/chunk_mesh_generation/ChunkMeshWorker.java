@@ -110,6 +110,10 @@ public class ChunkMeshWorker {
     private void branchPathOfGeneration(final Chunk chunk, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
         // Fixme: This might be a bit too slow
 
+        if (true) {
+            return;
+        }
+
         final int[] chunkData = chunk.getData();
 
         final int ID = chunk.getBlockID(chunkData[chunk.positionToIndex(x,y,z)]);
