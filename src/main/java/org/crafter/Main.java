@@ -93,7 +93,7 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
-        Window.maximize();
+//        Window.maximize();
         Mouse.capture();
 
     }
@@ -193,7 +193,7 @@ public class Main {
             //fixme: needs to iterate 0-7
             // Render stack 0 (y coordinate 0 to 15)
             for (int i = 0; i < generatedChunk.getStacks(); i++) {
-                System.out.println(i);
+//                System.out.println(i);
                 ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
             }
         }
