@@ -28,7 +28,7 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation implem
     // X
     private static final int WIDTH = 16;
     // Y
-    static final int HEIGHT = 128;
+    private static final int HEIGHT = 128;
     // Z
     private static final int DEPTH = 16;
     private static final int yStride = WIDTH * DEPTH;
@@ -110,14 +110,14 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation implem
         return data[positionToIndex(position)];
     }
 
-    public int positionToIndex(Vector3ic position) {
+    public static int positionToIndex(Vector3ic position) {
         return (position.y() * yStride) + (position.z() * DEPTH) + position.x();
     } // One below is for iterator assembly
-    public int positionToIndex(final int x, final int y, final int z) {
+    public static int positionToIndex(final int x, final int y, final int z) {
         return (y * yStride) + (z * DEPTH) + x;
     }
 
-    public Vector3ic indexToPosition(int index) {
+    public static Vector3ic indexToPosition(int index) {
         return new Vector3i(
                 index % WIDTH,
                 (index / yStride) % HEIGHT,
@@ -155,28 +155,28 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation implem
     /**
      * This makes it easier to create data and work with chunks!
      */
-    public int getArraySize() {
+    public static int getArraySize() {
         return arraySize;
     }
 
     /**
      * Width of chunk in blocks.
      */
-    public int getWidth() {
+    public static int getWidth() {
         return WIDTH;
     }
 
     /**
      * Depth of chunk in blocks.
      */
-    public int getDepth() {
+    public static int getDepth() {
         return DEPTH;
     }
 
     /**
      * Height of chunk in blocks.
      */
-    public int getHeight() {
+    public static int getHeight() {
         return HEIGHT;
     }
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class ChunkMeshHandling extends ChunkArrayManipulation implements Serializable {
     private static final int STACK_HEIGHT = 16;
-    private static final int STACKS = HEIGHT / STACK_HEIGHT;
+    private static final int STACKS = getHeight() / STACK_HEIGHT;
 
     private final String[] meshes;
 
