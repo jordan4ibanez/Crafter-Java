@@ -6,6 +6,15 @@ import java.io.Serializable;
  * The Basis for chunks.
  * Chunks are basically fancy arrays of data.
  * This class goes into ChunkArrayManipulation, then gets finalized into Chunk in the inheritance chain.
+ *
+ * Some notes:
+ * << shifts to the left X amount, so << 3 of 0001 (1) in a byte now represents 1000 (8)
+ * >> shifts to the right X amount
+ *
+ * Chunk represented as:
+ * [16 bit] block | [4 bit lightLevel] | [4 bit blockState] | [ 8 bits left over for additional functionality]
+ * This is literal, here is an exact representation:
+ * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
 public abstract class ChunkBitManipulation implements Serializable {
     StringBuilder output;
