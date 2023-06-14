@@ -17,20 +17,22 @@ public class ChunkMeshWorker {
 
     private final ChunkFaceGenerator faceGenerator;
 
+    private int[] currentChunkData = null;
+
     // These chunk neighbors are reused over & over so that the methods do not have huge amounts of parameters
     // Note: These are chunk deep clones
-    private Chunk neighborFront = null;
-    private Chunk neighborBack = null;
-    private Chunk neighborLeft = null;
-    private Chunk neighborRight = null;
+    private int[] neighborFrontData = null;
+    private int[] neighborBackData = null;
+    private int[] neighborLeftData = null;
+    private int[] neighborRightData = null;
 
     // Same reason for chunk neighbors!
-    boolean blockNeighborFrontIsBlock = false;
-    boolean blockNeighborBackIsBlock = false;
-    boolean blockNeighborLeftIsBlock = false;
-    boolean blockNeighborRightIsBlock = false;
-    boolean blockNeighborBottomIsBlock = false;
-    boolean blockNeighborTopIsBlock = false;
+    private boolean blockNeighborFrontIsBlock = false;
+    private boolean blockNeighborBackIsBlock = false;
+    private boolean blockNeighborLeftIsBlock = false;
+    private boolean blockNeighborRightIsBlock = false;
+    private boolean blockNeighborBottomIsBlock = false;
+    private boolean blockNeighborTopIsBlock = false;
 
     //Todo: Remove this portion
     private long beginTime = System.nanoTime();
@@ -64,16 +66,20 @@ public class ChunkMeshWorker {
 
         final Vector2ic chunkPosition = chunk.getPosition();
 
+
         // Right-handed coordinate system - Scoped for clarification & so not reused on accident
         {
+            currentChunkData = chunk.getDataDIRECT();
+
+            // Note, this is so fuckin sick that I set this up like this for myself
             final Vector2ic front = new Vector2i(chunkPosition.x(), chunkPosition.y() - 1);
             final Vector2ic back = new Vector2i(chunkPosition.x(), chunkPosition.y() + 1);
             final Vector2ic left = new Vector2i(chunkPosition.x() - 1, chunkPosition.y());
             final Vector2ic right = new Vector2i(chunkPosition.x() + 1, chunkPosition.y());
-            neighborFront = ChunkStorage.hasPosition(front) ? ChunkStorage.getThreadSafeChunkClone(front) : null;
-            neighborBack = ChunkStorage.hasPosition(back) ? ChunkStorage.getThreadSafeChunkClone(back) : null;
-            neighborLeft = ChunkStorage.hasPosition(left) ? ChunkStorage.getThreadSafeChunkClone(left) : null;
-            neighborRight = ChunkStorage.hasPosition(right) ? ChunkStorage.getThreadSafeChunkClone(right) : null;
+            neighborFrontData = ChunkStorage.hasPosition(front) ? ChunkStorage.getThreadSafeChunkClone(front).getDataDIRECT() : null;
+            neighborBackData = ChunkStorage.hasPosition(back) ? ChunkStorage.getThreadSafeChunkClone(back).getDataDIRECT() : null;
+            neighborLeftData = ChunkStorage.hasPosition(left) ? ChunkStorage.getThreadSafeChunkClone(left).getDataDIRECT() : null;
+            neighborRightData = ChunkStorage.hasPosition(right) ? ChunkStorage.getThreadSafeChunkClone(right).getDataDIRECT() : null;
         }
 
         /*
@@ -82,19 +88,18 @@ public class ChunkMeshWorker {
         -> Front to back (0-15 z)
         --> Bottom to top (0-15 [differs depending on stack] y)
          */
-        final int[] chunkData = chunk.getDataDIRECT();
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    branchPathOfGeneration(chunkData, x, y, z, positions, textureCoordinates, indices);
+                    branchPathOfGeneration(x, y, z, positions, textureCoordinates, indices);
                 }
             }
         }
     }
 
-    private void branchPathOfGeneration(final int[] chunkData, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    private void branchPathOfGeneration(final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
 
-        final int ID = Chunk.getBlockID(chunkData[Chunk.positionToIndex(x,y,z)]);
+        final int ID = Chunk.getBlockID(currentChunkData[Chunk.positionToIndex(x,y,z)]);
 
         // 0 is reserved for air! Also don't process air drawtype blocks!
         if (ID == 0 || definitionContainer.getDefinition(ID).getDrawType().equals(DrawType.AIR)) {
@@ -103,12 +108,12 @@ public class ChunkMeshWorker {
 
 
         // Note: -Z is facing forwards +X is facing right
-        blockNeighborFrontIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y, z - 1));
-        blockNeighborBackIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y, z + 1));
-        blockNeighborLeftIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x - 1, y, z));
-        blockNeighborRightIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x + 1, y, z));
-        blockNeighborBottomIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y - 1, z));
-        blockNeighborTopIsBlock = neighborIsBlockDrawType(getNeighbor(chunkData, x, y + 1, z));
+        blockNeighborFrontIsBlock = neighborIsBlockDrawType(getNeighbor(x, y, z - 1));
+        blockNeighborBackIsBlock = neighborIsBlockDrawType(getNeighbor(x, y, z + 1));
+        blockNeighborLeftIsBlock = neighborIsBlockDrawType(getNeighbor(x - 1, y, z));
+        blockNeighborRightIsBlock = neighborIsBlockDrawType(getNeighbor(x + 1, y, z));
+        blockNeighborBottomIsBlock = neighborIsBlockDrawType(getNeighbor(x, y - 1, z));
+        blockNeighborTopIsBlock = neighborIsBlockDrawType(getNeighbor(x, y + 1, z));
 
 
 
@@ -160,35 +165,48 @@ public class ChunkMeshWorker {
         return definitionContainer.getDefinition(inputID).getDrawType().equals(DrawType.BLOCK);
     }
 
-    private int getNeighbor(int[] chunkData, final int x, final int y, final int z) {
+    private int getNeighbor(final int x, final int y, final int z) {
 
         // todo: Implement neighbor chunk getter
 
-        if (xyzIsOutOfBoundsCheck(x, y, z, Chunk.getWidth(), Chunk.getHeight(), Chunk.getDepth())) {
-            // Out of bounds within the chunk
+
+        if (xyzIsOutOfBoundsCheck(x, y, z)) {
+
+            if (x == Chunk.getWidth() && rightNeighborExists()) {
+                return Chunk.getBlockID(neighborRightData[Chunk.positionToIndex(x - Chunk.getWidth(),y,z)]);
+            } else if (x == -1 && leftNeighborExists()) {
+                return Chunk.getBlockID(neighborLeftData[Chunk.positionToIndex(x + Chunk.getWidth(),y,z)]);
+            } else if (z == Chunk.getDepth() && backNeighborExists()) {
+                return Chunk.getBlockID(neighborBackData[Chunk.positionToIndex(x,y,z - Chunk.getDepth())]);
+            } else if (z == -1 && frontNeighborExists()) {
+                return Chunk.getBlockID(neighborFrontData[Chunk.positionToIndex(x,y,z + Chunk.getDepth())]);
+            }
+            // Out of bounds within the chunk.
+            // No neighbor exists.
             // Zero is reserved for air
             return 0;
-        }
 
-        return Chunk.getBlockID(chunkData[Chunk.positionToIndex(x,y,z)]);
+        } else {
+            return Chunk.getBlockID(currentChunkData[Chunk.positionToIndex(x,y,z)]);
+        }
     }
 
-    private boolean xyzIsOutOfBoundsCheck(final int x, final int y, final int z, final int width, final int height, final int depth) {
-        return x < 0 || x >= width ||
-                y < 0 || y >= height ||
-                z < 0 || z >= depth;
+    private boolean xyzIsOutOfBoundsCheck(final int x, final int y, final int z) {
+        return x < 0 || x >= Chunk.getWidth() ||
+                y < 0 || y >= Chunk.getHeight() ||
+                z < 0 || z >= Chunk.getDepth();
     }
 
     private boolean frontNeighborExists() {
-        return neighborFront != null;
+        return neighborFrontData != null;
     }
     private boolean backNeighborExists() {
-        return neighborBack != null;
+        return neighborBackData != null;
     }
     private boolean leftNeighborExists() {
-        return neighborLeft != null;
+        return neighborLeftData != null;
     }
     private boolean rightNeighborExists() {
-        return neighborRight != null;
+        return neighborRightData != null;
     }
 }
