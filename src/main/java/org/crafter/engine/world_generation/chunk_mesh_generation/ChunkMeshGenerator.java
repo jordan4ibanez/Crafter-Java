@@ -34,6 +34,9 @@ public class ChunkMeshGenerator implements Runnable {
     private final BlockingQueue<ChunkMeshRecord> meshOutputQueue;
     private final AtomicBoolean shouldRun;
     private final ChunkMeshWorker meshWorker;
+    private final ArrayList<Float> positionsBuilder = new ArrayList<>();
+    private final ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
+    private final ArrayList<Integer> indicesBuilder = new ArrayList<>();
 
 
     //Todo: Remove this portion
@@ -102,28 +105,16 @@ public class ChunkMeshGenerator implements Runnable {
 
 //        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
 
-        // Todo: Note! Perhaps a linked list would be more performant?
-
-        // TODO: NOTE! REUSE THIS! UTILIZE (vertices.clear();) FOR EXAMPLE!
-
-
-
-        final ArrayList<Float> positionsBuilder = new ArrayList<>();
-        final ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
-        final ArrayList<Integer> indicesBuilder = new ArrayList<>();
+        positionsBuilder.clear();
+        textureCoordinatesBuilder.clear();
+        indicesBuilder.clear();
 
 
-
-        // Insert block builder here
-
-
-        // FIXME: THIS IS TAKING 33 MS TO DO BASIC GARBAGE WTF
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
         startTimer();
         meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
         endTimer();
-
-
+        
         // End block builder here
 
 
