@@ -46,17 +46,17 @@ public class Main {
     private static final Vector3f cameraDelta = new Vector3f();
     private static final Vector3f newCameraRotation = new Vector3f();
 
-    private static final int debugChunkSizeRememberToRemoveThisGarbage = 16;
+    private static final int debugChunkSizeRememberToRemoveThisGarbage = 9;
+    private static int currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
+    private static int currentOffsetZ = -debugChunkSizeRememberToRemoveThisGarbage;
+
+    private static boolean finishGeneration = false;
+    private static int frameCounter = 0;
+    private static final int frameSkips = 1000;
 
     public static void main(String[] args) {
 
         initialize();
-
-        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
-            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
-                ChunkGenerator.pushRequest(new Vector2i(x,z));
-            }
-        }
 
         try {
             while(!Window.shouldClose()) {
@@ -93,12 +93,40 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
-//        Window.maximize();
+        Window.maximize();
         Mouse.capture();
 
     }
 
     private static void mainLoop() {
+
+        if (!finishGeneration) {
+
+            if (frameCounter < frameSkips) {
+                frameCounter++;
+            } else {
+
+                frameCounter = 0;
+
+                ChunkGenerator.pushRequest(new Vector2i(currentOffsetX, currentOffsetZ));
+
+                currentOffsetX++;
+
+                if (currentOffsetX >= debugChunkSizeRememberToRemoveThisGarbage) {
+                    currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
+                    currentOffsetZ++;
+                    if (currentOffsetZ >= debugChunkSizeRememberToRemoveThisGarbage) {
+                        finishGeneration = true;
+                    }
+                }
+            }
+
+//            for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
+//                for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
+//
+//                }
+//            }
+        }
 
         Window.pollEvents();
 
@@ -160,7 +188,7 @@ public class Main {
 
 
         final float yaw = newCameraRotation.y();
-        final float movementDelta = Delta.getDelta() * 10;
+        final float movementDelta = Delta.getDelta() * 50;
 
         // Layered
         cameraMovementX.zero();
