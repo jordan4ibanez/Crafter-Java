@@ -114,7 +114,7 @@ public class ChunkMeshGenerator implements Runnable {
         startTimer();
         meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
         endTimer();
-        
+
         // End block builder here
 
 
