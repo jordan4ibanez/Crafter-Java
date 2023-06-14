@@ -100,23 +100,10 @@ public class ChunkMeshGenerator implements Runnable {
 
         final String uuid = UUID.randomUUID().toString();
 
-
         final Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
-//        System.out.println("ChunkMeshGenerator: Processing (" + position.x() + ", " + position.z() + ") stack (" + position.y() + ")");
-
-        positionsBuilder.clear();
-        textureCoordinatesBuilder.clear();
-        indicesBuilder.clear();
-
-
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
-        startTimer();
         meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
-        endTimer();
-
-        // End block builder here
-
 
         // NOTE: This is a new piece of memory, it must be a new array
         final float[] positions = new float[positionsBuilder.size()];
@@ -132,7 +119,9 @@ public class ChunkMeshGenerator implements Runnable {
             indices[i] = indicesBuilder.get(i);
         }
 
-        // todo: this will be created after the array builders have been filled out
+        positionsBuilder.clear();
+        textureCoordinatesBuilder.clear();
+        indicesBuilder.clear();
 
 //        System.out.println("ChunkMeshGenerator: Generated Chunk(" + outputMesh.destinationChunkPosition().x() + ", " + outputMesh.destinationChunkPosition().y() + ")");
 
