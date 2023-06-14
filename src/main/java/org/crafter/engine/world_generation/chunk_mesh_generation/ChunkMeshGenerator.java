@@ -43,8 +43,10 @@ public class ChunkMeshGenerator implements Runnable {
     }
     private void endTimer() {
         final long endTime = System.nanoTime();
-        final long durationInMilliseconds = (endTime - beginTime) / 1_000_000;
-        System.out.println("ChunkMeshGenerator: timer recorded " + durationInMilliseconds + " milliseconds.");
+//        final long durationInMilliseconds = (endTime - beginTime) / 1_000_000;
+//        System.out.println("ChunkMeshGenerator: timer recorded " + durationInMilliseconds + " milliseconds.");
+        final long durationInNanoseconds = (endTime - beginTime);
+        System.out.println("ChunkMeshGenerator: timer recorded " + durationInNanoseconds + " nanoseconds.");
     }
     //Todo: End removal portion
 
@@ -117,7 +119,9 @@ public class ChunkMeshGenerator implements Runnable {
 
         // FIXME: THIS IS TAKING 33 MS TO DO BASIC GARBAGE WTF
         // Mutably pass the references to the arraylists into the ChunkMeshWorker so this doesn't become thousands of lines long.
+        startTimer();
         meshWorker.process(position.y(), threadSafeClone, positionsBuilder, textureCoordinatesBuilder, indicesBuilder);
+        endTimer();
 
 
         // End block builder here
