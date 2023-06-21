@@ -35,6 +35,10 @@ public class Chunk extends ChunkMeshHandling {
         return position;
     }
 
+    public String getPositionString() {
+        return "x = " + position.x() + ", y = " + position.y();
+    }
+
     public int getX() {
         return position.x();
     }
