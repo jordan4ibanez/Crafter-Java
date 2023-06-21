@@ -158,7 +158,7 @@ public class Main {
             // ChunkMeshGenerator automatically !NOW! REJECTS duplicates - this might cause horrible performance.
             // FIXME: this is the cause if performance is brutal.
             // So now we blindly shovel in requests.
-            // This is scoped to auto GC if hit fails.
+            // This is scoped to auto GC if hit fails. It also allows to be more explicit.
 
             { // Front
                 Vector2ic neighborFront = new Vector2i(position.x(), position.y() - 1);
