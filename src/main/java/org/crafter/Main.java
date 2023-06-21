@@ -121,12 +121,6 @@ public class Main {
                     }
                 }
             }
-
-//            for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
-//                for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
-//
-//                }
-//            }
         }
 
         Window.pollEvents();
@@ -136,17 +130,7 @@ public class Main {
         ShaderStorage.start("3d");
 
 
-        // Note: This is an EXTREME test! This is so out of the scope of this game
-        // that it's basically the equivalent of a few servers with thousands of people on them all loading in
-        // at the same time running on one instance!
-//        System.out.println("--------- MAIN THREAD STARTED REQUESTS ----------");
-//        for (int i = 0; i < random.nextInt(100); i++) {
-//            // -25 to 25
-//            ChunkGenerator.pushRequest(new Vector2i(
-//                    random.nextInt(100) - 51,
-//                    random.nextInt(100) - 51
-//            ));
-//        }
+
 
 
         //todo This is temp remove me plz
@@ -168,12 +152,6 @@ public class Main {
         }
         while (ChunkMeshGenerator.hasUpdate()) {
             ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
-//            System.out.println("------- BEGIN RECORD DEBUGGING --------");
-//            System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
-//            System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
-//            System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
-//            System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
-//            System.out.println("------- END RECORD DEBUGGING --------");
 
             // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
             // TODO: Make sure this is done within the main thread!
