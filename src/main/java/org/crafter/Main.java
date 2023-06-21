@@ -46,7 +46,7 @@ public class Main {
     private static final Vector3f cameraDelta = new Vector3f();
     private static final Vector3f newCameraRotation = new Vector3f();
 
-    private static final int debugChunkSizeRememberToRemoveThisGarbage = 9;
+    private static final int debugChunkSizeRememberToRemoveThisGarbage = 18;
     private static int currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
     private static int currentOffsetZ = -debugChunkSizeRememberToRemoveThisGarbage;
 
@@ -107,7 +107,7 @@ public class Main {
                 frameCounter++;
             } else {
 
-                frameCounter = 0;
+                frameCounter = frameSkips; // 0
 
                 ChunkGenerator.pushRequest(new Vector2i(currentOffsetX, currentOffsetZ));
 
@@ -130,14 +130,10 @@ public class Main {
         ShaderStorage.start("3d");
 
 
-
-
-
         //todo This is temp remove me plz
         doFirstPersonCamera();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-
         while (ChunkGenerator.hasUpdate()) {
 
             Chunk generatedChunk = ChunkGenerator.getUpdate();
