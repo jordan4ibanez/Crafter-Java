@@ -137,9 +137,13 @@ public class Main {
         doFirstPersonCamera();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
+
         while (ChunkGenerator.hasUpdate()) {
+
             Chunk generatedChunk = ChunkGenerator.getUpdate();
-//                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
+
+            System.out.println("Main: Received chunk (" + generatedChunk.getPositionString() + ")!");
+
             ChunkStorage.addOrUpdate(generatedChunk);
 
             Vector2ic position = generatedChunk.getPosition();
@@ -150,6 +154,8 @@ public class Main {
                 ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
             }
         }
+
+
         while (ChunkMeshGenerator.hasUpdate()) {
             ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
 
