@@ -213,11 +213,10 @@ public class ChunkMeshGenerator implements Runnable {
     private static void nullCheck(String methodName) {
         if (thread == null) {
             throw new RuntimeException("ChunkMeshGenerator: Cannot utilize method (" + methodName + ")! The THREAD has not been instantiated!");
-        } if (instance == null) {
-            throw new RuntimeException("ChunkMeshGenerator: Cannot utilize method (" + methodName + ")! The INSTANCE has not been instantiated!");
-        }
-        if (!thread.isAlive()) {
+        } else if (!thread.isAlive()) {
             throw new RuntimeException("ChunkMeshGenerator: Thread has crashed! Cannot utilize (" + methodName + ")!");
+        } else if (instance == null) {
+            throw new RuntimeException("ChunkMeshGenerator: Cannot utilize method (" + methodName + ")! The INSTANCE has not been instantiated!");
         }
     }
 }
