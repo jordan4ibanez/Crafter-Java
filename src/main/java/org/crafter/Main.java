@@ -100,6 +100,7 @@ public class Main {
 
     private static void mainLoop() {
 
+        // This basically is making chunks generate really, REALLY slowly
         if (!finishGeneration) {
 
             if (frameCounter < frameSkips) {
