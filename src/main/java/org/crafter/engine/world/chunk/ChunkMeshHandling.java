@@ -44,7 +44,7 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
      * TODO: Give this a better name!
      * @return integral position in array. Literal position is bottom to top 0-7
      */
-    public int getStacks() {
+    public static int getStacks() {
         return STACKS;
     }
 
