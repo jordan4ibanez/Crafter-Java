@@ -150,10 +150,7 @@ public class Main {
 
             //fixme: needs to iterate 0-7
             // Render stack 0 (y coordinate 0 to 15)
-            for (int i = 0; i < Chunk.getStacks(); i++) {
-//                System.out.println(i);
-                ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
-            }
+            generateFullChunkMesh(position.x(), position.y());
 
             // Now we update neighbors.
             // Right handed coordinate system.
@@ -227,6 +224,18 @@ public class Main {
         }
 
         Window.swapBuffers();
+    }
+
+    /**
+     * Generates chunk mesh stacks (0-7)
+     * @param x world position on X axis (literal)
+     * @param z world position on Z axis (literal)
+     */
+    private static void generateFullChunkMesh(int x, int z) {
+        for (int i = 0; i < Chunk.getStacks(); i++) {
+//                System.out.println(i);
+            ChunkMeshGenerator.pushRequest(x, i, z);
+        }
     }
 
     private static void destroy() {
