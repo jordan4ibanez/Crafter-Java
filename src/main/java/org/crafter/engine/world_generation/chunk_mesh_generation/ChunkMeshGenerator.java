@@ -156,9 +156,9 @@ public class ChunkMeshGenerator implements Runnable {
 
     private void addRequest(Vector3ic position) {
         //Fixme: test if traversing the list causes severe performance penalty
-//        if (meshRequestQueue.contains(position)) {
-//            return;
-//        }
+        if (meshRequestQueue.contains(position)) {
+            return;
+        }
         this.meshRequestQueue.add(position);
     }
 
