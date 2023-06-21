@@ -161,27 +161,27 @@ public class Main {
             // This is scoped to auto GC if hit fails.
 
             { // Front
-                Vector2ic front = new Vector2i(position.x(), position.y() - 1);
-                if (ChunkStorage.hasPosition(front)) {
-                    generateFullChunkMesh(front.x(), front.y());
+                Vector2ic neighborFront = new Vector2i(position.x(), position.y() - 1);
+                if (ChunkStorage.hasPosition(neighborFront)) {
+                    generateFullChunkMesh(neighborFront.x(), neighborFront.y());
                 }
             }
             { // Back
-                Vector2ic back = new Vector2i(position.x(), position.y() + 1);
-                if (ChunkStorage.hasPosition(back)) {
-                    generateFullChunkMesh(back.x(), back.y());
+                Vector2ic neighborBack = new Vector2i(position.x(), position.y() + 1);
+                if (ChunkStorage.hasPosition(neighborBack)) {
+                    generateFullChunkMesh(neighborBack.x(), neighborBack.y());
                 }
             }
             { // Left
-                Vector2ic left = new Vector2i(position.x() - 1, position.y());
-                if (ChunkStorage.hasPosition(left)) {
-                    generateFullChunkMesh(left.x(), left.y());
+                Vector2ic neighborLeft = new Vector2i(position.x() - 1, position.y());
+                if (ChunkStorage.hasPosition(neighborLeft)) {
+                    generateFullChunkMesh(neighborLeft.x(), neighborLeft.y());
                 }
             }
             { // Right
-                Vector2ic right = new Vector2i(position.x() + 1, position.y());
-                if (ChunkStorage.hasPosition(right)) {
-                    generateFullChunkMesh(right.x(), right.y());
+                Vector2ic neighborRight = new Vector2i(position.x() + 1, position.y());
+                if (ChunkStorage.hasPosition(neighborRight)) {
+                    generateFullChunkMesh(neighborRight.x(), neighborRight.y());
                 }
             }
 
