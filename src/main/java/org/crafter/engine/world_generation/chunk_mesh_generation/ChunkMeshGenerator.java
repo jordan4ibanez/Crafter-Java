@@ -146,7 +146,7 @@ public class ChunkMeshGenerator implements Runnable {
     private void sleepCheck() {
         if (meshRequestQueue.size() == 0) {
             try {
-                System.out.println("ChunkMeshGenerator: Sleeping");
+//                System.out.println("ChunkMeshGenerator: Sleeping");
                 Thread.sleep(200);
             } catch (Exception e) {
                 throw new RuntimeException("ChunkMeshGenerator: Thread failed to sleep! " + e);
