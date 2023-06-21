@@ -162,38 +162,26 @@ public class Main {
 
             { // Front
                 Vector2ic front = new Vector2i(position.x(), position.y() - 1);
-
                 if (ChunkStorage.hasPosition(front)) {
-                    for (int i = 0; i < Chunk.getStacks(); i++) {
-                        ChunkMeshGenerator.pushRequest(front.x(), i, front.y());
-                    }
+                    generateFullChunkMesh(front.x(), front.y());
                 }
             }
             { // Back
                 Vector2ic back = new Vector2i(position.x(), position.y() + 1);
-
                 if (ChunkStorage.hasPosition(back)) {
-                    for (int i = 0; i < Chunk.getStacks(); i++) {
-                        ChunkMeshGenerator.pushRequest(back.x(), i, back.y());
-                    }
+                    generateFullChunkMesh(back.x(), back.y());
                 }
             }
             { // Left
                 Vector2ic left = new Vector2i(position.x() - 1, position.y());
-
                 if (ChunkStorage.hasPosition(left)) {
-                    for (int i = 0; i < Chunk.getStacks(); i++) {
-                        ChunkMeshGenerator.pushRequest(left.x(), i, left.y());
-                    }
+                    generateFullChunkMesh(left.x(), left.y());
                 }
             }
             { // Right
                 Vector2ic right = new Vector2i(position.x() + 1, position.y());
-
                 if (ChunkStorage.hasPosition(right)) {
-                    for (int i = 0; i < Chunk.getStacks(); i++) {
-                        ChunkMeshGenerator.pushRequest(right.x(), i, right.y());
-                    }
+                    generateFullChunkMesh(right.x(), right.y());
                 }
             }
 
