@@ -148,6 +148,69 @@ public class Main {
 //            ));
 //        }
 
+
+        //todo This is temp remove me plz
+        doFirstPersonCamera();
+
+        //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
+        while (ChunkGenerator.hasUpdate()) {
+            Chunk generatedChunk = ChunkGenerator.getUpdate();
+//                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
+            ChunkStorage.addOrUpdate(generatedChunk);
+
+            Vector2ic position = generatedChunk.getPosition();
+            //fixme: needs to iterate 0-7
+            // Render stack 0 (y coordinate 0 to 15)
+            for (int i = 0; i < generatedChunk.getStacks(); i++) {
+//                System.out.println(i);
+                ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
+            }
+        }
+        while (ChunkMeshGenerator.hasUpdate()) {
+            ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
+//            System.out.println("------- BEGIN RECORD DEBUGGING --------");
+//            System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
+//            System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
+//            System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
+//            System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
+//            System.out.println("------- END RECORD DEBUGGING --------");
+
+            // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
+            // TODO: Make sure this is done within the main thread!
+
+            final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
+
+            if (ChunkStorage.hasPosition(destinationPosition)) {
+                ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
+            } // Else nothing happens to it and it's GCed
+        }
+
+
+        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
+            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
+                final Vector2i requestingPosition = new Vector2i(x,z);
+                if (ChunkStorage.hasPosition(requestingPosition)) {
+                    ChunkStorage.getChunk(requestingPosition).render();
+                }
+            }
+        }
+
+        Window.swapBuffers();
+    }
+
+    private static void destroy() {
+        ChunkMeshGenerator.stop();
+        ChunkGenerator.stop();
+        TextureStorage.destroyAll();
+        MeshStorage.destroyAll();
+        ShaderStorage.destroyAll();
+        Window.destroy();
+    }
+
+    //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
+    // make it so that it's controlled with a boolean or number or some poop
+
+    private static void doFirstPersonCamera() {
         // FIXME: BEGIN CAMERA INPUT DEBUGGING
 
         // Rotation
@@ -211,59 +274,6 @@ public class Main {
         Camera.updateCameraMatrix();
 
         // FIXME: END CAMERA INPUT DEBUGGING
-
-        //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-        while (ChunkGenerator.hasUpdate()) {
-            Chunk generatedChunk = ChunkGenerator.getUpdate();
-//                System.out.println("Main: Received chunk (" + generatedChunk.getX() + ", " + generatedChunk.getY() + ")!");
-            ChunkStorage.addOrUpdate(generatedChunk);
-
-            Vector2ic position = generatedChunk.getPosition();
-            //fixme: needs to iterate 0-7
-            // Render stack 0 (y coordinate 0 to 15)
-            for (int i = 0; i < generatedChunk.getStacks(); i++) {
-//                System.out.println(i);
-                ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
-            }
-        }
-        while (ChunkMeshGenerator.hasUpdate()) {
-            ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
-//            System.out.println("------- BEGIN RECORD DEBUGGING --------");
-//            System.out.println("Got record for: " + generatedMesh.destinationChunkPosition().x() + ", " + generatedMesh.destinationChunkPosition().y());
-//            System.out.println("Positions: " + Arrays.toString(generatedMesh.positions()));
-//            System.out.println("Tcoords: " + Arrays.toString(generatedMesh.textureCoordinates()));
-//            System.out.println("Indices: " + Arrays.toString(generatedMesh.indices()));
-//            System.out.println("------- END RECORD DEBUGGING --------");
-
-            // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
-            // TODO: Make sure this is done within the main thread!
-
-            final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
-
-            if (ChunkStorage.hasPosition(destinationPosition)) {
-                ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
-            } // Else nothing happens to it and it's GCed
-        }
-
-
-        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
-            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
-                final Vector2i requestingPosition = new Vector2i(x,z);
-                if (ChunkStorage.hasPosition(requestingPosition)) {
-                    ChunkStorage.getChunk(requestingPosition).render();
-                }
-            }
-        }
-
-        Window.swapBuffers();
     }
 
-    private static void destroy() {
-        ChunkMeshGenerator.stop();
-        ChunkGenerator.stop();
-        TextureStorage.destroyAll();
-        MeshStorage.destroyAll();
-        ShaderStorage.destroyAll();
-        Window.destroy();
-    }
 }
