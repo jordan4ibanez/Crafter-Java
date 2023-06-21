@@ -147,12 +147,59 @@ public class Main {
             ChunkStorage.addOrUpdate(generatedChunk);
 
             Vector2ic position = generatedChunk.getPosition();
+
             //fixme: needs to iterate 0-7
             // Render stack 0 (y coordinate 0 to 15)
-            for (int i = 0; i < generatedChunk.getStacks(); i++) {
+            for (int i = 0; i < Chunk.getStacks(); i++) {
 //                System.out.println(i);
                 ChunkMeshGenerator.pushRequest(position.x(), i, position.y());
             }
+
+            // Now we update neighbors.
+            // Right handed coordinate system.
+            // Basic if branch because why not.
+            // ChunkMeshGenerator automatically !NOW! REJECTS duplicates - this might cause horrible performance.
+            // FIXME: this is the cause if performance is brutal.
+            // So now we blindly shovel in requests.
+            // This is scoped to auto GC if hit fails.
+
+            { // Front
+                Vector2ic front = new Vector2i(position.x(), position.y() - 1);
+
+                if (ChunkStorage.hasPosition(front)) {
+                    for (int i = 0; i < Chunk.getStacks(); i++) {
+                        ChunkMeshGenerator.pushRequest(front.x(), i, front.y());
+                    }
+                }
+            }
+            { // Back
+                Vector2ic back = new Vector2i(position.x(), position.y() + 1);
+
+                if (ChunkStorage.hasPosition(back)) {
+                    for (int i = 0; i < Chunk.getStacks(); i++) {
+                        ChunkMeshGenerator.pushRequest(back.x(), i, back.y());
+                    }
+                }
+            }
+            { // Left
+                Vector2ic left = new Vector2i(position.x() - 1, position.y());
+
+                if (ChunkStorage.hasPosition(left)) {
+                    for (int i = 0; i < Chunk.getStacks(); i++) {
+                        ChunkMeshGenerator.pushRequest(left.x(), i, left.y());
+                    }
+                }
+            }
+            { // Right
+                Vector2ic right = new Vector2i(position.x() + 1, position.y());
+
+                if (ChunkStorage.hasPosition(right)) {
+                    for (int i = 0; i < Chunk.getStacks(); i++) {
+                        ChunkMeshGenerator.pushRequest(right.x(), i, right.y());
+                    }
+                }
+            }
+
         }
 
 
