@@ -25,8 +25,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Main {
 
-    private static final String DEVELOPMENT_CYCLE = "Pre-Alpha";
-    private static final String VERSION = "v0.0.2";
+    private static final String DEVELOPMENT_CYCLE = "Pre-Alpha (Pre-Classic Prototyping)";
+    private static final String VERSION = "v0.0.3";
     private static final String VERSION_INFO = "Crafter " + DEVELOPMENT_CYCLE + " " + VERSION;
     private static final boolean PROTOTYPE_BUILD = true;
 
