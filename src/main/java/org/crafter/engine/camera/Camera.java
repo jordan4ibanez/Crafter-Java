@@ -188,7 +188,7 @@ public final class Camera {
     // make it so that it's controlled with a boolean or number or some poop
     // ALSO make this pure functional where camera has one state call and it will automatically go between methods based on the state
 
-    public static void doFirstPersonCamera() {
+    public static void freeCam() {
         // FIXME: BEGIN CAMERA INPUT DEBUGGING
 
         // Rotation
@@ -247,8 +247,6 @@ public final class Camera {
         Camera.setPosition(newCameraPosition);
 
         Camera.updateCameraMatrix();
-
-        // FIXME: END CAMERA INPUT DEBUGGING
     }
 
 

@@ -2,9 +2,7 @@ package org.crafter;
 
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
-import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
-import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
@@ -16,12 +14,6 @@ import org.crafter.engine.world_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.*;
-
-import java.util.Date;
-
-import static org.crafter.engine.utility.GameMath.getHorizontalDirection;
-import static org.crafter.engine.utility.GameMath.yawToLeft;
-import static org.lwjgl.glfw.GLFW.*;
 
 public class Main {
 
@@ -124,7 +116,7 @@ public class Main {
 
 
         //todo This is temp remove me plz
-        Camera.doFirstPersonCamera();
+        Camera.freeCam();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
