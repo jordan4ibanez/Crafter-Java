@@ -189,7 +189,6 @@ public final class Camera {
     // ALSO make this pure functional where camera has one state call and it will automatically go between methods based on the state
 
     public static void freeCam() {
-        // FIXME: BEGIN CAMERA INPUT DEBUGGING
 
         // Rotation
         Vector2fc mouseDelta = Mouse.getDelta();
