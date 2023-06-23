@@ -1,15 +1,17 @@
 package org.crafter.engine.camera;
 
+import org.crafter.engine.controls.Keyboard;
+import org.crafter.engine.controls.Mouse;
+import org.crafter.engine.delta.Delta;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
-import org.joml.Vector3ic;
+import org.joml.*;
 
-import static org.crafter.engine.utility.GameMath.getPIHalf_f;
-import static org.crafter.engine.utility.GameMath.getPi2;
+import java.lang.Math;
+
+import static org.crafter.engine.utility.GameMath.*;
 import static org.joml.Math.PI;
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * For now - There can only be one camera.
@@ -45,6 +47,15 @@ public final class Camera {
     private static final Vector3f position = new Vector3f(0,70,0);
 
     private static final Vector3f rotation = new Vector3f();
+
+    private static final Vector3f cameraMovementX = new Vector3f();
+    private static final Vector3f cameraMovementY = new Vector3f();
+    private static final Vector3f cameraMovementZ = new Vector3f();
+    private static final Vector3f finalCameraMovement = new Vector3f();
+    private static final Vector3f newCameraPosition = new Vector3f();
+    private static final Vector3f cameraDelta = new Vector3f();
+    private static final Vector3f newCameraRotation = new Vector3f();
+
 
 
     private Camera(){};
@@ -170,6 +181,75 @@ public final class Camera {
     public static float getSensitivity() {
         // This is a simple calculation to make the sensitivity number applicable to rotating the camera
         return 1.0f / sensitivity;
+    }
+
+    //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
+    // make it so that it's controlled with a boolean or number or some poop
+
+    public static void doFirstPersonCamera() {
+        // FIXME: BEGIN CAMERA INPUT DEBUGGING
+
+        // Rotation
+        Vector2fc mouseDelta = Mouse.getDelta();
+        // Very, very important note: Notice that x & y are swapped. Because the window 2d matrix is 90 degrees rotated from the 3d matrix!
+        cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0).mul(Camera.getSensitivity());
+        Camera.getRotation().add(cameraDelta, newCameraRotation);
+        Camera.setRotation(newCameraRotation);
+
+        // newCameraRotation is now used below
+
+        // Movement
+
+
+        //FIXME: this should probably be a vector
+        float movementX = 0;
+        float movementY = 0;
+        float movementZ = 0;
+
+        if (Keyboard.keyDown(GLFW_KEY_W)) {
+            movementZ += -1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_S)) {
+            movementZ += 1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_A)) {
+            movementX += -1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_D)) {
+            movementX += 1;
+        }
+
+        if (Keyboard.keyDown(GLFW_KEY_SPACE)) {
+            movementY += 1;
+        }
+        if (Keyboard.keyDown(GLFW_KEY_LEFT_SHIFT) || Keyboard.keyDown(GLFW_KEY_RIGHT_SHIFT)) {
+            movementY -= 1;
+        }
+
+
+        final float yaw = newCameraRotation.y();
+        final float movementDelta = Delta.getDelta() * 50;
+
+        // Layered
+        cameraMovementX.zero();
+        cameraMovementY.zero();
+        cameraMovementZ.zero();
+        finalCameraMovement.zero();
+
+        cameraMovementX.set(getHorizontalDirection(yawToLeft(yaw))).mul(movementX);
+        cameraMovementY.set(0,movementY, 0);
+        cameraMovementZ.set(getHorizontalDirection(yaw)).mul(movementZ);
+
+        // Layer in, and then make it usable with delta
+        finalCameraMovement.set(cameraMovementX.add(cameraMovementY).add(cameraMovementZ)).mul(movementDelta);
+
+        Vector3fc cameraPosition = Camera.getPosition();
+        cameraPosition.add(finalCameraMovement, newCameraPosition);
+        Camera.setPosition(newCameraPosition);
+
+        Camera.updateCameraMatrix();
+
+        // FIXME: END CAMERA INPUT DEBUGGING
     }
 
 

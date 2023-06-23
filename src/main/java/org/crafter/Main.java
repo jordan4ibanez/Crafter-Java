@@ -38,13 +38,6 @@ public class Main {
     // private static final Random random = new Random(new Date().getTime()/1000);
 
     // Fixme: these are only for debugging and prototyping, move this into another class eventually
-    private static final Vector3f cameraMovementX = new Vector3f();
-    private static final Vector3f cameraMovementY = new Vector3f();
-    private static final Vector3f cameraMovementZ = new Vector3f();
-    private static final Vector3f finalCameraMovement = new Vector3f();
-    private static final Vector3f newCameraPosition = new Vector3f();
-    private static final Vector3f cameraDelta = new Vector3f();
-    private static final Vector3f newCameraRotation = new Vector3f();
 
     private static final int debugChunkSizeRememberToRemoveThisGarbage = 18;
     private static int currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
@@ -131,7 +124,7 @@ public class Main {
 
 
         //todo This is temp remove me plz
-        doFirstPersonCamera();
+        Camera.doFirstPersonCamera();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
         while (ChunkGenerator.hasUpdate()) {
