@@ -48,6 +48,7 @@ public final class Camera {
 
     private static final Vector3f rotation = new Vector3f();
 
+    private static final Vector3i inputMovement = new Vector3i();
     private static final Vector3f cameraMovementX = new Vector3f();
     private static final Vector3f cameraMovementY = new Vector3f();
     private static final Vector3f cameraMovementZ = new Vector3f();
@@ -201,30 +202,27 @@ public final class Camera {
 
         // Movement
 
-
-        //FIXME: this should probably be a vector
-        float movementX = 0;
-        float movementY = 0;
-        float movementZ = 0;
+        inputMovement.zero();
 
         if (Keyboard.keyDown(GLFW_KEY_W)) {
-            movementZ += -1;
+            inputMovement.z += -1;
         }
         if (Keyboard.keyDown(GLFW_KEY_S)) {
-            movementZ += 1;
+            inputMovement.z += 1;
         }
+
         if (Keyboard.keyDown(GLFW_KEY_A)) {
-            movementX += -1;
+            inputMovement.x += -1;
         }
         if (Keyboard.keyDown(GLFW_KEY_D)) {
-            movementX += 1;
+            inputMovement.x += 1;
         }
 
         if (Keyboard.keyDown(GLFW_KEY_SPACE)) {
-            movementY += 1;
+            inputMovement.y += 1;
         }
         if (Keyboard.keyDown(GLFW_KEY_LEFT_SHIFT) || Keyboard.keyDown(GLFW_KEY_RIGHT_SHIFT)) {
-            movementY -= 1;
+            inputMovement.y -= 1;
         }
 
 
@@ -237,9 +235,9 @@ public final class Camera {
         cameraMovementZ.zero();
         finalCameraMovement.zero();
 
-        cameraMovementX.set(getHorizontalDirection(yawToLeft(yaw))).mul(movementX);
-        cameraMovementY.set(0,movementY, 0);
-        cameraMovementZ.set(getHorizontalDirection(yaw)).mul(movementZ);
+        cameraMovementX.set(getHorizontalDirection(yawToLeft(yaw))).mul(inputMovement.x());
+        cameraMovementY.set(0,inputMovement.y(), 0);
+        cameraMovementZ.set(getHorizontalDirection(yaw)).mul(inputMovement.z());
 
         // Layer in, and then make it usable with delta
         finalCameraMovement.set(cameraMovementX.add(cameraMovementY).add(cameraMovementZ)).mul(movementDelta);
