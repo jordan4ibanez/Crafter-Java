@@ -185,6 +185,7 @@ public final class Camera {
 
     //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
     // make it so that it's controlled with a boolean or number or some poop
+    // ALSO make this pure functional where camera has one state call and it will automatically go between methods based on the state
 
     public static void doFirstPersonCamera() {
         // FIXME: BEGIN CAMERA INPUT DEBUGGING
