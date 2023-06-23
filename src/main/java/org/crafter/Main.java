@@ -231,6 +231,7 @@ public class Main {
         Window.destroy();
     }
 
+    // BLOP
     //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
     // make it so that it's controlled with a boolean or number or some poop
 
