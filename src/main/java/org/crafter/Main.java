@@ -78,35 +78,16 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
-        Window.maximize();
+        if (false) {
+            Window.maximize();
+        }
         Mouse.capture();
 
     }
 
     private static void mainLoop() {
 
-        // This basically is making chunks generate really, REALLY slowly
-        if (!finishGeneration) {
 
-            if (frameCounter < frameSkips) {
-                frameCounter++;
-            } else {
-
-                frameCounter = frameSkips; // 0
-
-                ChunkGenerator.pushRequest(new Vector2i(currentOffsetX, currentOffsetZ));
-
-                currentOffsetX++;
-
-                if (currentOffsetX >= debugChunkSizeRememberToRemoveThisGarbage) {
-                    currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
-                    currentOffsetZ++;
-                    if (currentOffsetZ >= debugChunkSizeRememberToRemoveThisGarbage) {
-                        finishGeneration = true;
-                    }
-                }
-            }
-        }
 
         Window.pollEvents();
 
