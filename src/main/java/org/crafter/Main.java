@@ -179,7 +179,7 @@ public class Main {
 
             if (ChunkStorage.hasPosition(destinationPosition)) {
                 ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
-            } // Else nothing happens to it and it's GCed
+            } // Else nothing happens to it and the raw ChunkMeshRecord is garbage collected.
         }
 
 
