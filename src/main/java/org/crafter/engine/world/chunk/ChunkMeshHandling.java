@@ -16,6 +16,11 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
         meshes = new String[8];
     }
 
+    /**
+     * This takes the RAW data in the form of a ChunkMeshRecord and processes it into the GPU utilizing MeshStorage.
+     * @param stack 0-7, the position in the chunk where this mesh will be stored.
+     * @param newMesh ChunkMeshRecord, the raw data for the mesh in this chunk mesh stack position.
+     */
     public void setMesh(int stack, ChunkMeshRecord newMesh) {
 
         if (meshes[stack] != null) {
