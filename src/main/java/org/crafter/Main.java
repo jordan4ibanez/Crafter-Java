@@ -123,7 +123,7 @@ public class Main {
 
             Chunk generatedChunk = ChunkGenerator.getUpdate();
 
-            System.out.println("Main: Received chunk (" + generatedChunk.getPositionString() + ")!");
+//            System.out.println("Main: Received chunk (" + generatedChunk.getPositionString() + ")!");
 
             ChunkStorage.addOrUpdate(generatedChunk);
 
