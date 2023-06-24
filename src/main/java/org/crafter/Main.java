@@ -77,6 +77,7 @@ public class Main {
         }
         Mouse.capture();
 
+        classicChunkPayload();
     }
 
     private static void mainLoop() {
