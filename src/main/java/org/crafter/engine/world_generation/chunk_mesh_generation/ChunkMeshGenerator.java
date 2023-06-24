@@ -89,6 +89,16 @@ public class ChunkMeshGenerator implements Runnable {
 
         ChunkMeshRecord chunk = blockProcessingProcedure(position);
 
+        // If preemptive check in blockProcessingProcedure fails, just bail out.
+        // This can occur:
+        // 1.) If the main thread shuts down while this thread is till processing.
+        // 2.) If the queue somehow gets uber backed up and chunk unloads.
+        if (chunk == null) {
+            // I just made this dramatic because I wanted to :P
+//            System.out.println("ChunkMeshGenerator: THAT CHUNK DOESN'T EXIST! (" + position.x() + ", " + position.y() +")! ABANDON SHIP!");
+            return;
+        }
+
         meshOutputQueue.add(chunk);
     }
 
@@ -99,6 +109,11 @@ public class ChunkMeshGenerator implements Runnable {
     private ChunkMeshRecord blockProcessingProcedure(Vector3ic position) {
 
         final String uuid = UUID.randomUUID().toString();
+
+        // Preemptive check
+        if (!ChunkStorage.hasPosition(new Vector2i(position.x(), position.z()))) {
+            return null;
+        }
 
         final Chunk threadSafeClone = ChunkStorage.getThreadSafeChunkClone(new Vector2i(position.x(), position.z()));
 
