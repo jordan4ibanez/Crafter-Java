@@ -188,6 +188,19 @@ public class Main {
         }
     }
 
+    /**
+     * Classic payload, the INITIAL chunk generation queue. This generates a fixes square around the center of the map.
+     * It's called classic for a reason! :D
+     * In subsequent versions, this probably shouldn't be used and should use an initial circular generation or something.
+     */
+    private static void classicChunkPayload() {
+        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
+            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
+
+            }
+        }
+    }
+
     private static void destroy() {
         ChunkMeshGenerator.stop();
         ChunkGenerator.stop();
@@ -196,7 +209,4 @@ public class Main {
         ShaderStorage.destroyAll();
         Window.destroy();
     }
-
-    // BLOP
-
 }
