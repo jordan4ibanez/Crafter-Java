@@ -29,15 +29,9 @@ public class Main {
     // Fixme: This is only for debugging and prototyping, remove this eventually
     // private static final Random random = new Random(new Date().getTime()/1000);
 
-    // Fixme: these are only for debugging and prototyping, move this into another class eventually
+    // Fixme: this is for Classic only :D
 
-    private static final int debugChunkSizeRememberToRemoveThisGarbage = 18;
-    private static int currentOffsetX = -debugChunkSizeRememberToRemoveThisGarbage;
-    private static int currentOffsetZ = -debugChunkSizeRememberToRemoveThisGarbage;
-
-    private static boolean finishGeneration = false;
-    private static int frameCounter = 0;
-    private static final int frameSkips = 1000;
+    private static final int classicMapSize = 18;
 
     public static void main(String[] args) {
 
@@ -164,8 +158,8 @@ public class Main {
         }
 
 
-        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
-            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
+        for (int x = -classicMapSize; x <= classicMapSize; x++) {
+            for (int z = -classicMapSize; z <= classicMapSize; z++) {
                 final Vector2i requestingPosition = new Vector2i(x,z);
                 if (ChunkStorage.hasPosition(requestingPosition)) {
                     ChunkStorage.getChunk(requestingPosition).render();
@@ -194,9 +188,9 @@ public class Main {
      * In subsequent versions, this probably shouldn't be used and should use an initial circular generation or something.
      */
     private static void classicChunkPayload() {
-        for (int x = -debugChunkSizeRememberToRemoveThisGarbage; x <= debugChunkSizeRememberToRemoveThisGarbage; x++) {
-            for (int z = -debugChunkSizeRememberToRemoveThisGarbage; z <= debugChunkSizeRememberToRemoveThisGarbage; z++) {
-
+        for (int x = -classicMapSize; x <= classicMapSize; x++) {
+            for (int z = -classicMapSize; z <= classicMapSize; z++) {
+                ChunkGenerator.pushRequest(new Vector2i(x, z));
             }
         }
     }
