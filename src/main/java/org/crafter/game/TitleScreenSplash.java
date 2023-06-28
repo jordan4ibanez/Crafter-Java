@@ -31,7 +31,9 @@ public final class TitleScreenSplash {
     private static final String[] texts = new String[]{
             "Error 418: I'm a teapot!",
             "Feeling pretty classic!",
-            "Open source!"
+            "Open source!",
+            "Entities are an anomaly!",
+            "Is it a class or struct?!"
     };
 
     private TitleScreenSplash() {}
