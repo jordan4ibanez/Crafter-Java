@@ -17,5 +17,14 @@
  */
 package org.crafter.game;
 
+/**
+ * An entity in this game is defined as having:
+ *  1. Size
+ *  2. Shape (cuboid)
+ *  3. Position
+ *  4. Velocity
+ *  Anything can inherit from this. But SHOULD it, is the main thing to think about before it is done.
+ * Todo: Maybe particles can be ghosts or points or something. This might be too much infrastructure for them.
+ */
 public class Entity {
 }
