@@ -33,6 +33,31 @@ public class MobEntity extends Entity {
     private final OnStep _onStep;
     private final OnDie _onDie;
 
+    public MobEntity(MobDefinition definition) {
+        this.name = definition.name;
+        this._onSpawn = definition._onSpawn;
+        this._onPunch = definition._onPunch;
+        this._onStep = definition._onStep;
+        this._onDie = definition._onDie;
+    }
 
+    public String getName() {
+        return name;
+    }
 
+    public void onSpawn() {
+        _onSpawn.onSpawn(this);
+    }
+
+    public void onPunch() {
+        _onPunch.onPunch(this);
+    }
+
+    public void onStep() {
+        _onStep.onStep(this);
+    }
+
+    public void onDie() {
+        _onDie.onDie(this);
+    }
 }
