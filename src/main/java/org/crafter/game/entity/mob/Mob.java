@@ -30,13 +30,22 @@ public class Mob extends Entity {
 
     public Mob() {}
 
-    
+    /**
+     *
+     * @param onSpawn onSpawn function.
+     * @return Mob definition.
+     */
+    public Mob setOnSpawn(OnSpawn onSpawn) {
+        checkFinalized("setOnSpawn");
+        this.onSpawn = onSpawn;
+        return this;
+    }
 
 
     /**
      * Set the mob onStep function. Chainable for ease of use.
-     * @param onStep the onStep function.
-     * @return The mob definition.
+     * @param onStep onStep function.
+     * @return Mob definition.
      */
     public Mob setOnStep(OnStep onStep) {
         checkFinalized("setOnStep");
