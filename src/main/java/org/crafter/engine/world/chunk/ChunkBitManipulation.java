@@ -32,12 +32,11 @@ package org.crafter.engine.world.chunk;
  * | 0000 0000 0000 0000 | 0000 | 0000 | 0000 0000 |
  */
 public abstract class ChunkBitManipulation {
-    StringBuilder output;
+    private static final StringBuilder output = new StringBuilder();;
 
-    public ChunkBitManipulation(){
-        output = new StringBuilder();
-    }
-    public void printBits(int input) {
+    public ChunkBitManipulation(){}
+
+    public static void printBits(int input) {
         for (int i = 31; i >= 0; i--) {
             if ((i + 1) % 4 == 0) {
                 output.append("|");
