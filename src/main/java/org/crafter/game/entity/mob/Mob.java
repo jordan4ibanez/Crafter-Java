@@ -18,8 +18,35 @@
 package org.crafter.game.entity.mob;
 
 import org.crafter.game.entity.Entity;
+import org.crafter.game.entity.mob.mob_functions.OnStep;
 
 public class Mob extends Entity {
 
+    private boolean locked = false;
+
+    private OnStep onStep;
+
     public Mob() {}
+
+    public void setOnStep() {
+
+    }
+
+    public void finalize() {
+        if (onStep == null) {
+            onStep = mob -> {
+                // Placeholder
+            };
+        }
+    }
+
+    /**
+     * To prevent a mod from dynamically changing a mob's state, this check will run on assignment attempt.
+     */
+    private void checkFinalized(String methodName) {
+        if (locked) {
+            throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been finalized!");
+        }
+    }
+
 }
