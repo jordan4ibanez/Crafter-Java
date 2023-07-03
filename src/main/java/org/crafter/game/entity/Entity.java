@@ -15,7 +15,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package org.crafter.game;
+package org.crafter.game.entity;
 
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
