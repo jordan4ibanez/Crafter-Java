@@ -17,6 +17,9 @@
  */
 package org.crafter.engine.utility;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 /**
  * A pure NOT thread safe UUID String generator.
  */
@@ -24,21 +27,16 @@ public final class IncrementUUID {
 
     // Someone's going to have to run the game for a looooong time to break this.
     private static final StringBuilder output = new StringBuilder();
-    private static long counter = 0;
+    private static int counter = 0;
 
     private IncrementUUID() {}
 
     /**
-     * Gets a Unique UUID String. WARNING: If the game is run for more than 292 years this will break!
-     * @return A UUID of the current counter as a bit string.
+     * Gets a Unique UUID String. WARNING: If the game is run for more than 9 years this will break!
+     * @return A UUID of the current counter (int) as a UUID string.
      */
     public static String getIncrementalUUID() {
-        for (int i = 63; i >= 0; i--) {
-            output.append((counter & (1L << i)) == 0 ? "0" : "1");
-        }
-        System.out.println("Literal (" + counter + ") | binary: " + output);
-        final String newUUID = output.toString();
-        output.setLength(0);
+        final String newUUID = UUID.nameUUIDFromBytes(Integer.toHexString(counter).getBytes()).toString();
         counter++;
         return newUUID;
     }
