@@ -30,10 +30,10 @@ public class MobDefinition {
     private final String name;
     private boolean locked = false;
 
-    private OnSpawn _onSpawn;
-    private OnPunch _onPunch;
-    private OnStep _onStep;
-    private OnDie _onDie;
+    protected OnSpawn _onSpawn;
+    protected OnPunch _onPunch;
+    protected OnStep _onStep;
+    protected OnDie _onDie;
 
     public MobDefinition(String name) {
         this.name = name;
@@ -125,24 +125,6 @@ public class MobDefinition {
         if (locked) {
             throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been locked!");
         }
-    }
-
-    // Now begins external method callers during gameplay.
-
-    public void onSpawn() {
-        _onSpawn.onSpawn(this);
-    }
-
-    public void onPunch() {
-        _onPunch.onPunch(this);
-    }
-
-    public void onStep() {
-        _onStep.onStep(this);
-    }
-
-    public void onDie() {
-        _onDie.onDie(this);
     }
 
 }
