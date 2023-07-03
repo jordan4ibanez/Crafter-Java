@@ -19,6 +19,7 @@ package org.crafter.game.entity.mob;
 
 import org.joml.Vector3fc;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -52,5 +53,13 @@ public final class MobEntityContainer {
         MobEntity newMob = new MobEntity(definition, uuid);
         newMob.setPosition(position);
         container.put(uuid, newMob);
+    }
+
+    /**
+     * Get an iterable collection of all existing mobs.
+     * @return An iterable collection of all existing mobs.
+     */
+    public Collection<MobEntity> iterateMobs() {
+        return container.values();
     }
 }
