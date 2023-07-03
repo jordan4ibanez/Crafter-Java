@@ -25,7 +25,6 @@ import org.joml.Vector4ic;
 
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
 
 public class TexturePackerObject {
     private Vector2ic position;
@@ -36,7 +35,7 @@ public class TexturePackerObject {
 
     private final String fileLocation;
 
-    private final UUID uuid;
+    private final String uuid;
 
     private boolean packed = false;
 
@@ -45,7 +44,7 @@ public class TexturePackerObject {
         data = new RawTextureObject(fileLocation);
         size = new Vector2i(data.getWidth(), data.getHeight());
         position = new Vector2i(0,0);
-        uuid = randomUUID();
+        uuid = UUID.randomUUID().toString();
     }
 
     public Vector4ic getPositionAndSize() {
@@ -79,7 +78,7 @@ public class TexturePackerObject {
         data.destroy();
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
