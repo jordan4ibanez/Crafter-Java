@@ -18,16 +18,24 @@
 package org.crafter.game.entity.mob;
 
 import org.crafter.game.entity.Entity;
+import org.crafter.game.entity.mob.mob_functions.OnSpawn;
 import org.crafter.game.entity.mob.mob_functions.OnStep;
 
 public class Mob extends Entity {
 
     private boolean locked = false;
 
+    private OnSpawn onSpawn;
     private OnStep onStep;
 
     public Mob() {}
+    
 
+    /**
+     * Set the mob onStep function.
+     * @param onStep the onStep function.
+     * @return The mob definition.
+     */
     public Mob setOnStep(OnStep onStep) {
         checkFinalized("setOnStep");
         this.onStep = onStep;
@@ -35,6 +43,13 @@ public class Mob extends Entity {
     }
 
     public void finalize() {
+
+        if (onSpawn == null) {
+            onSpawn = mob -> {
+                // Placeholder
+            };
+        }
+
         if (onStep == null) {
             onStep = mob -> {
                 // Placeholder
