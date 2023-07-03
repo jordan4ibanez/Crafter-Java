@@ -116,6 +116,20 @@ public class Mob extends Entity {
 
     // Now begins external method callers during gameplay.
 
+    public void onSpawn() {
+        _onSpawn.onSpawn(this);
+    }
 
+    public void onPunch() {
+        _onPunch.onPunch(this);
+    }
+
+    public void onStep() {
+        _onStep.onStep(this);
+    }
+
+    public void onDie() {
+        _onDie.onDie(this);
+    }
 
 }
