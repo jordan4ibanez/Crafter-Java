@@ -27,22 +27,28 @@ import org.crafter.game.entity.mob.mob_functions.OnStep;
  * An instance of a mob during gameplay. Gets built by _insert thing here_ using the blueprint from MobDefinitionContainer.
  */
 public class MobEntity extends Entity {
-    private final String name;
+
+    private final String UUID;
+    private final String mobName;
     private final OnSpawn _onSpawn;
     private final OnPunch _onPunch;
     private final OnStep _onStep;
     private final OnDie _onDie;
 
-    public MobEntity(MobDefinition definition) {
-        this.name = definition.name;
+    public MobEntity(MobDefinition definition, String UUID) {
+        this.UUID = UUID;
+        this.mobName = definition.name;
         this._onSpawn = definition._onSpawn;
         this._onPunch = definition._onPunch;
         this._onStep = definition._onStep;
         this._onDie = definition._onDie;
     }
 
-    public String getName() {
-        return name;
+    public final String getUUID() {
+        return UUID;
+    }
+    public final String getName() {
+        return mobName;
     }
 
     public void onSpawn() {
