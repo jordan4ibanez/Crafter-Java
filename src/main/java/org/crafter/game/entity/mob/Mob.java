@@ -28,8 +28,9 @@ public class Mob extends Entity {
 
     public Mob() {}
 
-    public void setOnStep() {
-
+    public void setOnStep(OnStep onStep) {
+        checkFinalized("setOnStep");
+        this.onStep = onStep;
     }
 
     public void finalize() {
