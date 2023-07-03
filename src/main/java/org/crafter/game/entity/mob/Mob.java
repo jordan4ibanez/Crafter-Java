@@ -18,6 +18,7 @@
 package org.crafter.game.entity.mob;
 
 import org.crafter.game.entity.Entity;
+import org.crafter.game.entity.mob.mob_functions.OnDie;
 import org.crafter.game.entity.mob.mob_functions.OnSpawn;
 import org.crafter.game.entity.mob.mob_functions.OnStep;
 
@@ -27,6 +28,7 @@ public class Mob extends Entity {
 
     private OnSpawn onSpawn;
     private OnStep onStep;
+    private OnDie onDie;
 
     public Mob() {}
 
