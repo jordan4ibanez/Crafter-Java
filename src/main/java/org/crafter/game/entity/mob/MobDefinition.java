@@ -27,7 +27,7 @@ import org.crafter.game.entity.mob.mob_functions.OnStep;
  */
 public class MobDefinition {
 
-    private final String name;
+    protected final String name;
     private boolean locked = false;
 
     protected OnSpawn _onSpawn;
