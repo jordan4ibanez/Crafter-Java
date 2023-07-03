@@ -27,15 +27,15 @@ public final class MobDefinitionContainer {
     private MobDefinitionContainer() {}
 
     /**
-     * Register a mob
-     * @param mobDefinition
+     * Register a mob into the game's container.
+     * @param mobDefinition MobDefinition, what it says on the tin.
      */
     public void registerMob(MobDefinition mobDefinition) {
         mobDefinition.lockOut();
         container.put(mobDefinition.getName(), mobDefinition);
     }
 
-    public void getMob(String name) {
-
+    public MobDefinition getMob(String name) {
+        return container.get(name);
     }
 }
