@@ -21,5 +21,5 @@ import org.crafter.game.entity.mob.MobDefinition;
 
 @FunctionalInterface
 public interface OnDie {
-    public void onDie(MobDefinition mobDefinition);
+    void onDie(MobDefinition mobDefinition);
 }
