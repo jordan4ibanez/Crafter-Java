@@ -17,6 +17,9 @@
  */
 package org.crafter.engine.utility;
 
+/**
+ * A pure NOT thread safe UUID String generator.
+ */
 public final class IncrementUUID {
 
     // Someone's going to have to run the game for a looooong time to break this.
