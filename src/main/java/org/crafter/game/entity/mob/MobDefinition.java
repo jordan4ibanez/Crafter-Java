@@ -23,7 +23,7 @@ import org.crafter.game.entity.mob.mob_functions.OnPunch;
 import org.crafter.game.entity.mob.mob_functions.OnSpawn;
 import org.crafter.game.entity.mob.mob_functions.OnStep;
 
-public class Mob extends Entity {
+public class MobDefinition extends Entity {
 
     private final String name;
     private boolean locked = false;
@@ -33,7 +33,7 @@ public class Mob extends Entity {
     private OnStep _onStep;
     private OnDie _onDie;
 
-    public Mob(String name) {
+    public MobDefinition(String name) {
         this.name = name;
     }
 
@@ -50,13 +50,13 @@ public class Mob extends Entity {
      * @param onSpawn onSpawn function.
      * @return Mob definition.
      */
-    public Mob setOnSpawn(OnSpawn onSpawn) {
+    public MobDefinition setOnSpawn(OnSpawn onSpawn) {
         checkLock("setOnSpawn");
         this._onSpawn = onSpawn;
         return this;
     }
 
-    public Mob setOnPunch(OnPunch onPunch) {
+    public MobDefinition setOnPunch(OnPunch onPunch) {
         checkLock("setOnPunch");
         this._onPunch = onPunch;
         return this;
@@ -68,7 +68,7 @@ public class Mob extends Entity {
      * @param onStep onStep function.
      * @return Mob definition.
      */
-    public Mob setOnStep(OnStep onStep) {
+    public MobDefinition setOnStep(OnStep onStep) {
         checkLock("setOnStep");
         this._onStep = onStep;
         return this;
@@ -79,7 +79,7 @@ public class Mob extends Entity {
      * @param onDie onDie function.
      * @return Mob Definition.
      */
-    public Mob setOnDie(OnDie onDie) {
+    public MobDefinition setOnDie(OnDie onDie) {
         checkLock("setOnDie");
         this._onDie = onDie;
         return this;

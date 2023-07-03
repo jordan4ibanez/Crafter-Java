@@ -22,12 +22,20 @@ import java.util.HashMap;
 /**
  * Holds mob definitions. For mobs during gameplay look in _insert the created runtime container here_.
  */
-public final class MobContainer {
-    HashMap<String, Mob> container = new HashMap<>();
-    private MobContainer() {}
+public final class MobDefinitionContainer {
+    HashMap<String, MobDefinition> container = new HashMap<>();
+    private MobDefinitionContainer() {}
 
-    public void registerMob(Mob mob) {
-        mob.lockOut();
-        container.put(mob.getName(), mob);
+    /**
+     * Register a mob
+     * @param mobDefinition
+     */
+    public void registerMob(MobDefinition mobDefinition) {
+        mobDefinition.lockOut();
+        container.put(mobDefinition.getName(), mobDefinition);
+    }
+
+    public void getMob(String name) {
+
     }
 }

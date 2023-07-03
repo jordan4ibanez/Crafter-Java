@@ -17,9 +17,9 @@
  */
 package org.crafter.game.entity.mob.mob_functions;
 
-import org.crafter.game.entity.mob.Mob;
+import org.crafter.game.entity.mob.MobDefinition;
 
 @FunctionalInterface
 public interface OnDie {
-    public void onDie(Mob mob);
+    public void onDie(MobDefinition mobDefinition);
 }
