@@ -22,6 +22,9 @@ import org.crafter.game.entity.mob.mob_functions.OnPunch;
 import org.crafter.game.entity.mob.mob_functions.OnSpawn;
 import org.crafter.game.entity.mob.mob_functions.OnStep;
 
+/**
+ * The blueprint for a mob. Is utilized during runtime to build out mobs.
+ */
 public class MobDefinition {
 
     private final String name;
