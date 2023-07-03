@@ -25,6 +25,7 @@ import org.crafter.game.entity.mob.mob_functions.OnStep;
 
 public class Mob extends Entity {
 
+    private final String name;
     private boolean locked = false;
 
     private OnSpawn _onSpawn;
@@ -32,7 +33,17 @@ public class Mob extends Entity {
     private OnStep _onStep;
     private OnDie _onDie;
 
-    public Mob() {}
+    public Mob(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Get the mob's name.
+     * @return Mob's name.
+     */
+    public String getName() {
+        return name;
+    }
 
     /**
      * Set the mob onSpawn function. Chainable for ease of use.
