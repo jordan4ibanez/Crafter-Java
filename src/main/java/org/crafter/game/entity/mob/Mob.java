@@ -66,8 +66,8 @@ public class Mob extends Entity {
         return this;
     }
 
-    public void finalize() {
-
+    public void lockOut() {
+        checkFinalized("lockOut");
         if (onSpawn == null) {
             onSpawn = mob -> {
                 // Placeholder
