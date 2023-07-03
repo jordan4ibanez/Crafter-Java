@@ -38,7 +38,7 @@ public class Mob extends Entity {
      * @return Mob definition.
      */
     public Mob setOnSpawn(OnSpawn onSpawn) {
-        checkFinalized("setOnSpawn");
+        checkLock("setOnSpawn");
         this.onSpawn = onSpawn;
         return this;
     }
@@ -50,7 +50,7 @@ public class Mob extends Entity {
      * @return Mob definition.
      */
     public Mob setOnStep(OnStep onStep) {
-        checkFinalized("setOnStep");
+        checkLock("setOnStep");
         this.onStep = onStep;
         return this;
     }
@@ -61,13 +61,13 @@ public class Mob extends Entity {
      * @return Mob Definition.
      */
     public Mob setOnDie(OnDie onDie) {
-        checkFinalized("setOnDie");
+        checkLock("setOnDie");
         this.onDie = onDie;
         return this;
     }
 
     public void lockOut() {
-        checkFinalized("lockOut");
+        checkLock("lockOut");
         if (onSpawn == null) {
             onSpawn = mob -> {
                 // Placeholder
@@ -87,7 +87,7 @@ public class Mob extends Entity {
     /**
      * To prevent a mod from dynamically changing a mob's state, this check will run on assignment attempt.
      */
-    private void checkFinalized(String methodName) {
+    private void checkLock(String methodName) {
         if (locked) {
             throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been finalized!");
         }
