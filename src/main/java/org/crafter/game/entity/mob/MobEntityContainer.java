@@ -18,6 +18,7 @@
 package org.crafter.game.entity.mob;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Holds all mobs during gameplay. Mobs are assigned a string UUID. That becomes their name.
@@ -28,6 +29,9 @@ public final class MobEntityContainer {
 
     private MobEntityContainer() {}
 
+    public void spawnMob(String name) {
+        spawnMob(name, 1);
+    }
     public void spawnMob(String name, int amount) {
 
     }
