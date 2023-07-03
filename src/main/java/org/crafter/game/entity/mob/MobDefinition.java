@@ -17,13 +17,12 @@
  */
 package org.crafter.game.entity.mob;
 
-import org.crafter.game.entity.Entity;
 import org.crafter.game.entity.mob.mob_functions.OnDie;
 import org.crafter.game.entity.mob.mob_functions.OnPunch;
 import org.crafter.game.entity.mob.mob_functions.OnSpawn;
 import org.crafter.game.entity.mob.mob_functions.OnStep;
 
-public class MobDefinition extends Entity {
+public class MobDefinition {
 
     private final String name;
     private boolean locked = false;
