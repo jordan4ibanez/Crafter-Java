@@ -40,6 +40,9 @@ public class Mob extends Entity {
                 // Placeholder
             };
         }
+
+        // Now no methods can be modified during runtime in the modding API.
+        locked = true;
     }
 
     /**
