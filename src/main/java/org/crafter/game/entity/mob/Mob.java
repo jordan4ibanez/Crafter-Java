@@ -29,10 +29,12 @@ public class Mob extends Entity {
     private OnStep onStep;
 
     public Mob() {}
+
     
 
+
     /**
-     * Set the mob onStep function.
+     * Set the mob onStep function. Chainable for ease of use.
      * @param onStep the onStep function.
      * @return The mob definition.
      */
