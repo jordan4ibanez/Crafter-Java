@@ -85,7 +85,7 @@ public class Mob extends Entity {
         return this;
     }
 
-    public void lockOut() {
+    protected void lockOut() {
         checkLock("lockOut");
 
         if (_onSpawn == null) {
