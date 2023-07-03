@@ -33,7 +33,7 @@ public class Mob extends Entity {
     public Mob() {}
 
     /**
-     *
+     * Set the mob onSpawn function. Chainable for ease of use.
      * @param onSpawn onSpawn function.
      * @return Mob definition.
      */
@@ -52,6 +52,17 @@ public class Mob extends Entity {
     public Mob setOnStep(OnStep onStep) {
         checkFinalized("setOnStep");
         this.onStep = onStep;
+        return this;
+    }
+
+    /**
+     * Set the mob onDie function. Chainable for ease of use.
+     * @param onDie onDie function.
+     * @return Mob Definition.
+     */
+    public Mob setOnDie(OnDie onDie) {
+        checkFinalized("setOnDie");
+        this.onDie = onDie;
         return this;
     }
 
