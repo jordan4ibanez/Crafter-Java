@@ -26,7 +26,6 @@ import java.util.UUID;
 public final class IncrementUUID {
 
     // Someone's going to have to run the game for a looooong time to break this.
-    private static final StringBuilder output = new StringBuilder();
     private static int counter = 0;
 
     private IncrementUUID() {}
