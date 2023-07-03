@@ -17,9 +17,9 @@
  */
 package org.crafter.game.entity.mob.mob_functions;
 
-import org.crafter.game.entity.mob.MobDefinition;
+import org.crafter.game.entity.mob.MobEntity;
 
 @FunctionalInterface
 public interface OnPunch {
-    void onPunch(MobDefinition mobDefinition);
+    void onPunch(MobEntity mobDefinition);
 }
