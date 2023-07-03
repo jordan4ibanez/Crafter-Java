@@ -27,10 +27,10 @@ public class Mob extends Entity {
 
     private boolean locked = false;
 
-    private OnSpawn onSpawn;
-    private OnPunch onPunch;
-    private OnStep onStep;
-    private OnDie onDie;
+    private OnSpawn _onSpawn;
+    private OnPunch _onPunch;
+    private OnStep _onStep;
+    private OnDie _onDie;
 
     public Mob() {}
 
@@ -41,13 +41,13 @@ public class Mob extends Entity {
      */
     public Mob setOnSpawn(OnSpawn onSpawn) {
         checkLock("setOnSpawn");
-        this.onSpawn = onSpawn;
+        this._onSpawn = onSpawn;
         return this;
     }
 
     public Mob setOnPunch(OnPunch onPunch) {
         checkLock("setOnPunch");
-        this.onPunch = onPunch;
+        this._onPunch = onPunch;
         return this;
     }
 
@@ -59,7 +59,7 @@ public class Mob extends Entity {
      */
     public Mob setOnStep(OnStep onStep) {
         checkLock("setOnStep");
-        this.onStep = onStep;
+        this._onStep = onStep;
         return this;
     }
 
@@ -70,33 +70,33 @@ public class Mob extends Entity {
      */
     public Mob setOnDie(OnDie onDie) {
         checkLock("setOnDie");
-        this.onDie = onDie;
+        this._onDie = onDie;
         return this;
     }
 
     public void lockOut() {
         checkLock("lockOut");
 
-        if (onSpawn == null) {
-            onSpawn = mob -> {
+        if (_onSpawn == null) {
+            _onSpawn = mob -> {
                 // Placeholder
             };
         }
 
-        if (onPunch == null) {
-            onPunch = mob -> {
+        if (_onPunch == null) {
+            _onPunch = mob -> {
                 // Placeholder
             };
         }
 
-        if (onStep == null) {
-            onStep = mob -> {
+        if (_onStep == null) {
+            _onStep = mob -> {
                 // Placeholder
             };
         }
 
-        if (onDie == null) {
-            onDie = mob -> {
+        if (_onDie == null) {
+            _onDie = mob -> {
                 // Placeholder
             };
         }
@@ -113,5 +113,9 @@ public class Mob extends Entity {
             throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been locked!");
         }
     }
+
+    // Now begins external method callers during gameplay.
+
+
 
 }
