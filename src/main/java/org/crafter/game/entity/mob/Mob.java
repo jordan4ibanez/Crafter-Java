@@ -45,6 +45,12 @@ public class Mob extends Entity {
         return this;
     }
 
+    public Mob setOnPunch(OnPunch onPunch) {
+        checkLock("setOnPunch");
+        this.onPunch = onPunch;
+        return this;
+    }
+
 
     /**
      * Set the mob onStep function. Chainable for ease of use.
@@ -73,6 +79,12 @@ public class Mob extends Entity {
 
         if (onSpawn == null) {
             onSpawn = mob -> {
+                // Placeholder
+            };
+        }
+
+        if (onPunch == null) {
+            onPunch = mob -> {
                 // Placeholder
             };
         }
