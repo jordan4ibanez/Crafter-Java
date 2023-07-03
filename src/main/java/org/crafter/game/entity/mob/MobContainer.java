@@ -19,6 +19,9 @@ package org.crafter.game.entity.mob;
 
 import java.util.HashMap;
 
+/**
+ * Holds mob definitions. For mobs during gameplay look in _insert the created runtime container here_.
+ */
 public final class MobContainer {
     HashMap<String, Mob> container = new HashMap<>();
     private MobContainer() {}
