@@ -20,5 +20,5 @@ package org.crafter.game.entity.item;
 import org.crafter.game.entity.Entity;
 
 public class ItemEntity extends Entity {
-
+    // Todo
 }
