@@ -17,6 +17,8 @@
  */
 package org.crafter.game.entity.mob;
 
+import org.joml.Vector3fc;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,10 +31,26 @@ public final class MobEntityContainer {
 
     private MobEntityContainer() {}
 
-    public void spawnMob(String name) {
-        spawnMob(name, 1);
+    /**
+     * Spawns a single mob into the game.
+     * @param name Name of the mob.
+     * @param position Where to spawn this mob.
+     */
+    public void spawnMob(String name, Vector3fc position) {
+        spawnMob(name, 1, position);
     }
-    public void spawnMob(String name, int amount) {
 
+    /**
+     * Spawns X amount of a mob into the game.
+     * @param name Name of the mob.
+     * @param amount Number of mobs to spawn.
+     * @param position Where to spawn this mob.
+     */
+    public void spawnMob(String name, int amount, Vector3fc position) {
+        final MobDefinition definition = MobDefinitionContainer.getMob(name);
+        String uuid = UUID.randomUUID().toString();
+        MobEntity newMob = new MobEntity(definition, uuid);
+        newMob.setPosition(position);
+        container.put(uuid, newMob);
     }
 }
