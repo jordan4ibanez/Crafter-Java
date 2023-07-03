@@ -83,6 +83,12 @@ public class Mob extends Entity {
             };
         }
 
+        if (onDie == null) {
+            onDie = mob -> {
+                // Placeholder
+            };
+        }
+
         // Now no methods can be modified during runtime in the modding API.
         locked = true;
     }
