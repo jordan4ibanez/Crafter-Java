@@ -68,6 +68,7 @@ public class Mob extends Entity {
 
     public void lockOut() {
         checkLock("lockOut");
+
         if (onSpawn == null) {
             onSpawn = mob -> {
                 // Placeholder
@@ -89,7 +90,7 @@ public class Mob extends Entity {
      */
     private void checkLock(String methodName) {
         if (locked) {
-            throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been finalized!");
+            throw new RuntimeException("Mob: ERROR! Attempted to assign mob behavior in " + methodName + " after mob has been locked!");
         }
     }
 
