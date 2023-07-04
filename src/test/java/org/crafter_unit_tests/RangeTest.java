@@ -20,6 +20,7 @@ package org.crafter_unit_tests;
 import org.junit.jupiter.api.Test;
 
 import static org.crafter.engine.utility.Range.range;
+import static org.crafter.engine.utility.Range.reverseRange;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RangeTest {
@@ -55,6 +56,38 @@ public class RangeTest {
             assertEquals(i, test3[tracker]);
             tracker++;
         }
+    }
 
+    @Test
+    public void decrement() {
+        int tracker = 0;
+
+        final int[] test1 = new int[]{10,9,8,7,6,5,4,3,2,1,0};
+
+        for (int i : reverseRange(10)) {
+            System.out.println(i);
+            assertEquals(i, test1[tracker]);
+            tracker++;
+        }
+
+        tracker = 0;
+
+        final int[] test2 = new int[]{10,9,8,7,6,5};
+
+        for (int i : reverseRange(10,5)) {
+            System.out.println(i);
+            assertEquals(i, test2[tracker]);
+            tracker++;
+        }
+
+        tracker = 0;
+
+        final int[] test3 = new int[]{10,8,6,4,2,0};
+
+        for (int i : reverseRange(10,0, 2)) {
+            System.out.println(i);
+            assertEquals(i, test3[tracker]);
+            tracker++;
+        }
     }
 }
