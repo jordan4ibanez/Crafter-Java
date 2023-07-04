@@ -47,6 +47,7 @@ public class Range implements Iterable<Integer> {
 
                 private final int max = _max;
                 private int counter = _min;
+                private final int amount = _amount;
 
                 @Override
                 public boolean hasNext() {
@@ -57,7 +58,9 @@ public class Range implements Iterable<Integer> {
                 @Override
                 public Integer next() {
                     if (hasNext()) {
-                        return counter -= _amount;
+                        final int temp = counter;
+                        counter -= amount;
+                        return temp;
                     } else {
                         throw new NoSuchElementException("Range: Reached end of range.");
                     }
@@ -73,6 +76,7 @@ public class Range implements Iterable<Integer> {
 
                 private final int max = _max;
                 private int counter = _min;
+                private final int amount = _amount;
 
                 @Override
                 public boolean hasNext() {
@@ -82,7 +86,9 @@ public class Range implements Iterable<Integer> {
                 @Override
                 public Integer next() {
                     if (hasNext()) {
-                        return counter += _amount;
+                        final int temp = counter;
+                        counter += amount;
+                        return temp;
                     } else {
                         throw new NoSuchElementException("Range: Reached end of range.");
                     }
