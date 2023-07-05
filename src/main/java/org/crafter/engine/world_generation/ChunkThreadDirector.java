@@ -26,8 +26,12 @@ import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 /**
+ * Utility class.
  * The Chunk Thread Director is a CRUCIAL program within the game. It consists of 3 basic tasks:
- *
+ * 1.) Receive and store newly generated Chunks from the Chunk Generator.
+ * 2.) Request and receive Chunk Meshes from the Chunk Mesh Generator.
+ * 3.) Update existing neighbor Chunk Meshes via step 2.
+ * This is basically an inter-thread communicator.
  */
 public final class ChunkThreadDirector {
     private ChunkThreadDirector(){}
@@ -54,12 +58,16 @@ public final class ChunkThreadDirector {
             // FIXME: this is the cause if performance is brutal.
             // So now we blindly shovel in requests.
             // This is scoped to auto GC if hit fails. It also allows to be more explicit.
-
-            updateNeighborFront(position);
-            updateNeighborBack(position);
-            updateNeighborLeft(position);
-            updateNeighborRight(position);
+            
+            checkAndUpdateNeighbors(position);
         }
+    }
+
+    private static void checkAndUpdateNeighbors(Vector2ic position) {
+        updateNeighborFront(position);
+        updateNeighborBack(position);
+        updateNeighborLeft(position);
+        updateNeighborRight(position);
     }
 
     private static void updateNeighborFront(Vector2ic position) {
