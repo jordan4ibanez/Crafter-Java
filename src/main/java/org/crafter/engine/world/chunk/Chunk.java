@@ -39,6 +39,7 @@ public class Chunk extends ChunkMeshHandling {
     private final Vector2ic position;
 
     private static final Vector3fc rotation = new Vector3f(0,0,0);
+    private static final Vector3fc scale = new Vector3f(1,1,1);
 
     public Chunk(int x, int y) {
         this(new Vector2i(x,y));
@@ -71,7 +72,7 @@ public class Chunk extends ChunkMeshHandling {
 
         //Fixme: This is HORRIBLE TO CREATE A NEW OBJECT EVERY FRAME!
 //        System.out.println(position.x());
-        Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), rotation, new Vector3f(1,1,1));
+        Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), rotation, scale);
 
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
