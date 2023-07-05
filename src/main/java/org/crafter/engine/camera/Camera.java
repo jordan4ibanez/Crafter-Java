@@ -103,7 +103,7 @@ public final class Camera {
     }
 
     // This updates the objectMatrix exactly as you tell it to
-    public static void setObjectMatrix(Vector3fc objectPosition, Vector3fc objectRotation, Vector3fc objectScale) {
+    public static void setObjectMatrix(final Vector3fc objectPosition, final Vector3fc objectRotation, final Vector3fc objectScale) {
 
         objectMatrix
                 .identity()
@@ -120,10 +120,10 @@ public final class Camera {
         ShaderStorage.setUniform("objectMatrix", objectMatrix);
     }
 
-    public static void setGuiObjectMatrix(float posX, float posY) {
+    public static void setGuiObjectMatrix(final float posX, final float posY) {
         setGuiObjectMatrix(posX, posY, 1, 1);
     }
-    private static void setGuiObjectMatrix(float posX, float posY, float scaleX, float scaleY) {
+    private static void setGuiObjectMatrix(final float posX, final float posY, final float scaleX, final float scaleY) {
         guiObjectMatrix
                 .identity()
                 .translate(posX, posY, 0)
@@ -131,23 +131,23 @@ public final class Camera {
         ShaderStorage.setUniform("objectMatrix", guiObjectMatrix);
     }
 
-    public static void setPosition(float x, float y, float z) {
+    public static void setPosition(final float x, final float y, final float z) {
         position.x = x;
         position.y = y;
         position.z = z;
     }
-    public static void setPosition(Vector3fc newPosition) {
+    public static void setPosition(final Vector3fc newPosition) {
         position.set(newPosition);
         pitchLock();
     }
 
-    public static void setRotation(float x, float y, float z) {
+    public static void setRotation(final float x, final float y, final float z) {
         rotation.x = x;
         rotation.y = y;
         rotation.z = z;
         axesLock();
     }
-    public static void setRotation(Vector3fc newRotation) {
+    public static void setRotation(final Vector3fc newRotation) {
         rotation.set(newRotation);
         axesLock();
     }
@@ -172,7 +172,7 @@ public final class Camera {
         }
     }
 
-    public static void setFOV(float newFOV) {
+    public static void setFOV(final float newFOV) {
         FOV = newFOV;
     }
 
@@ -264,6 +264,4 @@ public final class Camera {
 
         Camera.updateCameraMatrix();
     }
-
-
 }
