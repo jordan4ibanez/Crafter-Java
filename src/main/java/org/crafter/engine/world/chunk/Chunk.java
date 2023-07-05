@@ -28,6 +28,8 @@ import org.joml.Vector3f;
 
 import java.io.Serializable;
 
+import static org.crafter.engine.utility.UtilityPrinter.println;
+
 /**
  * The final instance of chunk in the inheritance chain.
  * Java auto calls super() down the chain.
@@ -37,9 +39,6 @@ public class Chunk extends ChunkMeshHandling {
     //Todo: idea: metadata hashmap
 
     private final Vector2ic position;
-
-    // fixme: remove! Temp
-    private float rotation = 0;
 
     public Chunk(int x, int y) {
         this(new Vector2i(x,y));
@@ -74,18 +73,12 @@ public class Chunk extends ChunkMeshHandling {
 //        System.out.println(position.x());
         Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), new Vector3f(0,0,0), new Vector3f(1,1,1));
 
-        boolean got = false;
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
-                got = true;
-//                System.out.println("rendering: " + gottenMeshUUID);
+                // println("rendering: " + gottenMeshUUID);
                 MeshStorage.render(gottenMeshUUID);
             }
-        }
-
-        if (got) {
-            rotation += Delta.getDelta() * 15.0f;
         }
     }
 
