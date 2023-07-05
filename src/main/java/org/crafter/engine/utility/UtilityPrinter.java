@@ -19,36 +19,82 @@ package org.crafter.engine.utility;
 
 import java.io.PrintStream;
 
+/**
+ * Literally all this does is allow you to not have to type "System.out" before "println" or "print".
+ */
 public final class UtilityPrinter {
 
     private static final PrintStream printStream = new PrintStream(System.out);
 
     private UtilityPrinter(){}
 
+    /**
+     * Print a boolean.
+     * @param b A boolean.
+     */
     public static void print(boolean b){
         printStream.print(b);
     }
+    /**
+     * Print a char.
+     * @param c A Char.
+     */
     public static void print(char c) {
         printStream.print(c);
     }
+
+    /**
+     * Print an integer.
+     * @param i An integer.
+     */
     public static void print(int i) {
         printStream.print(i);
     }
+
+    /**
+     * Print a long.
+     * @param l A long.
+     */
     public static void print(long l) {
         printStream.print(l);
     }
+
+    /**
+     * Print a float.
+     * @param f A float.
+     */
     public static void print(float f) {
         printStream.print(f);
     }
+
+    /**
+     * Print a double.
+     * @param d A double.
+     */
     public static void print(double d) {
         printStream.print(d);
     }
+
+    /**
+     * Print a char array.
+     * @param s A char array.
+     */
     public static void print(char[] s) {
         printStream.print(s);
     }
+
+    /**
+     * Print a String.
+     * @param s A String.
+     */
     public static void print(String s) {
         printStream.print(s);
     }
+
+    /**
+     * Print an Object.
+     * @param obj An Object.
+     */
     public static void print(Object obj) {
         printStream.print(obj);
     }
@@ -56,28 +102,28 @@ public final class UtilityPrinter {
     public static void println() {
         printStream.println();
     }
-    public static void println(boolean x) {
-        printStream.println(x);
+    public static void println(boolean b) {
+        printStream.println(b);
     }
-    public static void println(int x) {
-        printStream.println(x);
+    public static void println(int i) {
+        printStream.println(i);
     }
-    public static void println(long x) {
-        printStream.println(x);
+    public static void println(long l) {
+        printStream.println(l);
     }
-    public static void println(float x) {
-        printStream.println(x);
+    public static void println(float f) {
+        printStream.println(f);
     }
-    public static void println(double x) {
-        printStream.println(x);
+    public static void println(double d) {
+        printStream.println(d);
     }
-    public static void println(char[] x) {
-        printStream.println(x);
+    public static void println(char[] s) {
+        printStream.println(s);
     }
-    public static void println(String x) {
-        printStream.println(x);
+    public static void println(String s) {
+        printStream.println(s);
     }
-    public static void println(Object x) {
-        printStream.println(x);
+    public static void println(Object obj) {
+        printStream.println(obj);
     }
 }
