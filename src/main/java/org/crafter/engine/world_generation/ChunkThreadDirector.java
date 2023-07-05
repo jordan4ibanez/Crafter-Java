@@ -36,6 +36,11 @@ import org.joml.Vector2ic;
 public final class ChunkThreadDirector {
     private ChunkThreadDirector(){}
 
+    public static void runLogic() {
+        parseChunkGenerator();
+        parseChunkMeshGenerator();
+    }
+
     private static void parseChunkGenerator() {
         while (ChunkGenerator.hasUpdate()) {
 
