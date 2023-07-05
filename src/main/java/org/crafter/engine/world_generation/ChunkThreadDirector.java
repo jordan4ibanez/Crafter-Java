@@ -31,7 +31,7 @@ import org.joml.Vector2ic;
  * 1.) Receive and store newly generated Chunks from the Chunk Generator.
  * 2.) Request and receive Chunk Meshes from the Chunk Mesh Generator.
  * 3.) Update existing neighbor Chunk Meshes via step 2.
- * This is basically an inter-thread communicator.
+ * This is basically an inter-thread communication utility class.
  */
 public final class ChunkThreadDirector {
     private ChunkThreadDirector(){}
@@ -58,7 +58,7 @@ public final class ChunkThreadDirector {
             // FIXME: this is the cause if performance is brutal.
             // So now we blindly shovel in requests.
             // This is scoped to auto GC if hit fails. It also allows to be more explicit.
-            
+
             checkAndUpdateNeighbors(position);
         }
     }
