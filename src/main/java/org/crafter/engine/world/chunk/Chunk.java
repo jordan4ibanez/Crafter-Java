@@ -61,7 +61,7 @@ public class Chunk extends ChunkMeshHandling {
         return position.x();
     }
 
-    public int getY() {
+    public int getZ() {
         return position.y();
     }
 
@@ -70,7 +70,7 @@ public class Chunk extends ChunkMeshHandling {
      * It requires the position of the chunk!
      */
     public void render() {
-        
+
         Camera.setObjectMatrix(positionWorker.set(position.x() * getWidth(),0, position.y() * getDepth()), rotation, scale);
 
         for (int i = 0; i < getStacks(); i++) {
