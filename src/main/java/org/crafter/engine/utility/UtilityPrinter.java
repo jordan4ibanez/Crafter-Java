@@ -17,7 +17,6 @@
  */
 package org.crafter.engine.utility;
 
-import java.io.PrintStream;
 
 /**
  * Literally all this does is allow you to not have to type "System.out" before "println" or "print".
