@@ -27,7 +27,7 @@ import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
-import org.crafter.engine.world_generation.ChunkGenerator;
+import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
 import org.joml.*;
