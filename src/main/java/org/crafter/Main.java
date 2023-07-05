@@ -112,68 +112,7 @@ public class Main {
         Camera.freeCam();
 
         //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-        while (ChunkGenerator.hasUpdate()) {
 
-            Chunk generatedChunk = ChunkGenerator.getUpdate();
-
-//            System.out.println("Main: Received chunk (" + generatedChunk.getPositionString() + ")!");
-
-            ChunkStorage.addOrUpdate(generatedChunk);
-
-            Vector2ic position = generatedChunk.getPosition();
-
-            //fixme: needs to iterate 0-7
-            // Render stack 0 (y coordinate 0 to 15)
-            generateFullChunkMesh(position.x(), position.y());
-
-            // Now we update neighbors.
-            // Right handed coordinate system.
-            // Basic if branch because why not.
-            // ChunkMeshGenerator automatically !NOW! REJECTS duplicates - this might cause horrible performance.
-            // FIXME: this is the cause if performance is brutal.
-            // So now we blindly shovel in requests.
-            // This is scoped to auto GC if hit fails. It also allows to be more explicit.
-
-            { // Front
-                Vector2ic neighborFront = new Vector2i(position.x(), position.y() - 1);
-                if (ChunkStorage.hasPosition(neighborFront)) {
-                    generateFullChunkMesh(neighborFront.x(), neighborFront.y());
-                }
-            }
-            { // Back
-                Vector2ic neighborBack = new Vector2i(position.x(), position.y() + 1);
-                if (ChunkStorage.hasPosition(neighborBack)) {
-                    generateFullChunkMesh(neighborBack.x(), neighborBack.y());
-                }
-            }
-            { // Left
-                Vector2ic neighborLeft = new Vector2i(position.x() - 1, position.y());
-                if (ChunkStorage.hasPosition(neighborLeft)) {
-                    generateFullChunkMesh(neighborLeft.x(), neighborLeft.y());
-                }
-            }
-            { // Right
-                Vector2ic neighborRight = new Vector2i(position.x() + 1, position.y());
-                if (ChunkStorage.hasPosition(neighborRight)) {
-                    generateFullChunkMesh(neighborRight.x(), neighborRight.y());
-                }
-            }
-
-        }
-
-
-        while (ChunkMeshGenerator.hasUpdate()) {
-            ChunkMeshRecord generatedMesh = ChunkMeshGenerator.getUpdate();
-
-            // Fixme: This is a debug for one simple chunk, make sure this is removed so it doesn't cause a random red herring
-            // TODO: Make sure this is done within the main thread!
-
-            final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
-
-            if (ChunkStorage.hasPosition(destinationPosition)) {
-                ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
-            } // Else nothing happens to it and the raw ChunkMeshRecord is garbage collected.
-        }
 
 
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
@@ -188,17 +127,7 @@ public class Main {
         Window.swapBuffers();
     }
 
-    /**
-     * Generates chunk mesh stacks (0-7)
-     * @param x world position on X axis (literal)
-     * @param z world position on Z axis (literal)
-     */
-    private static void generateFullChunkMesh(int x, int z) {
-        for (int i = 0; i < Chunk.getStacks(); i++) {
-//                System.out.println(i);
-            ChunkMeshGenerator.pushRequest(x, i, z);
-        }
-    }
+
 
     /**
      * Classic payload, the INITIAL chunk generation queue. This generates a fixes square around the center of the map.
