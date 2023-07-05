@@ -24,8 +24,6 @@ import java.io.PrintStream;
  */
 public final class UtilityPrinter {
 
-    private static final PrintStream printStream = new PrintStream(System.out);
-
     private UtilityPrinter(){}
 
     /**
@@ -33,14 +31,14 @@ public final class UtilityPrinter {
      * @param b A boolean.
      */
     public static void print(boolean b){
-        printStream.print(b);
+        System.out.print(b);
     }
     /**
      * Print a char.
      * @param c A Char.
      */
     public static void print(char c) {
-        printStream.print(c);
+        System.out.print(c);
     }
 
     /**
@@ -48,7 +46,7 @@ public final class UtilityPrinter {
      * @param i An integer.
      */
     public static void print(int i) {
-        printStream.print(i);
+        System.out.print(i);
     }
 
     /**
@@ -56,7 +54,7 @@ public final class UtilityPrinter {
      * @param l A long.
      */
     public static void print(long l) {
-        printStream.print(l);
+        System.out.print(l);
     }
 
     /**
@@ -64,7 +62,7 @@ public final class UtilityPrinter {
      * @param f A float.
      */
     public static void print(float f) {
-        printStream.print(f);
+        System.out.print(f);
     }
 
     /**
@@ -72,7 +70,7 @@ public final class UtilityPrinter {
      * @param d A double.
      */
     public static void print(double d) {
-        printStream.print(d);
+        System.out.print(d);
     }
 
     /**
@@ -80,7 +78,7 @@ public final class UtilityPrinter {
      * @param s A char array.
      */
     public static void print(char[] s) {
-        printStream.print(s);
+        System.out.print(s);
     }
 
     /**
@@ -88,7 +86,7 @@ public final class UtilityPrinter {
      * @param s A String.
      */
     public static void print(String s) {
-        printStream.print(s);
+        System.out.print(s);
     }
 
     /**
@@ -96,14 +94,14 @@ public final class UtilityPrinter {
      * @param obj An Object.
      */
     public static void print(Object obj) {
-        printStream.print(obj);
+        System.out.print(obj);
     }
 
     /**
      * Print a new line.
      */
     public static void println() {
-        printStream.println();
+        System.out.println();
     }
 
     /**
@@ -111,7 +109,7 @@ public final class UtilityPrinter {
      * @param b A boolean.
      */
     public static void println(boolean b) {
-        printStream.println(b);
+        System.out.println(b);
     }
 
     /**
@@ -119,7 +117,7 @@ public final class UtilityPrinter {
      * @param i An integer.
      */
     public static void println(int i) {
-        printStream.println(i);
+        System.out.println(i);
     }
 
     /**
@@ -127,7 +125,7 @@ public final class UtilityPrinter {
      * @param l A long.
      */
     public static void println(long l) {
-        printStream.println(l);
+        System.out.println(l);
     }
 
     /**
@@ -135,7 +133,7 @@ public final class UtilityPrinter {
      * @param f A float.
      */
     public static void println(float f) {
-        printStream.println(f);
+        System.out.println(f);
     }
 
     /**
@@ -143,7 +141,7 @@ public final class UtilityPrinter {
      * @param d A double.
      */
     public static void println(double d) {
-        printStream.println(d);
+        System.out.println(d);
     }
 
     /**
@@ -151,7 +149,7 @@ public final class UtilityPrinter {
      * @param s A char array.
      */
     public static void println(char[] s) {
-        printStream.println(s);
+        System.out.println(s);
     }
 
     /**
@@ -159,7 +157,7 @@ public final class UtilityPrinter {
      * @param s A String.
      */
     public static void println(String s) {
-        printStream.println(s);
+        System.out.println(s);
     }
 
     /**
@@ -167,6 +165,6 @@ public final class UtilityPrinter {
      * @param obj An Object.
      */
     public static void println(Object obj) {
-        printStream.println(obj);
+        System.out.println(obj);
     }
 }
