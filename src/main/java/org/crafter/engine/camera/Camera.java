@@ -103,18 +103,18 @@ public final class Camera {
     }
 
     // This updates the objectMatrix exactly as you tell it to
-    public static void setObjectMatrix(Vector3f objectPosition, Vector3f objectRotation, Vector3f objectScale) {
+    public static void setObjectMatrix(Vector3fc objectPosition, Vector3fc objectRotation, Vector3fc objectScale) {
 
         objectMatrix
                 .identity()
                 .translate(
-                        objectPosition.x - position.x,
-                        objectPosition.y - position.y,
-                        objectPosition.z - position.z
+                        objectPosition.x() - position.x,
+                        objectPosition.y() - position.y,
+                        objectPosition.z() - position.z
                 )
-                .rotateY(-objectRotation.y)
-                .rotateX(-objectRotation.x)
-                .rotateZ(-objectRotation.z)
+                .rotateY(-objectRotation.y())
+                .rotateX(-objectRotation.x())
+                .rotateZ(-objectRotation.z())
                 .scale(objectScale);
 
         ShaderStorage.setUniform("objectMatrix", objectMatrix);
