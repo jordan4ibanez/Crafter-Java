@@ -96,7 +96,7 @@ public class ChunkGenerator implements Runnable {
 
         final int xOffset = chunk.getX() * Chunk.getWidth();
         // Y is Z in 2d!
-        final int zOffset = chunk.getY() * Chunk.getDepth();
+        final int zOffset = chunk.getZ() * Chunk.getDepth();
 
         for (int x = 0; x < Chunk.getWidth(); x++) {
             for (int z = 0; z < Chunk.getDepth(); z++) {
