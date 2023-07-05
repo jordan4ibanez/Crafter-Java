@@ -26,6 +26,7 @@ import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
 import org.crafter.engine.world.chunk.ChunkStorage;
+import org.crafter.engine.world_generation.ChunkThreadDirector;
 import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.joml.Vector2i;
@@ -108,6 +109,8 @@ public class Main {
 
         //todo This is temp remove me plz
         Camera.freeCam();
+
+        ChunkThreadDirector.runLogic();
 
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
             for (int z = -classicMapSize; z <= classicMapSize; z++) {
