@@ -99,30 +99,73 @@ public final class UtilityPrinter {
         printStream.print(obj);
     }
 
+    /**
+     * Print a new line.
+     */
     public static void println() {
         printStream.println();
     }
+
+    /**
+     * Print a boolean with a new line.
+     * @param b A boolean.
+     */
     public static void println(boolean b) {
         printStream.println(b);
     }
+
+    /**
+     * Print an integer with a new line.
+     * @param i An integer.
+     */
     public static void println(int i) {
         printStream.println(i);
     }
+
+    /**
+     * Print a long with a new line.
+     * @param l A long.
+     */
     public static void println(long l) {
         printStream.println(l);
     }
+
+    /**
+     * Print a float with a new line.
+     * @param f A float.
+     */
     public static void println(float f) {
         printStream.println(f);
     }
+
+    /**
+     * Print a double with a new line.
+     * @param d A double.
+     */
     public static void println(double d) {
         printStream.println(d);
     }
+
+    /**
+     * Print a char array with a new line.
+     * @param s A char array.
+     */
     public static void println(char[] s) {
         printStream.println(s);
     }
+
+    /**
+     * Print a String with a new line.
+     * @param s A String.
+     */
     public static void println(String s) {
         printStream.println(s);
     }
+
+    /**
+     * Print an Object with a new line.
+     * @param obj An Object.
+     */
     public static void println(Object obj) {
         printStream.println(obj);
     }
