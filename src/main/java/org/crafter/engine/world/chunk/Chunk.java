@@ -21,10 +21,8 @@ import org.crafter.engine.camera.Camera;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
+import org.joml.*;
 import org.joml.Math;
-import org.joml.Vector2i;
-import org.joml.Vector2ic;
-import org.joml.Vector3f;
 
 import java.io.Serializable;
 
@@ -39,6 +37,8 @@ public class Chunk extends ChunkMeshHandling {
     //Todo: idea: metadata hashmap
 
     private final Vector2ic position;
+
+    private static final Vector3fc rotation = new Vector3f(0,0,0);
 
     public Chunk(int x, int y) {
         this(new Vector2i(x,y));
@@ -71,7 +71,7 @@ public class Chunk extends ChunkMeshHandling {
 
         //Fixme: This is HORRIBLE TO CREATE A NEW OBJECT EVERY FRAME!
 //        System.out.println(position.x());
-        Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), new Vector3f(0,0,0), new Vector3f(1,1,1));
+        Camera.setObjectMatrix(new Vector3f(position.x() * getWidth(),0, position.y() * getDepth()), rotation, new Vector3f(1,1,1));
 
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
