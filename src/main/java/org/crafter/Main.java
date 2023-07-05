@@ -25,12 +25,10 @@ import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
-import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
-import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshRecord;
-import org.joml.*;
+import org.joml.Vector2i;
 
 public class Main {
 
@@ -111,10 +109,6 @@ public class Main {
         //todo This is temp remove me plz
         Camera.freeCam();
 
-        //Todo: This needs to be wrappered in some type of utility class, this is basically an inter-thread communicator!
-
-
-
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
             for (int z = -classicMapSize; z <= classicMapSize; z++) {
                 final Vector2i requestingPosition = new Vector2i(x,z);
@@ -126,8 +120,6 @@ public class Main {
 
         Window.swapBuffers();
     }
-
-
 
     /**
      * Classic payload, the INITIAL chunk generation queue. This generates a fixes square around the center of the map.
