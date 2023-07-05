@@ -43,4 +43,6 @@ public class Biome {
 
     private Vector2f caveMinMaxNoise;
 
+    //TODO: add getters!
+
 }
