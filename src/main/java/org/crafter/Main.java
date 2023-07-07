@@ -43,10 +43,10 @@ public class Main {
     }
 
     // Fixme: This is only for debugging and prototyping, remove this eventually
+
     // private static final Random random = new Random(new Date().getTime()/1000);
 
-    // Fixme: this is for Classic only :D
-
+    // Fixme: this is for Classic only :D (V This thing V)
     private static final int classicMapSize = 18;
 
     public static void main(String[] args) {
