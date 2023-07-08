@@ -18,7 +18,6 @@
 package org.crafter.engine.utility;
 
 import org.joml.Math;
-import org.joml.Vector2fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
