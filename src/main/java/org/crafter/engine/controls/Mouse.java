@@ -21,9 +21,6 @@ import org.crafter.engine.window.Window;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
 
-import java.nio.DoubleBuffer;
-
-import static org.crafter.engine.utility.GameMath.printVector;
 import static org.lwjgl.glfw.GLFW.*;
 
 public final class Mouse {
