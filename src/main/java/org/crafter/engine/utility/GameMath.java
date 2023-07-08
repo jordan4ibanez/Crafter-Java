@@ -63,34 +63,6 @@ public final class GameMath {
         return workerVector;
     }
 
-    /**
-     * This is for printing out JOML vector3fs because it's simply unusable toString & doing this is annoying
-     */
-    public static void printVector(Vector3fc i) {
-        System.out.println(i.x() + ", " + i.y() + ", " + i.z());
-    }
-
-    /**
-     * Ditto
-     */
-    public static void printVector(String info, Vector3fc i) {
-        System.out.println(info + ": " + i.x() + ", " + i.y() + ", " + i.z());
-    }
-
-    /**
-     * This is for printing out JOML vector2fs because it's simply unusable toString & doing this is annoying
-     */
-    public static void printVector(Vector2fc i) {
-        System.out.println(i.x() + ", " + i.y());
-    }
-
-    /**
-     * Ditto
-     */
-    public static void printVector(String info, Vector2fc i) {
-        System.out.println(info + ": " + i.x() + ", " + i.y());
-    }
-
     public static float getPIHalf_f() {
         return PIHalf_f;
     }
