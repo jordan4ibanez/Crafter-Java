@@ -45,25 +45,29 @@ var crafter = [];
 
 // Auto executing lambda localized variable scope discards
 !function(){
-    // Classes from the engine which will disappear after this scope
+    // Classes from the engine which will disappear after this scope.
     var FileReader = Java.type("org.crafter.engine.utility.FileReader");
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     var BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
 
+    // Assignment into global variables.
     BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
     BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
     DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 
-
-
-    // Global scope variables
+    // Global scope variables.
     doFile = API.runCode;
     readFileToString = FileReader.getFileString;
 
-    // Crafter array functions
+    // Javascript level Block Definition registration function.
     crafter.registerBlock = function(newBlockDefinition) {
         BlockDefinitionContainer.getMainInstance().registerBlock(newBlockDefinition);
+    }
+
+    // Javascript level Biome Definition registration function.
+    crafter.registerBiome = function(newBiomeDefinition) {
+        BiomeDefinitionContainer.registerBiome(newBiomeDefinition.getName(), newBiomeDefinition);
     }
 }()
 
