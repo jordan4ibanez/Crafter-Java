@@ -26,6 +26,7 @@ public final class BiomeDefinitionContainer {
 
 
     public static void registerBiome(String name, BiomeDefinition definition) {
+        // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more consise way to do this maybe.
         container.put(name, definition);
     }
 
