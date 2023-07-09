@@ -38,8 +38,9 @@ var readFileToString;
 // Global java types
 var BlockDefinition;
 var DrawType;
+var BiomeDefinition
 
-// Very similar to minetest's api table, basically a clone of it in JS
+// Very similar to minetest's api table, basically a clone of it in JS.
 var crafter = [];
 
 // Auto executing lambda localized variable scope discards
@@ -48,8 +49,13 @@ var crafter = [];
     var FileReader = Java.type("org.crafter.engine.utility.FileReader");
     var API = Java.type("org.crafter.engine.api.API");
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
+    var BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
+
     BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
+    BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
     DrawType = Java.type("org.crafter.engine.world.block.DrawType");
+
+
 
     // Global scope variables
     doFile = API.runCode;
