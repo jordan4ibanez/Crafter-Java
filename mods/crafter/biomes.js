@@ -22,7 +22,6 @@ crafter.registerBiome(
     new BiomeDefinition("classic")
         .setFrequency(0.5)
         .setOctaves(3)
-
         .setGrassLayer("crafter:grass")
         .setDirtLayer("crafter:dirt")
         .setStoneLayer("crafter:stone")
