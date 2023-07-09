@@ -11,7 +11,7 @@ project.ext.jomlVersion = "1.10.5"
 group 'org.crafter'
 version 'Continuous-Build'
 
-final String releaseVersion = 'v0.0.2 - Pre-Alpha'
+final String releaseVersion = 'Pre-Classic (Prototyping) - v0.0.4'
 final String[] natives = ["natives-linux", "natives-macos", "natives-windows"]
 
 repositories {
@@ -119,16 +119,24 @@ tasks.register("packageFullGame", Zip)  {
 
     // All game dirs
     for (directory in dirs) {
-        println("Zipping folder: $directory")
+        println("Zipping: $directory")
         from(directory) {
             include "**"
             into("$baseFolder/$directory")
         }
     }
+
     // Now put the jar in
     from("build/libs") {
         println("Zipping: Jar File")
         include "*"
+        into("$baseFolder")
+    }
+
+    // Finally add the license
+    from ("$buildDir/..") {
+        println("Zipping: License")
+        include "LICENSE"
         into("$baseFolder")
     }
 
