@@ -1,4 +1,4 @@
-# Crafter - Pre-Classic (Prototyping) - 0.0.3
+# Crafter - Pre-Classic (Prototyping) - 0.0.4
 #### A blocky game (engine) written in Java with LWJGL.
 [![CI](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-ci.yml)
 [![Package Release](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/jordan4ibanez/Crafter-Java/actions/workflows/gradle-publish.yml)
