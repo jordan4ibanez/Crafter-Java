@@ -101,7 +101,7 @@ public class BiomeDefinitionContainer implements Serializable {
      */
     public static synchronized BiomeDefinitionContainer getThreadSafeDuplicate() {
         if (instance == null) {
-            throw new RuntimeException("BiomeDefinitionContainer: Attempted to get duplicate of master object before it was created!");
+            throw new RuntimeException("BiomeDefinitionContainer: Attempted to get duplicate of master object before it was created! (Were any biomes registered?)");
         }
         instance.doubleCheckData();
 

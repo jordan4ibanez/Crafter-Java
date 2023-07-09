@@ -185,7 +185,7 @@ public class BlockDefinitionContainer implements Serializable {
      */
     public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() {
         if (instance == null) {
-            throw new RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created!");
+            throw new RuntimeException("BlockDefinitionContainer: Attempted to get duplicate of master object before it was created! (Were any blocks registered?)");
         }
         instance.doubleCheckData();
 
