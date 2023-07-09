@@ -30,6 +30,8 @@ public class BiomeDefinition implements Serializable {
 
     private final String name;
 
+    private float scale = 20.0f;
+
     private float frequency = 0.01f;
 
     private int octaves = 3;
@@ -121,6 +123,15 @@ public class BiomeDefinition implements Serializable {
 
     public BiomeDefinition setCaveMinMaxNoise(Vector2f caveMinMaxNoise) {
         this.caveMinMaxNoise = caveMinMaxNoise;
+        return this;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public BiomeDefinition setScale(float scale) {
+        this.scale = scale;
         return this;
     }
 }
