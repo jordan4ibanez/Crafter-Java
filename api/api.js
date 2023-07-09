@@ -58,7 +58,7 @@ const crafter = [];
 
     // Javascript level Biome Definition registration function.
     crafter.registerBiome = function(newBiomeDefinition) {
-        BiomeDefinitionContainer.registerBiome(newBiomeDefinition);
+        BiomeDefinitionContainer.getMainInstance().registerBiome(newBiomeDefinition);
     }
 
     // Will get the mod directory of the current mod.
