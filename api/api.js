@@ -38,10 +38,10 @@ var readFileToString;
 // Global java types
 var BlockDefinition;
 var DrawType;
-var BiomeDefinition
+var BiomeDefinition;
 
 // Very similar to minetest's api table, basically a clone of it in JS.
-var crafter = [];
+const crafter = [];
 
 // Auto executing lambda localized variable scope discards
 !function(){
