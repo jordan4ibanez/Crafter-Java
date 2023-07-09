@@ -19,6 +19,7 @@ package org.crafter.engine.world_generation.chunk_generation;
 
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.utility.FastNoise;
+import org.crafter.engine.world.biome.BiomeDefinition;
 import org.crafter.engine.world.biome.BiomeDefinitionContainer;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
@@ -93,24 +94,33 @@ public class ChunkGenerator implements Runnable {
      */
     private Chunk processBiomesAndBlocks(Chunk chunk) {
 
-//        Random random = new Random((int) (new Date().getTime()/1000));
+        // Classic has a hardcoded biome for now
+        final BiomeDefinition biomeDefinition = biomeDefinitionContainer.getBiome("classic");
 
-        final int grass = blockDefinitionContainer.getDefinition("crafter:grass").getID(); //"crafter:grass"
-        final int dirt = blockDefinitionContainer.getDefinition("crafter:dirt").getID(); //"crafter:dirt"
-        final int stone = blockDefinitionContainer.getDefinition("crafter:stone").getID(); //"crafter:stone"
+        final int grass = blockDefinitionContainer.getDefinition(biomeDefinition.getGrassLayer()).getID();
+        final int dirt = blockDefinitionContainer.getDefinition(biomeDefinition.getDirtLayer()).getID();
+        final int stone = blockDefinitionContainer.getDefinition(biomeDefinition.getStoneLayer()).getID();
 
         final int xOffset = chunk.getX() * Chunk.getWidth();
         // Y is Z in 2d!
         final int zOffset = chunk.getZ() * Chunk.getDepth();
 
+        // Base height is fixed in classic, maybe forever? No idea
+        final int baseHeight = BiomeDefinition.getBaseHeight();
+
+        final float scale = biomeDefinition.getScale();
+
+        noise.SetFrequency(biomeDefinition.getFrequency());
+//        noise.SetFractalOctaves(biomeDefinition.getOctaves());
+//        noise.SetFractalLacunarity(biomeDefinition.getLacunarity());
+
         for (int x = 0; x < Chunk.getWidth(); x++) {
             for (int z = 0; z < Chunk.getDepth(); z++) {
 
+                // +0.5f because the output is -0.5f to 0.5f
                 final float calculatedNoise = noise.GetSimplex(x + xOffset,z + zOffset) + 0.5f;
 
-//                System.out.println("test: " + test);
-
-                final int height = (int)(calculatedNoise * 20.0f) + 40;
+                final int height = (int)(calculatedNoise * scale) + baseHeight;
 
                 for (int y = 0; y < Chunk.getHeight(); y++) {
 
