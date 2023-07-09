@@ -19,6 +19,7 @@ package org.crafter;
 
 import org.crafter.engine.api.API;
 import org.crafter.engine.camera.Camera;
+import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
@@ -30,6 +31,8 @@ import org.crafter.engine.world_generation.ChunkThreadDirector;
 import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.joml.Vector2i;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
 public class Main {
 
@@ -91,9 +94,9 @@ public class Main {
 
         Window.setClearColor(0.75f);
         Window.setVsync(false);
-        if (false) {
-            Window.maximize();
-        }
+//        if (false) {
+//            Window.maximize();
+//        }
         Mouse.capture();
 
         classicChunkPayload();
@@ -104,6 +107,10 @@ public class Main {
 
 
         Window.pollEvents();
+
+        if (Keyboard.keyPressed(GLFW_KEY_F11)) {
+            Window.toggleMaximize();
+        }
 
         Window.clearAll();
 
