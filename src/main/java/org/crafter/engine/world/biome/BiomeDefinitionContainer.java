@@ -47,6 +47,13 @@ public class BiomeDefinitionContainer implements Serializable {
         container.put(definition.getName(), definition);
     }
 
+    /**
+     * Debug testing!
+     */
+    public String[] getAllBiomeNames() {
+        return container.keySet().toArray(new String[0]);
+    }
+
     public BiomeDefinition getBiome(String name) {
         return container.get(name);
     }
