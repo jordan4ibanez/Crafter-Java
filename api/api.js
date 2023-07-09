@@ -33,8 +33,8 @@ Possible implementations: Typescript (one day)
 */
 
 // Lua equivalents!
-var doFile;
-var readFileToString;
+const doFile = Java.type("org.crafter.engine.api.API").runCode;
+const readFileToString = Java.type("org.crafter.engine.utility.FileReader").getFileString;
 
 // Global java types assignment
 const BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
@@ -48,15 +48,8 @@ const crafter = [];
 !function(){
 
     // Classes from the engine which will disappear after this scope.
-    var FileReader = Java.type("org.crafter.engine.utility.FileReader");
-    var API = Java.type("org.crafter.engine.api.API");
-
-    var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
-    var BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
-
-    // Global scope variables.
-    doFile = API.runCode;
-    readFileToString = FileReader.getFileString;
+    const BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
+    const BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
 
     // Javascript level Block Definition registration function.
     crafter.registerBlock = function(newBlockDefinition) {
