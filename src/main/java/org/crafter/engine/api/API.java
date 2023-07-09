@@ -49,6 +49,8 @@ public final class API {
         // Ecmascript 6, it's a miracle!
         // Thank you, eugene, on this stackoverflow article response https://stackoverflow.com/questions/43406743/call-javascript-that-contains-const-from-java
         javaScript = new NashornScriptEngineFactory().getScriptEngine("--language=es6");
+        // This one is ecmascript 5.1
+//        javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
         bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
         compiler = (Compilable) javaScript;
         invoker  = (Invocable) javaScript;
