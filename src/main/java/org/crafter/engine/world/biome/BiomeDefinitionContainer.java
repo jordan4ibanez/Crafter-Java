@@ -51,6 +51,17 @@ public class BiomeDefinitionContainer implements Serializable {
         return container.get(name);
     }
 
+    private void checkDuplicate(BiomeDefinition definition) {
+        final String name = definition.getName();
+        if (checkName(name)) {
+            throw new RuntimeException("BlockDefinitionContainer: Attempted to overwrite biome (" + name +")!");
+        }
+    }
+
+    private boolean checkName(String name) {
+        return container.containsKey(name);
+    }
+
     private boolean isEmpty() {
         return container.isEmpty();
     }
