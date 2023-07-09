@@ -70,7 +70,7 @@ const crafter = [];
 
     // Javascript level Biome Definition registration function.
     crafter.registerBiome = function(newBiomeDefinition) {
-        BiomeDefinitionContainer.registerBiome(newBiomeDefinition.getName(), newBiomeDefinition);
+        BiomeDefinitionContainer.registerBiome(newBiomeDefinition);
     }
 }()
 
