@@ -36,13 +36,78 @@ public class Biome {
 
     // These are possible future implementations
 
-    private int baseHeight = 60;
+    private final static int BASE_HEIGHT = 60;
 
     // Replace this with OreDefinition or something
     private String[] ores;
 
     private Vector2f caveMinMaxNoise;
 
-    //TODO: add getters!
+    public int getBaseHeight() {
+        return BASE_HEIGHT;
+    }
 
+
+    public float getFrequency() {
+        return frequency;
+    }
+
+    public Biome setFrequency(float frequency) {
+        this.frequency = frequency;
+        return this;
+    }
+
+    public int getOctaves() {
+        return octaves;
+    }
+
+    public Biome setOctaves(int octaves) {
+        this.octaves = octaves;
+        return this;
+    }
+
+    public String getGrassLayer() {
+        return grassLayer;
+    }
+
+    public Biome setGrassLayer(String grassLayer) {
+        this.grassLayer = grassLayer;
+        return this;
+    }
+
+    public String getSoilLayer() {
+        return soilLayer;
+    }
+
+    public Biome setSoilLayer(String soilLayer) {
+        this.soilLayer = soilLayer;
+        return this;
+    }
+
+    public String getStoneLayer() {
+        return stoneLayer;
+    }
+
+    public Biome setStoneLayer(String stoneLayer) {
+        this.stoneLayer = stoneLayer;
+        return this;
+    }
+
+    public String[] getOres() {
+        return ores;
+    }
+
+    public Biome setOres(String[] ores) {
+        this.ores = ores;
+        return this;
+    }
+
+    public Vector2f getCaveMinMaxNoise() {
+        return caveMinMaxNoise;
+    }
+
+    public Biome setCaveMinMaxNoise(Vector2f caveMinMaxNoise) {
+        this.caveMinMaxNoise = caveMinMaxNoise;
+        return this;
+    }
 }
