@@ -172,8 +172,8 @@ public class BlockDefinitionContainer implements Serializable {
 
     /**
      * Get a thread safe duplicate of the master instance of Block Definition Container.
-     * @return A clone of the master instance of Block Definition Container.
-     * WARNING! This is slow, only do this at start of game!
+     * @return A deep clone of the master instance of Block Definition Container.
+     * WARNING! This is slow, only do this at start of the game!
      */
     public static synchronized BlockDefinitionContainer getThreadSafeDuplicate() {
         if (instance == null) {
