@@ -30,7 +30,7 @@ public class BiomeDefinitionContainer implements Serializable {
 
     private final HashMap<String, BiomeDefinition> container;
 
-    private boolean isClone = false;
+    private boolean locked = false;
 
     private BiomeDefinitionContainer(){
          container = new HashMap<>();
@@ -39,8 +39,8 @@ public class BiomeDefinitionContainer implements Serializable {
     // Object instance methods
 
     public void registerBiome(BiomeDefinition definition) {
-        if (isClone) {
-            throw new RuntimeException("BiomeDefinitionContainer: Tried to manipulate a clone of the master object!");
+        if (locked) {
+            throw new RuntimeException("BiomeDefinitionContainer: Tried to manipulate a locked instance!");
         }
         checkDuplicate(definition);
         println("BiomeDefinitionContainer: Registered biome: (" + definition.getName() + ")");
@@ -80,8 +80,8 @@ public class BiomeDefinitionContainer implements Serializable {
         }
     }
 
-    private void setClone() {
-        isClone = true;
+    private void lock() {
+        locked = true;
     }
 
     // Class methods
@@ -106,9 +106,11 @@ public class BiomeDefinitionContainer implements Serializable {
         }
         instance.doubleCheckData();
 
-        BiomeDefinitionContainer clone = SerializationUtils.clone(getMainInstance());
-        clone.setClone();
-        return clone;
+        // There is only one reason to get a clone of this object, and it's to pass it to another thread.
+        // We do not want these to desync, so lock the main instance as well. Clone automatically becomes locked.
+        instance.lock();
+
+        return SerializationUtils.clone(getMainInstance());
     }
 
     private static void autoDispatch() {
