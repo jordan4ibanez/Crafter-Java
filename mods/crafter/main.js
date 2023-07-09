@@ -16,27 +16,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Block registration
-
-crafter.registerBlock(
-    new BlockDefinition("crafter:stone")
-        .setReadableName("Stone")
-        .setTextures(["stone.png","stone.png","stone.png","stone.png","stone.png","stone.png"])
-);
-
-crafter.registerBlock(
-    new BlockDefinition("crafter:dirt")
-        .setReadableName("Dirt")
-        .setTextures(["dirt.png","dirt.png","dirt.png","dirt.png","dirt.png","dirt.png"])
-);
-
-crafter.registerBlock(
-    new BlockDefinition("crafter:grass")
-        .setReadableName("Grass")
-        .setTextures(["grass.png","grass.png","grass.png","grass.png","dirt.png","grass.png"])
-);
-
-// Run biome registration
-
 const modDir = crafter.getCurrentModDirectory() + "/";
-dofile(modDir + "biomes.js")
+const modFiles = ["blocks", "biomes"]
+
+// Load up all the separate mod files.
+for (const modFile of modFiles) {
+    dofile(modDir + modFile + ".js")
+}
