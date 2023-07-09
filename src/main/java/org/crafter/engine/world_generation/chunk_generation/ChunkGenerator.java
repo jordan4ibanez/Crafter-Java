@@ -19,6 +19,7 @@ package org.crafter.engine.world_generation.chunk_generation;
 
 import org.crafter.engine.delta.DeltaObject;
 import org.crafter.engine.utility.FastNoise;
+import org.crafter.engine.world.biome.BiomeDefinitionContainer;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
 import org.joml.Vector2i;
@@ -45,6 +46,8 @@ public class ChunkGenerator implements Runnable {
 
     private final BlockDefinitionContainer blockDefinitionContainer;
 
+    private final BiomeDefinitionContainer biomeDefinitionContainer;
+
     private final BlockingQueue<Vector2ic> chunkRequestQueue;
     private final BlockingQueue<Chunk> chunkOutputQueue;
     private final AtomicBoolean shouldRun;
@@ -53,6 +56,7 @@ public class ChunkGenerator implements Runnable {
         delta = new DeltaObject();
         noise = new FastNoise();
         blockDefinitionContainer = BlockDefinitionContainer.getThreadSafeDuplicate();
+        biomeDefinitionContainer = BiomeDefinitionContainer.getThreadSafeDuplicate();
         chunkRequestQueue = new LinkedBlockingQueue<>();
         chunkOutputQueue = new LinkedBlockingQueue<>();
         shouldRun = new AtomicBoolean(true);
