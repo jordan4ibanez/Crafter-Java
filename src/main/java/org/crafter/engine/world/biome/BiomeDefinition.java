@@ -34,7 +34,7 @@ public class BiomeDefinition {
 
     // Just basic names for these, nothing set in stone for them
     private String grassLayer;
-    private String soilLayer;
+    private String dirtLayer;
     private String stoneLayer;
 
     // These are possible future implementations
@@ -85,12 +85,12 @@ public class BiomeDefinition {
         return this;
     }
 
-    public String getSoilLayer() {
-        return soilLayer;
+    public String getDirtLayer() {
+        return dirtLayer;
     }
 
-    public BiomeDefinition setSoilLayer(String soilLayer) {
-        this.soilLayer = soilLayer;
+    public BiomeDefinition setDirtLayer(String dirtLayer) {
+        this.dirtLayer = dirtLayer;
         return this;
     }
 
