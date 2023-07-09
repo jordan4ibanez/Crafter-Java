@@ -42,6 +42,8 @@ public class BiomeDefinition implements Serializable {
     private String dirtLayer;
     private String stoneLayer;
 
+    private boolean locked = false;
+
     // Base height is fixed in classic, maybe forever? No idea.
     // Base height is the height the terrain will generate at if the noise output is exactly 0.
     private final static int BASE_HEIGHT = 60;
@@ -71,6 +73,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setFrequency(float frequency) {
+        checkLock("setFrequency");
         this.frequency = frequency;
         return this;
     }
@@ -80,6 +83,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setOctaves(int octaves) {
+        checkLock("setOctaves");
         this.octaves = octaves;
         return this;
     }
@@ -89,6 +93,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setGrassLayer(String grassLayer) {
+        checkLock("setGrassLayer");
         this.grassLayer = grassLayer;
         return this;
     }
@@ -98,6 +103,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setDirtLayer(String dirtLayer) {
+        checkLock("setDirtLayer");
         this.dirtLayer = dirtLayer;
         return this;
     }
@@ -107,6 +113,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setStoneLayer(String stoneLayer) {
+        checkLock("setStoneLayer");
         this.stoneLayer = stoneLayer;
         return this;
     }
@@ -116,6 +123,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setOres(String[] ores) {
+        checkLock("setOres");
         this.ores = ores;
         return this;
     }
@@ -125,6 +133,7 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setCaveMinMaxNoise(Vector2f caveMinMaxNoise) {
+        checkLock("setCaveMinMaxNoise");
         this.caveMinMaxNoise = caveMinMaxNoise;
         return this;
     }
@@ -134,7 +143,18 @@ public class BiomeDefinition implements Serializable {
     }
 
     public BiomeDefinition setScale(float scale) {
+        checkLock("setScale");
         this.scale = scale;
         return this;
+    }
+
+    public void lock() {
+        locked = true;
+    }
+
+    private void checkLock(String methodName) {
+        if (locked) {
+            throw new RuntimeException("BiomeDefinition: Attempted to modify a locked definition in method (" + methodName + ")!");
+        }
     }
 }
