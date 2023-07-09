@@ -345,6 +345,22 @@ public final class Window {
         glfwMaximizeWindow(window);
     }
 
+    public static void unMaximize() {
+        glfwRestoreWindow(window);
+    }
+
+    public static void toggleMaximize() {
+        if (isMaximized()) {
+            unMaximize();
+        } else {
+            maximize();
+        }
+    }
+
+    public static boolean isMaximized() {
+        return glfwGetWindowAttrib(window, GLFW_MAXIMIZED) == 1;
+    }
+
     public static boolean isFocused() {
         return glfwGetWindowAttrib(window, GLFW_FOCUSED) == 1;
     }
