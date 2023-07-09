@@ -88,6 +88,11 @@ public class BiomeDefinitionContainer implements Serializable {
         return instance;
     }
 
+    /**
+     * Get a thread safe duplicate of the master instance of Biome Definition Container.
+     * @return A deep clone of the master instance of Biome Definition Container.
+     * WARNING! This is slow, only do this at the start of the game!
+     */
     public static synchronized BiomeDefinitionContainer getThreadSafeDuplicate() {
         if (instance == null) {
             throw new RuntimeException("BiomeDefinitionContainer: Attempted to get duplicate of master object before it was created!");
