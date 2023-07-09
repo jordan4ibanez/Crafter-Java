@@ -17,3 +17,21 @@ crafter.registerBlock(
         .setReadableName("Grass")
         .setTextures(["grass.png","grass.png","grass.png","grass.png","dirt.png","grass.png"])
 );
+
+crafter.registerBlock(
+    new BlockDefinition("crafter:tree")
+        .setReadableName("Tree")
+        .setTextures(["treeOut.png","treeOut.png","treeOut.png","treeOut.png","treeCore.png","treeCore.png"])
+);
+
+crafter.registerBlock(
+    new BlockDefinition("crafter:wood")
+        .setReadableName("Wood")
+        .setTextures(["wood.png","wood.png","wood.png","wood.png","wood.png","wood.png"])
+);
+
+crafter.registerBlock(
+    new BlockDefinition("crafter:tnt")
+        .setReadableName("TNT")
+        .setTextures(["tnt_side.png","tnt_side.png","tnt_side.png","tnt_side.png","tnt_bottom.png","tnt_top.png"])
+);
