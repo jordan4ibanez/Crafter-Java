@@ -39,9 +39,10 @@ public class BiomeDefinition implements Serializable {
     private String dirtLayer;
     private String stoneLayer;
 
-    // These are possible future implementations
-
+    // Base height is fixed in classic, maybe forever? No idea
     private final static int BASE_HEIGHT = 60;
+
+    //todo: These are possible future implementations
 
     // Replace this with OreDefinition or something
     private String[] ores;
@@ -52,7 +53,7 @@ public class BiomeDefinition implements Serializable {
         this.name = name;
     }
 
-    public int getBaseHeight() {
+    public static int getBaseHeight() {
         return BASE_HEIGHT;
     }
 
