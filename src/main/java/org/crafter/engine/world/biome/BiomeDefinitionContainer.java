@@ -17,23 +17,76 @@
  */
 package org.crafter.engine.world.biome;
 
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
-public final class BiomeDefinitionContainer {
+public class BiomeDefinitionContainer implements Serializable {
 
-    private static final HashMap<String, BiomeDefinition> container = new HashMap<>();
-    private BiomeDefinitionContainer(){}
+    private static BiomeDefinitionContainer instance = null;
 
+    private final HashMap<String, BiomeDefinition> container;
 
-    public static void registerBiome(BiomeDefinition definition) {
+    private boolean isClone = false;
+
+    private BiomeDefinitionContainer(){
+         container = new HashMap<>();
+    }
+
+    // Object instance methods
+
+    public void registerBiome(BiomeDefinition definition) {
         // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more concise way to do this maybe.
         println("BiomeDefinitionContainer: Registered biome: (" + definition.getName() + ")");
         container.put(definition.getName(), definition);
     }
 
-    public static BiomeDefinition getBiome(String name) {
+    public BiomeDefinition getBiome(String name) {
         return container.get(name);
+    }
+
+    private boolean isEmpty() {
+        return container.isEmpty();
+    }
+
+    private void doubleCheckData() {
+        if (isEmpty()) {
+            throw new RuntimeException("BiomeDefinitionContainer: Tried to create a clone of an empty container!");
+        }
+    }
+
+    private void setClone() {
+        isClone = true;
+    }
+
+    // Class methods
+
+    /**
+     * Only call this on the main thread when loading the game!
+     * @return The master instance of the Biome Definition Container.
+     */
+    public static BiomeDefinitionContainer getMainInstance() {
+        autoDispatch();
+        return instance;
+    }
+
+    public static synchronized BiomeDefinitionContainer getThreadSafeDuplicate() {
+        if (instance == null) {
+            throw new RuntimeException("BiomeDefinitionContainer: Attempted to get duplicate of master object before it was created!");
+        }
+        instance.doubleCheckData();
+
+        BiomeDefinitionContainer clone = SerializationUtils.clone(getMainInstance());
+        clone.setClone();
+        return clone;
+    }
+
+    private static void autoDispatch() {
+        if (instance == null) {
+            instance = new BiomeDefinitionContainer();
+        }
     }
 }
