@@ -106,7 +106,7 @@ buildScan {
 }
 
 // This runs the runShadowScripts then packs up the full game so users can run it easily, but only if fullGame flag given
-final String[] dirs = ["fonts", "shaders", "textures"]
+final String[] dirs = ["fonts", "shaders", "textures", "api", "mods"]
 
 tasks.register("packageFullGame", Zip)  {
 
