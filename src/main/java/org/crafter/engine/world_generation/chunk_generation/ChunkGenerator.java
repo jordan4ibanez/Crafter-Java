@@ -65,7 +65,8 @@ public class ChunkGenerator implements Runnable {
     @Override
     public void run() {
         System.out.println("ChunkGenerator: Started!");
-        System.out.println("ChunkGenerator: gotten blocks (" + Arrays.toString(blockDefinitionContainer.getAllBlockNames()) + ")!");
+        System.out.println("ChunkGenerator: Gotten blocks (" + Arrays.toString(blockDefinitionContainer.getAllBlockNames()) + ")!");
+        System.out.println("ChunkGenerator: Gotten biomes (" + Arrays.toString(biomeDefinitionContainer.getAllBiomeNames()) + ")!");
         while (shouldRun.get()) {
             sleepCheck();
             processInputQueue();
