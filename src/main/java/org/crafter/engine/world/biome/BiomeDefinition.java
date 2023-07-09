@@ -24,7 +24,7 @@ import org.joml.Vector2f;
  * All biomes use simplex noise generation with a base height of X (not currently decided).
  * Can be used for interesting things.
  */
-public class Biome {
+public class BiomeDefinition {
     private float frequency = 0.01f;
 
     private int octaves = 3;
@@ -52,7 +52,7 @@ public class Biome {
         return frequency;
     }
 
-    public Biome setFrequency(float frequency) {
+    public BiomeDefinition setFrequency(float frequency) {
         this.frequency = frequency;
         return this;
     }
@@ -61,7 +61,7 @@ public class Biome {
         return octaves;
     }
 
-    public Biome setOctaves(int octaves) {
+    public BiomeDefinition setOctaves(int octaves) {
         this.octaves = octaves;
         return this;
     }
@@ -70,7 +70,7 @@ public class Biome {
         return grassLayer;
     }
 
-    public Biome setGrassLayer(String grassLayer) {
+    public BiomeDefinition setGrassLayer(String grassLayer) {
         this.grassLayer = grassLayer;
         return this;
     }
@@ -79,7 +79,7 @@ public class Biome {
         return soilLayer;
     }
 
-    public Biome setSoilLayer(String soilLayer) {
+    public BiomeDefinition setSoilLayer(String soilLayer) {
         this.soilLayer = soilLayer;
         return this;
     }
@@ -88,7 +88,7 @@ public class Biome {
         return stoneLayer;
     }
 
-    public Biome setStoneLayer(String stoneLayer) {
+    public BiomeDefinition setStoneLayer(String stoneLayer) {
         this.stoneLayer = stoneLayer;
         return this;
     }
@@ -97,7 +97,7 @@ public class Biome {
         return ores;
     }
 
-    public Biome setOres(String[] ores) {
+    public BiomeDefinition setOres(String[] ores) {
         this.ores = ores;
         return this;
     }
@@ -106,7 +106,7 @@ public class Biome {
         return caveMinMaxNoise;
     }
 
-    public Biome setCaveMinMaxNoise(Vector2f caveMinMaxNoise) {
+    public BiomeDefinition setCaveMinMaxNoise(Vector2f caveMinMaxNoise) {
         this.caveMinMaxNoise = caveMinMaxNoise;
         return this;
     }

@@ -19,17 +19,17 @@ package org.crafter.engine.world.biome;
 
 import java.util.HashMap;
 
-public final class BiomeContainer {
+public final class BiomeDefinitionContainer {
 
-    private static final HashMap<String, Biome> container = new HashMap<>();
-    private BiomeContainer(){}
+    private static final HashMap<String, BiomeDefinition> container = new HashMap<>();
+    private BiomeDefinitionContainer(){}
 
 
-    public static void registerBiome(String name, Biome definition) {
+    public static void registerBiome(String name, BiomeDefinition definition) {
         container.put(name, definition);
     }
 
-    public static Biome getBiome(String name) {
+    public static BiomeDefinition getBiome(String name) {
         return container.get(name);
     }
 }
