@@ -16,6 +16,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+// Block registration
+
 crafter.registerBlock(
     new BlockDefinition("crafter:stone")
         .setReadableName("Stone")
@@ -34,6 +36,7 @@ crafter.registerBlock(
         .setTextures(["grass.png","grass.png","grass.png","grass.png","dirt.png","grass.png"])
 );
 
-const modDir = crafter.getCurrentModDirectory() + "/";
+// Run biome registration
 
+const modDir = crafter.getCurrentModDirectory() + "/";
 dofile(modDir + "biomes.js")
