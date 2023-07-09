@@ -44,6 +44,7 @@ public class BiomeDefinitionContainer implements Serializable {
         }
         checkDuplicate(definition);
         println("BiomeDefinitionContainer: Registered biome: (" + definition.getName() + ")");
+        definition.lock();
         container.put(definition.getName(), definition);
     }
 
