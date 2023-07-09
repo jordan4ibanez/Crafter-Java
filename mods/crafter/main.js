@@ -33,3 +33,7 @@ crafter.registerBlock(
         .setReadableName("Grass")
         .setTextures(["grass.png","grass.png","grass.png","grass.png","dirt.png","grass.png"])
 );
+
+const modDir = crafter.getCurrentModDirectory() + "/";
+
+dofile(modDir + "biomes.js")
