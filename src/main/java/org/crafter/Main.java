@@ -69,10 +69,12 @@ public class Main {
     }
 
     private static void initialize() {
+
+        // This is all in a very specific order, if you re-arrange it, expect problems. :T
+
         Window.initialize();
         Window.setTitle(getVersionInfo(), true);
 
-        // This is all in a very specific order, if you re-arrange it, expect problems. :T
         API.initialize();
 
         ChunkGenerator.start();
