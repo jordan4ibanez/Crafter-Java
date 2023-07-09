@@ -39,6 +39,9 @@ public class BiomeDefinitionContainer implements Serializable {
     // Object instance methods
 
     public void registerBiome(BiomeDefinition definition) {
+        if (isClone) {
+            throw new RuntimeException("BiomeDefinitionContainer: Tried to manipulate a clone of the master object!");
+        }
         // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more concise way to do this maybe.
         println("BiomeDefinitionContainer: Registered biome: (" + definition.getName() + ")");
         container.put(definition.getName(), definition);
