@@ -19,6 +19,8 @@ package org.crafter.engine.world.biome;
 
 import java.util.HashMap;
 
+import static org.crafter.engine.utility.UtilityPrinter.println;
+
 public final class BiomeDefinitionContainer {
 
     private static final HashMap<String, BiomeDefinition> container = new HashMap<>();
@@ -26,7 +28,8 @@ public final class BiomeDefinitionContainer {
 
 
     public static void registerBiome(String name, BiomeDefinition definition) {
-        // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more consise way to do this maybe.
+        // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more concise way to do this maybe.
+        println("BiomeDefinitionContainer: Registered biome: (" + name + ")");
         container.put(name, definition);
     }
 
