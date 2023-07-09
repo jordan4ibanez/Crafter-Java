@@ -20,6 +20,7 @@
 
 crafter.registerBiome(
     new BiomeDefinition("classic")
+        .setScale(20.0)
         .setFrequency(0.5)
         .setOctaves(3)
         .setGrassLayer("crafter:grass")
