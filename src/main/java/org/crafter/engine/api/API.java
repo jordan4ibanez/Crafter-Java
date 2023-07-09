@@ -88,6 +88,8 @@ public final class API {
 
 //            System.out.println("Got mod: " + modFolder);
 
+            currentModDirectory = modPath  + modFolder;
+
             // We need to look through this multiple times so turn it into an indexable container
             HashMap<String, Boolean> fileExistence = new HashMap<>();
             Arrays.stream(FileReader.getFileList(modPath  + modFolder)).toList().forEach((fileName) -> {
