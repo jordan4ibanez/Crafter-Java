@@ -17,6 +17,7 @@
  */
 package org.crafter.engine.world.biome;
 
+import org.crafter.engine.utility.FastNoise;
 import org.joml.Vector2f;
 
 import java.io.Serializable;
@@ -34,8 +35,9 @@ public class BiomeDefinition implements Serializable {
     private float scale = 20.0f;
     // How much the terrain varies (density, lower is more)
     private float frequency = 0.01f;
-    // How many octaves of variance the terrain has (higher is more)
-    private int octaves = 3;
+//    // How many octaves of variance the terrain has (higher is more)
+//    private int octaves = 3;
+//    private float lacunarity = 2.0f;
 
     // Just basic names for these, nothing set in stone for them
     private String grassLayer;
@@ -49,6 +51,8 @@ public class BiomeDefinition implements Serializable {
     private final static int BASE_HEIGHT = 60;
 
     //todo: These are possible future implementations
+
+//    private FastNoise.NoiseType noiseType = FastNoise.NoiseType.SimplexFractal;
 
     // Replace this with OreDefinition or something
     private String[] ores;
@@ -78,15 +82,15 @@ public class BiomeDefinition implements Serializable {
         return this;
     }
 
-    public int getOctaves() {
-        return octaves;
-    }
-
-    public BiomeDefinition setOctaves(int octaves) {
-        checkLock("setOctaves");
-        this.octaves = octaves;
-        return this;
-    }
+//    public int getOctaves() {
+//        return octaves;
+//    }
+//
+//    public BiomeDefinition setOctaves(int octaves) {
+//        checkLock("setOctaves");
+//        this.octaves = octaves;
+//        return this;
+//    }
 
     public String getGrassLayer() {
         return grassLayer;
@@ -147,6 +151,16 @@ public class BiomeDefinition implements Serializable {
         this.scale = scale;
         return this;
     }
+
+//    public float getLacunarity() {
+//        return lacunarity;
+//    }
+//
+//    public BiomeDefinition setLacunarity(float lacunarity) {
+//        checkLock("setLacunarity");
+//        this.lacunarity = lacunarity;
+//        return this;
+//    }
 
     public void lock() {
         locked = true;
