@@ -39,7 +39,7 @@ public class BlockDefinitionContainer implements Serializable {
 
 
     // This is an extreme edge case to prevent the cloned objects from being mutable
-    private boolean isClone = false;
+    private boolean locked = false;
 
     // Keeps track of IDs - 0 is reserved for air
     private int nextID = 1;
@@ -57,8 +57,8 @@ public class BlockDefinitionContainer implements Serializable {
     }
 
     public void registerBlock(BlockDefinition definition) {
-        if (isClone) {
-            throw new RuntimeException("BlockDefinitionContainer: Tried to manipulate a clone of the master object!");
+        if (locked) {
+            throw new RuntimeException("BlockDefinitionContainer: Tried to manipulate a locked instance!");
         }
         if (definition == null) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to upload a null block definition!");
@@ -163,8 +163,8 @@ public class BlockDefinitionContainer implements Serializable {
         return idMap.isEmpty() || nameMap.isEmpty();
     }
 
-    private void setClone() {
-        isClone = true;
+    private void lock() {
+        locked = true;
     }
 
     // Class methods
@@ -190,7 +190,8 @@ public class BlockDefinitionContainer implements Serializable {
         instance.doubleCheckData();
 
         BlockDefinitionContainer clone = SerializationUtils.clone(getMainInstance());
-        clone.setClone();
+        clone.lock();
+        instance.lock();
         return clone;
     }
 
