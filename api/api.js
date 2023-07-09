@@ -32,7 +32,7 @@ Possible implementations: Typescript (one day)
 */
 
 // Lua equivalents!
-const doFile = Java.type("org.crafter.engine.api.API").runCode;
+const dofile = Java.type("org.crafter.engine.api.API").runCode;
 const readFileToString = Java.type("org.crafter.engine.utility.FileReader").getFileString;
 
 // Global java types assignment
