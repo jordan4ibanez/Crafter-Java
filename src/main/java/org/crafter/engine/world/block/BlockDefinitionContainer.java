@@ -50,6 +50,8 @@ public class BlockDefinitionContainer implements Serializable {
         cache = new BlockNameToIDCache();
     }
 
+    // Object instance methods
+
     public void lockCache() {
         cache.lock();
     }
@@ -161,6 +163,12 @@ public class BlockDefinitionContainer implements Serializable {
         return idMap.isEmpty() || nameMap.isEmpty();
     }
 
+    private void setClone() {
+        isClone = true;
+    }
+
+    // Class methods
+
     /**
      * Only call this on the main thread when loading the game!
      * @return the master instance of the Block Definition Container.
@@ -190,10 +198,6 @@ public class BlockDefinitionContainer implements Serializable {
         if (instance == null) {
             instance = new BlockDefinitionContainer();
         }
-    }
-
-    private void setClone() {
-        isClone = true;
     }
 
 }
