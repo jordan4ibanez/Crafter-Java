@@ -44,6 +44,8 @@ public final class API {
 
     private static final String[] requiredValues = new String[]{"name", "version", "description"};
 
+    private static String currentModDirectory = "";
+
     private API(){}
     public static void initialize() {
         // Ecmascript 6, it's a miracle!
@@ -223,6 +225,9 @@ public final class API {
         return modConfParser;
     }
 
+    public static String getCurrentModDirectory() {
+        return currentModDirectory;
+    }
 
     /**
      * Runs a javascript file. Extracts the string of the text & passes it into runCodeRaw.
