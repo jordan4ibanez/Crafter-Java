@@ -36,10 +36,10 @@ Possible implementations: Typescript (one day)
 var doFile;
 var readFileToString;
 
-// Global java types
-var BlockDefinition;
-var DrawType;
-var BiomeDefinition;
+// Global java types assignment
+const BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
+const DrawType = Java.type("org.crafter.engine.world.block.DrawType");
+const BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
 
 // Very similar to minetest's api table, basically a clone of it in JS.
 const crafter = [];
@@ -53,11 +53,6 @@ const crafter = [];
 
     var BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     var BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
-
-    // Assignment into global variables.
-    BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
-    BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
-    DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 
     // Global scope variables.
     doFile = API.runCode;
