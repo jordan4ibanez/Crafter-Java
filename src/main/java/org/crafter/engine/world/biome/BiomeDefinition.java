@@ -19,12 +19,14 @@ package org.crafter.engine.world.biome;
 
 import org.joml.Vector2f;
 
+import java.io.Serializable;
+
 /**
  * Adjustable parameters for a biome.
  * All biomes use simplex noise generation with a base height of X (not currently decided).
  * Can be used for interesting things.
  */
-public class BiomeDefinition {
+public class BiomeDefinition implements Serializable {
 
     private final String name;
 
