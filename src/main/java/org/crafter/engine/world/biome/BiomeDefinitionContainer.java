@@ -27,10 +27,10 @@ public final class BiomeDefinitionContainer {
     private BiomeDefinitionContainer(){}
 
 
-    public static void registerBiome(String name, BiomeDefinition definition) {
+    public static void registerBiome(BiomeDefinition definition) {
         // TODO: maybe overrides aren't a good idea? I dunno. See if checking or clearing is a more concise way to do this maybe.
-        println("BiomeDefinitionContainer: Registered biome: (" + name + ")");
-        container.put(name, definition);
+        println("BiomeDefinitionContainer: Registered biome: (" + definition.getName() + ")");
+        container.put(definition.getName(), definition);
     }
 
     public static BiomeDefinition getBiome(String name) {
