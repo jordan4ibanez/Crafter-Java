@@ -191,7 +191,10 @@ public class BlockDefinitionContainer implements Serializable {
 
         BlockDefinitionContainer clone = SerializationUtils.clone(getMainInstance());
         clone.lock();
+        // There is only one reason to get a clone of this object, and it's to pass it to another thread.
+        // We do not want these to desync, so lock the main instance as well.
         instance.lock();
+        
         return clone;
     }
 
