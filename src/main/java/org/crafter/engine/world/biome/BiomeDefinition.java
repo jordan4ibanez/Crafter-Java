@@ -25,6 +25,9 @@ import org.joml.Vector2f;
  * Can be used for interesting things.
  */
 public class BiomeDefinition {
+
+    private final String name;
+
     private float frequency = 0.01f;
 
     private int octaves = 3;
@@ -43,10 +46,17 @@ public class BiomeDefinition {
 
     private Vector2f caveMinMaxNoise;
 
+    public BiomeDefinition(String name) {
+        this.name = name;
+    }
+
     public int getBaseHeight() {
         return BASE_HEIGHT;
     }
 
+    public String getName() {
+        return name;
+    }
 
     public float getFrequency() {
         return frequency;
