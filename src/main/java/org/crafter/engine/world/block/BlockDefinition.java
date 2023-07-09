@@ -47,6 +47,9 @@ public class BlockDefinition implements Serializable {
     private int damagePerSecond = 0;
     private int light = 0;
 
+    private boolean locked = false;
+
+
     // FIXME: this is a disastrous technique
     private final HashMap<String, float[]> textureCoordinates;
 
@@ -64,6 +67,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setTextures(String[] textures) {
+        checkLock("setTextures");
         if (this.textures != null) {
             throw new RuntimeException("BlockDefinition: Attempted to set textures more than once for block (" + internalName + ")!");
         }
@@ -74,6 +78,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setReadableName(String readableName) {
+        checkLock("setReadableName");
         if (this.readableName != null) {
             throw new RuntimeException("BlockDefinition: Tried to set (readableName) of block (" + this.internalName + ") more than once!");
         }
@@ -81,6 +86,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setDrawType(DrawType drawType) {
+        checkLock("setDrawType");
         if (drawType.value() == -1) {
             throw new RuntimeException("BlockDefinition: Tried to set DrawType of block (" + this.internalName + ") to DEFAULT!");
         }
@@ -88,14 +94,17 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setWalkable(boolean walkable) {
+        checkLock("setWalkable");
         this.walkable = walkable;
         return this;
     }
     public BlockDefinition setLiquid(boolean liquid) {
+        checkLock("setLiquid");
         this.liquid = liquid;
         return this;
     }
     public BlockDefinition setLiquidFlow(int liquidFlow) {
+        checkLock("setLiquidFlow");
         if (liquidFlow <= 0 || liquidFlow > 8) {
             throw new RuntimeException("BlockDefinition: liquidFlow (" + liquidFlow + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
@@ -103,6 +112,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setLiquidViscosity(int liquidViscosity) {
+        checkLock("setLiquidViscosity");
         if (liquidViscosity <= 0 || liquidViscosity > 8) {
             throw new RuntimeException("BlockDefinition: liquidViscosity (" + liquidViscosity + ") is out of bounds on block (" + this.internalName + ")! Min: 1 | max: 8");
         }
@@ -110,22 +120,27 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setClimbable(boolean climbable) {
+        checkLock("setClimbable");
         this.climbable = climbable;
         return this;
     }
     public BlockDefinition setSneakJumpClimbable(boolean sneakJumpClimbable) {
+        checkLock("setSneakJumpClimbable");
         this.sneakJumpClimbable = sneakJumpClimbable;
         return this;
     }
     public BlockDefinition setFalling(boolean falling) {
+        checkLock("setFalling");
         this.falling = falling;
         return this;
     }
     public BlockDefinition setClear(boolean clear) {
+        checkLock("setClear");
         this.clear = clear;
         return this;
     }
     public BlockDefinition setDamagePerSecond(int damagePerSecond) {
+        checkLock("setDamagePerSecond");
         if (damagePerSecond <= 0) {
             throw new RuntimeException("BlockDefinition: damagePerSecond (" + damagePerSecond + ") on block (" + this.internalName + ") must be higher than 0!");
         }
@@ -133,6 +148,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setLight(int light) {
+        checkLock("setLight");
         if (light <= 0 || light > 15) {
             throw new RuntimeException("BlockDefinition: light (" + light + ") on block (" + this.internalName + ") is out of bounds! Min: 1 | Max: 15");
         }
@@ -140,6 +156,7 @@ public class BlockDefinition implements Serializable {
         return this;
     }
     public BlockDefinition setTextureCoordinates(String face, float[] value) {
+        checkLock("setTextureCoordinates");
         if (textureCoordinates.containsKey(face)) {
             throw new RuntimeException("BlockDefinition: Tried to put duplicate of texture coordinate (" + face + ") into block (" + internalName + ")!");
         }
@@ -256,6 +273,16 @@ public class BlockDefinition implements Serializable {
                 throw new RuntimeException("BlockDefinition: Block (" + internalName + ") has INVALID texture in index (" + i + ")! (" + texture + ") is not a valid block texture in the texture atlas!");
             }
             i++;
+        }
+    }
+
+    public void lock() {
+        locked = true;
+    }
+
+    private void checkLock(String methodName) {
+        if (locked) {
+            throw new RuntimeException("BlockDefinition: Attempted to modify a locked definition in method (" + methodName + ")!");
         }
     }
 }
