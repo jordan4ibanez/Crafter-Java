@@ -120,8 +120,8 @@ tasks.register("packageFullGame", Zip)  {
     // All game dirs
     for (directory in dirs) {
         println("Zipping folder: $directory")
-        from("$directory/") {
-            include "*"
+        from(directory) {
+            include "**"
             into("$baseFolder/$directory")
         }
     }
