@@ -28,12 +28,13 @@ import java.io.Serializable;
  */
 public class BiomeDefinition implements Serializable {
 
+    // The biome name
     private final String name;
-
+    // How high the biome's terrain varies
     private float scale = 20.0f;
-
+    // How much the terrain varies (density, lower is more)
     private float frequency = 0.01f;
-
+    // How many octaves of variance the terrain has (higher is more)
     private int octaves = 3;
 
     // Just basic names for these, nothing set in stone for them
@@ -41,7 +42,8 @@ public class BiomeDefinition implements Serializable {
     private String dirtLayer;
     private String stoneLayer;
 
-    // Base height is fixed in classic, maybe forever? No idea
+    // Base height is fixed in classic, maybe forever? No idea.
+    // Base height is the height the terrain will generate at if the noise output is exactly 0.
     private final static int BASE_HEIGHT = 60;
 
     //todo: These are possible future implementations
@@ -50,6 +52,7 @@ public class BiomeDefinition implements Serializable {
     private String[] ores;
 
     private Vector2f caveMinMaxNoise;
+    // todo: End possible future implementations
 
     public BiomeDefinition(String name) {
         this.name = name;
