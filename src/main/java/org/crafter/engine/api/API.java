@@ -22,6 +22,7 @@ import org.crafter.engine.texture.WorldAtlas;
 import org.crafter.engine.texture.texture_packer.TexturePacker;
 import org.crafter.engine.utility.FileReader;
 import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import javax.script.*;
 
@@ -45,7 +46,9 @@ public final class API {
 
     private API(){}
     public static void initialize() {
-        javaScript = new ScriptEngineManager().getEngineByName("Nashorn");
+        // Ecmascript 6, it's a miracle!
+        // Thank you, eugene, on this stackoverflow article response https://stackoverflow.com/questions/43406743/call-javascript-that-contains-const-from-java
+        javaScript = new NashornScriptEngineFactory().getScriptEngine("--language=es6");
         bindings = javaScript.getBindings(ScriptContext.ENGINE_SCOPE);
         compiler = (Compilable) javaScript;
         invoker  = (Invocable) javaScript;
