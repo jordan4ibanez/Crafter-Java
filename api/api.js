@@ -49,6 +49,7 @@ const crafter = [];
     // Classes from the engine which will disappear after this scope.
     const BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     const BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
+    const API = Java.type("org.crafter.engine.api.API");
 
     // Javascript level Block Definition registration function.
     crafter.registerBlock = function(newBlockDefinition) {
@@ -58,6 +59,11 @@ const crafter = [];
     // Javascript level Biome Definition registration function.
     crafter.registerBiome = function(newBiomeDefinition) {
         BiomeDefinitionContainer.registerBiome(newBiomeDefinition);
+    }
+
+    // Will get the mod directory of the current mod.
+    crafter.getCurrentModDirectory = function() {
+        return API.getCurrentModDirectory();
     }
 }()
 
