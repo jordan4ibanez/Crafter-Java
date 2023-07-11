@@ -21,6 +21,9 @@ import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static org.crafter.engine.camera.Camera.getCameraMatrix;
+import static org.crafter.engine.camera.Camera.getObjectMatrix;
+
 /**
  * AABB camera Matrix4f collision detection library.
  * Will detect if a collision box is within the viewing range.
@@ -31,6 +34,7 @@ import org.joml.Vector3f;
 public final class FrustumCulling {
 
     private static final Matrix4f workerMatrix = new Matrix4f();
+    private static final FrustumIntersection workerIntersection = new FrustumIntersection();
 
     private FrustumCulling(){}
 
@@ -43,9 +47,11 @@ public final class FrustumCulling {
 //    }
 
     public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
-        return FrustumIntersection(
-                workerMatrix.set(Camera.getCameraMatrix())
-                        .mul(Camera.getObjectMatrix())
+        return new FrustumIntersection(
+                workerMatrix
+                        .zero()
+                        .set(getCameraMatrix())
+                        .mul(getObjectMatrix())
         ).testAab(min,max);
     }
 
