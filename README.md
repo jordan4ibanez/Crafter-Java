@@ -11,6 +11,8 @@
 
 [![Matrix Space](https://matrix.org/images/matrix-logo-white.svg)](https://matrix.to/#/#crafter:matrix.org)
 
+### [View random, sporadic updates on my Youtube by clicking this text.](https://www.youtube.com/@Jordan4Ibanez)
+
 ## Project code direction: Modified Unix Philosophy
 **Note:** Code Philosophy should be in its own file in the future. It is fine here for now though. 
 ### Main gist
