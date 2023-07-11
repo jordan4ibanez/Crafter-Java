@@ -17,5 +17,31 @@
  */
 package org.crafter.engine.collision_detection;
 
-public class FrustumCulling {
+import org.joml.Vector3f;
+
+/**
+ * AABB camera Matrix4f collision detection library.
+ * Will detect if a collision box is within the viewing range.
+ * Using this will MASSIVELY improve FPS!
+ */
+public final class FrustumCulling {
+
+    private FrustumCulling(){}
+
+//    public static boolean insideFrustumSphere(float boundingRadius) {
+//        return FrustumIntersection(
+//                Matrix4d()
+//                        .set(Camera.getCameraMatrix())
+//                        .mul(Camera.getObjectMatrix())
+//        ).testSphere(0, 0, 0, boundingRadius);
+//    }
+
+    public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
+        return FrustumIntersection(
+                Matrix4d()
+                        .set(Camera.getCameraMatrix())
+                        .mul(Camera.getObjectMatrix())
+        ).testAab(min,max);
+    }
+
 }
