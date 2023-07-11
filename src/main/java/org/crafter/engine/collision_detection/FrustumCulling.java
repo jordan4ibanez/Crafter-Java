@@ -18,6 +18,7 @@
 package org.crafter.engine.collision_detection;
 
 import org.joml.FrustumIntersection;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 /**
@@ -28,6 +29,8 @@ import org.joml.Vector3f;
  * If you are using this for Vulkan, localize the cached objects!
  */
 public final class FrustumCulling {
+
+    private static final Matrix4f workerMatrix = new Matrix4f();
 
     private FrustumCulling(){}
 
@@ -41,8 +44,7 @@ public final class FrustumCulling {
 
     public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
         return FrustumIntersection(
-                Matrix4d()
-                        .set(Camera.getCameraMatrix())
+                workerMatrix.set(Camera.getCameraMatrix())
                         .mul(Camera.getObjectMatrix())
         ).testAab(min,max);
     }
