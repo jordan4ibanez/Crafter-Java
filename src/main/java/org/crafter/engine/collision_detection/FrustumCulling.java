@@ -60,9 +60,6 @@ public final class FrustumCulling {
         Note: utilize the new system for entities to quickly create worker implementations for this.
         with position and size instead of this horrific mess!
 
-        Camera.setObjectMatrix(offset, rotation, scale);
-        ^ this needs to get run before this, or it doesn't work, why was this like this in the D project?
-        This is in the D project because this is an optimization!
          */
 
         return workerIntersection.set(
