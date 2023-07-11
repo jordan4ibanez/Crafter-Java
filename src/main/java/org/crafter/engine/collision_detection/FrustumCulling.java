@@ -62,7 +62,6 @@ public final class FrustumCulling {
 
         return workerIntersection.set(
                 workerMatrix
-                    .zero()
                     .set(getCameraMatrix())
                     .mul(chunkMeshWorkerMatrix)
         ).testAab(
