@@ -33,6 +33,11 @@ import static org.crafter.engine.camera.Camera.getObjectMatrix;
  */
 public final class FrustumCulling {
 
+    /*
+    "I used to love this roguelike when I was a kid! And since it's a 2D dungeon crawler, porting it should be super easy!"
+    RIP Bri, 1995-2023
+     */
+
     private static final Matrix4f workerMatrix = new Matrix4f();
     private static final FrustumIntersection workerIntersection = new FrustumIntersection();
 
