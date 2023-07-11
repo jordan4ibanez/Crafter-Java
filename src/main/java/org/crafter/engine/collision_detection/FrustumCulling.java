@@ -47,11 +47,11 @@ public final class FrustumCulling {
 //    }
 
     public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
-        return new FrustumIntersection(
+        return workerIntersection.set(
                 workerMatrix
-                        .zero()
-                        .set(getCameraMatrix())
-                        .mul(getObjectMatrix())
+                    .zero()
+                    .set(getCameraMatrix())
+                    .mul(getObjectMatrix())
         ).testAab(min,max);
     }
 
