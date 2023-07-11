@@ -81,16 +81,10 @@ public class Chunk extends ChunkMeshHandling {
 
             final float positionY = i * getStackHeight();
 
-
             String gottenMeshUUID = getMesh(i);
-            if (gottenMeshUUID != null) {
 
-                //FIXME Severely unoptimized, utilize raw workers in next step!!!!
-                //FIXME INLINE ME!
-                final boolean check = insideFrustumChunkStack(positionX, positionY, positionZ);
-
-                // println("rendering: " + gottenMeshUUID);
-                if (check) {
+            if (gottenMeshUUID != null && insideFrustumChunkStack(positionX, positionY, positionZ)) {
+                
                     MeshStorage.render(gottenMeshUUID);
                 }
             }
