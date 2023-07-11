@@ -128,6 +128,16 @@ public final class Camera {
         return cameraMatrix;
     }
 
+    /**
+     * Get a read only version of the current object matrix.
+     * @return Read only Matrix4fc of the current object matrix.
+     */
+    public static Matrix4fc getObjectMatrix() {
+        return objectMatrix;
+    }
+
+
+
     public static void setGuiObjectMatrix(final float posX, final float posY) {
         setGuiObjectMatrix(posX, posY, 1, 1);
     }
