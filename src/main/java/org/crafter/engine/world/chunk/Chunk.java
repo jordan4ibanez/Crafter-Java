@@ -71,7 +71,10 @@ public class Chunk extends ChunkMeshHandling {
      */
     public void render() {
 
-        Camera.setObjectMatrix(positionWorker.set(position.x() * getWidth(),0, position.y() * getDepth()), rotation, scale);
+        final float positionX = position.x() * getWidth();
+        final float positionZ = position.y() * getDepth();
+
+        Camera.setObjectMatrix(positionWorker.set(positionX,0, positionZ), rotation, scale);
 
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);

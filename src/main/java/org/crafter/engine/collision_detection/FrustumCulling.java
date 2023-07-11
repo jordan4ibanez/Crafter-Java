@@ -38,7 +38,7 @@ public final class FrustumCulling {
     private static final FrustumIntersection workerIntersection = new FrustumIntersection();
 
     private FrustumCulling(){}
-    
+
     /**
      * The render frustum culling (optimization) for CHUNKS ONLY!
      * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
