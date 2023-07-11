@@ -51,9 +51,12 @@ public final class FrustumCulling {
 //        ).testSphere(0, 0, 0, boundingRadius);
 //    }
 
-    public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
+    public static boolean insideFrustumAABBRaw(Vector3f min, Vector3f max){
 
         /*
+
+        Note: utilize the new system for entities to quickly create worker implementations for this.
+        with position and size instead of this horrific mess!
 
         Camera.setObjectMatrix(offset, rotation, scale);
         ^ this needs to get run before this, or it doesn't work, why was this like this in the D project?
