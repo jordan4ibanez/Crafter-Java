@@ -52,6 +52,13 @@ public final class FrustumCulling {
 //    }
 
     public static boolean insideFrustumAABB(Vector3f min, Vector3f max){
+
+        /*
+
+        Camera.setObjectMatrix(offset, rotation, scale);
+        ^ this needs to get run before this, or it doesn't work, why was this like this in the D project?
+         */
+
         return workerIntersection.set(
                 workerMatrix
                     .zero()
