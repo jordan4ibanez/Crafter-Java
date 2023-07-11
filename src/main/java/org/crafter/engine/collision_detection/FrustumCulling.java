@@ -47,6 +47,9 @@ public final class FrustumCulling {
      * @return True or false. If the object is within view, this is true.
      */
     public static boolean pointEntityWithinFrustum(Vector3fc position) {
+
+        // Fixme: This needs testing!
+
         return workerIntersection.set(
                 workerMatrix
                         .set(getCameraMatrix())
