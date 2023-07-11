@@ -23,6 +23,9 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import static org.crafter.engine.camera.Camera.*;
+import static org.crafter.engine.world.chunk.ChunkArrayManipulation.getDepth;
+import static org.crafter.engine.world.chunk.ChunkArrayManipulation.getWidth;
+import static org.crafter.engine.world.chunk.ChunkMeshHandling.getStackHeight;
 
 /**
  * AABB camera Matrix4f collision detection library.
@@ -36,32 +39,40 @@ public final class FrustumCulling {
     private static final Matrix4f workerMatrix = new Matrix4f();
     private static final FrustumIntersection workerIntersection = new FrustumIntersection();
     private static final Matrix4f chunkMeshWorkerMatrix = new Matrix4f();
+    private static final Vector3f minWorker = new Vector3f();
+    private static final Vector3f maxWorker = new Vector3f();
 
     private FrustumCulling(){}
 
     /**
      * The render frustum culling (optimization) for CHUNKS STACKS ONLY!
      * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
-     * @param min Min position of AABB.
-     * @param max Max position of AABB.
+     * @param x Real X position in 3D space.
+     * @param y Real Y position in 3D space.
+     * @param z Real Z position in 3D space.
      * @return True or false. If the object is within view, this is true.
      */
-    public static boolean insideFrustumChunkStack(Vector3fc min, Vector3fc max){
+    public static boolean insideFrustumChunkStack(final float x, final float y, final float z){
 
         /*
         Note: utilize the new system for entities to quickly create worker implementations for this.
         with position and size instead of this horrific mess!
          */
+        updateInternalChunkRenderMatrix(x,y,z);
 
         return workerIntersection.set(
                 workerMatrix
                     .zero()
                     .set(getCameraMatrix())
-                    .mul(getObjectMatrix())
-        ).testAab(min,max);
+                    .mul(chunkMeshWorkerMatrix)
+        ).testAab(
+                minWorker.set(0,0,0),
+                maxWorker.set(getWidth(),getStackHeight(),getDepth())
+        );
     }
 
 
+    // This is a workaround due to all chunk stack meshes being base position 0
     private static void updateInternalChunkRenderMatrix(final float x, final float y, final float z) {
 
         Vector3fc cameraPosition = getPosition();
