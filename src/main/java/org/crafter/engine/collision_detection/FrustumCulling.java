@@ -89,10 +89,6 @@ public final class FrustumCulling {
      */
     public static boolean chunkStackWithinFrustum(final float x, final float y, final float z){
 
-        /*
-        Note: utilize the new system for entities to quickly create worker implementations for this.
-        with position and size instead of this horrific mess!
-         */
         updateInternalChunkRenderMatrix(x,y,z);
 
         return workerIntersection.set(
@@ -106,7 +102,8 @@ public final class FrustumCulling {
     }
 
 
-    // This is a workaround due to all chunk stack meshes being base position 0
+    // This is a workaround due to all chunk stack meshes being base position 0.
+    // This is a manual implementation of the calculation that happens in the GPU.
     private static void updateInternalChunkRenderMatrix(final float x, final float y, final float z) {
 
         Vector3fc cameraPosition = getPosition();
