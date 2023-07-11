@@ -40,13 +40,13 @@ public final class FrustumCulling {
     private FrustumCulling(){}
 
     /**
-     * The render frustum culling (optimization) for CHUNKS ONLY!
+     * The render frustum culling (optimization) for CHUNKS STACKS ONLY!
      * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
      * @param min Min position of AABB.
      * @param max Max position of AABB.
      * @return True or false. If the object is within view, this is true.
      */
-    public static boolean insideFrustumAABBRaw(Vector3fc min, Vector3fc max){
+    public static boolean insideFrustumChunkStack(Vector3fc min, Vector3fc max){
 
         /*
         Note: utilize the new system for entities to quickly create worker implementations for this.
