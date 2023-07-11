@@ -42,7 +42,20 @@ public final class FrustumCulling {
     private FrustumCulling(){}
 
     /**
-     * Check if an entity is within view. This is based on the entity's collision box!
+     * Check if a point entity is within view. This is pretty dang simple since it's 1 position in 3D space.
+     * @param position Where the Point Entity is in 3D space.
+     * @return True or false. If the object is within view, this is true.
+     */
+    public static boolean pointEntityWithinFrustum(Vector3fc position) {
+        return workerIntersection.set(
+                workerMatrix
+                        .set(getCameraMatrix())
+                        .mul(getObjectMatrix())
+        ).testPoint(position);
+    }
+
+    /**
+     * Check if an Entity is within view. This is based on the entity's collision box!
      * @param position The entity's position.
      * @param size The entity's size.
      * @return True or false. If the object is within view, this is true.
