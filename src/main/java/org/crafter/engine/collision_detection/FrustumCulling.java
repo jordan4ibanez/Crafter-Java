@@ -42,6 +42,28 @@ public final class FrustumCulling {
     private FrustumCulling(){}
 
     /**
+     * Check if an entity is within view. This is based on the entity's collision box!
+     * @param position The entity's position.
+     * @param size The entity's size.
+     * @return True or false. If the object is within view, this is true.
+     */
+    public static boolean entityWithinFrustum(Vector3fc position, Vector2fc size) {
+
+        // Fixme: This needs testing!
+
+        final float halfWidth = size.x() / 2.0f;
+
+        return workerIntersection.set(
+                workerMatrix
+                        .set(getCameraMatrix())
+                        .mul(getObjectMatrix())
+        ).testAab(
+                minWorker.set(position.x() - halfWidth, position.y(), position.z() - halfWidth),
+                maxWorker.set(position.x() + halfWidth, position.y() + size.y(), position.z() + halfWidth)
+        );
+    }
+
+    /**
      * The render frustum culling (optimization) for CHUNKS STACKS ONLY!
      * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
      * @param x Real X position in 3D space.
