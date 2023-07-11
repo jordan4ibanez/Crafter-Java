@@ -20,6 +20,7 @@ package org.crafter.engine.collision_detection;
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import static org.crafter.engine.camera.Camera.getCameraMatrix;
 import static org.crafter.engine.camera.Camera.getObjectMatrix;
@@ -54,12 +55,11 @@ public final class FrustumCulling {
      * @param max Max position of AABB.
      * @return True or false. If the object is within view, this is true.
      */
-    public static boolean insideFrustumAABBRaw(Vector3f min, Vector3f max){
+    public static boolean insideFrustumAABBRaw(Vector3fc min, Vector3fc max){
 
         /*
         Note: utilize the new system for entities to quickly create worker implementations for this.
         with position and size instead of this horrific mess!
-
          */
 
         return workerIntersection.set(
