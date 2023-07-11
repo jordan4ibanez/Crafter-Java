@@ -26,6 +26,7 @@ import org.joml.Math;
 
 import java.io.Serializable;
 
+import static org.crafter.engine.collision_detection.FrustumCulling.insideFrustumChunkStack;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
@@ -79,8 +80,19 @@ public class Chunk extends ChunkMeshHandling {
         for (int i = 0; i < getStacks(); i++) {
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
+
+                final float positionY = i * getStackHeight();
+
+                //FIXME Severely unoptimized, utilize raw workers in next step!!!!
+                final boolean check = insideFrustumChunkStack(
+                        new Vector3f(positionX, positionY, positionZ),
+                        new Vector3f(positionX + getWidth(), positionY + getStackHeight(), positionZ + getDepth())
+                );
+
                 // println("rendering: " + gottenMeshUUID);
-                MeshStorage.render(gottenMeshUUID);
+                if (check) {
+                    MeshStorage.render(gottenMeshUUID);
+                }
             }
         }
     }
