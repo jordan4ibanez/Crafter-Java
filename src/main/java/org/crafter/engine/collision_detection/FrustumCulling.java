@@ -17,12 +17,15 @@
  */
 package org.crafter.engine.collision_detection;
 
+import org.joml.FrustumIntersection;
 import org.joml.Vector3f;
 
 /**
  * AABB camera Matrix4f collision detection library.
  * Will detect if a collision box is within the viewing range.
  * Using this will MASSIVELY improve FPS!
+ * Warning: This is NOT thread safe! This is only for using in OpenGL single threaded rendering!
+ * If you are using this for Vulkan, localize the cached objects!
  */
 public final class FrustumCulling {
 
