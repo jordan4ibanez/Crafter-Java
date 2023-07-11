@@ -78,17 +78,16 @@ public class Chunk extends ChunkMeshHandling {
         Camera.setObjectMatrix(positionWorker.set(positionX,0, positionZ), rotation, scale);
 
         for (int i = 0; i < getStacks(); i++) {
+
+            final float positionY = i * getStackHeight();
+
+
             String gottenMeshUUID = getMesh(i);
             if (gottenMeshUUID != null) {
 
-                final float positionY = i * getStackHeight();
-
                 //FIXME Severely unoptimized, utilize raw workers in next step!!!!
                 //FIXME INLINE ME!
-                final boolean check = insideFrustumChunkStack(
-                        new Vector3f(positionX, positionY, positionZ),
-                        new Vector3f(positionX + getWidth(), positionY + getStackHeight(), positionZ + getDepth())
-                );
+                final boolean check = insideFrustumChunkStack(positionX, positionY, positionZ);
 
                 // println("rendering: " + gottenMeshUUID);
                 if (check) {
