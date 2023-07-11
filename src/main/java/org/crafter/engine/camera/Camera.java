@@ -120,6 +120,14 @@ public final class Camera {
         ShaderStorage.setUniform("objectMatrix", objectMatrix);
     }
 
+    /**
+     * Get a read only version of the current camera matrix.
+     * @return Read only Matrix4fc of the current camera matrix.
+     */
+    public static Matrix4fc getCameraMatrix() {
+        return cameraMatrix;
+    }
+
     public static void setGuiObjectMatrix(final float posX, final float posY) {
         setGuiObjectMatrix(posX, posY, 1, 1);
     }
