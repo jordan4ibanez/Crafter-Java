@@ -38,16 +38,7 @@ public final class FrustumCulling {
     private static final FrustumIntersection workerIntersection = new FrustumIntersection();
 
     private FrustumCulling(){}
-
-    // fixme: why is there a sphere test in the D code???
-//    public static boolean insideFrustumSphere(float boundingRadius) {
-//        return FrustumIntersection(
-//                Matrix4d()
-//                        .set(Camera.getCameraMatrix())
-//                        .mul(Camera.getObjectMatrix())
-//        ).testSphere(0, 0, 0, boundingRadius);
-//    }
-
+    
     /**
      * The render frustum culling (optimization) for CHUNKS ONLY!
      * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
