@@ -43,6 +43,7 @@ public final class FrustumCulling {
 
     private FrustumCulling(){}
 
+    // fixme: why is there a sphere test in the D code???
 //    public static boolean insideFrustumSphere(float boundingRadius) {
 //        return FrustumIntersection(
 //                Matrix4d()
