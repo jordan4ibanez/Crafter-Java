@@ -18,15 +18,10 @@
 package org.crafter.engine.world.chunk;
 
 import org.crafter.engine.camera.Camera;
-import org.crafter.engine.delta.Delta;
 import org.crafter.engine.mesh.MeshStorage;
-import org.crafter.engine.shader.ShaderStorage;
 import org.joml.*;
-import org.joml.Math;
 
-import java.io.Serializable;
-
-import static org.crafter.engine.collision_detection.FrustumCulling.insideFrustumChunkStack;
+import static org.crafter.engine.collision_detection.FrustumCulling.chunkStackWithinFrustum;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
@@ -83,7 +78,7 @@ public class Chunk extends ChunkMeshHandling {
 
             String gottenMeshUUID = getMesh(i);
 
-            if (gottenMeshUUID != null && insideFrustumChunkStack(positionX, positionY, positionZ)) {
+            if (gottenMeshUUID != null && chunkStackWithinFrustum(positionX, positionY, positionZ)) {
                 MeshStorage.render(gottenMeshUUID);
             }
         }

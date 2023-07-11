@@ -17,10 +17,7 @@
  */
 package org.crafter.engine.collision_detection;
 
-import org.joml.FrustumIntersection;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
+import org.joml.*;
 
 import static org.crafter.engine.camera.Camera.*;
 import static org.crafter.engine.world.chunk.ChunkArrayManipulation.getDepth;
@@ -52,7 +49,7 @@ public final class FrustumCulling {
      * @param z Real Z position in 3D space.
      * @return True or false. If the object is within view, this is true.
      */
-    public static boolean insideFrustumChunkStack(final float x, final float y, final float z){
+    public static boolean chunkStackWithinFrustum(final float x, final float y, final float z){
 
         /*
         Note: utilize the new system for entities to quickly create worker implementations for this.
