@@ -52,6 +52,13 @@ public final class FrustumCulling {
 //        ).testSphere(0, 0, 0, boundingRadius);
 //    }
 
+    /**
+     * The render frustum culling (optimization) for CHUNKS ONLY!
+     * Remember: Camera.setObjectMatrix() MUST be called BEFORE running this!
+     * @param min Min position of AABB.
+     * @param max Max position of AABB.
+     * @return True or false. If the object is within view, this is true.
+     */
     public static boolean insideFrustumAABBRaw(Vector3f min, Vector3f max){
 
         /*
