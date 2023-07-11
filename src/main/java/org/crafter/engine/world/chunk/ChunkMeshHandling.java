@@ -74,7 +74,7 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
         return meshes[stack];
     }
 
-    public int getStackHeight() {
+    public static int getStackHeight() {
         return STACK_HEIGHT;
     }
 }
