@@ -84,6 +84,7 @@ public class Chunk extends ChunkMeshHandling {
                 final float positionY = i * getStackHeight();
 
                 //FIXME Severely unoptimized, utilize raw workers in next step!!!!
+                //FIXME INLINE ME!
                 final boolean check = insideFrustumChunkStack(
                         new Vector3f(positionX, positionY, positionZ),
                         new Vector3f(positionX + getWidth(), positionY + getStackHeight(), positionZ + getDepth())
