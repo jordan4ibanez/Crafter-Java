@@ -84,9 +84,7 @@ public class Chunk extends ChunkMeshHandling {
             String gottenMeshUUID = getMesh(i);
 
             if (gottenMeshUUID != null && insideFrustumChunkStack(positionX, positionY, positionZ)) {
-                
-                    MeshStorage.render(gottenMeshUUID);
-                }
+                MeshStorage.render(gottenMeshUUID);
             }
         }
     }
