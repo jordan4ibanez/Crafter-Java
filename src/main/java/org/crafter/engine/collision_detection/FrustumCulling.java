@@ -22,8 +22,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-import static org.crafter.engine.camera.Camera.getCameraMatrix;
-import static org.crafter.engine.camera.Camera.getObjectMatrix;
+import static org.crafter.engine.camera.Camera.*;
 
 /**
  * AABB camera Matrix4f collision detection library.
@@ -36,6 +35,7 @@ public final class FrustumCulling {
 
     private static final Matrix4f workerMatrix = new Matrix4f();
     private static final FrustumIntersection workerIntersection = new FrustumIntersection();
+    private static final Matrix4f chunkMeshWorkerMatrix = new Matrix4f();
 
     private FrustumCulling(){}
 
@@ -59,6 +59,20 @@ public final class FrustumCulling {
                     .set(getCameraMatrix())
                     .mul(getObjectMatrix())
         ).testAab(min,max);
+    }
+
+
+    private static void updateInternalChunkRenderMatrix(final float x, final float y, final float z) {
+
+        Vector3fc cameraPosition = getPosition();
+
+        chunkMeshWorkerMatrix
+            .identity()
+            .translate(
+                    x - cameraPosition.x(),
+                    y - cameraPosition.y(),
+                    z - cameraPosition.z()
+            );
     }
 
 }
