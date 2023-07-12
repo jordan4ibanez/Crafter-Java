@@ -23,6 +23,8 @@ import org.joml.Vector3f;
 
 import java.util.UUID;
 
+import static org.crafter.engine.utility.JOMLUtils.printVec;
+
 /**
  * This is absolutely NOT thread safe.
  * Gets you a line drawing capable 3d box representing the AABB collision box.
@@ -54,6 +56,7 @@ public final class DebugCollisionBoxMeshFactory {
     }
 
     private static float[] generateRawVertices(Vector2fc size) {
+        printVec("DEBUG SIZE: ", size);
         min.set(-size.x(), 0, -size.x());
         max.set( size.x(), size.y(), size.x());
         return new float[]{
