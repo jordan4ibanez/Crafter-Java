@@ -17,8 +17,11 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.crafter.engine.mesh.MeshStorage;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
+
+import java.util.UUID;
 
 /**
  * This is absolutely NOT thread safe.
@@ -29,6 +32,24 @@ public final class DebugCollisionBoxMeshFactory {
     private static final Vector3f min = new Vector3f();
     private static final Vector3f max = new Vector3f();
     private DebugCollisionBoxMeshFactory(){}
+
+    public static void generateCollisionBox(Vector2fc size) {
+        final float[] rawVertices = generateRawVertices(size);
+
+        final String uuid = UUID.randomUUID().toString();
+
+        MeshStorage.newMesh(
+                uuid,
+                rawVertices,
+                null,
+                null,
+                null,
+                null,
+                null,
+                false
+        );
+    }
+
     private static float[] generateRawVertices(Vector2fc size) {
         min.set(-size.x(), 0, -size.x());
         max.set( size.x(), size.y(), size.x());
