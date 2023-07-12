@@ -30,9 +30,11 @@ import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.engine.world_generation.ChunkThreadDirector;
 import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
+import org.crafter.game.entity.player.Player;
 import org.joml.Vector2i;
+import org.joml.Vector3f;
 
-import static org.crafter.game.entity.player.PlayerStorage.addNewPlayer;
+import static org.crafter.game.entity.player.PlayerStorage.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
 public class Main {
@@ -125,6 +127,20 @@ public class Main {
 
         ChunkThreadDirector.runLogic();
 
+
+        // Render all players
+        if (playerExists("singleplayer")) {
+            // This is done here manually because it's about to be flipped
+            Player singlePlayer = getPlayer("singleplayer");
+
+            Vector3f newBoxPos = new Vector3f(Camera.getPosition());
+            newBoxPos.y -= 1.5;
+            singlePlayer.setPosition(newBoxPos);
+
+            singlePlayer.renderCollisionBox();
+        }
+
+        // Render all chunks
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
             for (int z = -classicMapSize; z <= classicMapSize; z++) {
                 final Vector2i requestingPosition = new Vector2i(x,z);
@@ -133,6 +149,8 @@ public class Main {
                 }
             }
         }
+
+
 
         Window.swapBuffers();
     }
