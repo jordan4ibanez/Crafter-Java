@@ -18,8 +18,10 @@
 package org.crafter.engine.collision_detection.world_collision;
 
 import org.crafter.game.entity.entity_prototypes.Entity;
+import org.joml.Vector3f;
 
 import static org.crafter.engine.delta.Delta.getDelta;
+import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
  * Terrain physics is how an entity moves & collides with the world.
@@ -27,8 +29,8 @@ import static org.crafter.engine.delta.Delta.getDelta;
  */
 public final class Physics {
 
-    // Max speed is the literal max speed that an entity can move at after the delta has been factored in.
-    private final static float MAX_SPEED = 0.85f;
+    // Max speed is the literal max velocity that an entity can move at after the delta has been factored in.
+    private final static float MAX_VELOCITY = 0.05f;
     // Max delta is the literal max delta that can be factored into an entity. 5 FPS or 0.2f.
     private final static float MAX_DELTA = 0.2f;
 
@@ -40,6 +42,21 @@ public final class Physics {
         if (delta > MAX_DELTA) {
             delta = MAX_DELTA;
         }
+
+        Vector3f currentVelocity = entity.getVelocity();
+        Vector3f currentPosition = entity.getPosition();
+
+        currentVelocity.y -= delta * entity.getGravity();
+
+        if (currentVelocity.y < -MAX_VELOCITY) {
+            currentVelocity.y = -MAX_VELOCITY;
+        }
+
+//        println("delta: " + delta);
+//        println("current velocity Y: " + currentVelocity.y);
+
+        currentPosition.add(currentVelocity);
+
 
     }
 }
