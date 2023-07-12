@@ -26,6 +26,7 @@ import java.util.HashMap;
 public final class PlayerStorage {
 
     private static boolean clientLockout = false;
+    private static String clientPlayerName;
     private static final HashMap<String, Player> container = new HashMap<>();
 
     private PlayerStorage(){}
@@ -38,6 +39,7 @@ public final class PlayerStorage {
         container.put(name, player);
 
         if (clientPlayer) {
+            clientPlayerName = name;
             clientLockout = true;
         }
 
@@ -56,6 +58,16 @@ public final class PlayerStorage {
 
     public static void deletePlayer(String name) {
         container.remove(name);
+    }
+
+    public static boolean clientPlayerExists() {
+        if (clientPlayerName == null) {
+            return false;
+        }
+        return container.containsKey(clientPlayerName);
+    }
+    public static Player getClientPlayer() {
+        return container.get(clientPlayerName);
     }
 
 }
