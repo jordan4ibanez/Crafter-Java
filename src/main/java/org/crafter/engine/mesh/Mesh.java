@@ -154,7 +154,8 @@ public class Mesh {
     public void renderLineMode() {
         glBindTexture(GL_TEXTURE_2D, textureID);
         glBindVertexArray(vaoID);
-        glDrawElements(GL_LINES, indicesCount, GL_UNSIGNED_INT, 0);
+//        glDrawArrays(GL_TRIANGLES, 0, indicesCount);
+         glDrawElements(GL_LINES, indicesCount, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
 
