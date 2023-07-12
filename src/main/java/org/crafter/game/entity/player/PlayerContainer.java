@@ -38,12 +38,13 @@ public final class PlayerContainer {
         player.setSize(1.8f, 0.6f);
         container.put(name, player);
 
-        final String playerType = clientPlayer ? "Client" : "External";
-
-        System.out.println("PlayerContainer: Added new " + playerType + " player into world.");
         if (clientPlayer) {
             clientLockout = true;
         }
+
+        final String playerType = clientPlayer ? "Client" : "External";
+
+        System.out.println("PlayerContainer: Added new (" + playerType + ") player into world. Name: (" + name + ")");
     }
 
 
