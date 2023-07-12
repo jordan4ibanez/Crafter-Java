@@ -27,6 +27,8 @@ import org.joml.*;
 import java.lang.Math;
 
 import static org.crafter.engine.utility.GameMath.*;
+import static org.crafter.game.entity.player.PlayerStorage.clientPlayerExists;
+import static org.crafter.game.entity.player.PlayerStorage.getClientPlayer;
 import static org.joml.Math.PI;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -219,18 +221,31 @@ public final class Camera {
         return 1.0f / sensitivity;
     }
 
-    //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
-    // make it so that it's controlled with a boolean or number or some poop
-    // ALSO make this pure functional where camera has one state call and it will automatically go between methods based on the state
-
-    public static void freeCam() {
-
+    /**
+     * Automatically links the client player into the camera.
+     */
+    public static void firstPersonCamera() {
         // Rotation
         Vector2fc mouseDelta = Mouse.getDelta();
         // Very, very important note: Notice that x & y are swapped. Because the window 2d matrix is 90 degrees rotated from the 3d matrix!
         cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0).mul(Camera.getSensitivity());
         Camera.getRotation().add(cameraDelta, newCameraRotation);
         Camera.setRotation(newCameraRotation);
+
+        if (clientPlayerExists()) {
+            Vector3f position = getClientPlayer().getPosition();
+            setPosition(position.x, position.y + 1.5f, position.z);
+        }
+
+        Camera.updateCameraMatrix();
+    }
+
+    //todo: This is an ultra hack which should definitely be a state of the camera if it has a first person control system.
+    // make it so that it's controlled with a boolean or number or some poop
+    // ALSO make this pure functional where camera has one state call and it will automatically go between methods based on the state
+
+    public static void freeCam() {
+
 
         // newCameraRotation is now used below
 
@@ -280,6 +295,6 @@ public final class Camera {
         cameraPosition.add(finalCameraMovement, newCameraPosition);
         Camera.setPosition(newCameraPosition);
 
-        Camera.updateCameraMatrix();
+
     }
 }
