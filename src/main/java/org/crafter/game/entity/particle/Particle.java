@@ -17,7 +17,7 @@
  */
 package org.crafter.game.entity.particle;
 
-import org.crafter.game.entity.PointEntity;
+import org.crafter.game.entity.entity_prototypes.PointEntity;
 
 public class Particle extends PointEntity {
     // Todo

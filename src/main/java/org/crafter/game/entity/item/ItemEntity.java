@@ -17,7 +17,7 @@
  */
 package org.crafter.game.entity.item;
 
-import org.crafter.game.entity.Entity;
+import org.crafter.game.entity.entity_prototypes.Entity;
 
 public class ItemEntity extends Entity {
     // Todo
