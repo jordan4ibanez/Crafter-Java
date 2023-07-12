@@ -47,11 +47,12 @@ final class AABBCollision {
      * @param size2 Entity 2's size.
      * @return True or false. True if the entity intersects.
      */
-    public static boolean collideEntityToTerrain(Vector3fc oldPosition1, Vector3f position1, Vector2fc size1, Vector3fc position2, Vector2fc size2) {
+    public static boolean collideEntityToTerrain(final Vector3fc oldPosition1, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
 
         // I said this was gonna be complicated, didn't I?
         min1Old.set(oldPosition1.x() - size1.x(), oldPosition1.y(), oldPosition1.z() - size1.x());
         max1Old.set(oldPosition1.x() + size1.x(), oldPosition1.y() + size1.y(), oldPosition1.z() + size1.x());
+
         min1.set(position1.x() - size1.x(), position1.y(), position1.z() - size1.x());
         max1.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
 
@@ -60,49 +61,51 @@ final class AABBCollision {
         
 
         // These are 1D collision detections
-        boolean bottomWasNotIn = min1Old.y() > max2.y();
-        boolean bottomIsNowIn = min1.y() <= max2.y() && min1.y() >= min2.y();
-        boolean topWasNotIn = max1Old.y() < min2.y();
-        boolean topIsNowIn = max1.y() <= max2.y() && max1.y() >= min2.y();
+        final boolean bottomWasNotIn = min1Old.y() > max2.y();
+        final boolean bottomIsNowIn = min1.y() <= max2.y() && min1.y() >= min2.y();
+        final boolean topWasNotIn = max1Old.y() < min2.y();
+        final boolean topIsNowIn = max1.y() <= max2.y() && max1.y() >= min2.y();
 
-        boolean leftWasNotIn = min1Old.x() > max2.x();
-        boolean leftIsNowIn = min1.x() <= max2.x() && min1.x() >= min2.x();
-        boolean rightWasNotIn = max1Old.x() < min2.x();
-        boolean rightIsNowIn = max1.x() <= max2.x() && max1.x() >= min2.x();
+        final boolean leftWasNotIn = min1Old.x() > max2.x();
+        final boolean leftIsNowIn = min1.x() <= max2.x() && min1.x() >= min2.x();
+        final boolean rightWasNotIn = max1Old.x() < min2.x();
+        final boolean rightIsNowIn = max1.x() <= max2.x() && max1.x() >= min2.x();
 
-        boolean backWasNotIn = min1Old.z() > max2.z();
-        boolean backIsNowIn = min1.z() <= max2.z() && min1.z() >= min2.z();
-        boolean frontWasNotIn = max1Old.z() < min2.z();
-        boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
+        final boolean backWasNotIn = min1Old.z() > max2.z();
+        final boolean backIsNowIn = min1.z() <= max2.z() && min1.z() >= min2.z();
+        final boolean frontWasNotIn = max1Old.z() < min2.z();
+        final boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
 
 
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
-            thisEntity.position.y = max2.y() + thisEntity.size.y + 0.001;
-            thisEntity.wasOnGround = true;
-
-            thisEntity.velocity.y = 0;
+            position1.y = max2.y() + size1.y() + 0.001f;
+//            thisEntity.wasOnGround = true;
+//            thisEntity.velocity.y = 0;
         } else if (topWasNotIn && topIsNowIn) {
-            thisEntity.position.y = min2.y - thisEntity.size.y - 0.001;
-            thisEntity.velocity.y = 0;
+            position1.y = min2.y - size1.y() - 0.001f;
+//            thisEntity.velocity.y = 0;
         }
         // then x
         else if (leftWasNotIn && leftIsNowIn) {
-            thisEntity.position.x = max2.x() + thisEntity.size.x + 0.001;
-            thisEntity.velocity.x = 0;
+            position1.x = max2.x() + size1.x() + 0.001f;
+//            thisEntity.velocity.x = 0;
         } else if (rightWasNotIn && rightIsNowIn) {
-            thisEntity.position.x = min2.x - thisEntity.size.x - 0.001;
-            thisEntity.velocity.x = 0;
+            position1.x = min2.x - size1.x() - 0.001f;
+//            thisEntity.velocity.x = 0;
         }
 
         // finally z
         else if (backWasNotIn && backIsNowIn) {
-            thisEntity.position.z = max2.z + thisEntity.size.z + 0.001;
-            thisEntity.velocity.z = 0;
+            position1.z = max2.z + size1.x() + 0.001f;
+//            thisEntity.velocity.z = 0;
         } else if (frontWasNotIn && frontIsNowIn) {
-            thisEntity.position.z = min2.z - thisEntity.size.z - 0.001;
-            thisEntity.velocity.z = 0;
+            position1.z = min2.z - size1.x() - 0.001f;
+//            thisEntity.velocity.z = 0;
         }
+
+        //FIXME placeholder!
+        return true;
     }
 
 }
