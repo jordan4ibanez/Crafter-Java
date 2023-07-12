@@ -20,6 +20,7 @@ package org.crafter.engine.collision_detection;
 import org.joml.*;
 
 import static org.crafter.engine.camera.Camera.*;
+import static org.crafter.engine.utility.UtilityPrinter.println;
 import static org.crafter.engine.world.chunk.ChunkArrayManipulation.getDepth;
 import static org.crafter.engine.world.chunk.ChunkArrayManipulation.getWidth;
 import static org.crafter.engine.world.chunk.ChunkMeshHandling.getStackHeight;
@@ -49,6 +50,7 @@ public final class FrustumCulling {
     public static boolean pointEntityWithinFrustum(Vector3fc position) {
 
         // Fixme: This needs testing!
+        println("pointEntityWithinFrustum is untested!");
 
         return workerIntersection.set(
                 workerMatrix
@@ -66,6 +68,7 @@ public final class FrustumCulling {
     public static boolean entityWithinFrustum(Vector3fc position, Vector2fc size) {
 
         // Fixme: This needs testing!
+        println("entityWithinFrustum is untested!");
 
         final float halfWidth = size.x() / 2.0f;
 
