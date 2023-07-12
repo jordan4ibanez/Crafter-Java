@@ -123,8 +123,6 @@ public class Main {
         ShaderStorage.start("3d");
 
 
-        Camera.firstPersonCamera();
-
         ChunkThreadDirector.runLogic();
 
 
@@ -136,6 +134,9 @@ public class Main {
 
             player.renderCollisionBox();
         }
+
+        // This must run after player physics or else it's lagging behind!
+        Camera.firstPersonCamera();
 
         // Render all chunks
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
