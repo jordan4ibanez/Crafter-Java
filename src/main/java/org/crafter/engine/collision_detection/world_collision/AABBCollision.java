@@ -28,7 +28,7 @@ final class AABBCollision {
 
     private AABBCollision(){}
 
-    public static boolean collide(Vector3fc position, Vector2fc size) {
+    public static boolean collide(Vector3fc oldPosition1, Vector3fc position1, Vector2fc size1, Vector3fc oldPosition2, Vector3fc position2, Vector2fc size2) {
         BoundingBox thisBox = thisEntity.getBoundingBox();
 
         foreach(otherEntity; thisQuadrant.entitiesWithin.filter !(o = > o != thisEntity)){
