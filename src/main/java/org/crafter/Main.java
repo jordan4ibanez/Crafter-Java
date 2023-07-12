@@ -32,6 +32,7 @@ import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.joml.Vector2i;
 
+import static org.crafter.game.entity.player.PlayerContainer.addNewPlayer;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
 public class Main {
@@ -100,6 +101,8 @@ public class Main {
         Mouse.capture();
 
         classicChunkPayload();
+
+        addNewPlayer("singleplayer", true);
     }
 
     private static void mainLoop() {
