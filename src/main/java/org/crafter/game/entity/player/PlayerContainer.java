@@ -31,6 +31,8 @@ public final class PlayerContainer {
 
     public static void addNewPlayer(String name, boolean clientPlayer) {
         Player player = new Player(name, clientPlayer);
+        player.setSize(1.8f, 0.6f);
+        container.put(name, player);
     }
 
 
