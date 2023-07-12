@@ -105,6 +105,7 @@ public class Main {
         classicChunkPayload();
 
         addNewPlayer("singleplayer", true);
+        getPlayer("singleplayer").setPosition(0,74,0);
     }
 
     private static void mainLoop() {
@@ -122,8 +123,7 @@ public class Main {
         ShaderStorage.start("3d");
 
 
-        //todo This is temp remove me plz
-        Camera.freeCam();
+        Camera.firstPersonCamera();
 
         ChunkThreadDirector.runLogic();
 
