@@ -17,6 +17,12 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import static org.crafter.engine.delta.Delta.getDelta;
+
+/**
+ * Terrain physics is how an entity moves & collides with the world.
+ * Probably needs a better name.
+ */
 public final class Physics {
 
     // Max speed is the literal max speed that an entity can move at after the delta has been factored in.
@@ -26,7 +32,12 @@ public final class Physics {
 
     private Physics(){}
 
-    public static void doPhysics() {
+    public static void entityTerrainPhysics() {
+
+        float delta = getDelta();
+        if (delta > MAX_DELTA) {
+            delta = MAX_DELTA;
+        }
 
     }
 }
