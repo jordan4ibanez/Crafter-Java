@@ -25,14 +25,25 @@ import java.util.HashMap;
  */
 public final class PlayerContainer {
 
+    private static boolean clientLockout = false;
     private static final HashMap<String, Player> container = new HashMap<>();
 
     private PlayerContainer(){}
 
     public static void addNewPlayer(String name, boolean clientPlayer) {
+        if (clientLockout && clientPlayer) {
+            throw new RuntimeException("PlayerContainer: Error! Tried to add more than one Client player into the world!");
+        }
         Player player = new Player(name, clientPlayer);
         player.setSize(1.8f, 0.6f);
         container.put(name, player);
+
+        final String playerType = clientPlayer ? "Client" : "External";
+
+        System.out.println("PlayerContainer: Added new " + playerType + " player into world.");
+        if (clientPlayer) {
+            clientLockout = true;
+        }
     }
 
 
