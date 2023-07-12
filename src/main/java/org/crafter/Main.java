@@ -130,14 +130,7 @@ public class Main {
 
         // Render all players
         if (playerExists("singleplayer")) {
-            // This is done here manually because it's about to be flipped
-            Player singlePlayer = getPlayer("singleplayer");
-
-            Vector3f newBoxPos = new Vector3f(Camera.getPosition());
-            newBoxPos.y -= 1.5;
-            singlePlayer.setPosition(newBoxPos);
-
-            singlePlayer.renderCollisionBox();
+            getPlayer("singleplayer").renderCollisionBox();
         }
 
         // Render all chunks
