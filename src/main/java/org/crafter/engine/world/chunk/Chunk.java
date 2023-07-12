@@ -21,7 +21,7 @@ import org.crafter.engine.camera.Camera;
 import org.crafter.engine.mesh.MeshStorage;
 import org.joml.*;
 
-import static org.crafter.engine.collision_detection.FrustumCulling.chunkStackWithinFrustum;
+import static org.crafter.engine.collision_detection.camera_collision.FrustumCulling.chunkStackWithinFrustum;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
