@@ -45,4 +45,8 @@ public class Player extends Entity {
     public String getCollisionBoxMesh() {
         return collisionBoxMesh;
     }
+
+    public void renderCollisionBox() {
+
+    }
 }

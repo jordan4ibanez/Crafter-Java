@@ -20,19 +20,19 @@ package org.crafter.game.entity.player;
 import java.util.HashMap;
 
 /**
- * The player container is not only the container for player, but how you talk to players.
+ * The player storage is not only the container for player, but how you talk to players.
  * Think of it as a factory for players, kind of.
  */
-public final class PlayerContainer {
+public final class PlayerStorage {
 
     private static boolean clientLockout = false;
     private static final HashMap<String, Player> container = new HashMap<>();
 
-    private PlayerContainer(){}
+    private PlayerStorage(){}
 
     public static void addNewPlayer(String name, boolean clientPlayer) {
         if (clientLockout && clientPlayer) {
-            throw new RuntimeException("PlayerContainer: Error! Tried to add more than one Client player into the world!");
+            throw new RuntimeException("PlayerStorage: Error! Tried to add more than one Client player into the world!");
         }
         Player player = new Player(name, clientPlayer);
         player.setSize(1.8f, 0.6f);
@@ -44,7 +44,7 @@ public final class PlayerContainer {
 
         final String playerType = clientPlayer ? "Client" : "External";
 
-        System.out.println("PlayerContainer: Added new (" + playerType + ") player into world. Name: (" + name + ")");
+        System.out.println("PlayerStorage: Added new (" + playerType + ") player into world. Name: (" + name + ")");
     }
 
 
