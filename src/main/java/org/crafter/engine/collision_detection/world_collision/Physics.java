@@ -17,6 +17,8 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.crafter.game.entity.entity_prototypes.Entity;
+
 import static org.crafter.engine.delta.Delta.getDelta;
 
 /**
@@ -32,7 +34,7 @@ public final class Physics {
 
     private Physics(){}
 
-    public static void entityTerrainPhysics() {
+    public static void entityPhysics(Entity entity) {
 
         float delta = getDelta();
         if (delta > MAX_DELTA) {

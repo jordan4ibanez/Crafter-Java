@@ -32,8 +32,9 @@ import org.crafter.engine.world_generation.chunk_generation.ChunkGenerator;
 import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.crafter.game.entity.player.Player;
 import org.joml.Vector2i;
-import org.joml.Vector3f;
 
+import static org.crafter.engine.collision_detection.world_collision.Physics.entityPhysics;
+import static org.crafter.engine.collision_detection.world_collision.Physics.entityTerrainPhysics;
 import static org.crafter.game.entity.player.PlayerStorage.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
@@ -130,7 +131,11 @@ public class Main {
 
         // Render all players
         if (playerExists("singleplayer")) {
-            getPlayer("singleplayer").renderCollisionBox();
+            Player player = getPlayer("singleplayer");
+
+            entityPhysics(player);
+
+            player.renderCollisionBox();
         }
 
         // Render all chunks
