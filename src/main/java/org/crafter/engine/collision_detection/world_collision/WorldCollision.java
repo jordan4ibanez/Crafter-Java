@@ -15,9 +15,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package org.crafter.engine.collision_detection;
+package org.crafter.engine.collision_detection.world_collision;
 
-public final class AABBCollision {
-
-    private AABBCollision(){}
+public class WorldCollision {
 }
