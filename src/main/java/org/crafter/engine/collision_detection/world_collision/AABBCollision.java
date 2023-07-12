@@ -17,7 +17,7 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
-public final class AABBCollision {
+final class AABBCollision {
 
     private AABBCollision(){}
 }
