@@ -18,12 +18,31 @@
 package org.crafter.engine.collision_detection.world_collision;
 
 import org.joml.Vector2fc;
+import org.joml.Vector3f;
 
+/**
+ * This is absolutely NOT thread safe.
+ * Gets you a line drawing capable 3d box representing the AABB collision box.
+ * This is in here because it's literal only use case is for debugging the AABB collision box!
+ */
 public final class DebugCollisionBoxMeshFactory {
-
+    private static final Vector3f min = new Vector3f();
+    private static final Vector3f max = new Vector3f();
     private DebugCollisionBoxMeshFactory(){}
-    public static String generateDebugMesh(Vector2fc size) {
-
-        return "hi";
+    private static float[] generateRawVertices(Vector2fc size) {
+        min.set(-size.x(), 0, -size.x());
+        max.set( size.x(), size.y(), size.x());
+        return new float[]{
+            // Bottom square
+            min.x, min.y, min.z, // 0
+            min.x, min.y, max.z, // 1
+            max.x, min.y, max.z, // 2
+            max.x, min.y, min.z, // 3
+            // Top square
+            min.x, max.y, min.z, // 4
+            min.x, max.y, max.z, // 5
+            max.x, max.y, max.z, // 6
+            max.x, max.y, min.z  // 7
+        };
     }
 }
