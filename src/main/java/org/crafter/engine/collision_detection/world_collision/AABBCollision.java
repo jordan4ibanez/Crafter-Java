@@ -34,22 +34,20 @@ final class AABBCollision {
     private static final Vector3f max1Old = new Vector3f();
     private static final Vector3f min2 = new Vector3f();
     private static final Vector3f max2 = new Vector3f();
-    private static final Vector3f min2Old = new Vector3f();
-    private static final Vector3f max2Old = new Vector3f();
 
     private AABBCollision(){}
 
     /**
      * This needs to be run AFTER the entity moves! You must keep track of the old position and insert it into this!
+     * This code is ONLY to be used to collide entities into the terrain!
      * @param oldPosition1 Entity 1's old position.
-     * @param position1 Entity 1's current position.
+     * @param position1 Entity 1's current position. (Mutable)
      * @param size1 Entity 1's size.
-     * @param oldPosition2 Entity 2's old position.
      * @param position2 Entity 2's current position.
      * @param size2 Entity 2's size.
      * @return True or false. True if the entity intersects.
      */
-    public static boolean collide(Vector3fc oldPosition1, Vector3fc position1, Vector2fc size1, Vector3fc oldPosition2, Vector3fc position2, Vector2fc size2) {
+    public static boolean collideEntityToTerrain(Vector3fc oldPosition1, Vector3f position1, Vector2fc size1, Vector3fc position2, Vector2fc size2) {
 
         // I said this was gonna be complicated, didn't I?
         min1Old.set(oldPosition1.x() - size1.x(), oldPosition1.y(), oldPosition1.z() - size1.x());
@@ -57,63 +55,53 @@ final class AABBCollision {
         min1.set(position1.x() - size1.x(), position1.y(), position1.z() - size1.x());
         max1.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
 
-        min2Old.set(oldPosition2.x() - size2.x(), oldPosition2.y(), oldPosition2.z() - size2.x());
-        max2Old.set(oldPosition2.x() + size2.x(), oldPosition2.y() + size2.y(), oldPosition2.z() + size2.x());
         min2.set(position2.x() - size2.x(), position2.y(), position2.z() - size2.x());
         max2.set(position2.x() + size2.x(), position2.y() + size2.y(), position2.z() + size2.x());
+        
 
-        foreach(otherEntity; thisQuadrant.entitiesWithin.filter !(o = > o != thisEntity)){
+        // These are 1D collision detections
+        boolean bottomWasNotIn = min1Old.y() > max2.y();
+        boolean bottomIsNowIn = min1.y() <= max2.y() && min1.y() >= min2.y();
+        boolean topWasNotIn = max1Old.y() < min2.y();
+        boolean topIsNowIn = max1.y() <= max2.y() && max1.y() >= min2.y();
 
-            BoundingBox otherBox = otherEntity.getBoundingBox();
+        boolean leftWasNotIn = min1Old.x() > max2.x();
+        boolean leftIsNowIn = min1.x() <= max2.x() && min1.x() >= min2.x();
+        boolean rightWasNotIn = max1Old.x() < min2.x();
+        boolean rightIsNowIn = max1.x() <= max2.x() && max1.x() >= min2.x();
 
-            if (CheckCollisionBoxes(thisBox, otherBox)) {
-
-                // These are 1D collision detections
-                boolean bottomWasNotIn = oldBox.min.y > otherBox.max.y;
-                boolean bottomIsNowIn = thisBox.min.y <= otherBox.max.y && thisBox.min.y >= otherBox.min.y;
-                boolean topWasNotIn = oldBox.max.y < otherBox.min.y;
-                boolean topIsNowIn = thisBox.max.y <= otherBox.max.y && thisBox.max.y >= otherBox.min.y;
-
-                boolean leftWasNotIn = oldBox.min.x > otherBox.max.x;
-                boolean leftIsNowIn = thisBox.min.x <= otherBox.max.x && thisBox.min.x >= otherBox.min.x;
-                boolean rightWasNotIn = oldBox.max.x < otherBox.min.x;
-                boolean rightIsNowIn = thisBox.max.x <= otherBox.max.x && thisBox.max.x >= otherBox.min.x;
-
-                boolean backWasNotIn = oldBox.min.z > otherBox.max.z;
-                boolean backIsNowIn = thisBox.min.z <= otherBox.max.z && thisBox.min.z >= otherBox.min.z;
-                boolean frontWasNotIn = oldBox.max.z < otherBox.min.z;
-                boolean frontIsNowIn = thisBox.max.z <= otherBox.max.z && thisBox.max.z >= otherBox.min.z;
+        boolean backWasNotIn = min1Old.z() > max2.z();
+        boolean backIsNowIn = min1.z() <= max2.z() && min1.z() >= min2.z();
+        boolean frontWasNotIn = max1Old.z() < min2.z();
+        boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
 
 
-                /// y check first
-                // This allows entities to clip, but this isn't a voxel game so we won't worry about that
-                if (bottomWasNotIn && bottomIsNowIn) {
-                    thisEntity.position.y = otherBox.max.y + thisEntity.size.y + 0.001;
-                    thisEntity.wasOnGround = true;
+        /// y check first
+        if (bottomWasNotIn && bottomIsNowIn) {
+            thisEntity.position.y = max2.y() + thisEntity.size.y + 0.001;
+            thisEntity.wasOnGround = true;
 
-                    thisEntity.velocity.y = 0;
-                } else if (topWasNotIn && topIsNowIn) {
-                    thisEntity.position.y = otherBox.min.y - thisEntity.size.y - 0.001;
-                    thisEntity.velocity.y = 0;
-                }
-                // then x
-                else if (leftWasNotIn && leftIsNowIn) {
-                    thisEntity.position.x = otherBox.max.x + thisEntity.size.x + 0.001;
-                    thisEntity.velocity.x = 0;
-                } else if (rightWasNotIn && rightIsNowIn) {
-                    thisEntity.position.x = otherBox.min.x - thisEntity.size.x - 0.001;
-                    thisEntity.velocity.x = 0;
-                }
+            thisEntity.velocity.y = 0;
+        } else if (topWasNotIn && topIsNowIn) {
+            thisEntity.position.y = min2.y - thisEntity.size.y - 0.001;
+            thisEntity.velocity.y = 0;
+        }
+        // then x
+        else if (leftWasNotIn && leftIsNowIn) {
+            thisEntity.position.x = max2.x() + thisEntity.size.x + 0.001;
+            thisEntity.velocity.x = 0;
+        } else if (rightWasNotIn && rightIsNowIn) {
+            thisEntity.position.x = min2.x - thisEntity.size.x - 0.001;
+            thisEntity.velocity.x = 0;
+        }
 
-                // finally z
-                else if (backWasNotIn && backIsNowIn) {
-                    thisEntity.position.z = otherBox.max.z + thisEntity.size.z + 0.001;
-                    thisEntity.velocity.z = 0;
-                } else if (frontWasNotIn && frontIsNowIn) {
-                    thisEntity.position.z = otherBox.min.z - thisEntity.size.z - 0.001;
-                    thisEntity.velocity.z = 0;
-                }
-            }
+        // finally z
+        else if (backWasNotIn && backIsNowIn) {
+            thisEntity.position.z = max2.z + thisEntity.size.z + 0.001;
+            thisEntity.velocity.z = 0;
+        } else if (frontWasNotIn && frontIsNowIn) {
+            thisEntity.position.z = min2.z - thisEntity.size.z - 0.001;
+            thisEntity.velocity.z = 0;
         }
     }
 
