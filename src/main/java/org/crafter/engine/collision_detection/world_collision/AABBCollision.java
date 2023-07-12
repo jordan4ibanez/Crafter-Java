@@ -17,6 +17,9 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.joml.Vector2fc;
+import org.joml.Vector3fc;
+
 /**
  * Raw AABB calculation methods.
  * This is NOT thread safe, as this is handled on the main thread alone!
@@ -25,59 +28,60 @@ final class AABBCollision {
 
     private AABBCollision(){}
 
-    BoundingBox thisBox = thisEntity.getBoundingBox();
+    public static boolean collide(Vector3fc position, Vector2fc size) {
+        BoundingBox thisBox = thisEntity.getBoundingBox();
 
-    foreach (otherEntity; thisQuadrant.entitiesWithin.filter!(o => o != thisEntity)) {
+        foreach(otherEntity; thisQuadrant.entitiesWithin.filter !(o = > o != thisEntity)){
 
-        BoundingBox otherBox = otherEntity.getBoundingBox();
+            BoundingBox otherBox = otherEntity.getBoundingBox();
 
-        if(CheckCollisionBoxes(thisBox, otherBox)) {
+            if (CheckCollisionBoxes(thisBox, otherBox)) {
 
-            // These are 1D collision detections
-            bool bottomWasNotIn = oldBox.min.y > otherBox.max.y;
-            bool bottomIsNowIn = thisBox.min.y <= otherBox.max.y && thisBox.min.y >= otherBox.min.y;
-            bool topWasNotIn = oldBox.max.y < otherBox.min.y;
-            bool topIsNowIn = thisBox.max.y <= otherBox.max.y && thisBox.max.y >= otherBox.min.y;
+                // These are 1D collision detections
+                bool bottomWasNotIn = oldBox.min.y > otherBox.max.y;
+                bool bottomIsNowIn = thisBox.min.y <= otherBox.max.y && thisBox.min.y >= otherBox.min.y;
+                bool topWasNotIn = oldBox.max.y < otherBox.min.y;
+                bool topIsNowIn = thisBox.max.y <= otherBox.max.y && thisBox.max.y >= otherBox.min.y;
 
-            bool leftWasNotIn = oldBox.min.x > otherBox.max.x;
-            bool leftIsNowIn = thisBox.min.x <= otherBox.max.x && thisBox.min.x >= otherBox.min.x;
-            bool rightWasNotIn = oldBox.max.x < otherBox.min.x;
-            bool rightIsNowIn = thisBox.max.x <= otherBox.max.x && thisBox.max.x >= otherBox.min.x;
+                bool leftWasNotIn = oldBox.min.x > otherBox.max.x;
+                bool leftIsNowIn = thisBox.min.x <= otherBox.max.x && thisBox.min.x >= otherBox.min.x;
+                bool rightWasNotIn = oldBox.max.x < otherBox.min.x;
+                bool rightIsNowIn = thisBox.max.x <= otherBox.max.x && thisBox.max.x >= otherBox.min.x;
 
-            bool backWasNotIn = oldBox.min.z > otherBox.max.z;
-            bool backIsNowIn = thisBox.min.z <= otherBox.max.z && thisBox.min.z >= otherBox.min.z;
-            bool frontWasNotIn = oldBox.max.z < otherBox.min.z;
-            bool frontIsNowIn = thisBox.max.z <= otherBox.max.z && thisBox.max.z >= otherBox.min.z;
+                bool backWasNotIn = oldBox.min.z > otherBox.max.z;
+                bool backIsNowIn = thisBox.min.z <= otherBox.max.z && thisBox.min.z >= otherBox.min.z;
+                bool frontWasNotIn = oldBox.max.z < otherBox.min.z;
+                bool frontIsNowIn = thisBox.max.z <= otherBox.max.z && thisBox.max.z >= otherBox.min.z;
 
 
+                /// y check first
+                // This allows entities to clip, but this isn't a voxel game so we won't worry about that
+                if (bottomWasNotIn && bottomIsNowIn) {
+                    thisEntity.position.y = otherBox.max.y + thisEntity.size.y + 0.001;
+                    thisEntity.wasOnGround = true;
 
-            /// y check first
-            // This allows entities to clip, but this isn't a voxel game so we won't worry about that
-            if (bottomWasNotIn && bottomIsNowIn) {
-                thisEntity.position.y = otherBox.max.y + thisEntity.size.y + 0.001;
-                thisEntity.wasOnGround = true;
+                    thisEntity.velocity.y = 0;
+                } else if (topWasNotIn && topIsNowIn) {
+                    thisEntity.position.y = otherBox.min.y - thisEntity.size.y - 0.001;
+                    thisEntity.velocity.y = 0;
+                }
+                // then x
+                else if (leftWasNotIn && leftIsNowIn) {
+                    thisEntity.position.x = otherBox.max.x + thisEntity.size.x + 0.001;
+                    thisEntity.velocity.x = 0;
+                } else if (rightWasNotIn && rightIsNowIn) {
+                    thisEntity.position.x = otherBox.min.x - thisEntity.size.x - 0.001;
+                    thisEntity.velocity.x = 0;
+                }
 
-                thisEntity.velocity.y = 0;
-            } else if (topWasNotIn && topIsNowIn) {
-                thisEntity.position.y = otherBox.min.y - thisEntity.size.y - 0.001;
-                thisEntity.velocity.y = 0;
-            }
-            // then x
-            else if (leftWasNotIn && leftIsNowIn) {
-                thisEntity.position.x = otherBox.max.x +thisEntity.size.x + 0.001;
-                thisEntity.velocity.x = 0;
-            } else if (rightWasNotIn && rightIsNowIn) {
-                thisEntity.position.x = otherBox.min.x - thisEntity.size.x - 0.001;
-                thisEntity.velocity.x = 0;
-            }
-
-            // finally z
-            else if (backWasNotIn && backIsNowIn) {
-                thisEntity.position.z = otherBox.max.z +thisEntity.size.z + 0.001;
-                thisEntity.velocity.z = 0;
-            } else if (frontWasNotIn && frontIsNowIn) {
-                thisEntity.position.z = otherBox.min.z - thisEntity.size.z - 0.001;
-                thisEntity.velocity.z = 0;
+                // finally z
+                else if (backWasNotIn && backIsNowIn) {
+                    thisEntity.position.z = otherBox.max.z + thisEntity.size.z + 0.001;
+                    thisEntity.velocity.z = 0;
+                } else if (frontWasNotIn && frontIsNowIn) {
+                    thisEntity.position.z = otherBox.min.z - thisEntity.size.z - 0.001;
+                    thisEntity.velocity.z = 0;
+                }
             }
         }
     }
