@@ -34,7 +34,6 @@ import org.crafter.game.entity.player.Player;
 import org.joml.Vector2i;
 
 import static org.crafter.engine.collision_detection.world_collision.Physics.entityPhysics;
-import static org.crafter.engine.collision_detection.world_collision.Physics.entityTerrainPhysics;
 import static org.crafter.game.entity.player.PlayerStorage.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
