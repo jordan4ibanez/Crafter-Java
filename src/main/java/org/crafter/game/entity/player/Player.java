@@ -17,9 +17,14 @@
  */
 package org.crafter.game.entity.player;
 
+import org.crafter.engine.camera.Camera;
+import org.crafter.engine.mesh.MeshStorage;
 import org.crafter.game.entity.entity_prototypes.Entity;
+import org.joml.Vector3f;
 
 import static org.crafter.engine.collision_detection.world_collision.DebugCollisionBoxMeshFactory.generateCollisionBox;
+import static org.crafter.engine.utility.JOMLUtils.printVec;
+import static org.crafter.engine.utility.UtilityPrinter.println;
 
 public class Player extends Entity {
     private final String name;
@@ -31,6 +36,7 @@ public class Player extends Entity {
     public Player(String name, boolean clientPlayer) {
         this.name = name;
         this.clientPlayer = clientPlayer;
+        setSize(0.3f, 1.8f);
         collisionBoxMesh = generateCollisionBox(this.getSize());
     }
 
@@ -47,6 +53,10 @@ public class Player extends Entity {
     }
 
     public void renderCollisionBox() {
+//        setPosition(Camera.getPosition());
+        Camera.setObjectMatrix(getPosition(), new Vector3f(0), new Vector3f(1));
+        MeshStorage.renderLineMode(collisionBoxMesh);
 
+//        printVec(getPosition());
     }
 }

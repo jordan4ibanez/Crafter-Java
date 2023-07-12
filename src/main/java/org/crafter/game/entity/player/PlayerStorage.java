@@ -35,7 +35,6 @@ public final class PlayerStorage {
             throw new RuntimeException("PlayerStorage: Error! Tried to add more than one Client player into the world!");
         }
         Player player = new Player(name, clientPlayer);
-        player.setSize(1.8f, 0.6f);
         container.put(name, player);
 
         if (clientPlayer) {
