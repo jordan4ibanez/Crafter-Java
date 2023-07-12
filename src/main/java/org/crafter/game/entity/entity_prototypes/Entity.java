@@ -47,9 +47,4 @@ public class Entity extends PointEntity{
     public void setSize(Vector2fc size) {
         this.size.set(size);
     }
-
-    @Override
-    public void worldCollisionDetection() {
-        System.out.println("I am a potato");
-    }
 }

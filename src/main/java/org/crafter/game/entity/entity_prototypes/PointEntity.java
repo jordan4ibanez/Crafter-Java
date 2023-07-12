@@ -55,8 +55,4 @@ public class PointEntity {
     public void setVelocity(Vector3fc velocity) {
         this.velocity.set(velocity);
     }
-
-    public void worldCollisionDetection() {
-        // Todo
-    }
 }
