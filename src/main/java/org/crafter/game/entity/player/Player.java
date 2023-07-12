@@ -19,14 +19,19 @@ package org.crafter.game.entity.player;
 
 import org.crafter.game.entity.entity_prototypes.Entity;
 
+import static org.crafter.engine.collision_detection.world_collision.DebugCollisionBoxMeshFactory.generateCollisionBox;
+
 public class Player extends Entity {
     private final String name;
     // Basically, the client player is the player that the client's camera gets glued to
     private final boolean clientPlayer;
 
+    private final String collisionBoxMesh;
+
     public Player(String name, boolean clientPlayer) {
         this.name = name;
         this.clientPlayer = clientPlayer;
+        collisionBoxMesh = generateCollisionBox(this.getSize());
     }
 
     public String getName() {
@@ -35,5 +40,9 @@ public class Player extends Entity {
 
     public boolean isClientPlayer() {
         return clientPlayer;
+    }
+
+    public String getCollisionBoxMesh() {
+        return collisionBoxMesh;
     }
 }
