@@ -36,6 +36,7 @@ public final class DebugCollisionBoxMeshFactory {
 
     public static String generateCollisionBox(Vector2fc size) {
         final float[] rawVertices = generateRawVertices(size);
+        final int[] rawIndices = generateRawIndices();
 
         final String uuid = UUID.randomUUID().toString();
 
@@ -43,7 +44,7 @@ public final class DebugCollisionBoxMeshFactory {
                 uuid,
                 rawVertices,
                 new float[]{},
-                new int[]{},
+                rawIndices,
                 null,
                 null,
                 "textures/debug.png",
@@ -66,6 +67,17 @@ public final class DebugCollisionBoxMeshFactory {
             min.x, max.y, max.z, // 5
             max.x, max.y, max.z, // 6
             max.x, max.y, min.z  // 7
+        };
+    }
+
+    private static int[] generateRawIndices() {
+        return new int[]{
+            // Bottom Square
+            0, 1, 1, 2, 2, 3, 3, 0,
+            // Top square
+            4, 5, 5, 6, 6, 7, 7, 4,
+            // Sides
+            0, 4, 1, 5, 2, 6, 3, 7
         };
     }
 }
