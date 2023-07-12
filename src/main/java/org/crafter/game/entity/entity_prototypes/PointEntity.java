@@ -33,7 +33,7 @@ public class PointEntity {
 
     private final Vector3f velocity = new Vector3f();
 
-    private float gravity = 10;
+    private float gravity = 10.0f;
     private float friction = 3;
 
     public PointEntity() {
@@ -60,7 +60,7 @@ public class PointEntity {
     }
 
     public float getGravity() {
-        return gravity;
+        return gravity / 100.0f;
     }
 
     public void setGravity(float gravity) {
