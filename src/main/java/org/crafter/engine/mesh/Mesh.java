@@ -150,6 +150,14 @@ public class Mesh {
         glBindVertexArray(0);
     }
 
+    // Automated internal line mode render method
+    public void renderLineMode() {
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindVertexArray(vaoID);
+        glDrawElements(GL_LINES, indicesCount, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    }
+
     // float[] automator method
     private int uploadFloatArray(float[] floatArray, int glslPosition, int componentsInStructure) {
         // Starts off as: float* var = nullptr;

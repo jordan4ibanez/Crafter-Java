@@ -49,6 +49,12 @@ public class MeshStorage {
         container.get(meshName).render();
     }
 
+    // Render a mesh in line mode
+    public static void renderLineMode(String meshName) {
+        checkExistence(meshName);
+        container.get(meshName).renderLineMode();
+    }
+
     // Destroy a SINGLE mesh in the container
     public static void destroy(String meshName) {
         checkExistence(meshName);
