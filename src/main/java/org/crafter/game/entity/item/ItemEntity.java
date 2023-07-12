@@ -21,4 +21,18 @@ import org.crafter.game.entity.Entity;
 
 public class ItemEntity extends Entity {
     // Todo
+    private final String item;
+
+    // todo: Mesh is assigned automatically from the item/block container
+    // private final String mesh;
+
+    public ItemEntity(String name) {
+        this.item = name;
+
+        // todo: Mesh would be assigned here, looked up from the item/block container
+    }
+
+    public String getItemString() {
+        return item;
+    }
 }
