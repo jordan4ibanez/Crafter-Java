@@ -31,9 +31,10 @@ import java.util.UUID;
 public final class DebugCollisionBoxMeshFactory {
     private static final Vector3f min = new Vector3f();
     private static final Vector3f max = new Vector3f();
+
     private DebugCollisionBoxMeshFactory(){}
 
-    public static void generateCollisionBox(Vector2fc size) {
+    public static String generateCollisionBox(Vector2fc size) {
         final float[] rawVertices = generateRawVertices(size);
 
         final String uuid = UUID.randomUUID().toString();
@@ -41,13 +42,14 @@ public final class DebugCollisionBoxMeshFactory {
         MeshStorage.newMesh(
                 uuid,
                 rawVertices,
+                new float[]{},
+                new int[]{},
                 null,
                 null,
-                null,
-                null,
-                null,
+                "textures/debug.png",
                 false
         );
+        return uuid;
     }
 
     private static float[] generateRawVertices(Vector2fc size) {
