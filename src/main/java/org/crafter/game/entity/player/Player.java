@@ -20,5 +20,20 @@ package org.crafter.game.entity.player;
 import org.crafter.game.entity.entity_prototypes.Entity;
 
 public class Player extends Entity {
-    // todo
+    private final String name;
+    // Basically, the client player is the player that the client's camera gets glued to
+    private final boolean clientPlayer;
+
+    public Player(String name, boolean clientPlayer) {
+        this.name = name;
+        this.clientPlayer = clientPlayer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isClientPlayer() {
+        return clientPlayer;
+    }
 }
