@@ -17,5 +17,12 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
-public class WorldCollision {
+public final class WorldPhysics {
+
+    // Max speed is the literal max speed that an entity can move at after the delta has been factored in.
+    private final static float MAX_SPEED = 0.85f;
+    // Max delta is the literal max delta that can be factored into an entity. 5 FPS or 0.2f.
+    private final static float MAX_DELTA = 0.2f;
+
+    private WorldPhysics(){}
 }
