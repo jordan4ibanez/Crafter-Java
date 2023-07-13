@@ -162,7 +162,7 @@ public class BiomeDefinition implements Serializable {
 //        return this;
 //    }
 
-    public void lock() {
+    void lock() {
         locked = true;
     }
 

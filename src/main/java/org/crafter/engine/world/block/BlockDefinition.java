@@ -276,7 +276,7 @@ public class BlockDefinition implements Serializable {
         }
     }
 
-    public void lock() {
+    void lock() {
         locked = true;
     }
 
