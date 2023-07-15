@@ -81,7 +81,10 @@ public final class Physics {
 
         //FIXME: TEMPORARY
         if (onGround) {
-            currentVelocity.y = 0;
+            currentVelocity.y = -0.001f;
+            println("collision");
+        } else {
+            println("no collision");
         }
 
 
