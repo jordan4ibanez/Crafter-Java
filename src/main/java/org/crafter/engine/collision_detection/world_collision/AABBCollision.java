@@ -87,7 +87,7 @@ final class AABBCollision {
 
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
-            position1.y = max2.y() + size1.y() + 0.001f;
+            position1.y = max2.y() + 0.001f;
             wasOnGround = true;
 //            thisEntity.velocity.y = 0;
         } else if (topWasNotIn && topIsNowIn) {
