@@ -49,6 +49,12 @@ final class AABBCollision {
      */
     public static boolean collideEntityToTerrain(final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
 
+        /*
+         * FIXME This needs to be fixed to take in a pure block size defined by min max
+         *
+         * FOR NOW: this is "good enough"
+         */
+
         // I said this was gonna be complicated, didn't I?
         min1Old.set(oldPosition.x() - size1.x(), oldPosition.y(), oldPosition.z() - size1.x());
         max1Old.set(oldPosition.x() + size1.x(), oldPosition.y() + size1.y(), oldPosition.z() + size1.x());
