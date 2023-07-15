@@ -45,7 +45,7 @@ final class AABBCollision {
      * @param size1 Entity 1's size.
      * @param position2 Entity 2's current position.
      * @param size2 Entity 2's size.
-     * @return True or false. True if the entity intersects.
+     * @return True or false. FIXME: (TEMP) True if the entity is on the ground (for now).
      */
     public static boolean collideEntityToTerrain(final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
 
@@ -83,10 +83,12 @@ final class AABBCollision {
         final boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
 
 
+        boolean wasOnGround = false;
+
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
             position1.y = max2.y() + size1.y() + 0.001f;
-//            thisEntity.wasOnGround = true;
+            wasOnGround = true;
 //            thisEntity.velocity.y = 0;
         } else if (topWasNotIn && topIsNowIn) {
             position1.y = min2.y - size1.y() - 0.001f;
@@ -110,8 +112,7 @@ final class AABBCollision {
 //            thisEntity.velocity.z = 0;
         }
 
-        //FIXME placeholder!
-        return true;
+        return wasOnGround;
     }
 
 }
