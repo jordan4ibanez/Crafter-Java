@@ -18,8 +18,11 @@
 package org.crafter.engine.collision_detection.world_collision;
 
 import org.crafter.game.entity.entity_prototypes.Entity;
+import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
+import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrain;
 import static org.crafter.engine.delta.Delta.getDelta;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
@@ -48,7 +51,7 @@ public final class Physics {
 
         Vector3f currentVelocity = entity.getVelocity();
         Vector3f currentPosition = entity.getPosition();
-        
+
         oldPosition.set(currentPosition);
 
         currentVelocity.y -= delta * entity.getGravity();
@@ -62,6 +65,19 @@ public final class Physics {
 
         currentPosition.add(currentVelocity);
 
+
+        //FIXME Placeholder test
+        Vector3f blockPosition = new Vector3f(0,0,0);
+        Vector2f blockSize = new Vector2f(1,1);
+
+
+        collideEntityToTerrain(
+                oldPosition,
+                currentPosition,
+                entity.getSize(),
+                blockPosition,
+                blockSize
+        );
 
 
 
