@@ -25,14 +25,17 @@ import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
  * Terrain physics is how an entity moves & collides with the world.
+ * This is NOT thread safe!
  * Probably needs a better name.
  */
 public final class Physics {
 
     // Max speed is the literal max velocity that an entity can move at after the delta has been factored in.
-    private final static float MAX_VELOCITY = 0.05f;
+    private static final float MAX_VELOCITY = 0.05f;
     // Max delta is the literal max delta that can be factored into an entity. 5 FPS or 0.2f.
-    private final static float MAX_DELTA = 0.2f;
+    private static final float MAX_DELTA = 0.2f;
+
+    private static final Vector3f oldPosition = new Vector3f();
 
     private Physics(){}
 
@@ -45,6 +48,8 @@ public final class Physics {
 
         Vector3f currentVelocity = entity.getVelocity();
         Vector3f currentPosition = entity.getPosition();
+        
+        oldPosition.set(currentPosition);
 
         currentVelocity.y -= delta * entity.getGravity();
 
@@ -56,6 +61,8 @@ public final class Physics {
 //        println("current velocity Y: " + currentVelocity.y);
 
         currentPosition.add(currentVelocity);
+
+
 
 
     }
