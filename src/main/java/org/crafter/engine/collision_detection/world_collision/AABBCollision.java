@@ -40,18 +40,18 @@ final class AABBCollision {
     /**
      * This needs to be run AFTER the entity moves! You must keep track of the old position and insert it into this!
      * This code is ONLY to be used to collide entities into the terrain!
-     * @param oldPosition1 Entity 1's old position.
+     * @param oldPosition Entity 1's old position.
      * @param position1 Entity 1's current position. (Mutable)
      * @param size1 Entity 1's size.
      * @param position2 Entity 2's current position.
      * @param size2 Entity 2's size.
      * @return True or false. True if the entity intersects.
      */
-    public static boolean collideEntityToTerrain(final Vector3fc oldPosition1, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
+    public static boolean collideEntityToTerrain(final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
 
         // I said this was gonna be complicated, didn't I?
-        min1Old.set(oldPosition1.x() - size1.x(), oldPosition1.y(), oldPosition1.z() - size1.x());
-        max1Old.set(oldPosition1.x() + size1.x(), oldPosition1.y() + size1.y(), oldPosition1.z() + size1.x());
+        min1Old.set(oldPosition.x() - size1.x(), oldPosition.y(), oldPosition.z() - size1.x());
+        max1Old.set(oldPosition.x() + size1.x(), oldPosition.y() + size1.y(), oldPosition.z() + size1.x());
 
         min1.set(position1.x() - size1.x(), position1.y(), position1.z() - size1.x());
         max1.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
