@@ -71,13 +71,18 @@ public final class Physics {
         Vector2f blockSize = new Vector2f(1,1);
 
 
-        collideEntityToTerrain(
+        boolean onGround = collideEntityToTerrain(
                 oldPosition,
                 currentPosition,
                 entity.getSize(),
                 blockPosition,
                 blockSize
         );
+
+        //FIXME: TEMPORARY
+        if (onGround) {
+            currentVelocity.y = 0;
+        }
 
 
 
