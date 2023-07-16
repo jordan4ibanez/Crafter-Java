@@ -22,6 +22,7 @@ import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.window.Window;
+import org.crafter.game.entity.player.Player;
 import org.joml.*;
 
 import java.lang.Math;
@@ -233,8 +234,9 @@ public final class Camera {
         Camera.setRotation(newCameraRotation);
 
         if (clientPlayerExists()) {
-            Vector3f position = getClientPlayer().getPosition();
-            setPosition(position.x, position.y + 1.5f, position.z);
+            final Player clientPlayer = getClientPlayer();
+            final Vector3fc position = clientPlayer.getPosition();
+            setPosition(position.x(), position.y() + 1.5f, position.z());
         }
 
         Camera.updateCameraMatrix();
