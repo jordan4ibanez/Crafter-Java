@@ -32,6 +32,7 @@ public class Player extends Entity {
     private final boolean clientPlayer;
 
     private final String collisionBoxMesh;
+    private float eyeHeight = 1.5f;
 
     public Player(String name, boolean clientPlayer) {
         this.name = name;
@@ -58,5 +59,13 @@ public class Player extends Entity {
         MeshStorage.renderLineMode(collisionBoxMesh);
 
 //        printVec(getPosition());
+    }
+
+    public float getEyeHeight() {
+        return eyeHeight;
+    }
+
+    public void setEyeHeight(float eyeHeight) {
+        this.eyeHeight = eyeHeight;
     }
 }
