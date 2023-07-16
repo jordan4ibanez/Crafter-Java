@@ -22,6 +22,7 @@ import java.util.HashMap;
 /**
  * The player storage is not only the container for player, but how you talk to players.
  * Think of it as a factory for players, kind of.
+ * If this is a server, there will be no client player!
  */
 public final class PlayerStorage {
 
