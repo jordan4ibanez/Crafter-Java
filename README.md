@@ -44,3 +44,7 @@
     2. It must have a private blank constructor.
     3. If it is accessed from multiple threads, it MUST utilize ``synchronized`` in the methods that get called from those threads.
 11. Have fun.
+
+Future plans:
+The distributed jar will not only be the client, but it will be the server.
+Why, yes, this game is basically a frankenstein of Minetest + What I remember from MC alpha+beta + ECMAScript 6. :P
