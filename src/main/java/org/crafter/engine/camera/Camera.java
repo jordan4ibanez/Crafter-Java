@@ -236,7 +236,8 @@ public final class Camera {
         if (clientPlayerExists()) {
             final Player clientPlayer = getClientPlayer();
             final Vector3fc position = clientPlayer.getPosition();
-            setPosition(position.x(), position.y() + 1.5f, position.z());
+            final float eyeHeight = clientPlayer.getEyeHeight();
+            setPosition(position.x(), position.y() + eyeHeight, position.z());
         }
 
         Camera.updateCameraMatrix();
