@@ -140,12 +140,12 @@ public class BlockDefinitionContainer implements Serializable {
         }
     }
 
-    private void checkExistence(int ID) {
+    public void checkExistence(int ID) {
         if (!checkID(ID)) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to access undefined ID (" + ID + ")!");
         }
     }
-    private void checkExistence(String name) {
+    public void checkExistence(String name) {
         if (!checkName(name)) {
             throw new RuntimeException("BlockDefinitionContainer: Tried to access undefined name (" + name + ")!");
         }
