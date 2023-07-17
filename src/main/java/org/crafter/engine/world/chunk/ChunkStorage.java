@@ -17,6 +17,7 @@
  */
 package org.crafter.engine.world.chunk;
 
+import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.joml.*;
 import org.joml.Math;
 
@@ -99,6 +100,29 @@ public final class ChunkStorage {
         return getRawBlockData();
     }
 
+    /**
+     * Get the block internal name using a raw in world position.(Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @return The block internal name.
+     */
+    public static synchronized String getBlockName(final Vector3fc position) {
+        calculatePositionalData(position, "getBlockName");
+        final int blockID = Chunk.getBlockID(getRawBlockData());
+        return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
+    }
+
+    /**
+     * Get the block internal name using a raw in world position.(Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return The block internal name.
+     */
+    public static synchronized String getBlockName(final float x, final float y, final float z) {
+        calculatePositionalData(positionWorker.set(x,y,z), "getBlockName");
+        final int blockID = Chunk.getBlockID(getRawBlockData());
+        return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
+    }
 
     /**
      * Get the block ID using a raw in world position. (Using this in bulk can be very expensive)
