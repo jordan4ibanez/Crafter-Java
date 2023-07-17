@@ -63,8 +63,6 @@ public final class ChunkStorage {
         }
     }
 
-    //TODO note: the (GETTER) API methods start here!
-
     /**
      * Check if a chunk exists.
      * @param position Integral chunk position.
@@ -74,9 +72,24 @@ public final class ChunkStorage {
         return container.containsKey(position);
     }
 
+    //TODO note: the (GETTER) API methods start here!
+
     // These methods are aimed at the ECMAScript API, but are SPARSELY used in the internal engine because they can be expensive.
     // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
     // This is implemented in ChunkStorage because you need to go into storage to talk to chunks!
+
+    /**
+     * Check if a chunk is loaded using a raw in world position. (Using this in bulk can be very expensive)
+     * This is primarily aimed at collision detection and scripting API.
+     * @param position The raw in world position.
+     * @return True or false. True if the chunk is loaded.
+     */
+    public static synchronized boolean chunkIsLoaded(final Vector3fc position) {
+        //Todo: Optimize this - This is also calculating the internal chunk position, so it probably shouldn't do that!
+        // This is a micro optimization, but with thousands of these running, could affect performance!
+        calculatePositionalData(position, "chunkIsLoaded");
+        return container.containsKey(workerVector2i);
+    }
 
     /**
      * Get the RAW block data using a raw in world position. Only use this if you know what you're doing. (Using this in bulk can be very expensive)
