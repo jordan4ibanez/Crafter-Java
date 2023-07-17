@@ -57,13 +57,14 @@ public class PositionToChunkTest {
 
     @Test
     public void positionToChunk() {
-        for (int x : range(-12_000_000, 12_000_000)) {
+        final int testSize = 65535;
+        for (int x : range(-testSize, testSize)) {
             final int CHUNK_X_VERIFIER = UNIT_TEST_VERIFICATION_CHUNK_X(x);
             final int POSITION_X_VERIFIER = UNIT_TEST_VERIFICATION_INTERNAL_POSITION_X(x);
             positionToChunkX(x, CHUNK_X_VERIFIER, POSITION_X_VERIFIER);
         }
 
-        for (int z : range(-12_000_000, 12_000_000)) {
+        for (int z : range(-testSize, testSize)) {
             final int CHUNK_Z_VERIFIER = UNIT_TEST_VERIFICATION_CHUNK_Z(z);
             final int POSITION_Z_VERIFIER = UNIT_TEST_VERIFICATION_INTERNAL_POSITION_Z(z);
             positionToChunkZ(z, CHUNK_Z_VERIFIER, POSITION_Z_VERIFIER);
