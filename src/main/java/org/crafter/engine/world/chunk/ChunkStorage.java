@@ -155,5 +155,18 @@ public final class ChunkStorage {
         return (int) Math.floor(z % Chunk.getDepth());
     }
 
+    // This is specifically utilized for making sure this DOES NOT change!
+    public static int UNIT_TEST_VERIFICATION_CHUNK_X(final float x) {
+        return toChunkX(x);
+    }
+    public static int UNIT_TEST_VERIFICATION_INTERNAL_POSITION_X(final float x) {
+        return internalX(x);
+    }
+    public static int UNIT_TEST_VERIFICATION_CHUNK_Z(final float z) {
+        return toChunkZ(z);
+    }
+    public static int UNIT_TEST_VERIFICATION_INTERNAL_POSITION_Z(final float z) {
+        return internalZ(z);
+    }
 
 }
