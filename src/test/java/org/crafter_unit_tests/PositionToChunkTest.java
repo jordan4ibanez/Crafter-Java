@@ -23,6 +23,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.crafter.engine.utility.Range.range;
 import static org.crafter.engine.utility.UtilityPrinter.println;
+import static org.crafter.engine.world.chunk.ChunkStorage.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PositionToChunkTest {
 
@@ -30,18 +32,41 @@ public class PositionToChunkTest {
     // DO NOT CHANGE THIS UNDER _ANY_ CIRCUMSTANCES!!!
 
     // Baseline standard function
-    static void positionToChunkX(float rawPositionX) {
+    static void positionToChunkX(float rawPositionX, final int GOTTEN_CHUNK_X, final int GOTTEN_POSITION_X) {
         final int chunkX = (int) Math.floor(rawPositionX / Chunk.getWidth());
         // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
         rawPositionX = rawPositionX < 0 ? Math.abs(rawPositionX) - 1 : rawPositionX;
         final int positionInChunkX = (int) Math.floor(rawPositionX % Chunk.getWidth());
-        println("input: " + rawPositionX + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
+
+//        println("input: " + rawPositionX + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
+
+        assertEquals(chunkX,GOTTEN_CHUNK_X);
+        assertEquals(positionInChunkX, GOTTEN_POSITION_X);
+
+    }
+    static void positionToChunkZ(float rawPositionZ, final int GOTTEN_CHUNK_Z, final int GOTTEN_POSITION_Z) {
+        final int chunkZ = (int) Math.floor(rawPositionZ / Chunk.getDepth());
+        // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
+        rawPositionZ = rawPositionZ < 0 ? Math.abs(rawPositionZ) - 1 : rawPositionZ;
+        final int positionInChunkZ = (int) Math.floor(rawPositionZ % Chunk.getWidth());
+//        println("input: " + rawPositionZ + " | in chunk: " + chunkZ + " | in pos: " + positionInChunkZ);
+
+        assertEquals(chunkZ,GOTTEN_CHUNK_Z);
+        assertEquals(positionInChunkZ, GOTTEN_POSITION_Z);
     }
 
     @Test
     public void positionToChunk() {
-        for (int x : range(-16, 16)) {
-            positionToChunkX(x /*auto cast to float*/);
+        for (int x : range(-12_000_000, 12_000_000)) {
+            final int CHUNK_X_VERIFIER = UNIT_TEST_VERIFICATION_CHUNK_X(x);
+            final int POSITION_X_VERIFIER = UNIT_TEST_VERIFICATION_INTERNAL_POSITION_X(x);
+            positionToChunkX(x, CHUNK_X_VERIFIER, POSITION_X_VERIFIER);
+        }
+
+        for (int z : range(-12_000_000, 12_000_000)) {
+            final int CHUNK_Z_VERIFIER = UNIT_TEST_VERIFICATION_CHUNK_Z(z);
+            final int POSITION_Z_VERIFIER = UNIT_TEST_VERIFICATION_INTERNAL_POSITION_Z(z);
+            positionToChunkZ(z, CHUNK_Z_VERIFIER, POSITION_Z_VERIFIER);
         }
     }
 }
