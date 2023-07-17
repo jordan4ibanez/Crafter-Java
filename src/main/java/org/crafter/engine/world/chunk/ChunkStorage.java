@@ -29,7 +29,7 @@ public final class ChunkStorage {
 
     private static final HashMap<Vector2ic, Chunk> container = new HashMap<>();
     private static final Vector2i workerVector2i = new Vector2i();
-    private static volatile Vector3i workerVector3i = new Vector3i();
+    private static final Vector3i workerVector3i = new Vector3i();
 
     private ChunkStorage(){}
 
