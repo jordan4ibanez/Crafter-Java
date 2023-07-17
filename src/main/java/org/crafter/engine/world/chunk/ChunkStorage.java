@@ -85,7 +85,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockRAW(final Vector3fc position) {
         calculatePositionalData(position, "getBlockID");
-        return getRawBlockData();
+        return internalGetRawBlockData();
     }
 
     /**
@@ -97,7 +97,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockRAW(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockID");
-        return getRawBlockData();
+        return internalGetRawBlockData();
     }
 
     /**
@@ -107,9 +107,7 @@ public final class ChunkStorage {
      */
     public static synchronized String getBlockName(final Vector3fc position) {
         calculatePositionalData(position, "getBlockName");
-        final int blockID = Chunk.getBlockID(getRawBlockData());
-        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
-        return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
+        return internalGetBlockName();
     }
 
     /**
@@ -121,9 +119,7 @@ public final class ChunkStorage {
      */
     public static synchronized String getBlockName(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockName");
-        final int blockID = Chunk.getBlockID(getRawBlockData());
-        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
-        return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
+        return internalGetBlockName();
     }
 
     /**
@@ -133,7 +129,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockID(final Vector3fc position) {
         calculatePositionalData(position, "getBlockID");
-        return Chunk.getBlockID(getRawBlockData());
+        return Chunk.getBlockID(internalGetRawBlockData());
     }
 
     /**
@@ -145,7 +141,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockID(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockID");
-        return Chunk.getBlockID(getRawBlockData());
+        return Chunk.getBlockID(internalGetRawBlockData());
     }
 
     /**
@@ -155,7 +151,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockLight(final Vector3fc position) {
         calculatePositionalData(position, "getBlockLight");
-        return Chunk.getBlockLight(getRawBlockData());
+        return Chunk.getBlockLight(internalGetRawBlockData());
     }
 
     /**
@@ -167,7 +163,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockLight(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockLight");
-        return Chunk.getBlockLight(getRawBlockData());
+        return Chunk.getBlockLight(internalGetRawBlockData());
     }
 
     /**
@@ -177,7 +173,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockSate(final Vector3fc position) {
         calculatePositionalData(position, "getBlockState");
-        return Chunk.getBlockState(getRawBlockData());
+        return Chunk.getBlockState(internalGetRawBlockData());
     }
 
     /**
@@ -189,7 +185,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockSate(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockState");
-        return Chunk.getBlockState(getRawBlockData());
+        return Chunk.getBlockState(internalGetRawBlockData());
     }
 
 
@@ -288,15 +284,25 @@ public final class ChunkStorage {
     // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
     /**
-     * Retrieves the RAW block data (integer) from the raw in world coordinate provided to calculatePositionalData.
+     * INTERNAL ONLY usage of getting block INTERNAL NAME. Used to clean up API methods above.
+     * @return The INTERNAL NAME of the block.
+     */
+    private static String internalGetBlockName() {
+        final int blockID = Chunk.getBlockID(internalGetRawBlockData());
+        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
+        return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
+    }
+
+    /**
+     * INTERNAL ONLY usage of getting the RAW block data (integer) from the raw in world coordinate provided to calculatePositionalData.
      * @return The RAW block data. Will need to work with ChunkBitManipulation to use it!
      */
-    private static int getRawBlockData() {
+    private static int internalGetRawBlockData() {
         return container.get(workerVector2i).getBlockData(workerVector3i);
     }
 
     /**
-     * INTERNAL ONLY usage of getting & setting block ID. Used to clean up API methods above.
+     * INTERNAL ONLY usage of setting block ID. Used to clean up API methods above.
      * @param newID The new block ID.
      */
     private static void internalSetBlockID(final int newID, final boolean checkID) {
