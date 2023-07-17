@@ -74,6 +74,13 @@ public final class ChunkStorage {
         return Chunk.getBlockID(getRawBlockData());
     }
 
+
+    // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
+
+    /**
+     * Retrieves the RAW block data (integer) from the raw in world coordinate provided to calculatePositionalData.
+     * @return The RAW block data. Will need to work with ChunkBitManipulation to use it!
+     */
     private static int getRawBlockData() {
         return container.get(workerVector2i).getBlockData(workerVector3i);
     }
