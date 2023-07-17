@@ -69,32 +69,81 @@ public final class ChunkStorage {
     // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
     // This is implemented in ChunkStorage because you need to go into storage to talk to chunks!
 
-    public static synchronized int getBlock(Vector3fc position) {
-        final int chunkX = rawPositionXToChunk(position.x());
-        final int chunkZ = rawPositionZToChunk(position.z());
-        positionCheck(workerVector2i.set(chunkX, chunkZ), "getBlock");
-
-        final int positionWithinChunkX = rawPositionXToPositionWithinChunkX(position.x());
-        final int positionWithinChunkZ = rawPositionZToPositionWithinChunkZ(position.z());
-        final int positionWithinChunkY = (int) Math.floor(position.y());
-
-        return container.get(workerVector2i).getBlockData(workerVector3i.set(positionWithinChunkX,positionWithinChunkY,positionWithinChunkZ));
+    public static synchronized int getBlockID(Vector3fc position) {
+        calculatePositionalData(position, "getBlock");
+        return Chunk.getBlockID(getRawBlockData());
     }
 
-    private static int rawPositionXToChunk(final float x) {
+    private static int getRawBlockData() {
+        return container.get(workerVector2i).getBlockData(workerVector3i);
+    }
+
+    /**
+     * Automates calculations for all required positional data. Throws an error if the chunk does not exist.
+     * @param position The raw in world position.
+     * @param methodName The method which this method was called from.
+     */
+    private static void calculatePositionalData(Vector3fc position, String methodName) {
+        calculateChunkPosition(position);
+        positionCheck(workerVector2i, methodName);
+        calculateInternalPosition(position);
+    }
+
+    /**
+     * Automates calculations to retrieve the chunk from the raw in world position supplied.
+     * @param position The raw in world position.
+     */
+    private static void calculateChunkPosition(Vector3fc position) {
+        final int chunkX = toChunkX(position.x());
+        final int chunkZ = toChunkZ(position.z());
+        workerVector2i.set(chunkX, chunkZ);
+    }
+
+    /**
+     * Automates calculations to retrieve the block inside the chunk from the raw in world position supplied.
+     * @param position The raw in world position.
+     */
+    private static void calculateInternalPosition(Vector3fc position) {
+        final int internalChunkX = internalX(position.x());
+        final int internalChunkZ = internalZ(position.z());
+        final int internalChunkY = (int) Math.floor(position.y());
+        workerVector3i.set(internalChunkX,internalChunkY,internalChunkZ);
+    }
+
+    /**
+     * Calculate which chunk raw in world coordinates are in on the X axis.
+     * @param x The raw in world X position.
+     * @return The X position of the chunk.
+     */
+    private static int toChunkX(final float x) {
         return (int) Math.floor(x / Chunk.getWidth());
     }
 
-    private static int rawPositionZToChunk(final float z) {
+    /**
+     * Calculate which chunk raw in world coordinates are in on the Z axis.
+     * @param z The raw in world Z position.
+     * @return The Z position of the chunk.
+     */
+    private static int toChunkZ(final float z) {
         return (int) Math.floor(z / Chunk.getDepth());
     }
 
-    private static int rawPositionXToPositionWithinChunkX(float x) {
+    /**
+     * Calculate the position from raw in world coordinates inside a chunk on the X axis.
+     * @param x The raw in world X position.
+     * @return The X position inside the chunk.
+     */
+    private static int internalX(float x) {
         x = x < 0 ? Math.abs(x) - 1 : x;
         return (int) Math.floor(x % Chunk.getWidth());
     }
 
-    private static int rawPositionZToPositionWithinChunkZ(float z) {
+    /**
+     * Calculate the position from raw in world coordinates inside a chunk on the Z axis.
+     * @param z The raw in world Z position.
+     * @return The Z position inside the chunk.
+     */
+    private static int internalZ(float z) {
         z = z < 0 ? Math.abs(z) - 1 : z;
         return (int) Math.floor(z % Chunk.getDepth());
     }
