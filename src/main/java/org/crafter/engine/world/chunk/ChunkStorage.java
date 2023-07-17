@@ -35,12 +35,12 @@ public final class ChunkStorage {
 
     private ChunkStorage(){}
 
-    public static Chunk getChunk(Vector2ic position) {
+    public static Chunk getChunk(final Vector2ic position) {
         positionCheck(position, "getChunk");
         return container.get(position);
     }
 
-    public static void addOrUpdate(Chunk chunk) {
+    public static void addOrUpdate(final Chunk chunk) {
         Vector2ic position = chunk.getPosition();
         if (hasChunk(position)) {
             System.out.println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")");
@@ -51,13 +51,13 @@ public final class ChunkStorage {
 //        System.out.println("ChunkStorage: Stored chunk (" + position.x() + ", " + position.y() + ")");
     }
 
-    public static synchronized Chunk getThreadSafeChunkClone(Vector2ic position) {
+    public static synchronized Chunk getThreadSafeChunkClone(final Vector2ic position) {
         positionCheck(position, "getThreadSafeChunkClone");
         // Create a deep clone of the chunk
         return container.get(position).deepCopy();
     }
 
-    private static void positionCheck(final Vector2ic position, String methodName) {
+    private static void positionCheck(final Vector2ic position, final String methodName) {
         if (!hasChunk(position)) {
             throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk with method(" + methodName + ")! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
         }
@@ -70,7 +70,7 @@ public final class ChunkStorage {
      * @param position Integral chunk position.
      * @return True or false. True if it exists.
      */
-    public static synchronized boolean hasChunk(Vector2ic position) {
+    public static synchronized boolean hasChunk(final Vector2ic position) {
         return container.containsKey(position);
     }
 
@@ -225,7 +225,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockID(final Vector3fc position, final int newID) {
         calculatePositionalData(position, "setBlockID");
-        internalSetBlockID(newID);
+        internalSetBlockIDChecked(newID);
     }
 
     /**
@@ -237,7 +237,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockID(final float x, final float y, final float z, final int newID) {
         calculatePositionalData(positionWorker.set(x,y,z), "setBlockID");
-        internalSetBlockID(newID);
+        internalSetBlockIDChecked(newID);
     }
 
     /**
@@ -299,28 +299,48 @@ public final class ChunkStorage {
      * INTERNAL ONLY usage of getting & setting block ID. Used to clean up API methods above.
      * @param newID The new block ID.
      */
-    private static void internalSetBlockID(int newID) {
-        BlockDefinitionContainer.getMainInstance().checkExistence(newID);
+    private static void internalSetBlockID(final int newID, final boolean checkID) {
+        if (checkID) {
+            BlockDefinitionContainer.getMainInstance().checkExistence(newID);
+        }
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockID(currentChunk.getBlockData(workerVector3i), newID);
         currentChunk.setBlockData(workerVector3i, workerData);
     }
 
     /**
+     * Bolt on chainer to allow cleaner code in method above.
+     * THIS METHOD CHECKS IF THE ID EXISTS!
+     * @param newID The new block ID.
+     */
+    private static void internalSetBlockIDChecked(final int newID) {
+        internalSetBlockID(newID, true);
+    }
+
+    /**
+     * Bolt on chainer to allow cleaner code in method above.
+     * THIS METHOD DOES NOT CHECK IF THE ID EXISTS!
+     * @param newID The new block ID.
+     */
+    private static void internalSetBlockIDUnchecked(final int newID) {
+        internalSetBlockID(newID, false);
+    }
+
+    /**
      * INTERNAL ONLY usage of setting block ID by name. Used to clean up API methods above.
      * @param newName The new block name.
      */
-    private static void internalSetBlockName(String newName) {
+    private static void internalSetBlockName(final String newName) {
         // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
         final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
-        internalSetBlockID(newID);
+        internalSetBlockIDUnchecked(newID);
     }
 
     /**
      * INTERNAL ONLY usage of getting & setting block light. Used to clean up API methods above.
      * @param newLight The new block light.
      */
-    private static void internalSetBlockLight(int newLight) {
+    private static void internalSetBlockLight(final int newLight) {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockLight(currentChunk.getBlockData(workerVector3i), newLight);
         currentChunk.setBlockData(workerVector3i, workerData);
@@ -330,7 +350,7 @@ public final class ChunkStorage {
      * INTERNAL ONLY usage of getting & setting block state. Used to clean up API methods above.
      * @param newState The new block state.
      */
-    private static void internalSetBlockState(int newState) {
+    private static void internalSetBlockState(final int newState) {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockState(currentChunk.getBlockData(workerVector3i), newState);
         currentChunk.setBlockData(workerVector3i, workerData);
@@ -341,7 +361,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @param methodName The method which this method was called from.
      */
-    private static void calculatePositionalData(final Vector3fc position, String methodName) {
+    private static void calculatePositionalData(final Vector3fc position, final String methodName) {
         calculateChunkPosition(position);
         positionCheck(workerVector2i, methodName);
         calculateInternalPosition(position);
