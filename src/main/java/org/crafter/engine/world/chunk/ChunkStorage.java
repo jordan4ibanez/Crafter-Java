@@ -30,6 +30,7 @@ public final class ChunkStorage {
     private static final HashMap<Vector2ic, Chunk> container = new HashMap<>();
     private static final Vector2i workerVector2i = new Vector2i();
     private static final Vector3i workerVector3i = new Vector3i();
+    private static final Vector3f positionWorker = new Vector3f();
 
     private ChunkStorage(){}
 
@@ -69,11 +70,94 @@ public final class ChunkStorage {
     // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
     // This is implemented in ChunkStorage because you need to go into storage to talk to chunks!
 
+    /**
+     * Get the RAW block data using a raw in world position. Only use this if you know what you're doing. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @return The RAW block data.
+     */
+    public static synchronized int getBlockRAW(Vector3fc position) {
+        calculatePositionalData(position, "getBlockID");
+        return getRawBlockData();
+    }
+
+    /**
+     * Get the RAW block data using a raw in world position. Only use this if you know what you're doing. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return The RAW block data.
+     */
+    public static synchronized int getBlockRAW(final float x, final float y, final float z) {
+        calculatePositionalData(positionWorker.set(x,y,z), "getBlockID");
+        return getRawBlockData();
+    }
+
+
+    /**
+     * Get the block ID using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @return The block ID.
+     */
     public static synchronized int getBlockID(Vector3fc position) {
-        calculatePositionalData(position, "getBlock");
+        calculatePositionalData(position, "getBlockID");
         return Chunk.getBlockID(getRawBlockData());
     }
 
+    /**
+     * Get the block ID using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return The block ID.
+     */
+    public static synchronized int getBlockID(final float x, final float y, final float z) {
+        calculatePositionalData(positionWorker.set(x,y,z), "getBlockID");
+        return Chunk.getBlockID(getRawBlockData());
+    }
+
+    /**
+     * Get the block light level using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @return The block light level.
+     */
+    public static synchronized int getBlockLight(Vector3fc position) {
+        calculatePositionalData(position, "getBlockLight");
+        return Chunk.getBlockLight(getRawBlockData());
+    }
+
+    /**
+     * Get the block light level using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return The block light level
+     */
+    public static synchronized int getBlockLight(final float x, final float y, final float z) {
+        calculatePositionalData(positionWorker.set(x,y,z), "getBlockLight");
+        return Chunk.getBlockLight(getRawBlockData());
+    }
+
+    /**
+     * Get the block state using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @return The block state.
+     */
+    public static synchronized int getBlockSate(Vector3fc position) {
+        calculatePositionalData(position, "getBlockState");
+        return Chunk.getBlockState(getRawBlockData());
+    }
+
+    /**
+     * Get the block state using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return The block state.
+     */
+    public static synchronized int getBlockSate(final float x, final float y, final float z) {
+        calculatePositionalData(positionWorker.set(x,y,z), "getBlockState");
+        return Chunk.getBlockState(getRawBlockData());
+    }
 
     // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
