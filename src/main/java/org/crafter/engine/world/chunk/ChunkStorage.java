@@ -300,6 +300,7 @@ public final class ChunkStorage {
      * @param newID The new block ID.
      */
     private static void internalSetBlockID(int newID) {
+        BlockDefinitionContainer.getMainInstance().checkExistence(newID);
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockID(currentChunk.getBlockData(workerVector3i), newID);
         currentChunk.setBlockData(workerVector3i, workerData);
