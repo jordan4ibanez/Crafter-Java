@@ -166,6 +166,10 @@ public final class ChunkStorage {
         return Chunk.getBlockState(getRawBlockData());
     }
 
+
+    //TODO note: The (SETTER) API methods begin here!
+
+
     // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
     /**
@@ -174,6 +178,36 @@ public final class ChunkStorage {
      */
     private static int getRawBlockData() {
         return container.get(workerVector2i).getBlockData(workerVector3i);
+    }
+
+    /**
+     * INTERNAL ONLY usage of getting & setting block ID. Used to clean up API methods above.
+     * @param newID The new block ID.
+     */
+    private static void internalSetBlockID(int newID) {
+        final Chunk currentChunk = container.get(workerVector2i);
+        final int workerData = Chunk.setBlockID(currentChunk.getBlockData(workerVector3i), newID);
+        currentChunk.setBlockData(workerVector3i, workerData);
+    }
+
+    /**
+     * INTERNAL ONLY usage of getting & setting block light. Used to clean up API methods above.
+     * @param newLight The new block light.
+     */
+    private static void internalSetBlockLight(int newLight) {
+        final Chunk currentChunk = container.get(workerVector2i);
+        final int workerData = Chunk.setBlockLight(currentChunk.getBlockData(workerVector3i), newLight);
+        currentChunk.setBlockData(workerVector3i, workerData);
+    }
+
+    /**
+     * INTERNAL ONLY usage of getting & setting block state. Used to clean up API methods above.
+     * @param newState The new block state.
+     */
+    private static void internalSetBlockState(int newState) {
+        final Chunk currentChunk = container.get(workerVector2i);
+        final int workerData = Chunk.setBlockState(currentChunk.getBlockData(workerVector3i), newState);
+        currentChunk.setBlockData(workerVector3i, workerData);
     }
 
     /**
