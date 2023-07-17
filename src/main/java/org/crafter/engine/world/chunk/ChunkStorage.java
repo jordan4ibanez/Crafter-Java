@@ -202,6 +202,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockName(final Vector3fc position, final String newName) {
         calculatePositionalData(position, "setBlockName");
+        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
         final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
         internalSetBlockID(newID);
     }
@@ -215,6 +216,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockName(final float x, final float y, final float z, final String newName) {
         calculatePositionalData(positionWorker.set(x,y,z), "setBlockName");
+        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
         final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
         internalSetBlockID(newID);
     }
