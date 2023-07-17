@@ -62,6 +62,8 @@ public final class ChunkStorage {
         }
     }
 
+    //TODO note: the (GETTER) API methods start here!
+
     /**
      * Check if a chunk exists.
      * @param position Integral chunk position.
