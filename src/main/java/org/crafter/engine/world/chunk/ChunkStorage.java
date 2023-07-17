@@ -315,7 +315,7 @@ public final class ChunkStorage {
     }
 
     /**
-     * Bolt on chainer to allow cleaner code in method above.
+     * INTERNAL ONLY bolt on chainer to allow cleaner code in method above.
      * THIS METHOD CHECKS IF THE ID EXISTS!
      * @param newID The new block ID.
      */
@@ -324,7 +324,7 @@ public final class ChunkStorage {
     }
 
     /**
-     * Bolt on chainer to allow cleaner code in method above.
+     * INTERNAL ONLY bolt on chainer to allow cleaner code in method above.
      * THIS METHOD DOES NOT CHECK IF THE ID EXISTS!
      * @param newID The new block ID.
      */
@@ -363,6 +363,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Automates calculations for all required positional data. Throws an error if the chunk does not exist.
      * @param position The raw in world position.
      * @param methodName The method which this method was called from.
@@ -374,6 +375,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Automates calculations to retrieve the chunk from the raw in world position supplied.
      * @param position The raw in world position.
      */
@@ -384,6 +386,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Automates calculations to retrieve the block inside the chunk from the raw in world position supplied.
      * @param position The raw in world position.
      */
@@ -395,6 +398,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Calculate which chunk raw in world coordinates are in on the X axis.
      * @param x The raw in world X position.
      * @return The X position of the chunk.
@@ -404,6 +408,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Calculate which chunk raw in world coordinates are in on the Z axis.
      * @param z The raw in world Z position.
      * @return The Z position of the chunk.
@@ -413,6 +418,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Calculate the position from raw in world coordinates inside a chunk on the X axis.
      * @param x The raw in world X position.
      * @return The X position inside the chunk.
@@ -423,6 +429,7 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY.
      * Calculate the position from raw in world coordinates inside a chunk on the Z axis.
      * @param z The raw in world Z position.
      * @return The Z position inside the chunk.
@@ -432,16 +439,29 @@ public final class ChunkStorage {
         return (int) Math.floor(z % Chunk.getDepth());
     }
 
+    // TESTING ONLY. DO NOT USE THESE!
     // This is specifically utilized for making sure this DOES NOT change!
+    /**
+     * DO NOT USE
+     */
     public static int UNIT_TEST_VERIFICATION_CHUNK_X(final float x) {
         return toChunkX(x);
     }
+    /**
+     * DO NOT USE
+     */
     public static int UNIT_TEST_VERIFICATION_INTERNAL_POSITION_X(final float x) {
         return internalX(x);
     }
+    /**
+     * DO NOT USE
+     */
     public static int UNIT_TEST_VERIFICATION_CHUNK_Z(final float z) {
         return toChunkZ(z);
     }
+    /**
+     * DO NOT USE
+     */
     public static int UNIT_TEST_VERIFICATION_INTERNAL_POSITION_Z(final float z) {
         return internalZ(z);
     }
