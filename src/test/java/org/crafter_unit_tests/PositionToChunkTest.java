@@ -27,18 +27,18 @@ import static org.crafter.engine.utility.UtilityPrinter.println;
 public class PositionToChunkTest {
 
     // Baseline standard function
-    static void positionToChunk(float xPos) {
-        final int chunkX = (int) Math.floor(xPos / Chunk.getWidth());
+    static void positionToChunkX(float rawPositionX) {
+        final int chunkX = (int) Math.floor(rawPositionX / Chunk.getWidth());
         // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
-        xPos = xPos < 0 ? Math.abs(xPos) - 1 : xPos;
-        final int positionInChunkX = (int) Math.floor(xPos % Chunk.getWidth());
-        println("input: " + xPos + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
+        rawPositionX = rawPositionX < 0 ? Math.abs(rawPositionX) - 1 : rawPositionX;
+        final int positionInChunkX = (int) Math.floor(rawPositionX % Chunk.getWidth());
+        println("input: " + rawPositionX + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
     }
 
     @Test
     public void positionToChunk() {
         for (int x : range(-16, 16)) {
-            positionToChunk(x /*auto cast to float*/);
+            positionToChunkX(x /*auto cast to float*/);
         }
     }
 }
