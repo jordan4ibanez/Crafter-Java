@@ -62,6 +62,11 @@ public final class ChunkStorage {
         }
     }
 
+    /**
+     * Check if a chunk exists.
+     * @param position Integral chunk position.
+     * @return True or false. True if it exists.
+     */
     public static synchronized boolean hasChunk(Vector2ic position) {
         return container.containsKey(position);
     }
