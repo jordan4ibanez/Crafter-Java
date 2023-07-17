@@ -22,7 +22,6 @@ import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.joml.Vector2i;
-import org.joml.Vector2ic;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 
@@ -128,7 +127,7 @@ public class ChunkMeshGenerator implements Runnable {
         final String uuid = UUID.randomUUID().toString();
 
         // Preemptive check
-        if (!ChunkStorage.hasPosition(new Vector2i(position.x(), position.z()))) {
+        if (!ChunkStorage.hasChunk(new Vector2i(position.x(), position.z()))) {
             return null;
         }
 

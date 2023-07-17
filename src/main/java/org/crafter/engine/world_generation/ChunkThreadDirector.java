@@ -78,28 +78,28 @@ public final class ChunkThreadDirector {
     private static void updateNeighborFront(Vector2ic position) {
         // Front
         Vector2ic neighborFront = new Vector2i(position.x(), position.y() - 1);
-        if (ChunkStorage.hasPosition(neighborFront)) {
+        if (ChunkStorage.hasChunk(neighborFront)) {
             generateFullChunkMesh(neighborFront.x(), neighborFront.y());
         }
     }
     private static void updateNeighborBack(Vector2ic position) {
         // Back
         Vector2ic neighborBack = new Vector2i(position.x(), position.y() + 1);
-        if (ChunkStorage.hasPosition(neighborBack)) {
+        if (ChunkStorage.hasChunk(neighborBack)) {
             generateFullChunkMesh(neighborBack.x(), neighborBack.y());
         }
     }
     private static void updateNeighborLeft(Vector2ic position) {
         // Left
         Vector2ic neighborLeft = new Vector2i(position.x() - 1, position.y());
-        if (ChunkStorage.hasPosition(neighborLeft)) {
+        if (ChunkStorage.hasChunk(neighborLeft)) {
             generateFullChunkMesh(neighborLeft.x(), neighborLeft.y());
         }
     }
     private static void updateNeighborRight(Vector2ic position) {
         // Right
         Vector2ic neighborRight = new Vector2i(position.x() + 1, position.y());
-        if (ChunkStorage.hasPosition(neighborRight)) {
+        if (ChunkStorage.hasChunk(neighborRight)) {
             generateFullChunkMesh(neighborRight.x(), neighborRight.y());
         }
     }
@@ -114,7 +114,7 @@ public final class ChunkThreadDirector {
 
             final Vector2ic destinationPosition = generatedMesh.destinationChunkPosition();
 
-            if (ChunkStorage.hasPosition(destinationPosition)) {
+            if (ChunkStorage.hasChunk(destinationPosition)) {
                 ChunkStorage.getChunk(destinationPosition).setMesh(generatedMesh.stack(), generatedMesh);
             } // Else nothing happens to it and the raw ChunkMeshRecord is garbage collected.
         }

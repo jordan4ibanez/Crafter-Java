@@ -142,7 +142,7 @@ public class Main {
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
             for (int z = -classicMapSize; z <= classicMapSize; z++) {
                 final Vector2i requestingPosition = new Vector2i(x,z);
-                if (ChunkStorage.hasPosition(requestingPosition)) {
+                if (ChunkStorage.hasChunk(requestingPosition)) {
                     ChunkStorage.getChunk(requestingPosition).render();
                 }
             }

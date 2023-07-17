@@ -26,14 +26,14 @@ import static org.crafter.engine.utility.UtilityPrinter.println;
 
 public class PositionToChunkTest {
 
+    // Baseline standard function
     static void positionToChunk(float xPos) {
         final int chunkX = (int) Math.floor(xPos / Chunk.getWidth());
-        println("input: " + xPos + " | in chunk: " + chunkX);
+//        println("input: " + xPos + " | in chunk: " + chunkX);
     }
 
     @Test
     public void positionToChunk() {
-
         for (int x : range(-128, 128)) {
             positionToChunk(x /*auto cast to float*/);
         }

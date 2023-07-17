@@ -17,7 +17,6 @@
  */
 package org.crafter.engine.world.chunk;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.joml.Vector2ic;
 
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public final class ChunkStorage {
 
     public static void addOrUpdate(Chunk chunk) {
         Vector2ic position = chunk.getPosition();
-        if (hasPosition(position)) {
+        if (hasChunk(position)) {
             System.out.println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")");
             container.get(position).setData(chunk.getData());
             return;
@@ -54,12 +53,12 @@ public final class ChunkStorage {
     }
 
     private static void positionCheck(final Vector2ic position, String methodName) {
-        if (!hasPosition(position)) {
+        if (!hasChunk(position)) {
             throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk with method(" + methodName + ")! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
         }
     }
 
-    public static synchronized boolean hasPosition(Vector2ic position) {
+    public static synchronized boolean hasChunk(Vector2ic position) {
         return container.containsKey(position);
     }
 }

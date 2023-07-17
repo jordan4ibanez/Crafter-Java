@@ -93,10 +93,10 @@ public class ChunkMeshWorker {
             final Vector2ic back = new Vector2i(chunkPosition.x(), chunkPosition.y() + 1);
             final Vector2ic left = new Vector2i(chunkPosition.x() - 1, chunkPosition.y());
             final Vector2ic right = new Vector2i(chunkPosition.x() + 1, chunkPosition.y());
-            neighborFrontData = ChunkStorage.hasPosition(front) ? ChunkStorage.getThreadSafeChunkClone(front).getDataDIRECT() : null;
-            neighborBackData = ChunkStorage.hasPosition(back) ? ChunkStorage.getThreadSafeChunkClone(back).getDataDIRECT() : null;
-            neighborLeftData = ChunkStorage.hasPosition(left) ? ChunkStorage.getThreadSafeChunkClone(left).getDataDIRECT() : null;
-            neighborRightData = ChunkStorage.hasPosition(right) ? ChunkStorage.getThreadSafeChunkClone(right).getDataDIRECT() : null;
+            neighborFrontData = ChunkStorage.hasChunk(front) ? ChunkStorage.getThreadSafeChunkClone(front).getDataDIRECT() : null;
+            neighborBackData = ChunkStorage.hasChunk(back) ? ChunkStorage.getThreadSafeChunkClone(back).getDataDIRECT() : null;
+            neighborLeftData = ChunkStorage.hasChunk(left) ? ChunkStorage.getThreadSafeChunkClone(left).getDataDIRECT() : null;
+            neighborRightData = ChunkStorage.hasChunk(right) ? ChunkStorage.getThreadSafeChunkClone(right).getDataDIRECT() : null;
         }
 
         /*
