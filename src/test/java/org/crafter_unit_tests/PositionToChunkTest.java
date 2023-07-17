@@ -26,6 +26,9 @@ import static org.crafter.engine.utility.UtilityPrinter.println;
 
 public class PositionToChunkTest {
 
+    //TODO WARNING! THIS IS WRITTEN OUT WET TO ENSURE STABILITY WITHIN THE INTERNAL API!!!
+    // DO NOT CHANGE THIS UNDER _ANY_ CIRCUMSTANCES!!!
+
     // Baseline standard function
     static void positionToChunkX(float rawPositionX) {
         final int chunkX = (int) Math.floor(rawPositionX / Chunk.getWidth());
