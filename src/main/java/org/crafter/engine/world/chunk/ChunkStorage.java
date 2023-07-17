@@ -68,12 +68,20 @@ public final class ChunkStorage {
     // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
 
     public static int getBlock(Vector3fc position) {
+        final int chunkX = rawPositionXToChunk(position.x());
+        final int chunkZ = rawPositionZToChunk(position.z());
+
+
 
         return 1;
     }
 
     private static int rawPositionXToChunk(final float x) {
-        return  (int) Math.floor(x / Chunk.getWidth());
+        return (int) Math.floor(x / Chunk.getWidth());
+    }
+
+    private static int rawPositionZToChunk(final float z) {
+        return (int) Math.floor(z / Chunk.getDepth());
     }
 
 }
