@@ -17,9 +17,8 @@
  */
 package org.crafter.engine.world.chunk;
 
+import org.joml.*;
 import org.joml.Math;
-import org.joml.Vector2ic;
-import org.joml.Vector3fc;
 
 import java.util.HashMap;
 
@@ -29,6 +28,8 @@ import java.util.HashMap;
 public final class ChunkStorage {
 
     private static final HashMap<Vector2ic, Chunk> container = new HashMap<>();
+    private static final Vector2i workerVector2i = new Vector2i();
+    private static volatile Vector3i workerVector3i = new Vector3i();
 
     private ChunkStorage(){}
 
@@ -71,7 +72,10 @@ public final class ChunkStorage {
         final int chunkX = rawPositionXToChunk(position.x());
         final int chunkZ = rawPositionZToChunk(position.z());
 
+        positionCheck(workerVector2i.set(chunkX, chunkZ), "getBlock");
 
+
+        container.get(workerVector2i).getBlockData(workerVector3i.set(0,0,0));
 
         return 1;
     }
