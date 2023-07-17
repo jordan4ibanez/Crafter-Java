@@ -32,7 +32,7 @@ public class RangeTest {
         final int[] test1 = new int[]{0,1,2,3,4,5,6,7,8,9};
 
         for (int i : range(10)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test1[tracker]);
             tracker++;
         }
@@ -42,7 +42,7 @@ public class RangeTest {
         final int[] test2 = new int[]{5,6,7,8,9};
 
         for (int i : range(5,10)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test2[tracker]);
             tracker++;
         }
@@ -52,7 +52,7 @@ public class RangeTest {
         final int[] test3 = new int[]{0,2,4,6,8};
 
         for (int i : range(0,10,2)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test3[tracker]);
             tracker++;
         }
@@ -65,7 +65,7 @@ public class RangeTest {
         final int[] test1 = new int[]{10,9,8,7,6,5,4,3,2,1,0};
 
         for (int i : reverseRange(10)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test1[tracker]);
             tracker++;
         }
@@ -75,7 +75,7 @@ public class RangeTest {
         final int[] test2 = new int[]{10,9,8,7,6,5};
 
         for (int i : reverseRange(10,5)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test2[tracker]);
             tracker++;
         }
@@ -85,7 +85,7 @@ public class RangeTest {
         final int[] test3 = new int[]{10,8,6,4,2,0};
 
         for (int i : reverseRange(10,0, 2)) {
-            System.out.println(i);
+//            System.out.println(i);
             assertEquals(i, test3[tracker]);
             tracker++;
         }
