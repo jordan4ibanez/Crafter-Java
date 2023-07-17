@@ -108,6 +108,7 @@ public final class ChunkStorage {
     public static synchronized String getBlockName(final Vector3fc position) {
         calculatePositionalData(position, "getBlockName");
         final int blockID = Chunk.getBlockID(getRawBlockData());
+        // Todo: optimize this
         return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
     }
 
@@ -121,6 +122,7 @@ public final class ChunkStorage {
     public static synchronized String getBlockName(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockName");
         final int blockID = Chunk.getBlockID(getRawBlockData());
+        // Todo: optimize this
         return BlockDefinitionContainer.getMainInstance().getDefinition(blockID).getInternalName();
     }
 
