@@ -17,5 +17,12 @@
  */
 package org.crafter_unit_tests;
 
+import org.junit.jupiter.api.Test;
+
 public class PositionToChunkTest {
+
+    @Test
+    public void positionToChunk() {
+        System.out.println("hi");
+    }
 }
