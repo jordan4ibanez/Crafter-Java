@@ -17,7 +17,9 @@
  */
 package org.crafter.engine.world.chunk;
 
+import org.joml.Math;
 import org.joml.Vector2ic;
+import org.joml.Vector3fc;
 
 import java.util.HashMap;
 
@@ -61,4 +63,17 @@ public final class ChunkStorage {
     public static synchronized boolean hasChunk(Vector2ic position) {
         return container.containsKey(position);
     }
+
+    // These methods are aimed at the ECMAScript API, but are SPARSELY used in the internal engine because they can be expensive.
+    // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
+
+    public static int getBlock(Vector3fc position) {
+
+        return 1;
+    }
+
+    private static int rawPositionXToChunk(final float x) {
+        return  (int) Math.floor(x / Chunk.getWidth());
+    }
+
 }
