@@ -29,12 +29,15 @@ public class PositionToChunkTest {
     // Baseline standard function
     static void positionToChunk(float xPos) {
         final int chunkX = (int) Math.floor(xPos / Chunk.getWidth());
-//        println("input: " + xPos + " | in chunk: " + chunkX);
+        // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
+        xPos = xPos < 0 ? Math.abs(xPos) - 1 : xPos;
+        final int positionInChunkX = (int) Math.floor(xPos % Chunk.getWidth());
+        println("input: " + xPos + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
     }
 
     @Test
     public void positionToChunk() {
-        for (int x : range(-128, 128)) {
+        for (int x : range(-16, 16)) {
             positionToChunk(x /*auto cast to float*/);
         }
     }
