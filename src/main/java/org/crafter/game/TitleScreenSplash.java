@@ -33,7 +33,15 @@ public final class TitleScreenSplash {
             "Feeling pretty classic!",
             "Open source!",
             "Entities are an anomaly!",
-            "Is it a class or struct?!"
+            "Is it a class or struct?!",
+            "A long time coming!",
+            "Also try Minetest!",
+            "Music made in LMMS!",
+            "Runs on OpenSUSE!",
+            "Opens a Github issue!",
+            "Made by one guy!",
+            "Nostalgic!",
+            "Scripted, not stirred!"
     };
 
     private TitleScreenSplash() {}
