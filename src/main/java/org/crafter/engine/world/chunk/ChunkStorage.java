@@ -202,9 +202,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockName(final Vector3fc position, final String newName) {
         calculatePositionalData(position, "setBlockName");
-        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
-        final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
-        internalSetBlockID(newID);
+        internalSetBlockName(newName);
     }
 
     /**
@@ -216,9 +214,7 @@ public final class ChunkStorage {
      */
     public static synchronized void setBlockName(final float x, final float y, final float z, final String newName) {
         calculatePositionalData(positionWorker.set(x,y,z), "setBlockName");
-        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
-        final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
-        internalSetBlockID(newID);
+        internalSetBlockName(newName);
     }
 
 
@@ -307,6 +303,16 @@ public final class ChunkStorage {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockID(currentChunk.getBlockData(workerVector3i), newID);
         currentChunk.setBlockData(workerVector3i, workerData);
+    }
+
+    /**
+     * INTERNAL ONLY usage of setting block ID by name. Used to clean up API methods above.
+     * @param newName The new block name.
+     */
+    private static void internalSetBlockName(String newName) {
+        // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
+        final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
+        internalSetBlockID(newID);
     }
 
     /**
