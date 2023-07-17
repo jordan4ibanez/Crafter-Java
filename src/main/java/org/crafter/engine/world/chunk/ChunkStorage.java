@@ -196,6 +196,31 @@ public final class ChunkStorage {
     //TODO note: The (SETTER) API methods begin here!
 
     /**
+     * Set the block internal name using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @param newName The new internal name to set the block to.
+     */
+    public static synchronized void setBlockName(final Vector3fc position, final String newName) {
+        calculatePositionalData(position, "setBlockName");
+        final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
+        internalSetBlockID(newID);
+    }
+
+    /**
+     * Set the block internal name using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @param newName The new internal name to set the block to.
+     */
+    public static synchronized void setBlockName(final float x, final float y, final float z, final String newName) {
+        calculatePositionalData(positionWorker.set(x,y,z), "setBlockName");
+        final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
+        internalSetBlockID(newID);
+    }
+
+
+    /**
      * Set the block ID using a raw in world position. (Using this in bulk can be very expensive)
      * @param position The raw in world position.
      * @param newID The new ID to set the block to.
