@@ -67,17 +67,18 @@ public final class ChunkStorage {
 
     // These methods are aimed at the ECMAScript API, but are SPARSELY used in the internal engine because they can be expensive.
     // One example is: Collision detection. Very hard to optimize this in collision detection, so for now, I'm not going to.
+    // This is implemented in ChunkStorage because you need to go into storage to talk to chunks!
 
-    public static int getBlock(Vector3fc position) {
+    public static synchronized int getBlock(Vector3fc position) {
         final int chunkX = rawPositionXToChunk(position.x());
         final int chunkZ = rawPositionZToChunk(position.z());
-
         positionCheck(workerVector2i.set(chunkX, chunkZ), "getBlock");
 
+        final int positionWithinChunkX = rawPositionXToPositionWithinChunkX(position.x());
+        final int positionWithinChunkZ = rawPositionZToPositionWithinChunkZ(position.z());
+        final int positionWithinChunkY = (int) Math.floor(position.y());
 
-        container.get(workerVector2i).getBlockData(workerVector3i.set(0,0,0));
-
-        return 1;
+        return container.get(workerVector2i).getBlockData(workerVector3i.set(positionWithinChunkX,positionWithinChunkY,positionWithinChunkZ));
     }
 
     private static int rawPositionXToChunk(final float x) {
@@ -87,5 +88,16 @@ public final class ChunkStorage {
     private static int rawPositionZToChunk(final float z) {
         return (int) Math.floor(z / Chunk.getDepth());
     }
+
+    private static int rawPositionXToPositionWithinChunkX(float x) {
+        x = x < 0 ? Math.abs(x) - 1 : x;
+        return (int) Math.floor(x % Chunk.getWidth());
+    }
+
+    private static int rawPositionZToPositionWithinChunkZ(float z) {
+        z = z < 0 ? Math.abs(z) - 1 : z;
+        return (int) Math.floor(z % Chunk.getDepth());
+    }
+
 
 }
