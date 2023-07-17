@@ -82,7 +82,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The RAW block data.
      */
-    public static synchronized int getBlockRAW(Vector3fc position) {
+    public static synchronized int getBlockRAW(final Vector3fc position) {
         calculatePositionalData(position, "getBlockID");
         return getRawBlockData();
     }
@@ -105,7 +105,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The block ID.
      */
-    public static synchronized int getBlockID(Vector3fc position) {
+    public static synchronized int getBlockID(final Vector3fc position) {
         calculatePositionalData(position, "getBlockID");
         return Chunk.getBlockID(getRawBlockData());
     }
@@ -127,7 +127,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The block light level.
      */
-    public static synchronized int getBlockLight(Vector3fc position) {
+    public static synchronized int getBlockLight(final Vector3fc position) {
         calculatePositionalData(position, "getBlockLight");
         return Chunk.getBlockLight(getRawBlockData());
     }
@@ -149,7 +149,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The block state.
      */
-    public static synchronized int getBlockSate(Vector3fc position) {
+    public static synchronized int getBlockSate(final Vector3fc position) {
         calculatePositionalData(position, "getBlockState");
         return Chunk.getBlockState(getRawBlockData());
     }
@@ -168,6 +168,72 @@ public final class ChunkStorage {
 
 
     //TODO note: The (SETTER) API methods begin here!
+
+    /**
+     * Set the block ID using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @param newID The new ID to set the block to.
+     */
+    public static synchronized void setBlockID(final Vector3fc position, final int newID) {
+        calculatePositionalData(position, "setBlockID");
+        internalSetBlockID(newID);
+    }
+
+    /**
+     * Set the block ID using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @param newID The new ID to set the block to.
+     */
+    public static synchronized void setBlockID(final float x, final float y, final float z, final int newID) {
+        calculatePositionalData(positionWorker.set(x,y,z), "setBlockID");
+        internalSetBlockID(newID);
+    }
+
+    /**
+     * Set the block light level using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @param newLight The new light level to set the block to.
+     */
+    public static synchronized void setBlockLight(final Vector3fc position, final int newLight) {
+        calculatePositionalData(position, "setBlockLight");
+        internalSetBlockLight(newLight);
+    }
+
+    /**
+     * Set the block light level using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @param newLight The new light level to set the block to.
+     */
+    public static synchronized void setBlockLight(final float x, final float y, final float z, final int newLight) {
+        calculatePositionalData(positionWorker.set(x,y,z), "setBlockLight");
+        internalSetBlockLight(newLight);
+    }
+
+    /**
+     * Set the block state using a raw in world position. (Using this in bulk can be very expensive)
+     * @param position The raw in world position.
+     * @param newState The new state to set the block to.
+     */
+    public static synchronized void setBlockState(final Vector3fc position, final int newState) {
+        calculatePositionalData(position, "setBlockState");
+        internalSetBlockState(newState);
+    }
+
+    /**
+     * Set the block state using a raw in world position. (Using this in bulk can be very expensive)
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @param newState The new state to set the block to.
+     */
+    public static synchronized void setBlockState(final float x, final float y, final float z, final int newState) {
+        calculatePositionalData(positionWorker.set(x,y,z), "setBlockState");
+        internalSetBlockState(newState);
+    }
 
 
     // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
@@ -215,7 +281,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @param methodName The method which this method was called from.
      */
-    private static void calculatePositionalData(Vector3fc position, String methodName) {
+    private static void calculatePositionalData(final Vector3fc position, String methodName) {
         calculateChunkPosition(position);
         positionCheck(workerVector2i, methodName);
         calculateInternalPosition(position);
@@ -225,7 +291,7 @@ public final class ChunkStorage {
      * Automates calculations to retrieve the chunk from the raw in world position supplied.
      * @param position The raw in world position.
      */
-    private static void calculateChunkPosition(Vector3fc position) {
+    private static void calculateChunkPosition(final Vector3fc position) {
         final int chunkX = toChunkX(position.x());
         final int chunkZ = toChunkZ(position.z());
         workerVector2i.set(chunkX, chunkZ);
@@ -235,7 +301,7 @@ public final class ChunkStorage {
      * Automates calculations to retrieve the block inside the chunk from the raw in world position supplied.
      * @param position The raw in world position.
      */
-    private static void calculateInternalPosition(Vector3fc position) {
+    private static void calculateInternalPosition(final Vector3fc position) {
         final int internalChunkX = internalX(position.x());
         final int internalChunkZ = internalZ(position.z());
         final int internalChunkY = (int) Math.floor(position.y());
