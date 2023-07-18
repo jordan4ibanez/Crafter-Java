@@ -173,7 +173,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The block light level.
      */
-    public static synchronized int getBlockLight(final Vector3fc position) {
+    public static synchronized int getBlockLightLevel(final Vector3fc position) {
         calculatePositionalData(position, "getBlockLight");
         return Chunk.getBlockLight(internalGetRawBlockData());
     }
@@ -183,9 +183,9 @@ public final class ChunkStorage {
      * @param x The raw in world X position.
      * @param y The raw in world Y position.
      * @param z The raw in world Z position.
-     * @return The block light level
+     * @return The block light level.
      */
-    public static synchronized int getBlockLight(final float x, final float y, final float z) {
+    public static synchronized int getBlockLightLevel(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockLight");
         return Chunk.getBlockLight(internalGetRawBlockData());
     }
