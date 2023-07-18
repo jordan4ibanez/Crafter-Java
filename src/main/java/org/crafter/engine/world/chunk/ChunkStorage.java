@@ -227,6 +227,19 @@ public final class ChunkStorage {
     }
 
     /**
+     * Set the RAW block data using a raw in world position. (Using this in bulk can be very expensive)
+     *ONLY use this if you know what you are doing!
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @param rawData The new RAW data to set the block to.
+     */
+    public static synchronized void setBlockRAW(final float x, final float y, final float z, final int rawData) {
+        calculatePositionalData(positionWorker.set(x,y,z), "setBlockRAW");
+        internalSetBlockRAWData(rawData);
+    }
+
+    /**
      * Set the block internal name using a raw in world position. (Using this in bulk can be very expensive)
      * @param position The raw in world position.
      * @param newName The new internal name to set the block to.
