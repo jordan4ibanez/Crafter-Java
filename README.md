@@ -38,7 +38,11 @@
 6. If a class is becoming overly complex, rewrite it or break it down into a set of smaller classes. (IF possible)
 7. No nested classes. Nested classes can cause severe complications. Prefer to utilize internal package classes.
 8. Do not cause inheritance hell. Only use inheritance if necessary. (GUI, Entities, etc)
-9. If there are multiple instances of a class, the preferred method of storage is a SEPARATE storage class for simplicity.
+9. If there are multiple instances of a class there are 2 ways to store the instances. Here are some basic rules:
+   1. The preferred method of object storage is a SEPARATE (storage/container) class for simplicity.
+   2. CONTAINER classes are ALWAYS singletons. These classes are primarily utilized to ship their data to other threads.
+   3. STORAGE classes are ALWAYS fully static. All other classes must talk to this one as an object broker.
+   4. If it does not make sense to use a CONTAINER class and multiple threads access it, see rule 10.
 10. OOP is not the bible. You can treat a class as pure static. If a class is pure static it has three rules:
     1. It must be a final class.
     2. It must have a private blank constructor.
