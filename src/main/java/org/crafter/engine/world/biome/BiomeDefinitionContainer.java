@@ -90,7 +90,7 @@ public class BiomeDefinitionContainer implements Serializable {
      * Only call this on the main thread when loading the game!
      * @return The master instance of the Biome Definition Container.
      */
-    public static BiomeDefinitionContainer getMainInstance() {
+    public static synchronized BiomeDefinitionContainer getMainInstance() {
         autoDispatch();
         return instance;
     }
