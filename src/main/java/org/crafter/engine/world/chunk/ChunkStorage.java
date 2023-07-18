@@ -175,7 +175,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockLightLevel(final Vector3fc position) {
         calculatePositionalData(position, "getBlockLight");
-        return Chunk.getBlockLight(internalGetRawBlockData());
+        return Chunk.getBlockLightLevel(internalGetRawBlockData());
     }
 
     /**
@@ -187,7 +187,7 @@ public final class ChunkStorage {
      */
     public static synchronized int getBlockLightLevel(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockLight");
-        return Chunk.getBlockLight(internalGetRawBlockData());
+        return Chunk.getBlockLightLevel(internalGetRawBlockData());
     }
 
     /**
@@ -329,7 +329,7 @@ public final class ChunkStorage {
     }
 
 
-    // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
+    //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
     /**
      * INTERNAL ONLY check to ensure light level is within acceptable range.
@@ -366,7 +366,7 @@ public final class ChunkStorage {
     private static void internalSetBlockRAWData(final int rawData) {
         final int newID = Chunk.getBlockID(rawData);
         BlockDefinitionContainer.getMainInstance().checkExistence(newID);
-        internalCheckLightLevelForRAW(Chunk.getBlockLight(rawData));
+        internalCheckLightLevelForRAW(Chunk.getBlockLightLevel(rawData));
         container.get(workerVector2i).setBlockData(workerVector3i, rawData);
     }
 
