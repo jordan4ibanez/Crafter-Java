@@ -35,12 +35,12 @@ public final class ChunkStorage {
 
     private ChunkStorage(){}
 
-    public static Chunk getChunk(final Vector2ic position) {
+    public static synchronized Chunk getChunk(final Vector2ic position) {
         positionCheck(position, "getChunk");
         return container.get(position);
     }
 
-    public static void addOrUpdate(final Chunk chunk) {
+    public static synchronized void addOrUpdate(final Chunk chunk) {
         Vector2ic position = chunk.getPosition();
         if (hasChunk(position)) {
             System.out.println("ChunkStorage: Updated chunk (" + position.x() + ", " + position.y() + ")");
@@ -57,7 +57,7 @@ public final class ChunkStorage {
         return container.get(position).deepCopy();
     }
 
-    private static void positionCheck(final Vector2ic position, final String methodName) {
+    private static synchronized void positionCheck(final Vector2ic position, final String methodName) {
         if (!hasChunk(position)) {
             throw new RuntimeException("ChunkStorage: Tried to get a non-existent chunk with method(" + methodName + ")! (" + position.x() + ", " + position.y() + ") does not exist! Did you check it's existence with (hasPosition)?");
         }
@@ -211,7 +211,6 @@ public final class ChunkStorage {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockState");
         return Chunk.getBlockState(internalGetRawBlockData());
     }
-
 
     //TODO note: The (SETTER) API methods begin here!
 
