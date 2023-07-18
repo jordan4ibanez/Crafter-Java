@@ -39,6 +39,16 @@ const readFileToString = Java.type("org.crafter.engine.utility.FileReader").getF
 const BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
 const DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 const BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
+// JOML types
+const Vector2f = Java.type("org.joml.Vector2f");
+const Vector3f = Java.type("org.joml.Vector3f");
+const Vector2i = Java.type("org.joml.Vector2i");
+const Vector3i = Java.type("org.joml.Vector3i");
+// Readonly
+const Vector2fc = Java.type("org.joml.Vector2fc");
+const Vector3fc = Java.type("org.joml.Vector3fc");
+const Vector2ic = Java.type("org.joml.Vector2ic");
+const Vector3ic = Java.type("org.joml.Vector3ic");
 
 // Very similar to minetest's api table, basically a clone of it in JS.
 const crafter = [];
@@ -50,6 +60,7 @@ const crafter = [];
     const BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     const BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
     const API = Java.type("org.crafter.engine.api.API");
+    const ChunkStorage = Java.type("org.crafter.engine.world.chunk.ChunkStorage")
 
     // Javascript level Block Definition registration function.
     crafter.registerBlock = function(newBlockDefinition) {
@@ -65,6 +76,19 @@ const crafter = [];
     crafter.getCurrentModDirectory = function() {
         return API.getCurrentModDirectory();
     }
+
+    crafter.chunkIsLoaded = function(positionOrX,y,z) {
+        if (y == null) {
+            print("x is null")
+            return (ChunkStorage.chunkIsLoaded(positionOrX))
+        }
+        return ChunkStorage.chunkIsLoaded(positionOrX,y,z);
+    }
+
+    print(crafter.chunkIsLoaded(0,0,0));
+    const test = new Vector3f(1,2,3);
+    print(test.x, test.y, test.z);
+
 }()
 
 // Air is reserved here
