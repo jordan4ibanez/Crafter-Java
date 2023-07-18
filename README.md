@@ -46,7 +46,7 @@
 10. OOP is not the bible. You can treat a class as pure static. If a class is pure static it has three rules:
     1. It must be a final class.
     2. It must have a private blank constructor.
-    3. If it is accessed from multiple threads, it MUST utilize ``synchronized`` in the methods that get called from those threads.
+    3. If it is accessed from multiple threads, it MUST utilize ``synchronized`` in all the methods.
 11. Have fun.
 
 Future plans:
