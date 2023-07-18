@@ -85,9 +85,20 @@ public final class ChunkStorage {
      * @return True or false. True if the chunk is loaded.
      */
     public static synchronized boolean chunkIsLoaded(final Vector3fc position) {
-        //Todo: Optimize this - This is also calculating the internal chunk position, so it probably shouldn't do that!
-        // This is a micro optimization, but with thousands of these running, could affect performance!
-        calculatePositionalData(position, "chunkIsLoaded");
+        calculateChunkPosition(position);
+        return container.containsKey(workerVector2i);
+    }
+
+    /**
+     * Check if a chunk is loaded using a raw in world position. (Using this in bulk can be very expensive)
+     * This is primarily aimed at collision detection and scripting API.
+     * @param x The raw in world X position.
+     * @param y The raw in world Y position.
+     * @param z The raw in world Z position.
+     * @return True or false. True if the chunk is loaded.
+     */
+    public static synchronized boolean chunkIsLoaded(final float x, final float y, final float z) {
+        calculateChunkPosition(positionWorker.set(x,y,z));
         return container.containsKey(workerVector2i);
     }
 
