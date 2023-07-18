@@ -274,11 +274,11 @@ public final class ChunkStorage {
     /**
      * Set the block light level using a raw in world position. (Using this in bulk can be very expensive)
      * @param position The raw in world position.
-     * @param newLight The new light level to set the block to.
+     * @param newLightLevel The new light level to set the block to.
      */
-    public static synchronized void setBlockLight(final Vector3fc position, final int newLight) {
+    public static synchronized void setBlockLightLevel(final Vector3fc position, final int newLightLevel) {
         calculatePositionalData(position, "setBlockLight");
-        internalSetBlockLight(newLight);
+        internalSetBlockLightLevel(newLightLevel);
     }
 
     /**
@@ -286,11 +286,11 @@ public final class ChunkStorage {
      * @param x The raw in world X position.
      * @param y The raw in world Y position.
      * @param z The raw in world Z position.
-     * @param newLight The new light level to set the block to.
+     * @param newLightLevel The new light level to set the block to.
      */
-    public static synchronized void setBlockLight(final float x, final float y, final float z, final int newLight) {
+    public static synchronized void setBlockLightLevel(final float x, final float y, final float z, final int newLightLevel) {
         calculatePositionalData(positionWorker.set(x,y,z), "setBlockLight");
-        internalSetBlockLight(newLight);
+        internalSetBlockLightLevel(newLightLevel);
     }
 
     /**
@@ -319,6 +319,16 @@ public final class ChunkStorage {
     // Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
     /**
+     * INTERNAL ONLY check to ensure light level is within acceptable range.
+     * @param newLightLevel The new block light level.
+     */
+    private static void internalCheckLightLevelForRAW(final int newLightLevel) {
+        if (newLightLevel < 0 || newLightLevel > 15) {
+            throw new RuntimeException("ChunkStorage: Attempted to set a block's light level to (" + newLightLevel + ")! Acceptable range: 0-15");
+        }
+    }
+
+    /**
      * INTERNAL ONLY usage of getting block INTERNAL NAME. Used to clean up API methods above.
      * @return The INTERNAL NAME of the block.
      */
@@ -343,7 +353,7 @@ public final class ChunkStorage {
     private static void internalSetBlockRAWData(final int rawData) {
         final int newID = Chunk.getBlockID(rawData);
         BlockDefinitionContainer.getMainInstance().checkExistence(newID);
-        //todo check light level here
+        internalCheckLightLevelForRAW(Chunk.getBlockLight(rawData));
         container.get(workerVector2i).setBlockData(workerVector3i, rawData);
     }
 
@@ -390,11 +400,11 @@ public final class ChunkStorage {
 
     /**
      * INTERNAL ONLY usage of getting & setting block light. Used to clean up API methods above.
-     * @param newLight The new block light.
+     * @param newLightLevel The new block light level.
      */
-    private static void internalSetBlockLight(final int newLight) {
+    private static void internalSetBlockLightLevel(final int newLightLevel) {
         final Chunk currentChunk = container.get(workerVector2i);
-        final int workerData = Chunk.setBlockLight(currentChunk.getBlockData(workerVector3i), newLight);
+        final int workerData = Chunk.setBlockLight(currentChunk.getBlockData(workerVector3i), newLightLevel);
         currentChunk.setBlockData(workerVector3i, workerData);
     }
 
