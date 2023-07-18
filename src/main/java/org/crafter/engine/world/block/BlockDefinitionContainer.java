@@ -175,7 +175,7 @@ public class BlockDefinitionContainer implements Serializable {
      * Only call this on the main thread when loading the game!
      * @return The master instance of the Block Definition Container.
      */
-    public static BlockDefinitionContainer getMainInstance() {
+    public static synchronized BlockDefinitionContainer getMainInstance() {
         autoDispatch();
         return instance;
     }
@@ -198,7 +198,7 @@ public class BlockDefinitionContainer implements Serializable {
         return SerializationUtils.clone(getMainInstance());
     }
 
-    private static void autoDispatch() {
+    private static synchronized void autoDispatch() {
         if (instance == null) {
             instance = new BlockDefinitionContainer();
         }
