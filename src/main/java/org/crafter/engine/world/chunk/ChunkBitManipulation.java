@@ -54,7 +54,7 @@ public abstract class ChunkBitManipulation {
     public static int getBlockID(int input) {
         return input >>> 16;
     }
-    public static int getBlockLight(int input) {
+    public static int getBlockLightLevel(int input) {
         return input << 16 >>> 28;
     }
     public static int getBlockState(int input) {

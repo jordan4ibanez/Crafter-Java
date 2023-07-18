@@ -50,7 +50,7 @@ public class ChunkBitShiftTest {
         for (int i = 0; i < testAmount; i++) {
             final int chosenLight = random.nextInt(15);
             final int testBlock = Chunk.setBlockLight(0, chosenLight);
-            final int gottenLight = Chunk.getBlockLight(testBlock);
+            final int gottenLight = Chunk.getBlockLightLevel(testBlock);
             assertEquals(chosenLight, gottenLight);
         }
     }
@@ -91,12 +91,12 @@ public class ChunkBitShiftTest {
             testBlock = Chunk.setBlockLight(testBlock, chosenLight);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
-            assertEquals(chosenLight, Chunk.getBlockLight(testBlock));
+            assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));
 
             testBlock = Chunk.setBlockState(testBlock, chosenState);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
-            assertEquals(chosenLight, Chunk.getBlockLight(testBlock));
+            assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));
             assertEquals(chosenState, Chunk.getBlockState(testBlock));
 
             // Now we're going in reverse order to double-check
@@ -104,13 +104,13 @@ public class ChunkBitShiftTest {
             testBlock = Chunk.setBlockLight(testBlock, chosenLight);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
-            assertEquals(chosenLight, Chunk.getBlockLight(testBlock));
+            assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));
             assertEquals(chosenState, Chunk.getBlockState(testBlock));
 
             testBlock = Chunk.setBlockID(testBlock, chosenID);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
-            assertEquals(chosenLight, Chunk.getBlockLight(testBlock));
+            assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));
             assertEquals(chosenState, Chunk.getBlockState(testBlock));
         }
 
