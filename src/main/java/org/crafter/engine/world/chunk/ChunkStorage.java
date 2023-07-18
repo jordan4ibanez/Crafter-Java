@@ -216,6 +216,17 @@ public final class ChunkStorage {
     //TODO note: The (SETTER) API methods begin here!
 
     /**
+     * Set the RAW block data using a raw in world position. (Using this in bulk can be very expensive)
+     * ONLY use this if you know what you are doing!
+     * @param position The raw in world position.
+     * @param rawData The new RAW data to set the block to.
+     */
+    public static synchronized void setBlockRAW(final Vector3fc position, final int rawData) {
+        calculatePositionalData(position, "setBlockRAW");
+        internalSetBlockRAWData(rawData);
+    }
+
+    /**
      * Set the block internal name using a raw in world position. (Using this in bulk can be very expensive)
      * @param position The raw in world position.
      * @param newName The new internal name to set the block to.
@@ -323,6 +334,17 @@ public final class ChunkStorage {
      */
     private static int internalGetRawBlockData() {
         return container.get(workerVector2i).getBlockData(workerVector3i);
+    }
+
+    /**
+     * INTERNAL ONLY usage of setting RAW block data. Used to clean up API methods above.
+     * @param rawData The RAW block data to set. (Checked)
+     */
+    private static void internalSetBlockRAWData(final int rawData) {
+        final int newID = Chunk.getBlockID(rawData);
+        BlockDefinitionContainer.getMainInstance().checkExistence(newID);
+        //todo check light level here
+        container.get(workerVector2i).setBlockData(workerVector3i, rawData);
     }
 
     /**
