@@ -16,11 +16,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-//TODO: load up mods from JavaScript
 /*
-TODO: Use java classes as if they were compiled :D
 TODO: Figure out more things like mobs & items & entities
-
 TODO! VERY IMPORTANT! Add comments! See if there is a way to link the java documentation into javascript....somehow?
 */
 
