@@ -125,7 +125,7 @@ public final class ChunkStorage {
     }
 
     /**
-     * Get the block internal name using a raw in world position.(Using this in bulk can be very expensive)
+     * Get the block internal name using a raw in world position. (Using this in bulk can be very expensive)
      * @param position The raw in world position.
      * @return The block internal name.
      */
@@ -135,7 +135,7 @@ public final class ChunkStorage {
     }
 
     /**
-     * Get the block internal name using a raw in world position.(Using this in bulk can be very expensive)
+     * Get the block internal name using a raw in world position. (Using this in bulk can be very expensive)
      * @param x The raw in world X position.
      * @param y The raw in world Y position.
      * @param z The raw in world Z position.
