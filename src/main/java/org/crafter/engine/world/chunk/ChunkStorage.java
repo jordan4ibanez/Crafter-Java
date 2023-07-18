@@ -195,7 +195,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return The block state.
      */
-    public static synchronized int getBlockSate(final Vector3fc position) {
+    public static synchronized int getBlockState(final Vector3fc position) {
         calculatePositionalData(position, "getBlockState");
         return Chunk.getBlockState(internalGetRawBlockData());
     }
@@ -207,7 +207,7 @@ public final class ChunkStorage {
      * @param z The raw in world Z position.
      * @return The block state.
      */
-    public static synchronized int getBlockSate(final float x, final float y, final float z) {
+    public static synchronized int getBlockState(final float x, final float y, final float z) {
         calculatePositionalData(positionWorker.set(x,y,z), "getBlockState");
         return Chunk.getBlockState(internalGetRawBlockData());
     }
@@ -494,6 +494,10 @@ public final class ChunkStorage {
         z = z < 0 ? Math.abs(z) - 1 : z;
         return (int) Math.floor(z % Chunk.getDepth());
     }
+
+    //todo NOTE: The bulk block (GETTER) API methods start here!
+
+
 
     // TESTING ONLY. DO NOT USE THESE!
     // This is specifically utilized for making sure this DOES NOT change!
