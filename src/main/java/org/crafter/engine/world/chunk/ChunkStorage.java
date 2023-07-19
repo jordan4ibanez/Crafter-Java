@@ -37,10 +37,13 @@ public final class ChunkStorage {
     private static final Vector3i workerVector3i = new Vector3i();
     private static final Vector3f positionWorker = new Vector3f();
 
+    //todo Block manipulator variables
 
-    // Fixed, reused BlockManipulator array
     // Todo: Attach methods for this to be reused with a limiter somehow
-    private static final int[] blockManipulator = new int[]{};
+    private static final Vector3ic BLOCK_MANIPULATOR_LIMIT = new Vector3i(64,128,64);
+    private static final Vector3i blockManipulatorMin = new Vector3i(0,0,0);
+    private static final Vector3i blockManipulatorMax = new Vector3i(0,0,0);
+    private static final int[] blockManipulatorData = new int[BLOCK_MANIPULATOR_LIMIT.x() * BLOCK_MANIPULATOR_LIMIT.y() * BLOCK_MANIPULATOR_LIMIT.z()];
 
     private ChunkStorage(){}
 
