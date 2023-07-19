@@ -25,6 +25,10 @@ import java.util.HashMap;
 
 /**
  * This is where all the chunks live!
+ * The ECMAScript block manipulation API is integrated into this due to how it functions within the game. It's cleaner this way.
+ * The API consists of 2 parts:
+ * 1.) Single blocks. Ideal for querying/updating 1 position.
+ * 2.) Bulk blocks. Ideal for a bulk query/update.
  */
 public final class ChunkStorage {
 
@@ -32,6 +36,9 @@ public final class ChunkStorage {
     private static final Vector2i workerVector2i = new Vector2i();
     private static final Vector3i workerVector3i = new Vector3i();
     private static final Vector3f positionWorker = new Vector3f();
+
+
+    private static final int[] blockManipulator = new int[]{};
 
     private ChunkStorage(){}
 
@@ -327,6 +334,10 @@ public final class ChunkStorage {
         internalSetBlockState(newState);
     }
 
+    //todo NOTE: The bulk block (GETTER) API methods start here!
+
+    
+
 
     //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
@@ -506,8 +517,6 @@ public final class ChunkStorage {
         z = z < 0 ? Math.abs(z) - 1 : z;
         return (int) Math.floor(z % Chunk.getDepth());
     }
-
-    //todo NOTE: The bulk block (GETTER) API methods start here!
 
 
 
