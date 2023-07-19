@@ -76,55 +76,55 @@ const crafter = [];
     crafter.getCurrentModDirectory = API.getCurrentModDirectory;
 
     // Gets if a chunk is loaded in a position in the world.
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: boolean
     crafter.chunkIsLoaded = ChunkStorage.chunkIsLoaded;
 
     // Get a block's RAW data using a raw in world position. (Using this in bulk can be very expensive)
     // ONLY USE THIS IF YOU KNOW WHAT YOU ARE DOING!
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: integer
     crafter.getBlockRAW = ChunkStorage.getBlockRAW;
 
     // Get a block's internal name using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: String
     crafter.getBlockName = ChunkStorage.getBlockName;
 
     // Get a block's ID using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: integer
     crafter.getBlockID = ChunkStorage.getBlockID;
 
     // Get a block's light level using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: integer
     crafter.getBlockLightLevel = ChunkStorage.getBlockLightLevel;
 
     // Get a block's state using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f]
+    // Parameters: [x,y,z or Vector3f]
     // Returns: integer
     crafter.getBlockState = ChunkStorage.getBlockState;
 
     // Set a block's RAW data using a raw in world position. (Using this in bulk can be very expensive)
     // ONLY USE THIS IF YOU KNOW WHAT YOU ARE DOING!
-    // Arguments: [x,y,z or Vector3f] [integer]
+    // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockRAW = ChunkStorage.setBlockRAW;
 
     // Set a block's ID with the internal name of the block using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f] [String]
+    // Parameters: [x,y,z or Vector3f] [String]
     crafter.setBlockName = ChunkStorage.setBlockName;
 
     // Set a block's ID using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f] [integer]
+    // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockID = ChunkStorage.setBlockID;
 
     // Set a block's light level using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f] [integer]
+    // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockLightLevel = ChunkStorage.setBlockLightLevel;
 
     // Set a block's state using a raw in world position. (Using this in bulk can be very expensive)
-    // Arguments: [x,y,z or Vector3f] [integer]
+    // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockState = ChunkStorage.setBlockState;
 
 }()
