@@ -38,6 +38,8 @@ public final class ChunkStorage {
     private static final Vector3f positionWorker = new Vector3f();
 
 
+    // Fixed, reused BlockManipulator array
+    // Todo: Attach methods for this to be reused with a limiter somehow
     private static final int[] blockManipulator = new int[]{};
 
     private ChunkStorage(){}
