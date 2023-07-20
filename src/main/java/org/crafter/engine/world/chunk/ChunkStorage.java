@@ -341,10 +341,89 @@ public final class ChunkStorage {
 
     //todo NOTE: The bulk block (GETTER) API methods start here!
 
+    public static void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
+        checkBlockManipulatorMinMaxValidity(min,max);
+        checkBlockManipulatorSizeValidity(min,max);
+        checkBlockManipulatorYAxisValidity(min,max);
+
+        // Todo the rest of this
+    }
     
 
 
     //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
+
+    //
+
+    /**
+     * INTERNAL ONLY validator for the min and max Y axis position to ensure it is within the map's boundaries.
+     * @param min Min position.
+     * @param max Max position.
+     */
+    private static void checkBlockManipulatorYAxisValidity(final Vector3ic min, final Vector3ic max) {
+        if (min.y() < 0) {
+            throwBlockManipulatorYAxisError("min", min.y());
+        } else if (max.y() > Chunk.getHeight()) {
+            throwBlockManipulatorYAxisError("max", max.y());
+        }
+    }
+
+    /**
+     * INTERNAL ONLY boilerplate reducer for throwing an error if the Block Manipulator Y axis is set out of bounds.
+     * @param minMax Min or max as a String.
+     * @param yPosition Invalid Y position.
+     */
+    private static void throwBlockManipulatorYAxisError(final String minMax, final int yPosition) {
+        throw new RuntimeException("ChunkStorage: Attempted to set (" + minMax + ") BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - " + Chunk.getHeight() +" | Attempt: " + yPosition);
+    }
+
+    /**
+     * INTERNAL ONLY validator for the min and max positions to ensure it makes a cuboid.
+     * @param min Min position.
+     * @param max Max position.
+     */
+    private static void checkBlockManipulatorSizeValidity(final Vector3ic min, final Vector3ic max) {
+        if (max.x() - min.x() > BLOCK_MANIPULATOR_LIMIT.x()) {
+            throwBlockManipulatorSizeError("X", BLOCK_MANIPULATOR_LIMIT.x());
+        } else if (max.y() - min.y() > BLOCK_MANIPULATOR_LIMIT.y()) {
+            throwBlockManipulatorSizeError("Y", BLOCK_MANIPULATOR_LIMIT.y());
+        } else if (max.z() - min.z() > BLOCK_MANIPULATOR_LIMIT.z()) {
+            throwBlockManipulatorSizeError("Z", BLOCK_MANIPULATOR_LIMIT.z());
+        }
+    }
+
+    /**
+     * INTERNAL ONLY boilerplate reducer for throwing an error if the Block Manipulator is set too big.
+     * @param axis X,Y,Z as String.
+     * @param axisLimit Integral axis limit.
+     */
+    private static void throwBlockManipulatorSizeError(final String axis, final int axisLimit) {
+        throw new RuntimeException("ChunkStorage: Attempted to set Block Manipulator past size limit! (" + axis +" axis) limit is " + axisLimit + "!");
+    }
+
+    /**
+     * INTERNAL ONLY validator for the min and max positions assigned to the Block Manipulator by the ECMAScript API.
+     * @param min Min position.
+     * @param max Max position.
+     */
+    private static void checkBlockManipulatorMinMaxValidity(final Vector3ic min, final Vector3ic max) {
+        if (min.x() >= max.x()) {
+            throwBlockManipulatorPositionError("X");
+        } else if (min.y() >= max.y()) {
+            throwBlockManipulatorPositionError("Y");
+        } else if (min.z() >= max.z()) {
+            throwBlockManipulatorPositionError("Z");
+        }
+    }
+
+
+    /**
+     * INTERNAL ONLY boilerplate reducer for throwing an error setting the Block Manipulator positions.
+     * @param axis X,Y,Z axis as String.
+     */
+    private static void throwBlockManipulatorPositionError(final String axis) {
+        throw new RuntimeException("ChunkStorage: Attempted to set Block Manipulator to invalid min/max! (" + axis + " axis) min is greater than or equal to max!");
+    }
 
     /**
      * INTERNAL ONLY check to ensure light level is within acceptable range.
