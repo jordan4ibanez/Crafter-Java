@@ -348,7 +348,10 @@ public final class ChunkStorage {
         checkBlockManipulatorSizeValidity(min,max);
         checkBlockManipulatorYAxisValidity(min,max);
         checkClassicOnlyBlockManipulatorMapBoundaries(min,max);
-        // Todo the rest of this
+
+        // All safety checks have passed, now set it
+        blockManipulatorMin.set(min);
+        blockManipulatorMax.set(max);
     }
 
 
