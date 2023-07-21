@@ -348,7 +348,7 @@ public final class ChunkStorage {
      * @param min Min position.
      * @param max Max position.
      */
-    public static void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
+    public static synchronized void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
         checkBlockManipulatorMinMaxValidity(min,max);
         checkBlockManipulatorSizeValidity(min,max);
         checkBlockManipulatorYAxisValidity(min,max);
@@ -357,6 +357,20 @@ public final class ChunkStorage {
         // All safety checks have passed, now set it
         blockManipulatorMin.set(min);
         blockManipulatorMax.set(max);
+    }
+
+    public static synchronized void blockManipulatorReadMap() {
+        final int chunkXMin = toChunkX(blockManipulatorMin.x());
+        final int chunkXMax = toChunkX(blockManipulatorMax.x());
+        final int chunkZMin = toChunkZ(blockManipulatorMin.z());
+        final int chunkZMax = toChunkZ(blockManipulatorMax.z());
+
+        for (int x = chunkXMin; x <= chunkXMax; x++) {
+            for (int z = chunkZMin; z <= chunkZMax; z++) {
+                // Placeholder
+                System.out.println("BlockManipulator: " + x + " " + z);
+            }
+        }
     }
 
 
