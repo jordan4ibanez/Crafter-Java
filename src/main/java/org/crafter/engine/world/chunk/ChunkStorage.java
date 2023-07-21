@@ -23,6 +23,8 @@ import org.joml.Math;
 
 import java.util.HashMap;
 
+import static org.crafter.Main.getClassicMapSize;
+
 /**
  * This is where all the chunks live!
  * The ECMAScript block manipulation API is integrated into this due to how it functions within the game. It's cleaner this way.
@@ -345,7 +347,7 @@ public final class ChunkStorage {
         checkBlockManipulatorMinMaxValidity(min,max);
         checkBlockManipulatorSizeValidity(min,max);
         checkBlockManipulatorYAxisValidity(min,max);
-
+        checkClassicOnlyBlockManipulatorMapBoundaries(min,max);
         // Todo the rest of this
     }
 
@@ -354,6 +356,37 @@ public final class ChunkStorage {
 
 
     // ----- BLOCK MANIPULATOR GETTER/SETTER HELPERS BEGIN HERE -----
+
+    /**
+     * CLASSIC ONLY, INTERNAL ONLY check for the map boundaries within classic.
+     * @param min Min position.
+     * @param max Max position.
+     */
+    private static void checkClassicOnlyBlockManipulatorMapBoundaries(final Vector3ic min, final Vector3ic max) {
+        final int mapSizeInChunks = getClassicMapSize();
+        final int xLimit = Chunk.getWidth() * mapSizeInChunks;
+        final int zLimit = Chunk.getDepth() * mapSizeInChunks;
+        if (Math.abs(min.x()) > xLimit) {
+            throwClassicBlockManipulatorOutOfBoundsError("min", "X", -xLimit, min.x());
+        } else if (Math.abs(max.x()) > xLimit) {
+            throwClassicBlockManipulatorOutOfBoundsError("max", "X", xLimit, max.x());
+        } else if (Math.abs(min.z()) > zLimit) {
+            throwClassicBlockManipulatorOutOfBoundsError("min", "Z", -zLimit, min.z());
+        } else if (Math.abs(max.z()) > zLimit) {
+            throwClassicBlockManipulatorOutOfBoundsError("max", "Z", zLimit, max.z());
+        }
+    }
+
+    /**
+     * CLASSIC ONLY, INTERNAL ONLY boilerplate reducer for throwing an error if the Block Manipulator is set out of bounds.
+     * @param minMax Min or max as a String.
+     * @param axis X or z as a String.
+     * @param limit Integral limit on the x or z axis.
+     * @param gotten The gotten position on that axis.
+     */
+    private static void throwClassicBlockManipulatorOutOfBoundsError(final String minMax, final String axis, final int limit, final int gotten) {
+        throw new RuntimeException("ChunkStorage: ERROR! Tried to set axis (" + axis + " " + minMax + ") to (" + gotten + ")! Limit is: " + limit + "!");
+    }
 
     /**
      * INTERNAL ONLY validator for the min and max Y axis position to ensure it is within the map's boundaries.
