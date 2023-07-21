@@ -343,6 +343,11 @@ public final class ChunkStorage {
 
     //todo NOTE: The bulk block (GETTER) API methods start here!
 
+    /**
+     * Set the Block Manipulator min and max positions.
+     * @param min Min position.
+     * @param max Max position.
+     */
     public static void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
         checkBlockManipulatorMinMaxValidity(min,max);
         checkBlockManipulatorSizeValidity(min,max);
