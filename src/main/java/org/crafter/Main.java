@@ -52,6 +52,7 @@ public class Main {
 
     // private static final Random random = new Random(new Date().getTime()/1000);
 
+    // FIXME: Classic map size needs to be moved into a settings class!
     // Fixme: this is for Classic only :D (V This thing V)
     private static final int classicMapSize = 16;
 
@@ -151,6 +152,15 @@ public class Main {
 
 
         Window.swapBuffers();
+    }
+
+    /**
+     * Get the map size for CLASSIC ONLY in CHUNKS!
+     * This will need to be multiplied by Chunk.getWidth() & Chunk.getDepth();
+     * @return The map size in Chunks.
+     */
+    public static int getClassicMapSize() {
+        return classicMapSize;
     }
 
     /**
