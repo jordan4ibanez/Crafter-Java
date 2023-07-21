@@ -53,7 +53,7 @@ public class Main {
     // private static final Random random = new Random(new Date().getTime()/1000);
 
     // Fixme: this is for Classic only :D (V This thing V)
-    private static final int classicMapSize = 18;
+    private static final int classicMapSize = 16;
 
     public static void main(String[] args) {
 
