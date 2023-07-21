@@ -353,8 +353,6 @@ public final class ChunkStorage {
 
     //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
 
-    //
-
     /**
      * INTERNAL ONLY validator for the min and max Y axis position to ensure it is within the map's boundaries.
      * @param min Min position.
