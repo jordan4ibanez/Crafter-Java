@@ -348,10 +348,12 @@ public final class ChunkStorage {
 
         // Todo the rest of this
     }
-    
 
 
-    //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to write out.
+    //todo NOTE: Everything below this is SPECIFICALLY tailored to make the API elements easier to read/write.
+
+
+    // ----- BLOCK MANIPULATOR GETTER/SETTER HELPERS BEGIN HERE -----
 
     /**
      * INTERNAL ONLY validator for the min and max Y axis position to ensure it is within the map's boundaries.
@@ -422,6 +424,9 @@ public final class ChunkStorage {
     private static void throwBlockManipulatorPositionError(final String axis) {
         throw new RuntimeException("ChunkStorage: Attempted to set Block Manipulator to invalid min/max! (" + axis + " axis) min is greater than or equal to max!");
     }
+
+
+    // ----- SINGLE BLOCK GETTER/SETTER HELPERS BEGIN HERE -----
 
     /**
      * INTERNAL ONLY check to ensure light level is within acceptable range.
