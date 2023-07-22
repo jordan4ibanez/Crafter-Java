@@ -365,8 +365,18 @@ public final class ChunkStorage {
         final int chunkZMin = toChunkZ(blockManipulatorMin.z());
         final int chunkZMax = toChunkZ(blockManipulatorMax.z());
 
+        //TODO: FORCE LOAD UP MAP CHUNKS!
+
+        // fixme: this is a highly unoptimized prototype procedure to ensure this works
+        final Vector2i tempPosition = new Vector2i();
         for (int x = chunkXMin; x <= chunkXMax; x++) {
             for (int z = chunkZMin; z <= chunkZMax; z++) {
+
+                // fixme: this will crash if the chunk isn't loaded!
+                final Chunk tempWorker = container.get(tempPosition.set(x,z));
+
+                // todo: this needs some sort of automated internal positioning within the Block Manipulator array
+                
                 // Placeholder
                 System.out.println("BlockManipulator: " + x + " " + z);
             }
