@@ -35,3 +35,9 @@ crafter.registerBlock(
         .setReadableName("TNT")
         .setTextures(["tnt_side.png","tnt_side.png","tnt_side.png","tnt_side.png","tnt_bottom.png","tnt_top.png"])
 );
+
+crafter.registerBlock(
+    new BlockDefinition("crafter:cobblestone")
+        .setReadableName("Cobblestone")
+        .setTextures(["cobble.png","cobble.png","cobble.png","cobble.png","cobble.png","cobble.png"])
+);
