@@ -390,7 +390,10 @@ public final class ChunkStorage {
 
                             //todo: This is where the Block Manipulator array will be getting set based on the contents
                             // of the tempWorker chunk.
-                            
+                            // A very important note: You can utilize the existing math from Chunk.ArrayManipulation to
+                            // figure out how to do this. Setting will be the exact same, only you will be setting data
+                            // into the chunk instead of getting date.
+
                         }
                     }
                 }
