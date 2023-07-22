@@ -71,6 +71,8 @@ public final class Physics {
         Vector2f blockSize = new Vector2f(1,1);
 
 
+        //TODO This is where the new api comes in!
+
         boolean onGround = collideEntityToTerrain(
                 oldPosition,
                 currentPosition,
