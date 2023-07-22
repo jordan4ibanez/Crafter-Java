@@ -369,16 +369,35 @@ public final class ChunkStorage {
 
         // fixme: this is a highly unoptimized prototype procedure to ensure this works
         final Vector2i tempPosition = new Vector2i();
-        for (int x = chunkXMin; x <= chunkXMax; x++) {
-            for (int z = chunkZMin; z <= chunkZMax; z++) {
+        for (int chunkX = chunkXMin; chunkX <= chunkXMax; chunkX++) {
+            for (int chunkZ = chunkZMin; chunkZ <= chunkZMax; chunkZ++) {
 
                 // fixme: this will crash if the chunk isn't loaded!
-                final Chunk tempWorker = container.get(tempPosition.set(x,z));
+                final Chunk tempWorker = container.get(tempPosition.set(chunkX,chunkZ));
 
                 // todo: this needs some sort of automated internal positioning within the Block Manipulator array
-                
+
+                for (int x = blockManipulatorMin.x(); x <= blockManipulatorMax.x(); x++) {
+                    for (int z = blockManipulatorMin.z(); z <= blockManipulatorMax.z(); z++) {
+
+                        //TODO: THIS IS WHERE THE INTERNAL BOUNDARY SCAN IF THE CURRENT POSITION IS WITHIN THE CHUNK!
+                        // THE POSITION SIMPLY NEEDS TO RUN A BOUNDARY CHECK ON THIS X,Z AXIS BECAUSE CHUNKS ARE 2D!
+                        // THIS SHOULD SPEED UP PROCESSING BY QUITE A BIT.
+                        // IF THE POSITION IS OUT OF BOUNDS FROM tempWorker CHUNK THEN CONTINUE!
+
+                        // Y is last because it is the only positioning that does not need to be checked if it walked into a new chunk
+                        for (int y = blockManipulatorMin.y(); y <= blockManipulatorMax.y(); y++) {
+
+                            //todo: This is where the Block Manipulator array will be getting set based on the contents
+                            // of the tempWorker chunk.
+                            
+                        }
+                    }
+                }
+
+
                 // Placeholder
-                System.out.println("BlockManipulator: " + x + " " + z);
+                System.out.println("BlockManipulator: Chunk (" + chunkX + " " + chunkZ + ")");
             }
         }
     }
