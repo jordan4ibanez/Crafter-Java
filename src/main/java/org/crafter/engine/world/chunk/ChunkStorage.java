@@ -367,7 +367,8 @@ public final class ChunkStorage {
     /**
      * Read map data into the Block Manipulator array.
      */
-    public static synchronized void blockManipulatorReadMap() {
+    public static synchronized void blockManipulatorReadData() {
+
         final int chunkXMin = toChunkX(blockManipulatorMin.x());
         final int chunkXMax = toChunkX(blockManipulatorMax.x());
         final int chunkZMin = toChunkZ(blockManipulatorMin.z());
@@ -414,7 +415,54 @@ public final class ChunkStorage {
 
 
                 // Placeholder
-                System.out.println("BlockManipulator: Chunk (" + chunkX + " " + chunkZ + ")");
+                System.out.println("BlockManipulator: Reading chunk (" + chunkX + " " + chunkZ + ")");
+
+                //todo: this is where chunk updates get dispatched
+                // Dispatch chunks here ()
+            }
+        }
+    }
+
+    /**
+     * write the Block Manipulator array data into the world.
+     */
+    public static synchronized void writeManipulatorWriteData() {
+
+        final int chunkXMin = toChunkX(blockManipulatorMin.x());
+        final int chunkXMax = toChunkX(blockManipulatorMax.x());
+        final int chunkZMin = toChunkZ(blockManipulatorMin.z());
+        final int chunkZMax = toChunkZ(blockManipulatorMax.z());
+
+        //TODO: FORCE LOAD UP MAP CHUNKS!
+
+        // fixme: this is a highly unoptimized prototype procedure to ensure this works
+        final Vector2i tempPosition = new Vector2i();
+        for (int chunkX = chunkXMin; chunkX <= chunkXMax; chunkX++) {
+            for (int chunkZ = chunkZMin; chunkZ <= chunkZMax; chunkZ++) {
+
+                // fixme: this will crash if the chunk isn't loaded!
+                final Chunk tempWorker = container.get(tempPosition.set(chunkX,chunkZ));
+
+                // todo: this needs some sort of automated internal positioning within the Block Manipulator array
+
+                for (int x = blockManipulatorMin.x(); x <= blockManipulatorMax.x(); x++) {
+                    for (int z = blockManipulatorMin.z(); z <= blockManipulatorMax.z(); z++) {
+
+                        if (chunkX != toChunkX(x) || chunkZ != toChunkZ(z)) {
+                            continue;
+                        }
+
+                        // Y is last because it is the only positioning that does not need to be checked if it walked into a new chunk
+                        for (int y = blockManipulatorMin.y(); y <= blockManipulatorMax.y(); y++) {
+
+                            // This mess writes the data into the chunk
+                            tempWorker.setBlockData(internalX(x),y,internalZ(z), blockManipulatorData[positionToBlockManipulatorArrayPosition(x,y,z)]);
+                        }
+                    }
+                }
+
+                // Placeholder
+                System.out.println("BlockManipulator: Writing chunk (" + chunkX + " " + chunkZ + ")");
 
                 //todo: this is where chunk updates get dispatched
                 // Dispatch chunks here ()
