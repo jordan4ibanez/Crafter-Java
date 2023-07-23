@@ -364,6 +364,9 @@ public final class ChunkStorage {
         blockManipulatorYStride = blockManipulatorSize.x() * blockManipulatorSize.z();
     }
 
+    /**
+     * Read map data into the Block Manipulator array.
+     */
     public static synchronized void blockManipulatorReadMap() {
         final int chunkXMin = toChunkX(blockManipulatorMin.x());
         final int chunkXMax = toChunkX(blockManipulatorMax.x());
