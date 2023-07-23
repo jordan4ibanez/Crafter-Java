@@ -424,6 +424,26 @@ public final class ChunkStorage {
     }
 
     /**
+     * Get raw data within the Block Manipulator array.
+     * @param position Raw in world position.
+     * @return Raw block data.
+     */
+    public static synchronized int getBlockManipulatorData(final Vector3ic position) {
+        return positionToBlockManipulatorArrayPosition(position.x(),position.y(),position.z());
+    }
+
+    /**
+     * Get raw data within the Block Manipulator array.
+     * @param x Raw in world X position.
+     * @param y Raw in world Y position.
+     * @param z Raw in world Z position.
+     * @return Raw block data.
+     */
+    public static synchronized int getBlockManipulatorData(final int x, final int y, final int z) {
+        return positionToBlockManipulatorArrayPosition(x,y,z);
+    }
+
+    /**
      * write the Block Manipulator array data into the world.
      */
     public static synchronized void writeManipulatorWriteData() {
