@@ -21,6 +21,7 @@ import org.crafter.engine.world.block.BlockDefinitionContainer;
 import org.joml.*;
 import org.joml.Math;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.crafter.Main.getClassicMapSize;
@@ -831,6 +832,7 @@ public final class ChunkStorage {
 
 
     // TESTING ONLY. DO NOT USE THESE!
+
     // This is specifically utilized for making sure this DOES NOT change!
     /**
      * DO NOT USE
@@ -855,6 +857,10 @@ public final class ChunkStorage {
      */
     public static int UNIT_TEST_VERIFICATION_INTERNAL_POSITION_Z(final float z) {
         return internalZ(z);
+    }
+
+    public static void UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR() {
+        Arrays.fill(blockManipulatorData, 0);
     }
 
 }
