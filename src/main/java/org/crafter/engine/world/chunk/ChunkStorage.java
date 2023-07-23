@@ -412,6 +412,9 @@ public final class ChunkStorage {
 
                 // Placeholder
                 System.out.println("BlockManipulator: Chunk (" + chunkX + " " + chunkZ + ")");
+
+                //todo: this is where chunk updates get dispatched
+                // Dispatch chunks here ()
             }
         }
     }
