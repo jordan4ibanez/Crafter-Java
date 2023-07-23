@@ -26,10 +26,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class BlockManipulatorTest {
 
     @Test
-    public void generalTest() {
+    public void testSetterFailureStates() {
+
+        // Invalid positions
 
         try {
-            setBlockManipulatorPositions(new Vector3i(0,0,0), new Vector3i(0,0,0));
+            setBlockManipulatorPositions(new Vector3i(1,0,0), new Vector3i(1,1,1));
             fail("Block Manipulator allowed invalid state 1");
         } catch (Exception e) {
             // This passes
@@ -37,7 +39,7 @@ public class BlockManipulatorTest {
         }
 
         try {
-            setBlockManipulatorPositions(new Vector3i(1,-1,-1), new Vector3i(0,1,1));
+            setBlockManipulatorPositions(new Vector3i(1,2,-1), new Vector3i(1,1,1));
             fail("Block Manipulator allowed invalid state 2");
         } catch (Exception e) {
             // This passes
@@ -45,7 +47,7 @@ public class BlockManipulatorTest {
         }
 
         try {
-            setBlockManipulatorPositions(new Vector3i(-1,1,-1), new Vector3i(1,0,1));
+            setBlockManipulatorPositions(new Vector3i(-1,0,2), new Vector3i(1,1,1));
             fail("Block Manipulator allowed invalid state 3");
         } catch (Exception e) {
             // This passes
@@ -68,13 +70,48 @@ public class BlockManipulatorTest {
             System.out.println("Block Manipulator passed test 5");
         }
 
-
+        // Invalid sizes
 
         try {
-
-
+            setBlockManipulatorPositions(-64,0,-1, 0,127,0);
+            fail("Block Manipulator allowed invalid size 1");
         } catch (Exception e) {
-            fail("BlockManipulator FAILED! " + e);
+            System.out.println("Block Manipulator passed test 6");
+        }
+
+        try {
+            setBlockManipulatorPositions(-1,0,-64, 0,127,0);
+            fail("Block Manipulator allowed invalid size 2");
+        } catch (Exception e) {
+            System.out.println("Block Manipulator passed test 7");
+        }
+
+        try {
+            setBlockManipulatorPositions(-32,0,-1, 32,127,0);
+            fail("Block Manipulator allowed invalid size 3");
+        } catch (Exception e) {
+            System.out.println("Block Manipulator passed test 8");
+        }
+
+        try {
+            setBlockManipulatorPositions(-1,0,-32, 0,127,32);
+            fail("Block Manipulator allowed invalid size 4");
+        } catch (Exception e) {
+            System.out.println("Block Manipulator passed test 9");
+        }
+
+        try {
+            setBlockManipulatorPositions(0,0,0, 64,127,1);
+            fail("Block Manipulator allowed invalid size 5");
+        } catch (Exception e) {
+            System.out.println("Block Manipulator passed test 10");
+        }
+
+        try {
+            setBlockManipulatorPositions(0,0,0, 1,127,64);
+            fail("Block Manipulator allowed invalid size 6");
+        } catch (Exception e) {
+            System.out.println("Block Manipulator passed test 11");
         }
     }
 }
