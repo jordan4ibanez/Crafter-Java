@@ -15,12 +15,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
 
-      - name: Set up Oracle OpenJDK 17
-        uses: oracle-actions/setup-java@v1
-        with:
-          website: jdk.java.net
-          release: 17
-
       - name: Run unit tests
         uses: gradle/gradle-build-action@v2
         with:
