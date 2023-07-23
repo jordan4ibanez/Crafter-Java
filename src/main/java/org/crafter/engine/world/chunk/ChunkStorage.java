@@ -429,7 +429,7 @@ public final class ChunkStorage {
      * @return Raw block data.
      */
     public static synchronized int getBlockManipulatorData(final Vector3ic position) {
-        return positionToBlockManipulatorArrayPosition(position.x(),position.y(),position.z());
+        return blockManipulatorData[positionToBlockManipulatorArrayPosition(position.x(),position.y(),position.z())];
     }
 
     /**
@@ -440,7 +440,7 @@ public final class ChunkStorage {
      * @return Raw block data.
      */
     public static synchronized int getBlockManipulatorData(final int x, final int y, final int z) {
-        return positionToBlockManipulatorArrayPosition(x,y,z);
+        return blockManipulatorData[positionToBlockManipulatorArrayPosition(x,y,z)];
     }
 
     /**
