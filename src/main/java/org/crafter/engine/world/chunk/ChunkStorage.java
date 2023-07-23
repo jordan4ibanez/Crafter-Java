@@ -623,11 +623,11 @@ public final class ChunkStorage {
      * @param max Max position.
      */
     private static void checkBlockManipulatorSizeValidity(final Vector3ic min, final Vector3ic max) {
-        if (max.x() - min.x() > BLOCK_MANIPULATOR_LIMIT.x()) {
+        if (Math.abs(max.x() - min.x()) >= BLOCK_MANIPULATOR_LIMIT.x()) {
             throwBlockManipulatorSizeError("X", BLOCK_MANIPULATOR_LIMIT.x());
-        } else if (max.y() - min.y() > BLOCK_MANIPULATOR_LIMIT.y()) {
+        } else if (Math.abs(max.y() - min.y()) >= BLOCK_MANIPULATOR_LIMIT.y()) {
             throwBlockManipulatorSizeError("Y", BLOCK_MANIPULATOR_LIMIT.y());
-        } else if (max.z() - min.z() > BLOCK_MANIPULATOR_LIMIT.z()) {
+        } else if (Math.abs(max.z()) - min.z() >= BLOCK_MANIPULATOR_LIMIT.z()) {
             throwBlockManipulatorSizeError("Z", BLOCK_MANIPULATOR_LIMIT.z());
         }
     }
