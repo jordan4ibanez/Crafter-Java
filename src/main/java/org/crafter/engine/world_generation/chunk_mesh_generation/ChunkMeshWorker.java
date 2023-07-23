@@ -77,7 +77,7 @@ public class ChunkMeshWorker {
      */
     public void process(final int stackPosition, final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
 
-        final int STACK_HEIGHT = chunk.getStackHeight();
+        final int STACK_HEIGHT = Chunk.getStackHeight();
         final int WIDTH = Chunk.getWidth();
         final int DEPTH = Chunk.getDepth();
 
