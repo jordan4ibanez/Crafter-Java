@@ -40,13 +40,16 @@ public final class ChunkStorage {
     private static final Vector3i workerVector3i = new Vector3i();
     private static final Vector3f positionWorker = new Vector3f();
 
+    private static final Vector3i validatorMin = new Vector3i();
+    private static final Vector3i validatorMax = new Vector3i();
+
     //todo Block manipulator variables
 
     // Todo: Attach methods for this to be reused with a limiter somehow
     private static final Vector3ic BLOCK_MANIPULATOR_LIMIT = new Vector3i(64,128,64);
     private static final Vector3i blockManipulatorMin = new Vector3i(0,0,0);
     private static final Vector3i blockManipulatorMax = new Vector3i(0,0,0);
-    private static Vector3i blockManipulatorSize = new Vector3i(0,0,0);
+    private static final Vector3i blockManipulatorSize = new Vector3i(0,0,0);
     private static int blockManipulatorYStride = 0;
     private static final int[] blockManipulatorData = new int[BLOCK_MANIPULATOR_LIMIT.x() * BLOCK_MANIPULATOR_LIMIT.y() * BLOCK_MANIPULATOR_LIMIT.z()];
 
@@ -363,6 +366,19 @@ public final class ChunkStorage {
 
         blockManipulatorSize.set(Math.abs(max.x() - min.x()), Math.abs(max.y() - min.y()), Math.abs(max.z() - min.z()));
         blockManipulatorYStride = blockManipulatorSize.x() * blockManipulatorSize.z();
+    }
+
+    /**
+     * Set the Block Manipulator min and max positions.
+     * @param minX Min raw in world X position.
+     * @param minY Min raw in world Y position.
+     * @param minZ Min raw in world Z position.
+     * @param maxX Max raw in world X position.
+     * @param maxY Max raw in world Y position.
+     * @param maxZ Max raw in world Z position.
+     */
+    public static synchronized void setBlockManipulatorPositions(final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ) {
+        setBlockManipulatorPositions(validatorMin.set(minX,minY,minZ), validatorMax.set(maxX, maxY, maxZ));
     }
 
     /**
