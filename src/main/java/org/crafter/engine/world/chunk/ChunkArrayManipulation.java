@@ -118,6 +118,11 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         return data[positionToIndex(position)];
     }
 
+    public int getBlockData(final int x, final int y, final int z) {
+        check(x,y,z);
+        return data[positionToIndex(x,y,z)];
+    }
+
     public static int positionToIndex(Vector3ic position) {
         return (position.y() * yStride) + (position.z() * DEPTH) + position.x();
     } // One below is for iterator assembly
@@ -148,6 +153,12 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
             throw new RuntimeException("ChunkArrayManipulation: Position (" + position.x() + ", " + position.y() + ", " + position.z() + ") is out of bounds!");
         }
     }
+    private void check(final int x, final int y, final int z) {
+        if (!boundsCheck(x,y,z)) {
+            throw new RuntimeException("ChunkArrayManipulation: Position (" + x + ", " + y + ", " + z + ") is out of bounds!");
+        }
+    }
+
     private boolean boundsCheck(int[] array) {
         return array.length == arraySize;
     }
@@ -158,6 +169,11 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     }
     private boolean boundsCheck(int index) {
         return index >= 0 && index < arraySize;
+    }
+    private boolean boundsCheck(final int x, final int y, final int z) {
+        return x >= 0 && x < WIDTH &&
+                y >= 0 && y < HEIGHT &&
+                z >= 0 && z < DEPTH;
     }
 
     /**
