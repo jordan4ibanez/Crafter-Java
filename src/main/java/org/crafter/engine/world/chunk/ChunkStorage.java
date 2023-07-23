@@ -403,6 +403,8 @@ public final class ChunkStorage {
                             // figure out how to do this. Setting will be the exact same, only you will be setting data
                             // into the chunk instead of getting date.
 
+                            blockManipulatorData[positionToBlockManipulatorArrayPosition(x,y,z)] = tempWorker.getBlockData(internalX(x), y, internalZ(z));
+
                         }
                     }
                 }
