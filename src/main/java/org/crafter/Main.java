@@ -133,7 +133,7 @@ public class Main {
 
             entityPhysics(player);
 
-//            player.renderCollisionBox();
+            player.renderCollisionBox();
         }
 
         // This must run after player physics or else it's lagging behind!
