@@ -45,6 +45,8 @@ public final class ChunkStorage {
     private static final Vector3ic BLOCK_MANIPULATOR_LIMIT = new Vector3i(64,128,64);
     private static final Vector3i blockManipulatorMin = new Vector3i(0,0,0);
     private static final Vector3i blockManipulatorMax = new Vector3i(0,0,0);
+    private static Vector3i blockManipulatorSize = new Vector3i(0,0,0);
+    private static int blockManipulatorYStride = 0;
     private static final int[] blockManipulatorData = new int[BLOCK_MANIPULATOR_LIMIT.x() * BLOCK_MANIPULATOR_LIMIT.y() * BLOCK_MANIPULATOR_LIMIT.z()];
 
     private ChunkStorage(){}
@@ -354,9 +356,12 @@ public final class ChunkStorage {
         checkBlockManipulatorYAxisValidity(min,max);
         checkClassicOnlyBlockManipulatorMapBoundaries(min,max);
 
-        // All safety checks have passed, now set it
+        // All safety checks have passed, now set the required data
         blockManipulatorMin.set(min);
         blockManipulatorMax.set(max);
+
+        blockManipulatorSize.set(Math.abs(max.x() - min.x()), Math.abs(max.y() - min.y()), Math.abs(max.z() - min.z()));
+        blockManipulatorYStride = blockManipulatorSize.x() * blockManipulatorSize.z();
     }
 
     public static synchronized void blockManipulatorReadMap() {
@@ -380,15 +385,14 @@ public final class ChunkStorage {
                 for (int x = blockManipulatorMin.x(); x <= blockManipulatorMax.x(); x++) {
                     for (int z = blockManipulatorMin.z(); z <= blockManipulatorMax.z(); z++) {
 
-                        // If the 2D position is not within this chunk, discard polling.
-                        if (chunkX != toChunkX(x) || chunkZ != toChunkZ(z)) {
-                            continue;
-                        }
-
                         //TODO: THIS IS WHERE THE INTERNAL BOUNDARY SCAN IF THE CURRENT POSITION IS WITHIN THE CHUNK!
                         // THE POSITION SIMPLY NEEDS TO RUN A BOUNDARY CHECK ON THIS X,Z AXIS BECAUSE CHUNKS ARE 2D!
                         // THIS SHOULD SPEED UP PROCESSING BY QUITE A BIT.
                         // IF THE POSITION IS OUT OF BOUNDS FROM tempWorker CHUNK THEN CONTINUE!
+                        // If the 2D position is not within this chunk, discard polling.
+                        if (chunkX != toChunkX(x) || chunkZ != toChunkZ(z)) {
+                            continue;
+                        }
 
                         // Y is last because it is the only positioning that does not need to be checked if it walked into a new chunk
                         for (int y = blockManipulatorMin.y(); y <= blockManipulatorMax.y(); y++) {
@@ -415,6 +419,37 @@ public final class ChunkStorage {
 
 
     // ----- BLOCK MANIPULATOR GETTER/SETTER HELPERS BEGIN HERE -----
+
+    /**
+     * INTERNAL ONLY translates a raw position real world position within the Block Manipulator into an index.
+     * WARNING: UNCHECKED!
+     * @param positionX 0 based X position.
+     * @param positionY 0 based Y position.
+     * @param positionZ 0 based Z position.
+     * @return Index into the Block Manipulator array.
+     */
+    private static int positionToBlockManipulatorArrayPosition(final int positionX, final int positionY, final int positionZ) {
+        // This x,y,z portion transforms the real position into a base 0 position.
+        final int x = positionX - blockManipulatorMin.x();
+        final int y = positionY - blockManipulatorMin.y();
+        final int z = positionZ - blockManipulatorMin.z();
+
+        return (y * blockManipulatorYStride) + (z * blockManipulatorSize.z()) + x;
+    }
+
+    /**
+     * INTERNAL ONLY translates a raw index into the Block Manipulator array into a raw real world position.
+     * WARNING: UNCHECKED!
+     * @param index Index into the Block Manipulator array.
+     * @return Raw real world position.
+     */
+    public static Vector3ic indexToPosition(int index) {
+        return new Vector3i(
+                index % blockManipulatorSize.x(),
+                (index / blockManipulatorYStride) % blockManipulatorSize.y(),
+                (index / blockManipulatorSize.z()) % blockManipulatorSize.z()
+        );
+    }
 
     /**
      * CLASSIC ONLY, INTERNAL ONLY check for the map boundaries within classic.
