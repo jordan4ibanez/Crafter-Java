@@ -118,6 +118,13 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
         return data[positionToIndex(position)];
     }
 
+    /**
+     * Get a single block.
+     * @param x The X position inside the chunk.
+     * @param y The Y position inside the chunk.
+     * @param z The Z position inside the chunk.
+     * @return The raw block data.
+     */
     public int getBlockData(final int x, final int y, final int z) {
         check(x,y,z);
         return data[positionToIndex(x,y,z)];
