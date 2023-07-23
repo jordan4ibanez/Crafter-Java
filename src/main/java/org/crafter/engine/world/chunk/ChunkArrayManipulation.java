@@ -97,6 +97,18 @@ public abstract class ChunkArrayManipulation extends ChunkBitManipulation {
     }
 
     /**
+     * Set a single block's raw data.
+     * @param x Internal X position.
+     * @param y Internal Y position.
+     * @param z Internal Z position.
+     * @param blockData is the constructed bit manipulated integer that represents a block.
+     */
+    public void setBlockData(final int x, final int y, final int z, int blockData) {
+        check(x,y,z);
+        data[positionToIndex(x,y,z)] = blockData;
+    }
+
+    /**
      * Get a single block, think of this as minetest.get_node();
      * For bulk getting, it is currently recommended to use the array methods.
      * @param index is the 1D position in the internal array.
