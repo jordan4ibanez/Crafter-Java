@@ -348,8 +348,8 @@ public final class ChunkStorage {
 
     /**
      * Set the Block Manipulator min and max positions.
-     * @param min Min position.
-     * @param max Max position.
+     * @param min Min raw in world position.
+     * @param max Max raw in position.
      */
     public static synchronized void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
         checkBlockManipulatorMinMaxValidity(min,max);
