@@ -39,13 +39,14 @@ public final class DebugCollisionBoxMeshFactory {
     public static String generateCollisionBox(Vector2fc size) {
         final float[] rawVertices = generateRawVertices(size);
         final int[] rawIndices = generateRawIndices();
+        final float[] rawPlaceholderTextureCoordinates = generateRawPlaceholderTextureCoordinates();
 
         final String uuid = UUID.randomUUID().toString();
 
         MeshStorage.newMesh(
                 uuid,
                 rawVertices,
-                new float[]{},
+                rawPlaceholderTextureCoordinates,
                 rawIndices,
                 null,
                 null,
@@ -81,6 +82,20 @@ public final class DebugCollisionBoxMeshFactory {
             4, 5, 5, 6, 6, 7, 7, 4,
             // Sides
             0, 4, 1, 5, 2, 6, 3, 7
+        };
+    }
+
+    private static float[] generateRawPlaceholderTextureCoordinates() {
+        return new float[] {
+                0,0,
+                0,0,
+                0,0,
+                0,0,
+
+                0,0,
+                0,0,
+                0,0,
+                0,0
         };
     }
 }
