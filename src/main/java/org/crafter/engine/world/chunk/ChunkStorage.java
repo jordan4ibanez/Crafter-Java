@@ -380,6 +380,11 @@ public final class ChunkStorage {
                 for (int x = blockManipulatorMin.x(); x <= blockManipulatorMax.x(); x++) {
                     for (int z = blockManipulatorMin.z(); z <= blockManipulatorMax.z(); z++) {
 
+                        // If the 2D position is not within this chunk, discard polling.
+                        if (chunkX != toChunkX(x) || chunkZ != toChunkZ(z)) {
+                            continue;
+                        }
+
                         //TODO: THIS IS WHERE THE INTERNAL BOUNDARY SCAN IF THE CURRENT POSITION IS WITHIN THE CHUNK!
                         // THE POSITION SIMPLY NEEDS TO RUN A BOUNDARY CHECK ON THIS X,Z AXIS BECAUSE CHUNKS ARE 2D!
                         // THIS SHOULD SPEED UP PROCESSING BY QUITE A BIT.
