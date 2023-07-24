@@ -43,13 +43,12 @@ final class AABBCollision {
      * This needs to be run AFTER the entity moves! You must keep track of the old position and insert it into this!
      * This code is ONLY to be used to collide entities into the terrain!
      * @param oldPosition Entity 1's old position.
-     * @param position1 Entity 1's current position. (Mutable)
-     * @param size1 Entity 1's size.
-     * @param position2 Entity 2's current position.
-     * @param size2 Entity 2's size.
-     * @return True or false. FIXME: (TEMP) True if the entity is on the ground (for now).
+     * @param position Entity 1's current position. (Mutable)
+     * @param size Entity 1's size.
+     * @param blockPosition Block's position.
+     * @param blockSize Block's size.
      */
-    public static void collideEntityToTerrain(final Entity entity, final Vector3f currentVelocity, final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
+    public static void collideEntityToTerrain(final Entity entity, final Vector3f currentVelocity, final Vector3fc oldPosition, final Vector3f position, final Vector2fc size, final Vector3fc blockPosition, final Vector2fc blockSize) {
 
         /*
          * FIXME This needs to be fixed to take in a pure block size defined by min max
@@ -60,15 +59,15 @@ final class AABBCollision {
         // I said this was gonna be complicated, didn't I?
 
         // Entity
-        minEntityOld.set(oldPosition.x() - size1.x(),    oldPosition.y(),             oldPosition.z() - size1.x());
-        maxEntityOld.set(oldPosition.x() + size1.x(), oldPosition.y() + size1.y(), oldPosition.z() + size1.x());
+        minEntityOld.set(oldPosition.x() - size.x(),    oldPosition.y(),            oldPosition.z() - size.x());
+        maxEntityOld.set(oldPosition.x() + size.x(), oldPosition.y() + size.y(), oldPosition.z() + size.x());
 
-        minEntity.set(position1.x() - size1.x(),    position1.y(),             position1.z() - size1.x());
-        maxEntity.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
+        minEntity.set(position.x() - size.x(),    position.y(),            position.z() - size.x());
+        maxEntity.set(position.x() + size.x(), position.y() + size.y(), position.z() + size.x());
 
         // Block
-        minBlock.set(position2.x(),    position2.y(),             position2.z());
-        maxBlock.set(position2.x() + size2.x(), position2.y() + size2.y(), position2.z() + size2.x());
+        minBlock.set( blockPosition.x(),                      blockPosition.y(),                   blockPosition.z());
+        maxBlock.set(blockPosition.x() + blockSize.x(), blockPosition.y() + blockSize.y(), blockPosition.z() + blockSize.x());
         
 
         // These are 1D collision detections
@@ -92,13 +91,13 @@ final class AABBCollision {
 
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
-            position1.y = maxBlock.y() + 0.001f;
+            position.y = maxBlock.y() + 0.001f;
             onGround = true;
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
         } else if (topWasNotIn && topIsNowIn) {
-            position1.y = minBlock.y - size1.y() - 0.001f;
+            position.y = minBlock.y - size.y() - 0.001f;
             currentVelocity.y = 0;
         }
 
@@ -106,12 +105,12 @@ final class AABBCollision {
 
         // then x
         if (leftWasNotIn && leftIsNowIn) {
-            position1.x = maxBlock.x() + size1.x() + 0.001f;
+            position.x = maxBlock.x() + size.x() + 0.001f;
             currentVelocity.x = 0;
             System.out.println("COLLIDE X LEFT");
         } else if (rightWasNotIn && rightIsNowIn) {
             System.out.println("COLLIDE X RIGHT");
-            position1.x = minBlock.x() - size1.x() - 0.001f;
+            position.x = minBlock.x() - size.x() - 0.001f;
             currentVelocity.x = 0;
         }
 
