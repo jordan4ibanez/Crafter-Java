@@ -36,6 +36,8 @@ public class PointEntity {
     private float gravity = 10.0f;
     private float friction = 3;
 
+    private boolean onGround = false;
+
     public PointEntity() {
     }
 
@@ -73,5 +75,13 @@ public class PointEntity {
 
     public void setFriction(float friction) {
         this.friction = friction;
+    }
+
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
     }
 }
