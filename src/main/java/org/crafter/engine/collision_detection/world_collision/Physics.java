@@ -125,12 +125,6 @@ public final class Physics {
                             blockPosition,
                             blockSize
                     );
-
-                    // FIXME: This is debug remove it
-//                    if (!wasOnGround && entity.isOnGround()) {
-//                        System.out.println(blockDefinitionContainer.getDefinition(gottenBlockID).getReadableName());
-//                        System.out.println("gotten block ID: " + gottenBlockID);
-//                    }
                 }
             }
         }
