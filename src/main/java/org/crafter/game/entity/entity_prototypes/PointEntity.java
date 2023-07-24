@@ -35,7 +35,7 @@ public class PointEntity {
 
     private float gravity = 1.0f;
     private float friction = 3;
-
+    private float jumpStrength = 1.0f;
     private boolean onGround = false;
 
     public PointEntity() {
@@ -83,5 +83,19 @@ public class PointEntity {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
+    }
+
+    public float getJumpStrength() {
+        return jumpStrength / 100.0f;
+    }
+
+    public void setJumpStrength(float jumpStrength) {
+        this.jumpStrength = jumpStrength;
+    }
+
+    public void jump() {
+        if (onGround) {
+            velocity.y = getJumpStrength();
+        }
     }
 }
