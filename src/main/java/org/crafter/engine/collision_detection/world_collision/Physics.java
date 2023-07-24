@@ -117,17 +117,7 @@ public final class Physics {
                             blockPosition,
                             blockSize
                     );
-
-                    //FIXME: TEMPORARY
-//                    if (onGround) {
-//
-////                        println("collision");
-//                    } else {
-////                        println("no collision");
-//                    }
-
                 }
-
             }
         }
     }
