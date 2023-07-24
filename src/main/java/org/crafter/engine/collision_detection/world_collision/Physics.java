@@ -73,12 +73,13 @@ public final class Physics {
         currentPosition.add(currentVelocity);
 
 
-        //FIXME More advanced placeholder test
+        // Scan the local area to find out which blocks the entity collides with
 
+
+        // FIXME: This is just to stop the player entity from falling through the world while I prototype this
         final int blockID = ChunkStorage.getBlockID(currentPosition);
 
         if (blockID != 0) {
-
 
             Vector3f blockPosition = new Vector3f(currentPosition).floor();
 
