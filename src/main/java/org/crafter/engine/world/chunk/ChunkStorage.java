@@ -628,7 +628,7 @@ public final class ChunkStorage {
             throwBlockManipulatorSizeError("X", BLOCK_MANIPULATOR_LIMIT.x());
         } else if (Math.abs(max.y() - min.y()) >= BLOCK_MANIPULATOR_LIMIT.y()) {
             throwBlockManipulatorSizeError("Y", BLOCK_MANIPULATOR_LIMIT.y());
-        } else if (Math.abs(max.z()) - min.z() >= BLOCK_MANIPULATOR_LIMIT.z()) {
+        } else if (Math.abs(max.z() - min.z()) >= BLOCK_MANIPULATOR_LIMIT.z()) {
             throwBlockManipulatorSizeError("Z", BLOCK_MANIPULATOR_LIMIT.z());
         }
     }
