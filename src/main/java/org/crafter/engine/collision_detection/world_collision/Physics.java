@@ -46,6 +46,10 @@ public final class Physics {
 
     private Physics(){}
 
+    /**
+     * Run an entity's physics tick for the "server" tick. (server and client are one at the moment of typing this)
+     * @param entity An entity in the world.
+     */
     public static void entityPhysics(Entity entity) {
 
         Vector3f currentPosition = entity.getPosition();
