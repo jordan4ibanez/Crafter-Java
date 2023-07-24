@@ -355,6 +355,7 @@ public final class ChunkStorage {
      * @param max Max raw in position.
      */
     public static synchronized void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
+        checkBlockManipulatorCubicArea(min,max);
         checkBlockManipulatorMinMaxValidity(min,max);
         checkBlockManipulatorSizeValidity(min,max);
         checkBlockManipulatorYAxisValidity(min,max);
@@ -647,15 +648,16 @@ public final class ChunkStorage {
      * @param max Max position.
      */
     private static void checkBlockManipulatorMinMaxValidity(final Vector3ic min, final Vector3ic max) {
-        if (min.x() >= max.x()) {
+        // Min is not allowed to be further than max, but, it can be equal.
+        // The fasdf
+        if (min.x() > max.x()) {
             throwBlockManipulatorPositionError("X");
-        } else if (min.y() >= max.y()) {
+        } else if (min.y() > max.y()) {
             throwBlockManipulatorPositionError("Y");
-        } else if (min.z() >= max.z()) {
+        } else if (min.z() > max.z()) {
             throwBlockManipulatorPositionError("Z");
         }
     }
-
 
     /**
      * INTERNAL ONLY boilerplate reducer for throwing an error setting the Block Manipulator positions.
@@ -663,6 +665,17 @@ public final class ChunkStorage {
      */
     private static void throwBlockManipulatorPositionError(final String axis) {
         throw new RuntimeException("ChunkStorage: Attempted to set Block Manipulator to invalid min/max! (" + axis + " axis) min is greater than or equal to max!");
+    }
+
+    /**
+     * INTERNAL ONLY validator to ensure that the cubic area for the Block Manipulator is greater than 1.
+     * @param min Min position.
+     * @param max Max position.
+     */
+    private static void checkBlockManipulatorCubicArea(final Vector3ic min, final Vector3ic max) {
+        if (Math.abs(max.x() - min.x()) * Math.abs(max.y() - min.y()) * Math.abs(max.z() - min.z()) <= 1 ) {
+            throw new RuntimeException("ChunkStorage: Attempted to set the Block Manipulator to 1 block cubic area! Use the single block getters/setters instead!");
+        }
     }
 
 
