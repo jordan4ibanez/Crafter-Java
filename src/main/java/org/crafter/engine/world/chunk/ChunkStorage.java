@@ -365,7 +365,8 @@ public final class ChunkStorage {
         blockManipulatorMin.set(min);
         blockManipulatorMax.set(max);
 
-        blockManipulatorSize.set(Math.abs(max.x() - min.x()), Math.abs(max.y() - min.y()), Math.abs(max.z() - min.z()));
+        // +1 because 0 count is inclusive at 0
+        blockManipulatorSize.set((Math.abs(max.x() - min.x()) + 1), (Math.abs(max.y() - min.y()) + 1), (Math.abs(max.z() - min.z()) + 1));
         blockManipulatorYStride = blockManipulatorSize.x() * blockManipulatorSize.z();
     }
 
@@ -844,8 +845,8 @@ public final class ChunkStorage {
      * @return The X position inside the chunk.
      */
     private static int internalX(float x) {
-        x = x < 0 ? Math.abs(x) - 1 : x;
-        return (int) Math.floor(x % Chunk.getWidth());
+        final int width = Chunk.getWidth();
+        return x < 0 ? (width - (int) Math.floor(Math.abs(x + 1) % width)) - 1 : (int) Math.floor(x % width);
     }
 
     /**
@@ -855,8 +856,8 @@ public final class ChunkStorage {
      * @return The Z position inside the chunk.
      */
     private static int internalZ(float z) {
-        z = z < 0 ? Math.abs(z) - 1 : z;
-        return (int) Math.floor(z % Chunk.getDepth());
+        final int depth = Chunk.getDepth();
+        return z < 0 ? (depth - (int) Math.floor(Math.abs(z + 1) % depth)) - 1 : (int) Math.floor(z % depth);
     }
 
 
