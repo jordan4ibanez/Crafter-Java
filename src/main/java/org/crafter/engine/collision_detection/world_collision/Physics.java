@@ -24,9 +24,9 @@ import org.crafter.game.entity.entity_prototypes.Entity;
 import org.joml.*;
 import org.joml.Math;
 
-import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrain;
 import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrainY;
 import static org.crafter.engine.delta.Delta.getDelta;
+import static org.crafter.engine.utility.JOMLUtils.printVec;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
 /**
@@ -47,6 +47,8 @@ public final class Physics {
 
     // Cache the Block Definition Container's pointer.
     private static BlockDefinitionContainer blockDefinitionContainer = null;
+    // Order in which to collision detect (Y,X,Z)
+    private static final int[] collisionOrder = new int[]{1,0,2};
 
     private Physics(){}
 
@@ -80,6 +82,20 @@ public final class Physics {
 
         final Vector2fc entitySize = entity.getSize();
 
+        printVec("ENTITY POS", currentPosition);
+
+        // Scan the local area to find out which blocks the entity collides with
+        minPosition.set(
+                (int) Math.floor(currentPosition.x() - entitySize.x()),
+                (int) Math.floor(currentPosition.y()),
+                (int) Math.floor(currentPosition.z() - entitySize.x())
+        );
+        maxPosition.set(
+                (int) Math.floor(currentPosition.x() + entitySize.x()),
+                (int) Math.floor(currentPosition.y() + entitySize.y()),
+                (int) Math.floor(currentPosition.z() + entitySize.x())
+        );
+
         ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
         ChunkStorage.blockManipulatorReadData();
 
@@ -96,20 +112,12 @@ public final class Physics {
          */
 
 
-        // Scan the local area to find out which blocks the entity collides with
-        minPosition.set(
-                (int) Math.floor(currentPosition.x() - entitySize.x()),
-                (int) Math.floor(currentPosition.y()),
-                (int) Math.floor(currentPosition.z() - entitySize.x())
-        );
-        maxPosition.set(
-                (int) Math.floor(currentPosition.x() + entitySize.x()),
-                (int) Math.floor(currentPosition.y() + entitySize.y()),
-                (int) Math.floor(currentPosition.z() + entitySize.x())
-        );
-
         // Reset onGround state for entity.
         entity.setOnGround(false);
+
+        for (int axis : collisionOrder) {
+            runCollisionDetection(entity, currentPosition, currentVelocity, axis);
+        }
 
     }
 
@@ -120,7 +128,7 @@ public final class Physics {
      * @param currentVelocity The entity's current raw velocity.
      * @param axis (0,1,2) (X,Y,Z)
      */
-    private static void runCollisionDetection(final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final byte axis) {
+    private static void runCollisionDetection(final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final int axis) {
 
         switch (axis) {
             case 0 -> currentPosition.x += currentVelocity.x();
@@ -166,7 +174,7 @@ public final class Physics {
      */
     private static void checkIfBlockDefinitionContainerCached() {
         if (blockDefinitionContainer == null) {
-            BlockDefinitionContainer.getMainInstance();
+            blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
         }
     }
 }
