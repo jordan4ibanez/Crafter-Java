@@ -25,6 +25,7 @@ import org.joml.*;
 import org.joml.Math;
 
 import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrain;
+import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrainY;
 import static org.crafter.engine.delta.Delta.getDelta;
 import static org.crafter.engine.utility.UtilityPrinter.println;
 
@@ -115,9 +116,7 @@ public final class Physics {
                     Vector3f blockPosition = new Vector3f(x,y,z);
                     Vector2f blockSize = new Vector2f(1,1);
 
-                    final boolean wasOnGround = entity.isOnGround();
-
-                    collideEntityToTerrain(
+                    collideEntityToTerrainY(
                             entity,
                             currentVelocity,
                             oldPosition,

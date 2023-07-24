@@ -49,7 +49,7 @@ final class AABBCollision {
      * @param blockPosition Block's position.
      * @param blockSize Block's size.
      */
-    public static void collideEntityToTerrain(
+    public static void collideEntityToTerrainY(
             final Entity entity,
             final Vector3f currentVelocity,
             final Vector3fc oldPosition,
