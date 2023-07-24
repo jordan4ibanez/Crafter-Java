@@ -615,7 +615,7 @@ public final class ChunkStorage {
      * @param yPosition Invalid Y position.
      */
     private static void throwBlockManipulatorYAxisError(final String minMax, final int yPosition) {
-        throw new RuntimeException("ChunkStorage: Attempted to set (" + minMax + ") BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - " + Chunk.getHeight() +" | Attempt: " + yPosition);
+        throw new RuntimeException("ChunkStorage: Attempted to set (" + minMax + ") BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - " + (Chunk.getHeight() - 1) +" | Attempt: " + yPosition);
     }
 
     /**
