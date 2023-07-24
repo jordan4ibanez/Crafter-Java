@@ -133,4 +133,5 @@ const crafter = [];
 crafter.registerBlock(
     new BlockDefinition("air")
         .setDrawType(DrawType.AIR)
+        .setWalkable(false)
 );
