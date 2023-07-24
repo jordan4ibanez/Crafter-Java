@@ -251,6 +251,7 @@ public class BlockManipulatorTest {
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= minPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
                     setBlockManipulatorData(x,y,z, dataPiece);
 
                     final int gottenDataPiece = getBlockManipulatorData(x,y,z);
@@ -280,6 +281,7 @@ public class BlockManipulatorTest {
             for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
                 for (int z = minPosition.z(); z <= minPosition.z(); z++) {
                     for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
                         setBlockManipulatorData(x, y, z, dataPiece);
 
                         final int gottenDataPiece = getBlockManipulatorData(x, y, z);
@@ -306,6 +308,7 @@ public class BlockManipulatorTest {
             for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
                 for (int z = minPosition.z(); z <= minPosition.z(); z++) {
                     for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
                         setBlockManipulatorData(x, y, z, dataPiece);
 
                         final int gottenDataPiece = getBlockManipulatorData(x, y, z);
@@ -333,6 +336,7 @@ public class BlockManipulatorTest {
             for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
                 for (int z = minPosition.z(); z <= minPosition.z(); z++) {
                     for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+                        
                         setBlockManipulatorData(x, y, z, dataPiece);
 
                         final int gottenDataPiece = getBlockManipulatorData(x, y, z);
