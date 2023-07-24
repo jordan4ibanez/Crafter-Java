@@ -111,7 +111,7 @@ public final class Physics {
                         continue;
                     }
 
-                    Vector3f blockPosition = new Vector3f(x,y,z).floor();
+                    Vector3f blockPosition = new Vector3f(x,y,z);
                     Vector2f blockSize = new Vector2f(1,1);
 
                     final boolean wasOnGround = entity.isOnGround();
