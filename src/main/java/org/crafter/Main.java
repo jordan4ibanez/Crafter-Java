@@ -101,7 +101,7 @@ public class Main {
 //        if (false) {
 //            Window.maximize();
 //        }
-        Mouse.capture();
+        // Mouse.capture();
 
         classicChunkPayload();
 
