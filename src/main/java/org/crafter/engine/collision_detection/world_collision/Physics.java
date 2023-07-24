@@ -134,7 +134,6 @@ public final class Physics {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
 
-
                     // Bulk API
                     final int gottenRawData = ChunkStorage.getBlockManipulatorData(x, y, z);
                     final int gottenBlockID = Chunk.getBlockID(gottenRawData);
@@ -144,6 +143,7 @@ public final class Physics {
                         continue;
                     }
 
+                    // FIXME: THESE VALUES NEED TO BE CACHED!! THIS IS CREATING 2 NEW OBJECTS MULTIPLE TIMES PER ENTITY!
                     Vector3f blockPosition = new Vector3f(x,y,z);
                     Vector2f blockSize = new Vector2f(1,1);
 
