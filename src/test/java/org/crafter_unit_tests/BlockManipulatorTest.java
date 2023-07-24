@@ -230,4 +230,9 @@ public class BlockManipulatorTest {
             System.out.println("Block Manipulator passed Y position test 2");
         }
     }
+
+    @Test
+    public void testBlockManipulatorArrayManipulation() {
+
+    }
 }

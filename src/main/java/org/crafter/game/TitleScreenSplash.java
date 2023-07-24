@@ -41,7 +41,22 @@ public final class TitleScreenSplash {
             "Opens a Github issue!",
             "Made by one guy!",
             "Nostalgic!",
-            "Scripted, not stirred!"
+            "Scripted, not stirred!",
+            "Let's go again! Let's go again!",
+            "Unit tested...TOO MUCH!",
+            "Advanced angles, simple geometry!",
+            "Also try Mindustry!",
+            "Programmed on a Model M!",
+            "Delegates objective methods!",
+            "Atomic, until error!",
+            "Multi threading included!",
+            "Also available on Linux!",
+            "Libre!",
+            "FSF approved, I hope!",
+            "SquidRings is cool!",
+            "chaottic is cool!",
+            "Broken until fixed!",
+            "Tuned for speeeed!"
     };
 
     private TitleScreenSplash() {}
