@@ -45,17 +45,19 @@ public final class Physics {
 
     public static void entityPhysics(Entity entity) {
 
+        Vector3f currentPosition = entity.getPosition();
+
+        // If the chunk is unloaded, the entity gets frozen in place until it's loaded
+        if (!ChunkStorage.chunkIsLoaded(currentPosition)) {
+            return;
+        }
+
         float delta = getDelta();
         if (delta > MAX_DELTA) {
             delta = MAX_DELTA;
         }
 
         Vector3f currentVelocity = entity.getVelocity();
-        Vector3f currentPosition = entity.getPosition();
-
-        if (!ChunkStorage.chunkIsLoaded(currentPosition)) {
-            return;
-        }
 
         oldPosition.set(currentPosition);
 
