@@ -30,6 +30,7 @@ import org.joml.Vector3fc;
 final class AABBCollision {
 
     // This is going to be a bit complex, unfortunately. All this for the sake of optimization.
+    // I'll try to document as best as I can.
     private static final Vector3f minEntity = new Vector3f();
     private static final Vector3f maxEntity = new Vector3f();
     private static final Vector3f minEntityOld = new Vector3f();
@@ -48,15 +49,20 @@ final class AABBCollision {
      * @param blockPosition Block's position.
      * @param blockSize Block's size.
      */
-    public static void collideEntityToTerrain(final Entity entity, final Vector3f currentVelocity, final Vector3fc oldPosition, final Vector3f position, final Vector2fc size, final Vector3fc blockPosition, final Vector2fc blockSize) {
+    public static void collideEntityToTerrain(
+            final Entity entity,
+            final Vector3f currentVelocity,
+            final Vector3fc oldPosition,
+            final Vector3f position,
+            final Vector2fc size,
+            final Vector3fc blockPosition,
+            final Vector2fc blockSize) {
 
         /*
          * FIXME This needs to be fixed to take in a pure block size defined by min max
          *
          * FOR NOW: this is "good enough"
          */
-
-        // I said this was gonna be complicated, didn't I?
 
         // Entity
         minEntityOld.set(oldPosition.x() - size.x(),    oldPosition.y(),            oldPosition.z() - size.x());
