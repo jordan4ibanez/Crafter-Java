@@ -17,6 +17,7 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.crafter.game.entity.entity_prototypes.Entity;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -47,7 +48,7 @@ final class AABBCollision {
      * @param size2 Entity 2's size.
      * @return True or false. FIXME: (TEMP) True if the entity is on the ground (for now).
      */
-    public static boolean collideEntityToTerrain(final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
+    public static void collideEntityToTerrain(final Entity entity, final Vector3f currentVelocity, final Vector3fc oldPosition, final Vector3f position1, final Vector2fc size1, final Vector3fc position2, final Vector2fc size2) {
 
         /*
          * FIXME This needs to be fixed to take in a pure block size defined by min max
@@ -83,13 +84,15 @@ final class AABBCollision {
         final boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
 
 
-        boolean wasOnGround = false;
+        boolean onGround = false;
 
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
             position1.y = max2.y() + 0.001f;
-            wasOnGround = true;
-//            thisEntity.velocity.y = 0;
+            onGround = true;
+            // Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
+            // If this is set to 0, the client player will miss jump keystrokes because they float for a frame.
+            currentVelocity.y = -0.001f;
         } else if (topWasNotIn && topIsNowIn) {
             position1.y = min2.y - size1.y() - 0.001f;
 //            thisEntity.velocity.y = 0;
@@ -112,7 +115,9 @@ final class AABBCollision {
 //            thisEntity.velocity.z = 0;
         }
 
-        return wasOnGround;
+        if (onGround) {
+            entity.setOnGround(true);
+        }
     }
 
 }
