@@ -17,6 +17,8 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world.chunk.Chunk;
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.game.entity.entity_prototypes.Entity;
 import org.joml.*;
@@ -81,41 +83,59 @@ public final class Physics {
         );
 
         ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
+        ChunkStorage.blockManipulatorReadData();
+
+        final BlockDefinitionContainer blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
 
         //FIXME REMOVEME: This is the prototype test
-        for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
-            for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
-
-            }
-        }
-
+        System.out.println("NEW RUN -------");
 
         // FIXME: This is just to stop the player entity from falling through the world while I prototype this
         final int blockID = ChunkStorage.getBlockID(currentPosition);
 
-        if (blockID != 0) {
+        if (blockID == 0) {
+            return;
+        }
 
-            Vector3f blockPosition = new Vector3f(currentPosition).floor();
+        for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+            for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
 
-            Vector2f blockSize = new Vector2f(1,1);
+                // Point API
+                final String gottenName = ChunkStorage.getBlockName(x,minPosition.y(),z);
 
-            //TODO This is where the new api comes in!
+                System.out.println("Point: (" + x + ", " + z + ") is (" + gottenName + ")");
 
-            boolean onGround = collideEntityToTerrain(
-                    oldPosition,
-                    currentPosition,
-                    entity.getSize(),
-                    blockPosition,
-                    blockSize
-            );
+                // Bulk API
+//                final int gottenRawData = ChunkStorage.getBlockManipulatorData(x,minPosition.y(), z);
+//                final int gottenBlockID = Chunk.getBlockID(gottenRawData);
+//                final String blockName = blockDefinitionContainer.getDefinition(gottenBlockID).getInternalName();
+//
+//                System.out.println("Name at (" + x + ", " + z + ") is (" + blockName + ") MATCH? (" + gottenName + ")");
 
-            //FIXME: TEMPORARY
-            if (onGround) {
-                currentVelocity.y = -0.001f;
-    //            println("collision");
-            } else {
-    //            println("no collision");
             }
+        }
+
+        // FIXME: This is just to stop the player entity from falling through the world while I prototype this
+        Vector3f blockPosition = new Vector3f(currentPosition).floor();
+
+        Vector2f blockSize = new Vector2f(1,1);
+
+        //TODO This is where the new api comes in!
+
+        boolean onGround = collideEntityToTerrain(
+                oldPosition,
+                currentPosition,
+                entity.getSize(),
+                blockPosition,
+                blockSize
+        );
+
+        //FIXME: TEMPORARY
+        if (onGround) {
+            currentVelocity.y = -0.001f;
+//            println("collision");
+        } else {
+//            println("no collision");
         }
 
     }
