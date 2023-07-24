@@ -17,6 +17,7 @@
  */
 package org.crafter.engine.collision_detection.world_collision;
 
+import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.game.entity.entity_prototypes.Entity;
 import org.joml.Vector2f;
 import org.joml.Vector2fc;
@@ -52,6 +53,10 @@ public final class Physics {
         Vector3f currentVelocity = entity.getVelocity();
         Vector3f currentPosition = entity.getPosition();
 
+        if (!ChunkStorage.chunkIsLoaded(currentPosition)) {
+            return;
+        }
+
         oldPosition.set(currentPosition);
 
         currentVelocity.y -= delta * entity.getGravity();
@@ -66,30 +71,35 @@ public final class Physics {
         currentPosition.add(currentVelocity);
 
 
-        //FIXME Placeholder test
-        Vector3f blockPosition = new Vector3f(0,0,0);
-        Vector2f blockSize = new Vector2f(1,1);
+        //FIXME More advanced placeholder test
+
+        final int blockID = ChunkStorage.getBlockID(currentPosition);
+
+        if (blockID != 0) {
 
 
-        //TODO This is where the new api comes in!
+            Vector3f blockPosition = new Vector3f(currentPosition).floor();
 
-        boolean onGround = collideEntityToTerrain(
-                oldPosition,
-                currentPosition,
-                entity.getSize(),
-                blockPosition,
-                blockSize
-        );
+            Vector2f blockSize = new Vector2f(1,1);
 
-        //FIXME: TEMPORARY
-        if (onGround) {
-            currentVelocity.y = -0.001f;
-            println("collision");
-        } else {
-            println("no collision");
+            //TODO This is where the new api comes in!
+
+            boolean onGround = collideEntityToTerrain(
+                    oldPosition,
+                    currentPosition,
+                    entity.getSize(),
+                    blockPosition,
+                    blockSize
+            );
+
+            //FIXME: TEMPORARY
+            if (onGround) {
+                currentVelocity.y = -0.001f;
+    //            println("collision");
+            } else {
+    //            println("no collision");
+            }
         }
-
-
 
     }
 }
