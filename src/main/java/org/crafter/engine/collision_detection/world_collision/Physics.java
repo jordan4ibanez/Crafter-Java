@@ -109,9 +109,7 @@ public final class Physics {
                 final int gottenRawData = ChunkStorage.getBlockManipulatorData(x,minPosition.y(), z);
                 final int gottenBlockID = Chunk.getBlockID(gottenRawData);
                 final String blockName = blockDefinitionContainer.getDefinition(gottenBlockID).getInternalName();
-//
                 System.out.println("Name at (" + x + ", " + z + ") is (" + blockName + ") MATCH? (" + gottenName + ")");
-                System.out.println("ID is: " + gottenBlockID);
 
             }
         }
