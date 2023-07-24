@@ -217,13 +217,12 @@ public class Main {
         final Player clientPlayer = PlayerStorage.getClientPlayer();
 
         finalCameraMovement.div(10.0f);
-
         finalCameraMovement.y = clientPlayer.getVelocity().y();
-
-        if (jumped && clientPlayer.isOnGround()) {
-            finalCameraMovement.y = 0.02f;
-        }
         clientPlayer.setVelocity(finalCameraMovement);
+
+        if (jumped) {
+            clientPlayer.jump();
+        }
     }
 
     /**
