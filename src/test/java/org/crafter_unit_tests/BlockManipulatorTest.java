@@ -27,9 +27,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class BlockManipulatorTest {
 
     @Test
-    public void testSetterFailureStates() {
-
-        // Invalid positions
+    public void testInvalidPositions() {
 
         // Identical positions
         try {
@@ -90,8 +88,10 @@ public class BlockManipulatorTest {
             // This passes
             System.out.println("Block Manipulator passed test 5");
         }
+    }
 
-        // Invalid sizes
+    @Test
+    public void testInvalidSizes() {
 
         // X
         try {
