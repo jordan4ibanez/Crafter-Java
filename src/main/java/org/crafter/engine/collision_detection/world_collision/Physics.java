@@ -62,14 +62,15 @@ public final class Physics {
 
         Vector3f currentVelocity = entity.getVelocity();
         oldPosition.set(currentPosition);
-        // Apply velocity
+        // Apply gravity
         currentVelocity.y -= delta * entity.getGravity();
+        // Apply velocity
         if (currentVelocity.y < -MAX_VELOCITY) {
             currentVelocity.y = -MAX_VELOCITY;
         }
         currentPosition.add(currentVelocity);
 
-        System.out.println(currentVelocity.y);
+//        System.out.println(currentVelocity.y);
 
         final Vector2fc entitySize = entity.getSize();
 
