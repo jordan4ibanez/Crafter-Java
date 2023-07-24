@@ -191,9 +191,8 @@ public class Main {
             inputMovement.x += 1;
         }
 
-//        if (Keyboard.keyDown(GLFW_KEY_SPACE)) {
-//            inputMovement.y += 1;
-//        }
+        boolean jumped = Keyboard.keyDown(GLFW_KEY_SPACE);
+
 //        if (Keyboard.keyDown(GLFW_KEY_LEFT_SHIFT) || Keyboard.keyDown(GLFW_KEY_RIGHT_SHIFT)) {
 //            inputMovement.y -= 1;
 //        }
@@ -216,7 +215,14 @@ public class Main {
         finalCameraMovement.set(cameraMovementX.add(cameraMovementY).add(cameraMovementZ)).mul(movementDelta);
 
         final Player clientPlayer = PlayerStorage.getClientPlayer();
+
+        finalCameraMovement.div(10.0f);
+
         finalCameraMovement.y = clientPlayer.getVelocity().y();
+
+        if (jumped && clientPlayer.isOnGround()) {
+            finalCameraMovement.y = 0.02f;
+        }
         clientPlayer.setVelocity(finalCameraMovement);
     }
 
