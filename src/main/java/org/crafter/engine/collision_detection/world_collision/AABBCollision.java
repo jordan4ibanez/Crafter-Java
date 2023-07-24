@@ -68,8 +68,9 @@ final class AABBCollision {
         
 
         // These are 1D collision detections
+        //FIXME: THIS IS AN ABSOLUTE MESS! IT SHOULD ONLY BE CHECKING IF MIN WAS WITHIN MAX AND VICE VERSA NOT MIN AND MAX WTF
         final boolean bottomWasNotIn = min1Old.y() > max2.y();
-        final boolean bottomIsNowIn = min1.y() <= max2.y() && min1.y() >= min2.y();
+        final boolean bottomIsNowIn = min1.y() <= max2.y(); //FIXME: EXAMPLE: THIS WAS ALSO && min1.y() >= min2.y()
         final boolean topWasNotIn = max1Old.y() < min2.y();
         final boolean topIsNowIn = max1.y() <= max2.y() && max1.y() >= min2.y();
 
@@ -93,11 +94,9 @@ final class AABBCollision {
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
-            System.out.println("state bottom");
         } else if (topWasNotIn && topIsNowIn) {
             position1.y = min2.y - size1.y() - 0.001f;
 //            thisEntity.velocity.y = 0;
-            System.out.println("state top");
         }
         // then x
 //        else if (leftWasNotIn && leftIsNowIn) {
