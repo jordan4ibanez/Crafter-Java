@@ -108,15 +108,28 @@ public final class Physics {
                 (int) Math.floor(currentPosition.z() + entitySize.x())
         );
 
-        // FIXME: CHANGE THIS TO Y ONLY!
-        currentPosition.add(currentVelocity);
-
         // Reset onGround state for entity.
         entity.setOnGround(false);
 
     }
 
-    private static void runCollisionDetection() {
+    /**
+     * Internal runner method to clean up above code & to make this easier to read, might be faster this way too?
+     * @param entity The entity to collide with the world.
+     * @param currentPosition The entity's current raw in world position.
+     * @param currentVelocity The entity's current raw velocity.
+     * @param axis (0,1,2) (X,Y,Z)
+     */
+    private static void runCollisionDetection(final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final byte axis) {
+
+        switch (axis) {
+            case 0 -> currentPosition.x += currentVelocity.x();
+            case 1 -> currentPosition.y += currentPosition.y();
+            case 2 -> currentVelocity.z += currentVelocity.z();
+            default -> throw new RuntimeException("Physics: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
+        }
+        currentPosition.add(currentVelocity);
+
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
