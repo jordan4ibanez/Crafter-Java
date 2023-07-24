@@ -18,6 +18,7 @@
 package org.crafter.engine.collision_detection.world_collision;
 
 import org.crafter.game.entity.entity_prototypes.Entity;
+import org.joml.Math;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -29,12 +30,12 @@ import org.joml.Vector3fc;
 final class AABBCollision {
 
     // This is going to be a bit complex, unfortunately. All this for the sake of optimization.
-    private static final Vector3f min1 = new Vector3f();
-    private static final Vector3f max1 = new Vector3f();
-    private static final Vector3f min1Old = new Vector3f();
-    private static final Vector3f max1Old = new Vector3f();
-    private static final Vector3f min2 = new Vector3f();
-    private static final Vector3f max2 = new Vector3f();
+    private static final Vector3f minEntity = new Vector3f();
+    private static final Vector3f maxEntity = new Vector3f();
+    private static final Vector3f minEntityOld = new Vector3f();
+    private static final Vector3f maxEntityOld = new Vector3f();
+    private static final Vector3f minBlock = new Vector3f();
+    private static final Vector3f maxBlock = new Vector3f();
 
     private AABBCollision(){}
 
@@ -57,55 +58,65 @@ final class AABBCollision {
          */
 
         // I said this was gonna be complicated, didn't I?
-        min1Old.set(oldPosition.x() - size1.x(), oldPosition.y(), oldPosition.z() - size1.x());
-        max1Old.set(oldPosition.x() + size1.x(), oldPosition.y() + size1.y(), oldPosition.z() + size1.x());
 
-        min1.set(position1.x() - size1.x(), position1.y(), position1.z() - size1.x());
-        max1.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
+        // Entity
+        minEntityOld.set(oldPosition.x() - size1.x(),    oldPosition.y(),             oldPosition.z() - size1.x());
+        maxEntityOld.set(oldPosition.x() + size1.x(), oldPosition.y() + size1.y(), oldPosition.z() + size1.x());
 
-        min2.set(position2.x() - size2.x(), position2.y(), position2.z() - size2.x());
-        max2.set(position2.x() + size2.x(), position2.y() + size2.y(), position2.z() + size2.x());
+        minEntity.set(position1.x() - size1.x(),    position1.y(),             position1.z() - size1.x());
+        maxEntity.set(position1.x() + size1.x(), position1.y() + size1.y(), position1.z() + size1.x());
+
+        // Block
+        minBlock.set(position2.x(),    position2.y(),             position2.z());
+        maxBlock.set(position2.x() + size2.x(), position2.y() + size2.y(), position2.z() + size2.x());
         
 
         // These are 1D collision detections
-        //FIXME: THIS IS AN ABSOLUTE MESS! IT SHOULD ONLY BE CHECKING IF MIN WAS WITHIN MAX AND VICE VERSA NOT MIN AND MAX WTF
-        final boolean bottomWasNotIn = min1Old.y() > max2.y();
-        final boolean bottomIsNowIn = min1.y() <= max2.y(); //FIXME: EXAMPLE: THIS WAS ALSO && min1.y() >= min2.y()
-        final boolean topWasNotIn = max1Old.y() < min2.y();
-        final boolean topIsNowIn = max1.y() <= max2.y() && max1.y() >= min2.y();
+        final boolean bottomWasNotIn = minEntityOld.y() > maxBlock.y();
+        final boolean bottomIsNowIn = minEntity.y() <= maxBlock.y();
+        final boolean topWasNotIn = maxEntityOld.y() < minBlock.y();
+        final boolean topIsNowIn = maxEntity.y() >= minBlock.y();
 
-        final boolean leftWasNotIn = min1Old.x() > max2.x();
-        final boolean leftIsNowIn = min1.x() <= max2.x() && min1.x() >= min2.x();
-        final boolean rightWasNotIn = max1Old.x() < min2.x();
-        final boolean rightIsNowIn = max1.x() <= max2.x() && max1.x() >= min2.x();
+        final boolean leftWasNotIn = minEntityOld.x() > maxBlock.x();
+        final boolean leftIsNowIn = minEntity.x() <= maxBlock.x();
+        final boolean rightWasNotIn = maxEntityOld.x() < minBlock.x();
+        final boolean rightIsNowIn = maxEntity.x() >= minBlock.x();
 
-        final boolean backWasNotIn = min1Old.z() > max2.z();
-        final boolean backIsNowIn = min1.z() <= max2.z() && min1.z() >= min2.z();
-        final boolean frontWasNotIn = max1Old.z() < min2.z();
-        final boolean frontIsNowIn = max1.z() <= max2.z() && max1.z() >= min2.z();
+        final boolean backWasNotIn = minEntityOld.z() > maxBlock.z();
+        final boolean backIsNowIn = minEntity.z() <= maxBlock.z();
+        final boolean frontWasNotIn = maxEntityOld.z() < minBlock.z();
+        final boolean frontIsNowIn = maxEntity.z() >= minBlock.z();
 
 
         boolean onGround = false;
 
         /// y check first
         if (bottomWasNotIn && bottomIsNowIn) {
-            position1.y = max2.y() + 0.001f;
+            position1.y = maxBlock.y() + 0.001f;
             onGround = true;
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
         } else if (topWasNotIn && topIsNowIn) {
-            position1.y = min2.y - size1.y() - 0.001f;
-//            thisEntity.velocity.y = 0;
+            position1.y = minBlock.y - size1.y() - 0.001f;
+            currentVelocity.y = 0;
         }
+
+
+
         // then x
-//        else if (leftWasNotIn && leftIsNowIn) {
-//            position1.x = max2.x() + size1.x() + 0.001f;
-////            thisEntity.velocity.x = 0;
-//        } else if (rightWasNotIn && rightIsNowIn) {
-//            position1.x = min2.x - size1.x() - 0.001f;
-////            thisEntity.velocity.x = 0;
-//        }
+        if (leftWasNotIn && leftIsNowIn) {
+            position1.x = maxBlock.x() + size1.x() + 0.001f;
+            currentVelocity.x = 0;
+            System.out.println("COLLIDE X LEFT");
+        } else if (rightWasNotIn && rightIsNowIn) {
+            System.out.println("COLLIDE X RIGHT");
+            position1.x = minBlock.x() - size1.x() - 0.001f;
+            currentVelocity.x = 0;
+        }
+
+
+
 //
 //        // finally z
 //        else if (backWasNotIn && backIsNowIn) {
