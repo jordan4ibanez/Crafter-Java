@@ -33,7 +33,7 @@ public class PointEntity {
 
     private final Vector3f velocity = new Vector3f();
 
-    private float gravity = 10.0f;
+    private float gravity = 1.0f;
     private float friction = 3;
 
     private boolean onGround = false;
