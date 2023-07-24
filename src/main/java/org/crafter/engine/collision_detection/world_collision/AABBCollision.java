@@ -115,6 +115,7 @@ final class AABBCollision {
 //            thisEntity.velocity.z = 0;
         }
 
+        // 1 way gate for onGround trigger
         if (onGround) {
             entity.setOnGround(true);
         }
