@@ -45,6 +45,9 @@ public final class Physics {
     private static final Vector3i minPosition = new Vector3i();
     private static final Vector3i maxPosition = new Vector3i();
 
+    // Cache the Block Definition Container's pointer.
+    private static BlockDefinitionContainer blockDefinitionContainer = null;
+
     private Physics(){}
 
     /**
@@ -60,6 +63,7 @@ public final class Physics {
             return;
         }
 
+
         float delta = getDelta();
         if (delta > MAX_DELTA) {
             delta = MAX_DELTA;
@@ -73,9 +77,24 @@ public final class Physics {
         if (currentVelocity.y < -MAX_VELOCITY) {
             currentVelocity.y = -MAX_VELOCITY;
         }
-        currentPosition.add(currentVelocity);
 
         final Vector2fc entitySize = entity.getSize();
+
+        ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
+        ChunkStorage.blockManipulatorReadData();
+
+        checkIfBlockDefinitionContainerCached();
+
+        /*
+        A little explanation:
+        Due to the fact that I'm not very good at collision detection, this AABB collision is quite simple.
+        It happens in 3 easy steps:
+        AXIS move -> detect -> correct
+        This happens in this order: Y, X, Z
+        Why? Because I like it in this order basically.
+        If you know how to make this work in one sweep, PLEASE, open a PR.
+         */
+
 
         // Scan the local area to find out which blocks the entity collides with
         minPosition.set(
@@ -89,16 +108,15 @@ public final class Physics {
                 (int) Math.floor(currentPosition.z() + entitySize.x())
         );
 
-        ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
-        ChunkStorage.blockManipulatorReadData();
-
-        //FIXME: this should be stored in the class not in this function.
-        // This might cause severe performance problems with a lot of entities!
-        final BlockDefinitionContainer blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
+        // FIXME: CHANGE THIS TO Y ONLY!
+        currentPosition.add(currentVelocity);
 
         // Reset onGround state for entity.
         entity.setOnGround(false);
 
+    }
+
+    private static void runCollisionDetection(final BlockDefinitionContainer blockDefinitionContainer) {
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
@@ -127,6 +145,15 @@ public final class Physics {
                     );
                 }
             }
+        }
+    }
+
+    /**
+     * This is a simple performance optimization to shorten the lookup amount by a tiny amount.
+     */
+    private static void checkIfBlockDefinitionContainerCached() {
+        if (blockDefinitionContainer == null) {
+            BlockDefinitionContainer.getMainInstance();
         }
     }
 }
