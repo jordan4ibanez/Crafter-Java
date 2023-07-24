@@ -649,7 +649,7 @@ public final class ChunkStorage {
      */
     private static void checkBlockManipulatorMinMaxValidity(final Vector3ic min, final Vector3ic max) {
         // Min is not allowed to be further than max, but, it can be equal.
-        // The fasdf
+        // The cubic size is tested in checkBlockManipulatorCubicArea().
         if (min.x() > max.x()) {
             throwBlockManipulatorPositionError("X");
         } else if (min.y() > max.y()) {
@@ -673,7 +673,8 @@ public final class ChunkStorage {
      * @param max Max position.
      */
     private static void checkBlockManipulatorCubicArea(final Vector3ic min, final Vector3ic max) {
-        if (Math.abs(max.x() - min.x()) * Math.abs(max.y() - min.y()) * Math.abs(max.z() - min.z()) <= 1 ) {
+        // This is 0 counted so it must be + 1
+        if ((Math.abs(max.x() - min.x()) + 1) * (Math.abs(max.y() - min.y()) + 1) * (Math.abs(max.z() - min.z()) + 1) <= 1 ) {
             throw new RuntimeException("ChunkStorage: Attempted to set the Block Manipulator to 1 block cubic area! Use the single block getters/setters instead!");
         }
     }
