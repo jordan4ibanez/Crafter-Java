@@ -87,11 +87,11 @@ public final class Physics {
 
         final BlockDefinitionContainer blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
 
-        //FIXME REMOVEME: This is the prototype test
-        System.out.println("NEW RUN -------");
-
         // FIXME: This is just to stop the player entity from falling through the world while I prototype this
         final int blockID = ChunkStorage.getBlockID(currentPosition);
+
+        //FIXME REMOVEME: This is the prototype test
+        System.out.println("NEW RUN -------");
 
         if (blockID == 0) {
             return;
@@ -103,14 +103,15 @@ public final class Physics {
                 // Point API
                 final String gottenName = ChunkStorage.getBlockName(x,minPosition.y(),z);
 
-                System.out.println("Point: (" + x + ", " + z + ") is (" + gottenName + ")");
+//                System.out.println("Point: (" + x + ", " + z + ") is (" + gottenName + ")");
 
                 // Bulk API
-//                final int gottenRawData = ChunkStorage.getBlockManipulatorData(x,minPosition.y(), z);
-//                final int gottenBlockID = Chunk.getBlockID(gottenRawData);
-//                final String blockName = blockDefinitionContainer.getDefinition(gottenBlockID).getInternalName();
+                final int gottenRawData = ChunkStorage.getBlockManipulatorData(x,minPosition.y(), z);
+                final int gottenBlockID = Chunk.getBlockID(gottenRawData);
+                final String blockName = blockDefinitionContainer.getDefinition(gottenBlockID).getInternalName();
 //
-//                System.out.println("Name at (" + x + ", " + z + ") is (" + blockName + ") MATCH? (" + gottenName + ")");
+                System.out.println("Name at (" + x + ", " + z + ") is (" + blockName + ") MATCH? (" + gottenName + ")");
+                System.out.println("ID is: " + gottenBlockID);
 
             }
         }
