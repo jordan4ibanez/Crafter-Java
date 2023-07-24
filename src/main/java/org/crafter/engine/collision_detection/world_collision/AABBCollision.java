@@ -93,27 +93,29 @@ final class AABBCollision {
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
+            System.out.println("state bottom");
         } else if (topWasNotIn && topIsNowIn) {
             position1.y = min2.y - size1.y() - 0.001f;
 //            thisEntity.velocity.y = 0;
+            System.out.println("state top");
         }
         // then x
-        else if (leftWasNotIn && leftIsNowIn) {
-            position1.x = max2.x() + size1.x() + 0.001f;
-//            thisEntity.velocity.x = 0;
-        } else if (rightWasNotIn && rightIsNowIn) {
-            position1.x = min2.x - size1.x() - 0.001f;
-//            thisEntity.velocity.x = 0;
-        }
-
-        // finally z
-        else if (backWasNotIn && backIsNowIn) {
-            position1.z = max2.z + size1.x() + 0.001f;
-//            thisEntity.velocity.z = 0;
-        } else if (frontWasNotIn && frontIsNowIn) {
-            position1.z = min2.z - size1.x() - 0.001f;
-//            thisEntity.velocity.z = 0;
-        }
+//        else if (leftWasNotIn && leftIsNowIn) {
+//            position1.x = max2.x() + size1.x() + 0.001f;
+////            thisEntity.velocity.x = 0;
+//        } else if (rightWasNotIn && rightIsNowIn) {
+//            position1.x = min2.x - size1.x() - 0.001f;
+////            thisEntity.velocity.x = 0;
+//        }
+//
+//        // finally z
+//        else if (backWasNotIn && backIsNowIn) {
+//            position1.z = max2.z + size1.x() + 0.001f;
+////            thisEntity.velocity.z = 0;
+//        } else if (frontWasNotIn && frontIsNowIn) {
+//            position1.z = min2.z - size1.x() - 0.001f;
+////            thisEntity.velocity.z = 0;
+//        }
 
         // 1 way gate for onGround trigger
         if (onGround) {
