@@ -35,6 +35,7 @@ import org.joml.Vector2i;
 
 import static org.crafter.engine.collision_detection.world_collision.Physics.entityPhysics;
 import static org.crafter.game.entity.player.PlayerStorage.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F1;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
 
 public class Main {
@@ -101,7 +102,6 @@ public class Main {
 //        if (false) {
 //            Window.maximize();
 //        }
-        // Mouse.capture();
 
         classicChunkPayload();
 
@@ -117,6 +117,14 @@ public class Main {
 
         if (Keyboard.keyPressed(GLFW_KEY_F11)) {
             Window.toggleMaximize();
+        }
+
+        if (Keyboard.keyPressed(GLFW_KEY_F1)) {
+            if (Mouse.isCaptured()) {
+                Mouse.release();
+            } else {
+                Mouse.capture();
+            }
         }
 
         Window.clearAll();
