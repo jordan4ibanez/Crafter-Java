@@ -50,7 +50,7 @@ public final class Physics {
 
         Vector3f currentPosition = entity.getPosition();
 
-        // If the chunk is unloaded, the entity gets frozen in place until it's loaded
+        // If the chunk is unloaded, the entity gets frozen in place until it's loaded.
         if (!ChunkStorage.chunkIsLoaded(currentPosition)) {
             return;
         }
@@ -62,11 +62,14 @@ public final class Physics {
 
         Vector3f currentVelocity = entity.getVelocity();
         oldPosition.set(currentPosition);
+        // Apply velocity
         currentVelocity.y -= delta * entity.getGravity();
         if (currentVelocity.y < -MAX_VELOCITY) {
             currentVelocity.y = -MAX_VELOCITY;
         }
         currentPosition.add(currentVelocity);
+
+        System.out.println(currentVelocity.y);
 
         final Vector2fc entitySize = entity.getSize();
 
@@ -78,7 +81,7 @@ public final class Physics {
         );
         maxPosition.set(
                 (int) Math.floor(currentPosition.x() + entitySize.x()),
-                (int) Math.floor(currentPosition.y()), //fixme: + entitySize.y()
+                (int) Math.floor(currentPosition.y() + entitySize.y()),
                 (int) Math.floor(currentPosition.z() + entitySize.x())
         );
 
@@ -97,8 +100,9 @@ public final class Physics {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
 
+
                     // Bulk API
-                    final int gottenRawData = ChunkStorage.getBlockManipulatorData(x, minPosition.y(), z);
+                    final int gottenRawData = ChunkStorage.getBlockManipulatorData(x, y, z);
                     final int gottenBlockID = Chunk.getBlockID(gottenRawData);
 
                     // Do not try to collide with not walkable blocks!
@@ -109,6 +113,8 @@ public final class Physics {
                     Vector3f blockPosition = new Vector3f(x,y,z).floor();
                     Vector2f blockSize = new Vector2f(1,1);
 
+                    final boolean wasOnGround = entity.isOnGround();
+
                     collideEntityToTerrain(
                             entity,
                             currentVelocity,
@@ -118,6 +124,12 @@ public final class Physics {
                             blockPosition,
                             blockSize
                     );
+
+                    // FIXME: This is debug remove it
+//                    if (!wasOnGround && entity.isOnGround()) {
+//                        System.out.println(blockDefinitionContainer.getDefinition(gottenBlockID).getReadableName());
+//                        System.out.println("gotten block ID: " + gottenBlockID);
+//                    }
                 }
             }
         }
