@@ -90,8 +90,8 @@ final class AABBCollision {
         if (bottomWasNotIn && bottomIsNowIn) {
             position1.y = max2.y() + 0.001f;
             onGround = true;
-            // Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
-            // If this is set to 0, the client player will miss jump keystrokes because they float for a frame.
+            //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
+            // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
         } else if (topWasNotIn && topIsNowIn) {
             position1.y = min2.y - size1.y() - 0.001f;
