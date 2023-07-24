@@ -92,6 +92,7 @@ public final class Physics {
         // Reset onGround state for entity.
         entity.setOnGround(false);
 
+        // Now scan the entity's collision box for collisions
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
