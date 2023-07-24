@@ -19,9 +19,8 @@ package org.crafter.engine.collision_detection.world_collision;
 
 import org.crafter.engine.world.chunk.ChunkStorage;
 import org.crafter.game.entity.entity_prototypes.Entity;
-import org.joml.Vector2f;
-import org.joml.Vector2fc;
-import org.joml.Vector3f;
+import org.joml.*;
+import org.joml.Math;
 
 import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrain;
 import static org.crafter.engine.delta.Delta.getDelta;
@@ -40,6 +39,8 @@ public final class Physics {
     private static final float MAX_DELTA = 0.2f;
 
     private static final Vector3f oldPosition = new Vector3f();
+    private static final Vector3i minPosition = new Vector3i();
+    private static final Vector3i maxPosition = new Vector3i();
 
     private Physics(){}
 
@@ -58,22 +59,35 @@ public final class Physics {
         }
 
         Vector3f currentVelocity = entity.getVelocity();
-
         oldPosition.set(currentPosition);
-
         currentVelocity.y -= delta * entity.getGravity();
-
         if (currentVelocity.y < -MAX_VELOCITY) {
             currentVelocity.y = -MAX_VELOCITY;
         }
-
-//        println("delta: " + delta);
-//        println("current velocity Y: " + currentVelocity.y);
-
         currentPosition.add(currentVelocity);
 
+        final Vector2fc entitySize = entity.getSize();
 
         // Scan the local area to find out which blocks the entity collides with
+        minPosition.set(
+                (int) Math.floor(currentPosition.x() - entitySize.x()),
+                (int) Math.floor(currentPosition.y()),
+                (int) Math.floor(currentPosition.z() - entitySize.x())
+        );
+        maxPosition.set(
+                (int) Math.floor(currentPosition.x() + entitySize.x()),
+                (int) Math.floor(currentPosition.y()), //fixme: + entitySize.y()
+                (int) Math.floor(currentPosition.z() + entitySize.x())
+        );
+
+        ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
+
+        //FIXME REMOVEME: This is the prototype test
+        for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+            for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
+
+            }
+        }
 
 
         // FIXME: This is just to stop the player entity from falling through the world while I prototype this
