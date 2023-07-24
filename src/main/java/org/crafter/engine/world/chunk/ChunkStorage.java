@@ -431,13 +431,7 @@ public final class ChunkStorage {
                         }
                     }
                 }
-
-
-                // Placeholder
-                System.out.println("BlockManipulator: Reading chunk (" + chunkX + " " + chunkZ + ")");
-
-                //todo: this is where chunk updates get dispatched
-                // Dispatch chunks here ()
+//                System.out.println("BlockManipulator: Reading chunk (" + chunkX + " " + chunkZ + ")");
             }
         }
     }
