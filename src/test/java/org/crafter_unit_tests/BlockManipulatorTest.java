@@ -199,14 +199,35 @@ public class BlockManipulatorTest {
 
     @Test
     public void testInvalidYPositions() {
-        // Y min ABOVE Y max
-//        try {
-//            setBlockManipulatorPositions(0,127,0, 1,0,1);
-//            fail("Block Manipulator allowed invalid size 6");
-//        } catch (Exception e) {
-//            assertEquals(e.toString(), "java.lang.RuntimeException: ChunkStorage: Attempted to set Block Manipulator past size limit! (Z axis) limit is 64!");
-//            // This passes
-//            System.out.println("Block Manipulator passed test 11");
-//        }
+
+        // Y min ABOVE Y max - This is a 1D check, so it only needs 1 test.
+        try {
+            setBlockManipulatorPositions(0,127,0, 1,0,1);
+            fail("Block Manipulator allowed invalid Y position 1");
+        } catch (Exception e) {
+            assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set Block Manipulator to invalid min/max! (Y axis) min is greater than or equal to max!", e.toString());
+            // This passes
+            System.out.println("Block Manipulator passed Y position test 1");
+        }
+
+        // Y min out of bounds
+        try {
+            setBlockManipulatorPositions(0,-1,0, 1,64,1);
+            fail("Block Manipulator allowed invalid Y position 2");
+        } catch (Exception e) {
+            assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set (min) BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - 127 | Attempt: -1", e.toString());
+            // This passes
+            System.out.println("Block Manipulator passed Y position test 2");
+        }
+
+        // Y max out of bounds
+        try {
+            setBlockManipulatorPositions(0,64,0, 1,128,1);
+            fail("Block Manipulator allowed invalid Y position 2");
+        } catch (Exception e) {
+            assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set (max) BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - 127 | Attempt: 128", e.toString());
+            // This passes
+            System.out.println("Block Manipulator passed Y position test 2");
+        }
     }
 }
