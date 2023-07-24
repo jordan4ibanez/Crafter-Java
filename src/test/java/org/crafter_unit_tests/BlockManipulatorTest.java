@@ -18,9 +18,10 @@
 package org.crafter_unit_tests;
 
 import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.junit.jupiter.api.Test;
 
-import static org.crafter.engine.world.chunk.ChunkStorage.setBlockManipulatorPositions;
+import static org.crafter.engine.world.chunk.ChunkStorage.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -207,7 +208,7 @@ public class BlockManipulatorTest {
         } catch (Exception e) {
             assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set Block Manipulator to invalid min/max! (Y axis) min is greater than or equal to max!", e.toString());
             // This passes
-            System.out.println("Block Manipulator passed Y position test 1");
+//            System.out.println("Block Manipulator passed Y position test 1");
         }
 
         // Y min out of bounds
@@ -217,7 +218,7 @@ public class BlockManipulatorTest {
         } catch (Exception e) {
             assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set (min) BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - 127 | Attempt: -1", e.toString());
             // This passes
-            System.out.println("Block Manipulator passed Y position test 2");
+//            System.out.println("Block Manipulator passed Y position test 2");
         }
 
         // Y max out of bounds
@@ -227,12 +228,124 @@ public class BlockManipulatorTest {
         } catch (Exception e) {
             assertEquals("java.lang.RuntimeException: ChunkStorage: Attempted to set (max) BlockManipulator outside of map (Y axis) boundaries. Limit: 0 - 127 | Attempt: 128", e.toString());
             // This passes
-            System.out.println("Block Manipulator passed Y position test 2");
+//            System.out.println("Block Manipulator passed Y position test 2");
         }
     }
 
     @Test
     public void testBlockManipulatorArrayManipulation() {
 
+        // Worker units
+        final Vector3i minPosition = new Vector3i();
+        final Vector3i maxPosition = new Vector3i();
+
+        // Test 1
+        UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+        minPosition.set(-32,0,-32);
+        maxPosition.set(31,63,31);
+        setBlockManipulatorPositions(minPosition, maxPosition);
+
+        int dataPiece = 1;
+
+        for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+            for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+                    setBlockManipulatorData(x,y,z, dataPiece);
+
+                    final int gottenDataPiece = getBlockManipulatorData(x,y,z);
+
+                    assertEquals(dataPiece, gottenDataPiece);
+
+                    // Data piece will always be unique in the test
+                    dataPiece++;
+                }
+            }
+        }
+
+        System.out.println("Block Manipulator random set/get test 1 passed.");
+
+        final boolean classic = true;
+
+        if (!classic) {
+            // Test 2 - farther from 0,0,0
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            minPosition.set(-129_011, 46, 100_001);
+            maxPosition.set(-128_991, 77, 100_055);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 2 passed.");
+
+            // Test 3 - That's pretty dang far
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            minPosition.set(429_011_012, 0, -887_001_098);
+            maxPosition.set(429_011_053, 127, -887_001_035);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 3 passed.");
+
+            // Test 4 - HOW MUCH time does this player even have?!
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            // These are LITERALLY the MIN and MAX of Java's 32-bit integer! We LITERALLY have no more room to test lmao
+            minPosition.set(-2_147_483_648, 0, 2_147_483_584);
+            maxPosition.set(-2_147_483_585, 127, 2_147_483_647);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 4 passed.");
+        }
     }
 }
