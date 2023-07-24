@@ -604,7 +604,7 @@ public final class ChunkStorage {
     private static void checkBlockManipulatorYAxisValidity(final Vector3ic min, final Vector3ic max) {
         if (min.y() < 0) {
             throwBlockManipulatorYAxisError("min", min.y());
-        } else if (max.y() > Chunk.getHeight()) {
+        } else if (max.y() >= Chunk.getHeight()) {
             throwBlockManipulatorYAxisError("max", max.y());
         }
     }
