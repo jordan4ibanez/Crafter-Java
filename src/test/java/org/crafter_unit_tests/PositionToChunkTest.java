@@ -35,7 +35,8 @@ public class PositionToChunkTest {
     static void positionToChunkX(float rawPositionX, final int GOTTEN_CHUNK_X, final int GOTTEN_POSITION_X) {
         final int chunkX = (int) Math.floor(rawPositionX / Chunk.getWidth());
         // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
-        rawPositionX = rawPositionX < 0 ? Math.abs(rawPositionX) - 1 : rawPositionX;
+        final int width = Chunk.getWidth();
+        rawPositionX = rawPositionX < 0 ? (width - (int) Math.floor(Math.abs(rawPositionX + 1) % width)) - 1 : (int) Math.floor(rawPositionX % width);
         final int positionInChunkX = (int) Math.floor(rawPositionX % Chunk.getWidth());
 
 //        println("input: " + rawPositionX + " | in chunk: " + chunkX + " | in pos: " + positionInChunkX);
@@ -47,7 +48,8 @@ public class PositionToChunkTest {
     static void positionToChunkZ(float rawPositionZ, final int GOTTEN_CHUNK_Z, final int GOTTEN_POSITION_Z) {
         final int chunkZ = (int) Math.floor(rawPositionZ / Chunk.getDepth());
         // Negative positions need an adjustment since there are essentially duplicate 0 coordinates on -1,0 border
-        rawPositionZ = rawPositionZ < 0 ? Math.abs(rawPositionZ) - 1 : rawPositionZ;
+        final int depth = Chunk.getDepth();
+        rawPositionZ = rawPositionZ < 0 ? (depth - (int) Math.floor(Math.abs(rawPositionZ + 1) % depth)) - 1 : (int) Math.floor(rawPositionZ % depth);
         final int positionInChunkZ = (int) Math.floor(rawPositionZ % Chunk.getWidth());
 //        println("input: " + rawPositionZ + " | in chunk: " + chunkZ + " | in pos: " + positionInChunkZ);
 
