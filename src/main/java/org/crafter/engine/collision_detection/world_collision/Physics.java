@@ -85,7 +85,9 @@ public final class Physics {
         ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
         ChunkStorage.blockManipulatorReadData();
 
-//        final BlockDefinitionContainer blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
+        //FIXME: this should be stored in the class not in this function.
+        // This might cause severe performance problems with a lot of entities!
+        final BlockDefinitionContainer blockDefinitionContainer = BlockDefinitionContainer.getMainInstance();
 
         // Reset onGround state for entity.
         entity.setOnGround(false);
@@ -94,16 +96,14 @@ public final class Physics {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
 
-                    // Point API
-//                final String gottenName = ChunkStorage.getBlockName(x,minPosition.y(),z);
-//                System.out.println("Point: (" + x + ", " + z + ") is (" + gottenName + ")");
-
                     // Bulk API
                     final int gottenRawData = ChunkStorage.getBlockManipulatorData(x, minPosition.y(), z);
                     final int gottenBlockID = Chunk.getBlockID(gottenRawData);
 
-//                final String blockName = blockDefinitionContainer.getDefinition(gottenBlockID).getInternalName();
-//                System.out.println("Name at (" + x + ", " + z + ") is (" + blockName + ") MATCH? (" + gottenName + ")");
+                    // Do not try to collide with not walkable blocks!
+                    if (!blockDefinitionContainer.getDefinition(gottenBlockID).getWalkable()) {
+                        continue;
+                    }
 
                     Vector3f blockPosition = new Vector3f(x,y,z).floor();
                     Vector2f blockSize = new Vector2f(1,1);
