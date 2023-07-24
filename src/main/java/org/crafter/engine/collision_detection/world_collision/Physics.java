@@ -116,7 +116,7 @@ public final class Physics {
 
     }
 
-    private static void runCollisionDetection(final BlockDefinitionContainer blockDefinitionContainer) {
+    private static void runCollisionDetection() {
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
