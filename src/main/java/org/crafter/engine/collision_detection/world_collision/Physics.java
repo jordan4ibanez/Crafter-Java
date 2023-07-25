@@ -47,6 +47,8 @@ public final class Physics {
     private static BlockDefinitionContainer blockDefinitionContainer = null;
     // Order in which to collision detect (Y,X,Z)
     private static final int[] collisionOrder = new int[]{1,0,2};
+    private static final Vector3f blockPosition = new Vector3f();
+    private static final Vector2f blockSize = new Vector2f();
 
     private Physics(){}
 
@@ -170,8 +172,8 @@ public final class Physics {
                     }
 
                     // FIXME: THESE VALUES NEED TO BE CACHED!! THIS IS CREATING 2 NEW OBJECTS MULTIPLE TIMES PER ENTITY!
-                    Vector3f blockPosition = new Vector3f(x, y, z);
-                    Vector2f blockSize = new Vector2f(1,1);
+                    blockPosition.set(x, y, z);
+                    blockSize.set(1,1);
 
 
                     collideEntityToTerrain(
