@@ -367,7 +367,7 @@ public final class ChunkStorage {
 
         // +1 because 0 count is inclusive at 0
         blockManipulatorSize.set((Math.abs(max.x() - min.x()) + 1), (Math.abs(max.y() - min.y()) + 1), (Math.abs(max.z() - min.z()) + 1));
-        blockManipulatorYStride = blockManipulatorSize.x() * blockManipulatorSize.z();
+        blockManipulatorYStride = (blockManipulatorSize.x() + 1) * (blockManipulatorSize.z() + 1);
     }
 
     /**
@@ -669,7 +669,9 @@ public final class ChunkStorage {
      */
     private static void checkBlockManipulatorCubicArea(final Vector3ic min, final Vector3ic max) {
         // This is 0 counted so it must be + 1
-        if ((Math.abs(max.x() - min.x()) + 1) * (Math.abs(max.y() - min.y()) + 1) * (Math.abs(max.z() - min.z()) + 1) <= 1 ) {
+        final int cubicSize = (Math.abs(max.x() - min.x()) + 1) * (Math.abs(max.y() - min.y()) + 1) * (Math.abs(max.z() - min.z()) + 1);
+//        System.out.println("BM cubic size: " + cubicSize);
+        if (cubicSize <= 1) {
             throw new RuntimeException("ChunkStorage: Attempted to set the Block Manipulator to 1 block cubic area! Use the single block getters/setters instead!");
         }
     }
