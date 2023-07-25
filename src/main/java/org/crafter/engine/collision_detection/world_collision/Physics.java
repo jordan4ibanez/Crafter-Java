@@ -38,12 +38,9 @@ import static org.crafter.engine.world.chunk.ChunkStorage.UNIT_TEST_VERIFICATION
 public final class Physics {
 
     // Max speed is the literal max velocity that an entity can move at after the delta has been factored in.
-    private static final float MAX_VELOCITY = 0.05f;
-    // Max delta is the literal max delta that can be factored into an entity. 5 FPS or 0.2f.
+    private static final float MAX_VELOCITY = 100.0f;
+    // Max delta is the literal max delta that can be factored into an entity's velocity. 5 FPS or 0.2f.
     private static final float MAX_DELTA = 0.2f;
-
-    // This is so that entities do not move ULTRA slow, this is a multiplicative fixer!
-    private static final float VELOCITY_MULTIPLIER = 500.0f;
 
     private static final Vector3f oldPosition = new Vector3f();
     private static final Vector3i minPosition = new Vector3i();
@@ -79,16 +76,24 @@ public final class Physics {
         oldPosition.set(currentPosition);
         // Apply gravity
         currentVelocity.y -= entity.getGravity() * delta;
+        System.out.println(currentVelocity.y);
         // Apply velocity
         if (currentVelocity.y < -MAX_VELOCITY) {
-//            System.out.println("Hit max vel");
+            System.out.println("Hit max vel");
             currentVelocity.y = -MAX_VELOCITY;
         }
 
         final Vector2fc entitySize = entity.getSize();
 
 
-        // Scan the local area to find out which blocks the entity collides with
+        // Scan the local area to find out which blocks the entity collides with.
+        // Also, we're predicting where the entity will collide.
+
+        currentPosition.add(
+                currentVelocity.x() * delta,
+                currentVelocity.y() * delta,
+                currentVelocity.z() * delta
+        );
         minPosition.set(
                 (int) Math.floor(currentPosition.x() - entitySize.x()),
                 (int) Math.floor(currentPosition.y()),
@@ -98,6 +103,11 @@ public final class Physics {
                 (int) Math.floor(currentPosition.x() + entitySize.x()),
                 (int) Math.floor(currentPosition.y() + entitySize.y()),
                 (int) Math.floor(currentPosition.z() + entitySize.x())
+        );
+        currentPosition.sub(
+                currentVelocity.x() * delta,
+                currentVelocity.y() * delta,
+                currentVelocity.z() * delta
         );
 
         ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition, true);
@@ -134,9 +144,9 @@ public final class Physics {
     private static void runCollisionDetection(final float delta, final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final int axis) {
 
         switch (axis) {
-            case 0 -> currentPosition.x += currentVelocity.x() * delta * VELOCITY_MULTIPLIER;
-            case 1 -> currentPosition.y += currentVelocity.y() * delta * VELOCITY_MULTIPLIER;
-            case 2 -> currentPosition.z += currentVelocity.z() * delta * VELOCITY_MULTIPLIER;
+            case 0 -> currentPosition.x += currentVelocity.x() * delta;
+            case 1 -> currentPosition.y += currentVelocity.y() * delta;
+            case 2 -> currentPosition.z += currentVelocity.z() * delta;
             default -> throw new RuntimeException("Physics: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
         }
 
