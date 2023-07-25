@@ -216,7 +216,7 @@ public class Main {
 
         final Player clientPlayer = PlayerStorage.getClientPlayer();
 
-        finalCameraMovement.div(10.0f);
+        finalCameraMovement.div(5.0f);
         finalCameraMovement.y = clientPlayer.getVelocity().y();
         clientPlayer.setVelocity(finalCameraMovement);
 
