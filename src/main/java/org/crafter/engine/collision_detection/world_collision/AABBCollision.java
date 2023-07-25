@@ -38,7 +38,7 @@ final class AABBCollision {
     private static boolean xIntersects = false;
     private static boolean zIntersects = false;
 
-    private static final float CORRECTION_AMOUNT = 0.001f;
+    private static final float CORRECTION_AMOUNT = 0.0005f;
 
     private AABBCollision(){}
 
@@ -193,7 +193,7 @@ final class AABBCollision {
      * @return True or false, true if it collides.
      */
     private static boolean collide(final float position, final float minBlock, final float maxBlock) {
-        return position <= maxBlock && position >= minBlock;
+        return position < maxBlock && position > minBlock;
     }
 
     /**
