@@ -350,6 +350,89 @@ public class BlockManipulatorTest {
             }
 
             System.out.println("Block Manipulator random set/get test 4 passed.");
+
+
+            // Test 5 - single block wide tower
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            minPosition.set(0, 0, 0);
+            maxPosition.set(0, 127, 0);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 5 passed.");
+
+
+            // Test 6 - 2 block wide tower
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            minPosition.set(-1, 0, 0);
+            maxPosition.set(0, 127, 0);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 6 passed.");
+
+            // Test 7 - 2x2 block wide tower
+            UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR();
+
+            minPosition.set(-1, 0, 0);
+            maxPosition.set(0, 127, 1);
+            setBlockManipulatorPositions(minPosition, maxPosition);
+
+            dataPiece = 1;
+
+            for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
+                for (int z = minPosition.z(); z <= minPosition.z(); z++) {
+                    for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
+
+                        setBlockManipulatorData(x, y, z, dataPiece);
+
+                        final int gottenDataPiece = getBlockManipulatorData(x, y, z);
+
+                        assertEquals(dataPiece, gottenDataPiece);
+
+                        // Data piece will always be unique in the test
+                        dataPiece++;
+                    }
+                }
+            }
+
+            System.out.println("Block Manipulator random set/get test 7 passed.");
         }
     }
 }
