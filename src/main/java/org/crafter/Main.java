@@ -116,6 +116,10 @@ public class Main {
 
     private static void mainLoop() {
 
+        // WARNING: THIS IS ONLY DEBUG LOW FPS FOR MY MACHINE, THIS MIGHT CRASH YOURS!
+        for (int i = 0; i < 500_000; i++) {
+            System.out.println("hi");
+        }
 
 
         Window.pollEvents();
@@ -216,7 +220,10 @@ public class Main {
 
         final Player clientPlayer = PlayerStorage.getClientPlayer();
 
-        finalCameraMovement.div(5.0f);
+        // Limit it to literally 1 block per second movement speed
+        if (finalCameraMovement.length() > 0) {
+            finalCameraMovement.normalize();
+        }
         finalCameraMovement.y = clientPlayer.getVelocity().y();
         clientPlayer.setVelocity(finalCameraMovement);
 
