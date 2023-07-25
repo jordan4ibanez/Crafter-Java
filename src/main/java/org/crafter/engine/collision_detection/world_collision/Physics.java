@@ -116,7 +116,7 @@ public final class Physics {
         entity.setOnGround(false);
 
         for (int axis : collisionOrder) {
-            runCollisionDetection(entity, currentPosition, currentVelocity, axis);
+            runCollisionDetection(delta, entity, currentPosition, currentVelocity, axis);
         }
 
     }
@@ -128,12 +128,13 @@ public final class Physics {
      * @param currentVelocity The entity's current raw velocity.
      * @param axis (0,1,2) (X,Y,Z)
      */
-    private static void runCollisionDetection(final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final int axis) {
+    private static void runCollisionDetection(final float delta, final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final int axis) {
 
+        System.out.println("axis: " + axis);
         switch (axis) {
-            case 0 -> currentPosition.x += currentVelocity.x();
-            case 1 -> currentPosition.y += currentPosition.y();
-            case 2 -> currentVelocity.z += currentVelocity.z();
+            case 0 -> currentPosition.x += currentVelocity.x() * delta;
+            case 1 -> currentPosition.y += currentVelocity.y() * delta;
+            case 2 -> currentPosition.z += currentVelocity.z() * delta;
             default -> throw new RuntimeException("Physics: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
         }
         currentPosition.add(currentVelocity);
