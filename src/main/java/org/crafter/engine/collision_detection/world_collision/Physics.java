@@ -76,7 +76,9 @@ public final class Physics {
         oldPosition.set(currentPosition);
         // Apply gravity
         currentVelocity.y -= entity.getGravity() * delta;
-        System.out.println(currentVelocity.y);
+
+//        System.out.println(currentVelocity.y);
+
         // Apply velocity
         if (currentVelocity.y < -MAX_VELOCITY) {
             System.out.println("Hit max vel");
@@ -148,10 +150,6 @@ public final class Physics {
             case 1 -> currentPosition.y += currentVelocity.y() * delta;
             case 2 -> currentPosition.z += currentVelocity.z() * delta;
             default -> throw new RuntimeException("Physics: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
-        }
-
-        if (axis != 1) {
-            return;
         }
 
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {

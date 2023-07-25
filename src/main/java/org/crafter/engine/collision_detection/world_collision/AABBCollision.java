@@ -59,10 +59,6 @@ final class AABBCollision {
             final Vector3fc blockPosition,
             final Vector2fc blockSize) {
 
-        if (axis != 1) {
-            return;
-        }
-
         /*
          * FIXME This needs to be fixed to take in a pure block size defined by min max
          *
@@ -79,70 +75,112 @@ final class AABBCollision {
         // Block
         minBlock.set( blockPosition.x(),                      blockPosition.y(),                   blockPosition.z());
         maxBlock.set(blockPosition.x() + blockSize.x(), blockPosition.y() + blockSize.y(), blockPosition.z() + blockSize.x());
-        
+
+        switch (axis) {
+            case 0 -> collideX(
+                    entity,
+                    currentVelocity,
+                    position,
+                    size
+            );
+            case 1 -> collideY(
+                entity,
+                currentVelocity,
+                position,
+                size
+            );
+            case 2 -> collideZ(
+                    entity,
+                    currentVelocity,
+                    position,
+                    size
+            );
+            default -> throw new RuntimeException("AABBCollision: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
+        }
+    }
+
+    private static void collideY(
+            final Entity entity,
+            final Vector3f currentVelocity,
+            final Vector3f position,
+            final Vector2fc size
+    ) {
 
         // These are 1D collision detections
-        final boolean bottomInside = minEntity.y() <= maxBlock.y();
-        final boolean topInside = maxEntity.y() >= minBlock.y();
-
-        final boolean leftInside = minEntity.x() <= maxBlock.x();
-        final boolean rightInside = maxEntity.x() >= minBlock.x();
-
-        final boolean backInside = minEntity.z() <= maxBlock.z();
-        final boolean frontInside = maxEntity.z() >= minBlock.z();
-
-        final boolean yIntersects = (minEntity.y <= minBlock.y && maxEntity.y >= maxBlock.y) || bottomInside || topInside;
-        final boolean xIntersects = (minEntity.x <= minBlock.x && maxEntity.x >= maxBlock.x) || leftInside || rightInside;
-        final boolean zIntersects = (minEntity.z <= minBlock.z && maxEntity.z >= maxBlock.z) || backInside || frontInside;
-
+        final boolean bottomInside = collide(minEntity.y(), minBlock.y(), maxBlock.y());
+        final boolean topInside = collide(maxEntity.y(), minBlock.y(), maxBlock.y());
 
         boolean onGround = false;
 
-        /// y check first
         if (bottomInside) {
             position.y = maxBlock.y() + 0.001f;
             onGround = true;
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
+        } else if (topInside) {
+            position.y = minBlock.y - size.y() - 0.001f;
+            currentVelocity.y = 0;
         }
-
-
-//        else if (topWasNotIn && topIsNowIn) {
-//            position.y = minBlock.y - size.y() - 0.001f;
-//            currentVelocity.y = 0;
-//            System.out.println("Collision Y Top");
-//        }
-
-
-
-        // then x
-//        if (leftWasNotIn && leftIsNowIn) {
-//            position.x = maxBlock.x() + size.x() + 0.001f;
-//            currentVelocity.x = 0;
-//            System.out.println("COLLIDE X LEFT");
-//        } else if (rightWasNotIn && rightIsNowIn) {
-//            System.out.println("COLLIDE X RIGHT");
-//            position.x = minBlock.x() - size.x() - 0.001f;
-//            currentVelocity.x = 0;
-//        }
-
-
-
-//
-//        // finally z
-//        else if (backWasNotIn && backIsNowIn) {
-//            position1.z = max2.z + size1.x() + 0.001f;
-////            thisEntity.velocity.z = 0;
-//        } else if (frontWasNotIn && frontIsNowIn) {
-//            position1.z = min2.z - size1.x() - 0.001f;
-////            thisEntity.velocity.z = 0;
-//        }
 
         // 1 way gate for onGround trigger
         if (onGround) {
             entity.setOnGround(true);
         }
+    }
+
+    private static void collideX(
+            final Entity entity,
+            final Vector3f currentVelocity,
+            final Vector3f position,
+            final Vector2fc size
+    ) {
+
+        // These are 1D collision detections
+        final boolean leftInside = collide(minEntity.x(), minBlock.x(), maxBlock.x());
+        final boolean rightInside = collide(maxEntity.x(), minBlock.x(), maxBlock.x());
+
+        if (leftInside) {
+            position.x = maxBlock.x() + size.x() + 0.001f;
+            currentVelocity.x = 0;
+            System.out.println("COLLIDE X LEFT");
+        } else if (rightInside) {
+            position.x = minBlock.x() - size.x() - 0.001f;
+            currentVelocity.x = 0;
+            System.out.println("COLLIDE X RIGHT");
+        }
+    }
+
+    private static void collideZ(
+            final Entity entity,
+            final Vector3f currentVelocity,
+            final Vector3f position,
+            final Vector2fc size
+    ) {
+
+        // These are 1D collision detections
+        final boolean frontInside = collide(minEntity.z(), minBlock.z(), maxBlock.z());
+        final boolean backInside = collide(maxEntity.z(), minBlock.z(), maxBlock.z());
+
+        if (backInside) {
+            position.z = maxBlock.z() + size.x() + 0.001f;
+            currentVelocity.z = 0;
+        } else if (frontInside) {
+            position.z = maxBlock.z() - size.x() - 0.001f;
+            currentVelocity.z = 0;
+        }
+    }
+
+
+    /**
+     * One dimensional collision check.
+     * @param position 1D position of entity on an axis.
+     * @param minBlock 1D min position of block on an axis.
+     * @param maxBlock 1D max position of a block on an axis.
+     * @return If it intersects.
+     */
+    private static boolean collide(final float position, final float minBlock, final float maxBlock) {
+        return position <= maxBlock && position >= minBlock;
     }
 
 }
