@@ -18,7 +18,6 @@
 package org.crafter.engine.collision_detection.world_collision;
 
 import org.crafter.game.entity.entity_prototypes.Entity;
-import org.joml.Math;
 import org.joml.Vector2fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -33,8 +32,6 @@ final class AABBCollision {
     // I'll try to document as best as I can.
     private static final Vector3f minEntity = new Vector3f();
     private static final Vector3f maxEntity = new Vector3f();
-    private static final Vector3f minEntityOld = new Vector3f();
-    private static final Vector3f maxEntityOld = new Vector3f();
     private static final Vector3f minBlock = new Vector3f();
     private static final Vector3f maxBlock = new Vector3f();
 
@@ -43,7 +40,6 @@ final class AABBCollision {
     /**
      * This needs to be run AFTER the entity moves! You must keep track of the old position and insert it into this!
      * This code is ONLY to be used to collide entities into the terrain!
-     * @param oldPosition Entity 1's old position.
      * @param position Entity 1's current position. (Mutable)
      * @param size Entity 1's size.
      * @param blockPosition Block's position.
@@ -53,7 +49,6 @@ final class AABBCollision {
             final int axis,
             final Entity entity,
             final Vector3f currentVelocity,
-            final Vector3fc oldPosition,
             final Vector3f position,
             final Vector2fc size,
             final Vector3fc blockPosition,
@@ -66,9 +61,6 @@ final class AABBCollision {
          */
 
         // Entity
-        minEntityOld.set(oldPosition.x() - size.x(),    oldPosition.y(),            oldPosition.z() - size.x());
-        maxEntityOld.set(oldPosition.x() + size.x(), oldPosition.y() + size.y(), oldPosition.z() + size.x());
-
         minEntity.set(position.x() - size.x(),    position.y(),            position.z() - size.x());
         maxEntity.set(position.x() + size.x(), position.y() + size.y(), position.z() + size.x());
 

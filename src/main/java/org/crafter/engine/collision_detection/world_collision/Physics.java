@@ -28,7 +28,6 @@ import static org.crafter.engine.collision_detection.world_collision.AABBCollisi
 import static org.crafter.engine.delta.Delta.getDelta;
 import static org.crafter.engine.utility.JOMLUtils.printVec;
 import static org.crafter.engine.utility.UtilityPrinter.println;
-import static org.crafter.engine.world.chunk.ChunkStorage.UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR;
 
 /**
  * Terrain physics is how an entity moves & collides with the world.
@@ -41,8 +40,6 @@ public final class Physics {
     private static final float MAX_VELOCITY = 100.0f;
     // Max delta is the literal max delta that can be factored into an entity's velocity. 5 FPS or 0.2f.
     private static final float MAX_DELTA = 0.2f;
-
-    private static final Vector3f oldPosition = new Vector3f();
     private static final Vector3i minPosition = new Vector3i();
     private static final Vector3i maxPosition = new Vector3i();
 
@@ -73,7 +70,7 @@ public final class Physics {
         }
 
         Vector3f currentVelocity = entity.getVelocity();
-        oldPosition.set(currentPosition);
+
         // Apply gravity
         currentVelocity.y -= entity.getGravity() * delta;
 
@@ -181,7 +178,6 @@ public final class Physics {
                             axis,
                             entity,
                             currentVelocity,
-                            oldPosition,
                             currentPosition,
                             entity.getSize(),
                             blockPosition,
