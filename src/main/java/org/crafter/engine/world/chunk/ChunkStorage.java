@@ -360,6 +360,7 @@ public final class ChunkStorage {
 
     /**
      * Set the Block Manipulator min and max positions.
+     * This version of the method is primarily used for collision detection.
      * @param min Min raw in world position.
      * @param max Max raw in world position.
      * @param ignoreCubicAreaCheck Enable cubic area check. True or false. True will bypass the cubic area check.
