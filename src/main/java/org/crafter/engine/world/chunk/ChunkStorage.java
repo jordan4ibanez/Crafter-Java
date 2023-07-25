@@ -352,10 +352,22 @@ public final class ChunkStorage {
     /**
      * Set the Block Manipulator min and max positions.
      * @param min Min raw in world position.
-     * @param max Max raw in position.
+     * @param max Max raw in world position.
      */
     public static synchronized void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max) {
-        checkBlockManipulatorCubicArea(min,max);
+        setBlockManipulatorPositions(min,max, false);
+    }
+
+    /**
+     * Set the Block Manipulator min and max positions.
+     * @param min Min raw in world position.
+     * @param max Max raw in world position.
+     * @param ignoreCubicAreaCheck Enable cubic area check. True or false. True will bypass the cubic area check.
+     */
+    public static synchronized void setBlockManipulatorPositions(final Vector3ic min, final Vector3ic max, final boolean ignoreCubicAreaCheck) {
+        if (!ignoreCubicAreaCheck) {
+            checkBlockManipulatorCubicArea(min, max);
+        }
         checkBlockManipulatorMinMaxValidity(min,max);
         checkBlockManipulatorSizeValidity(min,max);
         checkBlockManipulatorYAxisValidity(min,max);
