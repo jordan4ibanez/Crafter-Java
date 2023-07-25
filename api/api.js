@@ -134,4 +134,5 @@ crafter.registerBlock(
     new BlockDefinition("air")
         .setDrawType(DrawType.AIR)
         .setWalkable(false)
+        .setReadableName("Air")
 );
