@@ -248,8 +248,8 @@ public class Main {
      * In subsequent versions, this probably shouldn't be used and should use an initial circular generation or something.
      */
     private static void classicChunkPayload() {
-        for (int x = -classicMapSize; x <= classicMapSize; x++) {
-            for (int z = -classicMapSize; z <= classicMapSize; z++) {
+        for (int x = -classicMapSize; x < classicMapSize; x++) {
+            for (int z = -classicMapSize; z < classicMapSize; z++) {
                 ChunkGenerator.pushRequest(new Vector2i(x, z));
             }
         }

@@ -38,6 +38,8 @@ final class AABBCollision {
     private static boolean xIntersects = false;
     private static boolean zIntersects = false;
 
+    private static final float CORRECTION_AMOUNT = 0.001f;
+
     private AABBCollision(){}
 
     /**
@@ -78,7 +80,6 @@ final class AABBCollision {
 
         switch (axis) {
             case 0 -> collideX(
-                    entity,
                     currentVelocity,
                     position,
                     size
@@ -90,7 +91,6 @@ final class AABBCollision {
                 size
             );
             case 2 -> collideZ(
-                    entity,
                     currentVelocity,
                     position,
                     size
@@ -117,13 +117,13 @@ final class AABBCollision {
         }
 
         if (bottomInside) {
-            position.y = maxBlock.y() + 0.001f;
+            position.y = maxBlock.y() + CORRECTION_AMOUNT;
             onGround = true;
             //todo Note: Current falling velocity needs to be slightly down so that jumping will never fail when on ground!
             // If this is set to 0, the client player will miss jump keystrokes because they float for a frame (or multiple).
             currentVelocity.y = -0.001f;
         } else if (topInside) {
-            position.y = minBlock.y - size.y() - 0.001f;
+            position.y = minBlock.y - size.y() - CORRECTION_AMOUNT;
             currentVelocity.y = 0;
         }
 
@@ -134,7 +134,6 @@ final class AABBCollision {
     }
 
     private static void collideX(
-            final Entity entity,
             final Vector3f currentVelocity,
             final Vector3f position,
             final Vector2fc size
@@ -149,18 +148,17 @@ final class AABBCollision {
         final boolean rightInside = collide(maxEntity.x(), minBlock.x(), maxBlock.x());
 
         if (leftInside) {
-            position.x = maxBlock.x() + size.x() + 0.001f;
+            position.x = maxBlock.x() + size.x() + CORRECTION_AMOUNT;
             currentVelocity.x = 0;
 //            System.out.println("COLLIDE X LEFT");
         } else if (rightInside) {
-            position.x = minBlock.x() - size.x() - 0.001f;
+            position.x = minBlock.x() - size.x() - CORRECTION_AMOUNT;
             currentVelocity.x = 0;
 //            System.out.println("COLLIDE X RIGHT");
         }
     }
 
     private static void collideZ(
-            final Entity entity,
             final Vector3f currentVelocity,
             final Vector3f position,
             final Vector2fc size
@@ -175,12 +173,12 @@ final class AABBCollision {
         final boolean backInside = collide(maxEntity.z(), minBlock.z(), maxBlock.z());
 
         if (frontInside) {
-            position.z = maxBlock.z() + size.x() + 0.001f;
+            position.z = maxBlock.z() + size.x() + CORRECTION_AMOUNT;
             currentVelocity.z = 0;
 //            System.out.println("COLLIDE Z FRONT");
         }
         else if (backInside) {
-            position.z = minBlock.z() - size.x() - 0.001f;
+            position.z = minBlock.z() - size.x() - CORRECTION_AMOUNT;
             currentVelocity.z = 0;
 //            System.out.println("COLLIDE Z back");
         }
