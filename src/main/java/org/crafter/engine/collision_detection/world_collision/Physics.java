@@ -24,10 +24,11 @@ import org.crafter.game.entity.entity_prototypes.Entity;
 import org.joml.*;
 import org.joml.Math;
 
-import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrainY;
+import static org.crafter.engine.collision_detection.world_collision.AABBCollision.collideEntityToTerrain;
 import static org.crafter.engine.delta.Delta.getDelta;
 import static org.crafter.engine.utility.JOMLUtils.printVec;
 import static org.crafter.engine.utility.UtilityPrinter.println;
+import static org.crafter.engine.world.chunk.ChunkStorage.UNIT_TEST_VERIFICATION_RESET_BLOCK_MANIPULATOR;
 
 /**
  * Terrain physics is how an entity moves & collides with the world.
@@ -40,6 +41,9 @@ public final class Physics {
     private static final float MAX_VELOCITY = 0.05f;
     // Max delta is the literal max delta that can be factored into an entity. 5 FPS or 0.2f.
     private static final float MAX_DELTA = 0.2f;
+
+    // This is so that entities do not move ULTRA slow, this is a multiplicative fixer!
+    private static final float VELOCITY_MULTIPLIER = 500.0f;
 
     private static final Vector3f oldPosition = new Vector3f();
     private static final Vector3i minPosition = new Vector3i();
@@ -74,15 +78,15 @@ public final class Physics {
         Vector3f currentVelocity = entity.getVelocity();
         oldPosition.set(currentPosition);
         // Apply gravity
-        currentVelocity.y -= delta * entity.getGravity();
+        currentVelocity.y -= entity.getGravity() * delta;
         // Apply velocity
         if (currentVelocity.y < -MAX_VELOCITY) {
+//            System.out.println("Hit max vel");
             currentVelocity.y = -MAX_VELOCITY;
         }
 
         final Vector2fc entitySize = entity.getSize();
 
-        printVec("ENTITY POS", currentPosition);
 
         // Scan the local area to find out which blocks the entity collides with
         minPosition.set(
@@ -96,7 +100,7 @@ public final class Physics {
                 (int) Math.floor(currentPosition.z() + entitySize.x())
         );
 
-        ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition);
+        ChunkStorage.setBlockManipulatorPositions(minPosition, maxPosition, true);
         ChunkStorage.blockManipulatorReadData();
 
         checkIfBlockDefinitionContainerCached();
@@ -110,7 +114,6 @@ public final class Physics {
         Why? Because I like it in this order basically.
         If you know how to make this work in one sweep, PLEASE, open a PR.
          */
-
 
         // Reset onGround state for entity.
         entity.setOnGround(false);
@@ -130,33 +133,44 @@ public final class Physics {
      */
     private static void runCollisionDetection(final float delta, final Entity entity, final Vector3f currentPosition, final Vector3f currentVelocity, final int axis) {
 
-        System.out.println("axis: " + axis);
         switch (axis) {
-            case 0 -> currentPosition.x += currentVelocity.x() * delta;
-            case 1 -> currentPosition.y += currentVelocity.y() * delta;
-            case 2 -> currentPosition.z += currentVelocity.z() * delta;
+            case 0 -> currentPosition.x += currentVelocity.x() * delta * VELOCITY_MULTIPLIER;
+            case 1 -> currentPosition.y += currentVelocity.y() * delta * VELOCITY_MULTIPLIER;
+            case 2 -> currentPosition.z += currentVelocity.z() * delta * VELOCITY_MULTIPLIER;
             default -> throw new RuntimeException("Physics: How did a different axis number even get inserted here? Expected: (0-2) | Got: " + axis);
         }
-        currentPosition.add(currentVelocity);
+
+        if (axis != 1) {
+            return;
+        }
 
         for (int x = minPosition.x(); x <= maxPosition.x(); x++) {
             for (int z = minPosition.z(); z <= maxPosition.z(); z++) {
                 for (int y = minPosition.y(); y <= maxPosition.y(); y++) {
 
+                    final int gottenBlockIDSINGLE = ChunkStorage.getBlockID(x,y,z);
+
                     // Bulk API
                     final int gottenRawData = ChunkStorage.getBlockManipulatorData(x, y, z);
-                    final int gottenBlockID = Chunk.getBlockID(gottenRawData);
+                    final int gottenBlockIDBULK = Chunk.getBlockID(gottenRawData);
+
+                    if (gottenBlockIDBULK != gottenBlockIDSINGLE) {
+                        System.out.println("ERROR IN: " + x + ", " + y + ", " + z);
+                        throw new RuntimeException("Something is wrong with the BULK API! Expected: " + gottenBlockIDSINGLE + " | Received: " + gottenBlockIDBULK);
+                    }
 
                     // Do not try to collide with not walkable blocks!
-                    if (!blockDefinitionContainer.getDefinition(gottenBlockID).getWalkable()) {
+                    if (!blockDefinitionContainer.getDefinition(gottenBlockIDBULK).getWalkable()) {
                         continue;
                     }
 
                     // FIXME: THESE VALUES NEED TO BE CACHED!! THIS IS CREATING 2 NEW OBJECTS MULTIPLE TIMES PER ENTITY!
-                    Vector3f blockPosition = new Vector3f(x,y,z);
+                    Vector3f blockPosition = new Vector3f(x, y, z);
                     Vector2f blockSize = new Vector2f(1,1);
 
-                    collideEntityToTerrainY(
+
+                    collideEntityToTerrain(
+                            axis,
                             entity,
                             currentVelocity,
                             oldPosition,
