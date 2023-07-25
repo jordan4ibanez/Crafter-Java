@@ -62,7 +62,7 @@ public class PointEntity {
     }
 
     public float getGravity() {
-        return gravity / 10.0f;
+        return gravity * 40.0f;
     }
 
     public void setGravity(float gravity) {
@@ -86,7 +86,7 @@ public class PointEntity {
     }
 
     public float getJumpStrength() {
-        return jumpStrength / 40.0f;
+        return jumpStrength * 12.0f;
     }
 
     public void setJumpStrength(float jumpStrength) {
