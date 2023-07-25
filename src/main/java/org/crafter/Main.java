@@ -102,7 +102,8 @@ public class Main {
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
 
-        Window.setClearColor(0.75f);
+        // Sky blue clear color
+        Window.setClearColor(135.0f / 255.0f,206.0f/ 255.0f, 235.0f / 255.0f);
         Window.setVsync(false);
 //        if (false) {
 //            Window.maximize();
