@@ -34,6 +34,9 @@ final class AABBCollision {
     private static final Vector3f maxEntity = new Vector3f();
     private static final Vector3f minBlock = new Vector3f();
     private static final Vector3f maxBlock = new Vector3f();
+    private static boolean yIntersects = false;
+    private static boolean xIntersects = false;
+    private static boolean zIntersects = false;
 
     private AABBCollision(){}
 
@@ -67,6 +70,11 @@ final class AABBCollision {
         // Block
         minBlock.set( blockPosition.x(),                      blockPosition.y(),                   blockPosition.z());
         maxBlock.set(blockPosition.x() + blockSize.x(), blockPosition.y() + blockSize.y(), blockPosition.z() + blockSize.x());
+
+        // Check intersection because this is cheap.
+        yIntersects = intersectionCheck(minEntity.y(), maxEntity.y(), minBlock.y(), maxBlock.y());
+        xIntersects = intersectionCheck(minEntity.x(), maxEntity.x(), minBlock.x(), maxBlock.x());
+        zIntersects = intersectionCheck(minEntity.z(), maxEntity.z(), minBlock.z(), maxBlock.z());
 
         switch (axis) {
             case 0 -> collideX(
@@ -104,6 +112,10 @@ final class AABBCollision {
 
         boolean onGround = false;
 
+        if (!xIntersects || !zIntersects) {
+            return;
+        }
+
         if (bottomInside) {
             position.y = maxBlock.y() + 0.001f;
             onGround = true;
@@ -128,6 +140,10 @@ final class AABBCollision {
             final Vector2fc size
     ) {
 
+        if (!zIntersects || !yIntersects) {
+            return;
+        }
+
         // These are 1D collision detections
         final boolean leftInside = collide(minEntity.x(), minBlock.x(), maxBlock.x());
         final boolean rightInside = collide(maxEntity.x(), minBlock.x(), maxBlock.x());
@@ -135,11 +151,11 @@ final class AABBCollision {
         if (leftInside) {
             position.x = maxBlock.x() + size.x() + 0.001f;
             currentVelocity.x = 0;
-            System.out.println("COLLIDE X LEFT");
+//            System.out.println("COLLIDE X LEFT");
         } else if (rightInside) {
             position.x = minBlock.x() - size.x() - 0.001f;
             currentVelocity.x = 0;
-            System.out.println("COLLIDE X RIGHT");
+//            System.out.println("COLLIDE X RIGHT");
         }
     }
 
@@ -150,16 +166,23 @@ final class AABBCollision {
             final Vector2fc size
     ) {
 
+        if (!xIntersects || !yIntersects) {
+            return;
+        }
+
         // These are 1D collision detections
         final boolean frontInside = collide(minEntity.z(), minBlock.z(), maxBlock.z());
         final boolean backInside = collide(maxEntity.z(), minBlock.z(), maxBlock.z());
 
-        if (backInside) {
+        if (frontInside) {
             position.z = maxBlock.z() + size.x() + 0.001f;
             currentVelocity.z = 0;
-        } else if (frontInside) {
-            position.z = maxBlock.z() - size.x() - 0.001f;
+//            System.out.println("COLLIDE Z FRONT");
+        }
+        else if (backInside) {
+            position.z = minBlock.z() - size.x() - 0.001f;
             currentVelocity.z = 0;
+//            System.out.println("COLLIDE Z back");
         }
     }
 
@@ -169,10 +192,24 @@ final class AABBCollision {
      * @param position 1D position of entity on an axis.
      * @param minBlock 1D min position of block on an axis.
      * @param maxBlock 1D max position of a block on an axis.
-     * @return If it intersects.
+     * @return True or false, true if it collides.
      */
     private static boolean collide(final float position, final float minBlock, final float maxBlock) {
         return position <= maxBlock && position >= minBlock;
+    }
+
+    /**
+     * Checks if an axis intersects.
+     * @param minPosition 1D min position of an entity on an axis.
+     * @param maxPosition 1D max position of an entity on an axis.
+     * @param minBlock 1D min position of block on an axis.
+     * @param maxBlock 1D max position of block on an axis.
+     * @return True or false, true if it intersects.
+     */
+    private static boolean intersectionCheck(final float minPosition, final float maxPosition, final float minBlock, final float maxBlock) {
+        return collide(minPosition, minBlock, maxBlock) ||
+                collide(maxPosition ,minBlock, maxBlock) ||
+                (minPosition <= minBlock && maxPosition >= maxBlock);
     }
 
 }
