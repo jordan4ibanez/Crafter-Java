@@ -223,7 +223,7 @@ public final class Camera {
     }
 
     /**
-     * Automatically links the client player into the camera.
+     * Does first person camera rotation.
      */
     public static void firstPersonCamera() {
         // Rotation
@@ -232,7 +232,12 @@ public final class Camera {
         cameraDelta.set(mouseDelta.y(), mouseDelta.x(), 0).mul(Camera.getSensitivity());
         Camera.getRotation().add(cameraDelta, newCameraRotation);
         Camera.setRotation(newCameraRotation);
+    }
 
+    /**
+     * Automatically attaches the camera to the client player.
+     */
+    public static void updateCameraPositionToClientPlayer() {
         if (clientPlayerExists()) {
             final Player clientPlayer = getClientPlayer();
             final Vector3fc position = clientPlayer.getPosition();
