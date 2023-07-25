@@ -104,7 +104,7 @@ public class Main {
 
         // Sky blue clear color
         Window.setClearColor(135.0f / 255.0f,206.0f/ 255.0f, 235.0f / 255.0f);
-        Window.setVsync(false);
+        Window.setVsync(true);
 //        if (false) {
 //            Window.maximize();
 //        }
