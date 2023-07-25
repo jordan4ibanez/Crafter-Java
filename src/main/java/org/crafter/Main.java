@@ -141,21 +141,22 @@ public class Main {
         ShaderStorage.start("3d");
         ChunkThreadDirector.runLogic();
 
+        // Implement first person camera movement
+        Camera.firstPersonCamera();
 
         // Render all players
-        if (playerExists("singleplayer")) {
+        if (clientPlayerExists()) {
 
             prototypePlayerMovement();
 
-            Player player = getPlayer("singleplayer");
-
-            entityPhysics(player);
-
-            player.renderCollisionBox();
+            entityPhysics(getClientPlayer());
         }
 
-        // This must run after player physics or else it's lagging behind!
-        Camera.firstPersonCamera();
+        Camera.updateCameraPositionToClientPlayer();
+
+        if (clientPlayerExists()) {
+            getClientPlayer().renderCollisionBox();
+        }
 
         // Render all chunks
         for (int x = -classicMapSize; x <= classicMapSize; x++) {
