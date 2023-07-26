@@ -53,6 +53,7 @@ public class ChunkMeshGenerator implements Runnable {
     private final ArrayList<Float> positionsBuilder = new ArrayList<>();
     private final ArrayList<Float> textureCoordinatesBuilder = new ArrayList<>();
     private final ArrayList<Integer> indicesBuilder = new ArrayList<>();
+    private final ArrayList<Float> colorsBuilder = new ArrayList<>();
 
 
     //Todo: Remove this portion
