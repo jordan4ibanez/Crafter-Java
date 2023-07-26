@@ -53,6 +53,7 @@ public class ChunkFaceGenerator {
         // Todo: Probably need to check these and make sure nothing is upside down! (textures)
 
         //-Z
+        // fixme X and Y need over-provisioning
         faces.put("front", new float[]{
                 //x,y,z
                 // top right
@@ -66,6 +67,7 @@ public class ChunkFaceGenerator {
         });
 
         //+Z
+        // fixme X and Y need over-provisioning
         faces.put("back", new float[]{
                 //x,y,z
                 // top left
@@ -81,6 +83,7 @@ public class ChunkFaceGenerator {
 
 
         //-X
+        // fixme Y and Z need over-provisioning
         faces.put("left", new float[]{
                 //x,y,z
                 // top left
@@ -93,6 +96,7 @@ public class ChunkFaceGenerator {
                 0,1,1
         });
         //+X
+        // fixme Y and Z need over-provisioning
         faces.put("right", new float[]{
                 //x,y,z
                 // top right
@@ -106,6 +110,7 @@ public class ChunkFaceGenerator {
         });
 
         //-Y
+        // fixme X and Z need over-provisioning
         faces.put("bottom", new float[]{
                 //x,y,z
                 // top right
@@ -119,6 +124,7 @@ public class ChunkFaceGenerator {
         });
 
         //+Y
+        // fixme X and Z need over-provisioning
         faces.put("top", new float[]{
                 //x,y,z
                 // top left
