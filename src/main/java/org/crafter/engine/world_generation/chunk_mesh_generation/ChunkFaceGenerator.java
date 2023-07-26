@@ -247,7 +247,10 @@ public class ChunkFaceGenerator {
         }
         switch(face) {
             case "back" -> {
-                new float[]{1,2,3}
+                // light level 15
+                new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+                // light level 0
+                new float[]{1.0f, 1.0f, 1.0f, 0.0f}
                 colors.add(new float[] )
             }
             case "front" -> {
