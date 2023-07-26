@@ -245,6 +245,27 @@ public class ChunkFaceGenerator {
                 default -> throw new RuntimeException("ChunkFaceGenerator: Got error in modulo calculation! Expected: (0-2) | Got: " + xyz + "!");
             }
         }
+        switch(face) {
+            case "back" -> {
+                new float[]{1,2,3}
+                colors.add(new float[] )
+            }
+            case "front" -> {
+
+            }
+            case "left" -> {
+
+            }
+            case "right" -> {
+
+            }
+            case "bottom" -> {
+
+            }
+            case "top" -> {
+
+            }
+        }
         // Texture coordinates
         // This is separated here in case this ever decides to poop out with an error
         float[] defTextureCoordinates = thisBlockDef.getTextureCoordinate(face);
