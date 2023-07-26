@@ -110,15 +110,18 @@ public class TexturePacker {
 
 //        System.out.println(gottenIntegralPositionAndSize.x() + "," + gottenIntegralPositionAndSize.y() + "," + gottenIntegralPositionAndSize.z() + "," + gottenIntegralPositionAndSize.w());
 
+        //!!!WARNING!!! If this is removed, there will be shimmering stitch lines all over the map!
+        final float UNDER_PROVISION = 0.00001f;
+
         return new Vector4f(
                 // Position X
-                (float)gottenIntegralPositionAndSize.x() / (float) CANVAS_MAX_WIDTH,
+                ((float)gottenIntegralPositionAndSize.x() / (float) CANVAS_MAX_WIDTH) + UNDER_PROVISION,
                 // Position Y
-                (float)gottenIntegralPositionAndSize.y() / (float) CANVAS_MAX_HEIGHT,
+                ((float)gottenIntegralPositionAndSize.y() / (float) CANVAS_MAX_HEIGHT) + UNDER_PROVISION,
                 // Width
-                (float)gottenIntegralPositionAndSize.z() / (float) CANVAS_MAX_WIDTH,
+                ((float)gottenIntegralPositionAndSize.z() / (float) CANVAS_MAX_WIDTH) - (UNDER_PROVISION * 2.0f),
                 // Height
-                (float)gottenIntegralPositionAndSize.w() / (float) CANVAS_MAX_HEIGHT
+                ((float)gottenIntegralPositionAndSize.w() / (float) CANVAS_MAX_HEIGHT) - (UNDER_PROVISION * 2.0f)
         );
     }
 
