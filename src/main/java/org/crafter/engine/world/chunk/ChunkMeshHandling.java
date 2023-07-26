@@ -50,8 +50,7 @@ public class ChunkMeshHandling extends ChunkArrayManipulation {
                 newMesh.textureCoordinates(),
                 newMesh.indices(),
                 null,
-                // Todo: Colors can be an easy way to implement light values!
-                null,
+                newMesh.colors(),
                 "worldAtlas",
                 false
         );

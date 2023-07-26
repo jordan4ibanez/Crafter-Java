@@ -33,6 +33,15 @@ public class ChunkFaceGenerator {
     private final HashMap<String, float[]> faces;
     private final int[] indicesOrder = new int[]{0,1,2,2,3,0};
 
+    // light level 15
+    private final float[] classicBrightTop = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
+    private final float[] classicBrightSide = new float[]{0.925f, 0.925f, 0.925f, 1.0f};
+
+    // light level 12 or something
+    private final float[] classicDarkTop = new float[]{0.8f, 0.8f, 0.8f, 1.0f};
+    // light level 6 or something
+    private final float[] classicDarkSide = new float[]{0.75f, 0.75f, 0.75f, 1.0f};
+
     public ChunkFaceGenerator(BlockDefinitionContainer definitionContainer) {
 
 //        final boolean rewriteThis = true;
@@ -246,28 +255,9 @@ public class ChunkFaceGenerator {
             }
         }
         switch(face) {
-            case "back" -> {
-                // light level 15
-                new float[]{1.0f, 1.0f, 1.0f, 1.0f};
-                // light level 0
-                new float[]{1.0f, 1.0f, 1.0f, 0.0f}
-                colors.add(new float[] )
-            }
-            case "front" -> {
-
-            }
-            case "left" -> {
-
-            }
-            case "right" -> {
-
-            }
-            case "bottom" -> {
-
-            }
-            case "top" -> {
-
-            }
+            case "back","front","left","right" -> classicDispatchColors(colors, classicBrightSide);
+            case "bottom" -> classicDispatchColors(colors, classicDarkTop);
+            case "top" -> classicDispatchColors(colors, classicBrightTop);
         }
         // Texture coordinates
         // This is separated here in case this ever decides to poop out with an error
@@ -280,7 +270,13 @@ public class ChunkFaceGenerator {
     }
 
 
-
+    private void classicDispatchColors(final ArrayList<Float> colors, final float[] classicColorLevel) {
+        for (int i = 0; i < 4; i++) {
+            for (float colorValue : classicColorLevel) {
+                colors.add(colorValue);
+            }
+        }
+    }
 
 
     private void seedIndices(final ArrayList<Integer> indices) {
