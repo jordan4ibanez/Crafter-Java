@@ -74,8 +74,16 @@ public class ChunkMeshWorker {
      * @param positions Mutable reference ArrayList of vertices.
      * @param textureCoordinates Mutable reference ArrayList of texture coordinates.
      * @param indices Mutable reference ArrayList of indices.
+     * @param colors Mutable reference ArrayList of indices.
      */
-    public void process(final int stackPosition, final Chunk chunk, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    public void process(
+            final int stackPosition,
+            final Chunk chunk,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
 
         final int STACK_HEIGHT = Chunk.getStackHeight();
         final int WIDTH = Chunk.getWidth();
@@ -108,13 +116,21 @@ public class ChunkMeshWorker {
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    branchPathOfGeneration(x, y, z, positions, textureCoordinates, indices);
+                    branchPathOfGeneration(x, y, z, positions, textureCoordinates, indices, colors);
                 }
             }
         }
     }
 
-    private void branchPathOfGeneration(final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    private void branchPathOfGeneration(
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
 
         final int ID = Chunk.getBlockID(currentChunkData[Chunk.positionToIndex(x,y,z)]);
 
@@ -138,7 +154,7 @@ public class ChunkMeshWorker {
 
         switch (definitionContainer.getDefinition(ID).getDrawType()) {
             case BLOCK -> {
-                blockDrawType(ID, x, y, z, positions, textureCoordinates, indices);
+                blockDrawType(ID, x, y, z, positions, textureCoordinates, indices, colors);
             }
             case GLASS, PLANT, TORCH, LEAVES, BLOCK_BOX, LIQUID_FLOW, LIQUID_SOURCE -> {
                 //todo;
@@ -153,27 +169,36 @@ public class ChunkMeshWorker {
         }
     }
 
-    private void blockDrawType(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    private void blockDrawType(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
         //Fixme: This will check neighbors etc when completed
 
         // Note: Right handed coordinate system - to + all axes
         if (!blockNeighborFrontIsBlock) {
-            faceGenerator.attachFront(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachFront(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
         if (!blockNeighborBackIsBlock) {
-            faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachBack(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
         if (!blockNeighborLeftIsBlock) {
-            faceGenerator.attachLeft(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachLeft(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
         if (!blockNeighborRightIsBlock) {
-            faceGenerator.attachRight(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachRight(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
         if (!blockNeighborBottomIsBlock) {
-            faceGenerator.attachBottom(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachBottom(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
         if (!blockNeighborTopIsBlock) {
-            faceGenerator.attachTop(ID, x, y, z, positions, textureCoordinates, indices);
+            faceGenerator.attachTop(ID, x, y, z, positions, textureCoordinates, indices, colors);
         }
     }
 
