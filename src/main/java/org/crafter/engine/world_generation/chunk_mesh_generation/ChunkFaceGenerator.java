@@ -31,7 +31,6 @@ public class ChunkFaceGenerator {
 
     private final BlockDefinitionContainer definitionContainer;
     private final HashMap<String, float[]> faces;
-
     private final int[] indicesOrder = new int[]{0,1,2,2,3,0};
 
     public ChunkFaceGenerator(BlockDefinitionContainer definitionContainer) {
@@ -52,18 +51,20 @@ public class ChunkFaceGenerator {
 
         // Todo: Probably need to check these and make sure nothing is upside down! (textures)
 
+        float OVER_PROVISION = 0.00001f;
+
         //-Z
         // fixme X and Y need over-provisioning
         faces.put("front", new float[]{
                 //x,y,z
                 // top right
-                1,1,0,
+                1 + OVER_PROVISION, 1 + OVER_PROVISION, 0,
                 // bottom right
-                1,0,0,
+                1 + OVER_PROVISION, 0 - OVER_PROVISION, 0,
                 // bottom left
-                0,0,0,
+                0 - OVER_PROVISION, 0 - OVER_PROVISION, 0,
                 // top left
-                0,1,0
+                0 - OVER_PROVISION, 1 + OVER_PROVISION, 0
         });
 
         //+Z
@@ -71,13 +72,13 @@ public class ChunkFaceGenerator {
         faces.put("back", new float[]{
                 //x,y,z
                 // top left
-                0,1,1,
+                0 - OVER_PROVISION, 1 + OVER_PROVISION, 1,
                 // bottom left
-                0,0,1,
+                0 - OVER_PROVISION, 0 - OVER_PROVISION, 1,
                 // bottom right
-                1,0,1,
+                1 + OVER_PROVISION, 0 - OVER_PROVISION, 1,
                 // top right
-                1,1,1
+                1 + OVER_PROVISION, 1 + OVER_PROVISION, 1
         });
 
 
@@ -87,26 +88,26 @@ public class ChunkFaceGenerator {
         faces.put("left", new float[]{
                 //x,y,z
                 // top left
-                0,1,0,
+                0, 1 + OVER_PROVISION, 0 - OVER_PROVISION,
                 // bottom left
-                0,0,0,
+                0, 0 - OVER_PROVISION, 0 - OVER_PROVISION,
                 // bottom right
-                0,0,1,
+                0, 0 - OVER_PROVISION, 1 + OVER_PROVISION,
                 // top right
-                0,1,1
+                0, 1 + OVER_PROVISION, 1 + OVER_PROVISION
         });
         //+X
         // fixme Y and Z need over-provisioning
         faces.put("right", new float[]{
                 //x,y,z
                 // top right
-                1,1,1,
+                1, 1 + OVER_PROVISION, 1 + OVER_PROVISION,
                 // bottom right
-                1,0,1,
+                1, 0 - OVER_PROVISION, 1 + OVER_PROVISION,
                 // bottom left
-                1,0,0,
+                1, 0 - OVER_PROVISION, 0 - OVER_PROVISION,
                 // top left
-                1,1,0
+                1, 1 + OVER_PROVISION, 0 - OVER_PROVISION
         });
 
         //-Y
@@ -114,13 +115,13 @@ public class ChunkFaceGenerator {
         faces.put("bottom", new float[]{
                 //x,y,z
                 // top right
-                1,0,1,
+                1 + OVER_PROVISION, 0, 1 + OVER_PROVISION,
                 // bottom right
-                0,0,1,
+                0 - OVER_PROVISION, 0, 1 + OVER_PROVISION,
                 // bottom left
-                0,0,0,
+                0 - OVER_PROVISION, 0, 0 - OVER_PROVISION,
                 // top left
-                1,0,0
+                1 + OVER_PROVISION, 0, 0 - OVER_PROVISION
         });
 
         //+Y
@@ -128,13 +129,13 @@ public class ChunkFaceGenerator {
         faces.put("top", new float[]{
                 //x,y,z
                 // top left
-                1,1,0,
+                1 + OVER_PROVISION, 1, 0 - OVER_PROVISION,
                 // bottom left
-                0,1,0,
+                0 - OVER_PROVISION, 1, 0 - OVER_PROVISION,
                 // bottom right
-                0,1,1,
+                0 - OVER_PROVISION, 1, 1 + OVER_PROVISION,
                 // top right
-                1,1,1
+                1 + OVER_PROVISION, 1, 1 + OVER_PROVISION
         });
     }
 
