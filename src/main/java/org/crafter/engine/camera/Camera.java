@@ -310,4 +310,12 @@ public final class Camera {
 
 
     }
+
+    public static float getzNear() {
+        return zNear;
+    }
+
+    public static float getzFar() {
+        return zFar;
+    }
 }
