@@ -139,28 +139,92 @@ public class ChunkFaceGenerator {
         });
     }
 
-    public void attachBack(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("back", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachBack(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("back", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
-    public void attachFront(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("front", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachFront(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("front", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
 
-    public void attachLeft(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("left", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachLeft(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("left", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
-    public void attachRight(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("right", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachRight(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("right", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
 
-    public void attachBottom(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("bottom", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachBottom(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("bottom", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
-    public void attachTop(final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
-        dispatch("top", ID, x, y, z, positions, textureCoordinates, indices);
+    public void attachTop(
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
+        dispatch("top", ID, x, y, z, positions, textureCoordinates, indices, colors);
     }
 
-    private void dispatch(String face, final int ID, final int x, final int y, final int z, final ArrayList<Float> positions, final ArrayList<Float> textureCoordinates, final ArrayList<Integer> indices) {
+    private void dispatch(
+            final String face,
+            final int ID,
+            final int x,
+            final int y,
+            final int z,
+            final ArrayList<Float> positions,
+            final ArrayList<Float> textureCoordinates,
+            final ArrayList<Integer> indices,
+            final ArrayList<Float> colors
+    ) {
         // Texture coordinates
         BlockDefinition thisBlockDef = definitionContainer.getDefinition(ID);
 
