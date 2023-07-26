@@ -17,6 +17,7 @@
  */
 package org.crafter.engine.window;
 
+import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
@@ -154,19 +155,19 @@ public final class Window {
         debugCallback = setupDebugMessageCallback();
 
         // Alpha color blending
-        glEnable(GL_BLEND);
-        glBlendEquation(GL_FUNC_ADD);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+//        glEnable(GL_BLEND);
+//        glBlendEquation(GL_FUNC_ADD);
+//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 
         // Wireframe mode for debugging polygons
 //        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
         // Enable depth testing
+        glDepthMask(true);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
-
-        glEnable(GL_BLEND);
+        glDepthRange(Camera.getzNear(), Camera.getzFar());
 
         final boolean cull = true;
 
