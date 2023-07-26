@@ -116,6 +116,7 @@ public class ChunkMeshWorker {
         for (int y = STACK_HEIGHT * stackPosition; y < STACK_HEIGHT * (stackPosition + 1); y++) {
             for (int z = 0; z < DEPTH; z++) {
                 for (int x = 0; x < WIDTH; x++) {
+                    // FIXME THIS NEEDS TO PASS IN THE LIGHT LEVEL AHHHHHHHHH
                     branchPathOfGeneration(x, y, z, positions, textureCoordinates, indices, colors);
                 }
             }
