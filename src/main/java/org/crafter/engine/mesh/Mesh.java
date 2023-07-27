@@ -96,7 +96,7 @@ public class Mesh {
 
         // Assign OPTIONAL Vertex Buffer Objects
         if (bones != null) {
-            bonesVboID = uploadIntArray(bones, 2, 1);
+            bonesVboID = uploadIntArray(bones, 3, 1);
         }
 
         if (colors != null) {
@@ -275,7 +275,7 @@ public class Mesh {
 
         // Destroy OPTIONAL Vertex Buffer Objects
         if (bonesVboID != INVALID) {
-            destroyVBO(bonesVboID, 2, "bones");
+            destroyVBO(bonesVboID, 3, "bones");
         }
 
         if (colorsVboID != INVALID) {
