@@ -150,8 +150,8 @@ const crafter = [];
     // Run some logic at X second intervals. Or, execute it after X seconds if repeat is off.
     // Parameters:
     // [float] interval OR delay. (depends if repeat is on)
+    // [boolean] Repeat. If true, this function will run every X seconds. If false, it will run once, then be deleted.
     // [OnTimer] OnTimer function.
-    // [boolean] Repeat. If true, this function will run every X seconds.
     crafter.registerOnTimer = ActionStorage.registerOnTimer;
 
 }()
