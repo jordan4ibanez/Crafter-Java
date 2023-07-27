@@ -21,21 +21,27 @@ import org.crafter.engine.api.actions.on_join.OnJoin;
 import org.crafter.engine.api.actions.on_tick.OnTick;
 import org.crafter.engine.api.actions.on_timer.OnTimer;
 import org.crafter.engine.api.actions.on_timer.OnTimerShell;
+import org.crafter.game.entity.player.Player;
 
 import java.util.ArrayList;
+
+import static org.crafter.engine.delta.Delta.getDelta;
 
 public final class ActionStorage {
     private static final ArrayList<OnJoin> onJoinList = new ArrayList<>();
     private static final ArrayList<OnTick> onTickList = new ArrayList<>();
     private static final ArrayList<OnTimerShell> onTimerList = new ArrayList<>();
+    private static final ArrayList<OnTimerShell> onTimerRemovalList = new ArrayList<>();
 
     private ActionStorage(){}
+
+    //todo ----- BEGIN REGISTRATION PORTION -----
 
     /**
      * Register an onJoin function. This will run when a player joins the game.
      * @param onJoin The onJoin function.
      */
-    public static void registerOnJoin(OnJoin onJoin) {
+    public static void registerOnJoin(final OnJoin onJoin) {
         nullCheck(onJoin, "onJoin");
         onJoinList.add(onJoin);
     }
@@ -44,7 +50,7 @@ public final class ActionStorage {
      * Register an onTick function. This will run every tick of the game logic.
      * @param onTick The onTick function.
      */
-    public static void registerOnTick(OnTick onTick) {
+    public static void registerOnTick(final OnTick onTick) {
         nullCheck(onTick, "onTick");
         onTickList.add(onTick);
     }
@@ -59,6 +65,45 @@ public final class ActionStorage {
         nullCheck(onTimer, "onTimer");
         OnTimerShell onTimerShell = new OnTimerShell(onTimer, interval, repeats);
         onTimerList.add(onTimerShell);
+    }
+
+    //todo ----- BEGIN INTERNAL EXECUTION PORTION -----
+
+    public static void executeOnJoin(Player player) {
+        for (final OnJoin onJoin : onJoinList) {
+            onJoin.execute(player);
+        }
+    }
+
+    public static void executeOnTick() {
+        final float delta = getDelta();
+        for (final OnTick onTick : onTickList) {
+            onTick.execute(delta);
+        }
+        // This is a simple chain because the timer execution needs to count down every tick.
+        executeOnTimer(delta);
+    }
+
+    private static void executeOnTimer(final float delta) {
+
+        // First we run like normal.
+        for (final OnTimerShell onTimerShell : onTimerList) {
+            // tickDown returns true if the function is ready to run. So it's inlined like this.
+            if (onTimerShell.tickDown(delta)) {
+                onTimerShell.execute();
+                if (!onTimerShell.doesRepeat()) {
+                    onTimerRemovalList.add(onTimerShell);
+                }
+            }
+        }
+
+        // Now we run through all the non-repeating functions.
+        for (OnTimerShell onTimerShell : onTimerRemovalList) {
+            onTimerList.remove(onTimerShell);
+        }
+
+        // Finally we clear so the GC can do it's job.
+        onTimerRemovalList.clear();
     }
 
 
