@@ -13,7 +13,7 @@ crafter.registerOnJoin((player) => {
             x = 0;
         }
     });
-}
+};
 
 // This crashes, because x is not defined
 // print("x is: " + x)
@@ -21,10 +21,17 @@ crafter.registerOnJoin((player) => {
 // This one runs only once
 crafter.registerOnTimer(
     2,
+    false,
     () => {
-        print("timer api test!");
-    },
-    false
-)
+        print("timer api test! (run once)");
+    }
+);
 
 // This one runs forever(
+crafter.registerOnTimer(
+    3,
+    true,
+    (delta) => {
+        print("Timer api test! (running forever)");
+    }
+);
