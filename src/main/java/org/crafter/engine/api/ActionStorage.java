@@ -61,9 +61,9 @@ public final class ActionStorage {
      * @param onTimer The onTimer function.
      * @param repeats If this function should keep repeating every X seconds.
      */
-    public static void registerOnTimer(final float interval, final OnTimer onTimer, final boolean repeats) {
+    public static void registerOnTimer(final float interval, final boolean repeats, final OnTimer onTimer) {
         nullCheck(onTimer, "onTimer");
-        OnTimerShell onTimerShell = new OnTimerShell(onTimer, interval, repeats);
+        OnTimerShell onTimerShell = new OnTimerShell(interval, repeats, onTimer);
         onTimerList.add(onTimerShell);
     }
 
