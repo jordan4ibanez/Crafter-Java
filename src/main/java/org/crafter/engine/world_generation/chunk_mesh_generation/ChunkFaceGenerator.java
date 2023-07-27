@@ -35,7 +35,8 @@ public class ChunkFaceGenerator {
 
     // light level 15
     private final float[] classicBrightTop = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
-    private final float[] classicBrightSide = new float[]{0.925f, 0.925f, 0.925f, 1.0f};
+    private final float[] classicBrightSideX = new float[]{0.925f, 0.925f, 0.925f, 1.0f};
+    private final float[] classicBrightSideZ = new float[]{0.905f, 0.905f, 0.905f, 1.0f};
 
     // light level 12 or something
     private final float[] classicDarkTop = new float[]{0.8f, 0.8f, 0.8f, 1.0f};
@@ -255,7 +256,8 @@ public class ChunkFaceGenerator {
             }
         }
         switch(face) {
-            case "back","front","left","right" -> classicDispatchColors(colors, classicBrightSide);
+            case "back","front" -> classicDispatchColors(colors, classicBrightSideZ);
+            case "left","right" -> classicDispatchColors(colors, classicBrightSideX);
             case "bottom" -> classicDispatchColors(colors, classicDarkTop);
             case "top" -> classicDispatchColors(colors, classicBrightTop);
         }
