@@ -58,8 +58,8 @@ public final class ActionStorage {
     /**
      * Register an onTimer function. This will run every X seconds. Will repeat if repeats is true.
      * @param interval How much time until this function executes.
-     * @param onTimer The onTimer function.
      * @param repeats If this function should keep repeating every X seconds.
+     * @param onTimer The onTimer function.
      */
     public static void registerOnTimer(final float interval, final boolean repeats, final OnTimer onTimer) {
         nullCheck(onTimer, "onTimer");
