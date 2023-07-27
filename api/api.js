@@ -32,6 +32,7 @@ Possible implementations: Typescript (one day)
 //
 const dofile = Java.type("org.crafter.engine.api.API").runFile;
 const readFileToString = Java.type("org.crafter.engine.utility.FileReader").getFileString;
+const math = Java.type("org.joml.Math");
 
 // Global java types assignment
 //
@@ -55,6 +56,9 @@ const Vector2fc = Java.type("org.joml.Vector2fc");
 const Vector3fc = Java.type("org.joml.Vector3fc");
 const Vector2ic = Java.type("org.joml.Vector2ic");
 const Vector3ic = Java.type("org.joml.Vector3ic");
+
+// Block Manipulator gets it's own table for minor performance and clarity.
+const blockManipulator = [];
 
 // Very similar to minetest's api table, basically a clone of it in JS.
 const crafter = [];
@@ -137,8 +141,6 @@ const crafter = [];
     // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockState = ChunkStorage.setBlockState;
 
-    //fixme: forgot to implement the bulk api and additional helpers!
-
     // Run some logic when a player joins the game.
     // Parameters: [OnJoin]
     crafter.registerOnJoin = ActionStorage.registerOnJoin;
@@ -154,6 +156,25 @@ const crafter = [];
     // [OnTimer] OnTimer function.
     crafter.registerOnTimer = ActionStorage.registerOnTimer;
 
+    //fixme ---- BEGIN BLOCK MANIPULATOR ----
+
+    // Set the min and max positions of the Block Manipulator.
+    // [Vector3i] [Vector3i] OR  min: [int] [int] [int] max: [int] [int] [int]
+    blockManipulator.setPositions = ChunkStorage.setBlockManipulatorPositions;
+
+    // Make the block manipulator read the map.
+    blockManipulator.readData = ChunkStorage.blockManipulatorReadData;
+
+    // Get RAW data from the Block Manipulator.
+    // [Vector3i] OR [int] [int] [int]
+    blockManipulator.getData = ChunkStorage.getBlockManipulatorData;
+
+    // Set RAW data into the Block Manipulator.
+    // [Vector3i] [int] OR [int] [int] [int] [int]
+    blockManipulator.setData = ChunkStorage.setBlockManipulatorData;
+
+    // Write the Block Manipulator's data into the map.
+    blockManipulator.writeData = ChunkStorage.writeManipulatorWriteData;
 }()
 
 // Air is reserved here
