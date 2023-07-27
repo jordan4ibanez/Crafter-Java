@@ -18,6 +18,7 @@
 package org.crafter;
 
 import org.crafter.engine.api.API;
+import org.crafter.engine.api.ActionStorage;
 import org.crafter.engine.camera.Camera;
 import org.crafter.engine.controls.Keyboard;
 import org.crafter.engine.controls.Mouse;
@@ -136,6 +137,9 @@ public class Main {
                 Mouse.capture();
             }
         }
+
+        // Execute all functions for onTick defined by the ECMAScript API.
+        ActionStorage.executeOnTick();
 
         Window.clearAll();
 
