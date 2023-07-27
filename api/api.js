@@ -29,14 +29,23 @@ Possible implementations: Typescript (one day)
 */
 
 // Lua equivalents!
+//
 const dofile = Java.type("org.crafter.engine.api.API").runFile;
 const readFileToString = Java.type("org.crafter.engine.utility.FileReader").getFileString;
 
 // Global java types assignment
+//
 const BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
 const DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 const BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
+
+// Script actions
+const onJoin = Java.type("org.crafter.engine.api.actions.on_join.OnJoin");
+const onTick = Java.type("org.crafter.engine.api.actions.on_tick.OnTick");
+const onTimer = Java.type("org.crafter.engine.api.actions.on_timer.OnTimer");
+
 // JOML types
+//
 const Vector2f = Java.type("org.joml.Vector2f");
 const Vector3f = Java.type("org.joml.Vector3f");
 const Vector2i = Java.type("org.joml.Vector2i");
