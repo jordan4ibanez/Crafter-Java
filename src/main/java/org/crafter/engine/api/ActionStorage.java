@@ -69,12 +69,20 @@ public final class ActionStorage {
 
     //todo ----- BEGIN INTERNAL EXECUTION PORTION -----
 
+    /**
+     * Executes all onJoin functions.
+     * @param player The Player that is joining.
+     */
     public static void executeOnJoin(Player player) {
         for (final OnJoin onJoin : onJoinList) {
             onJoin.execute(player);
         }
     }
 
+    /**
+     * Executes all onTick functions every game tick.
+     * This automatically executes onTimer functions in a chain.
+     */
     public static void executeOnTick() {
         final float delta = getDelta();
         for (final OnTick onTick : onTickList) {
@@ -84,6 +92,10 @@ public final class ActionStorage {
         executeOnTimer(delta);
     }
 
+    /**
+     * Chained from executeOnTick. Automatically executes and processes all onTimer functions.
+     * @param delta Delta time passed in from executeOnTick.
+     */
     private static void executeOnTimer(final float delta) {
 
         // First we run like normal.

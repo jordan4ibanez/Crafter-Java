@@ -19,7 +19,7 @@ package org.crafter.engine.api.actions.on_timer;
 
 public class OnTimerShell {
 
-    private OnTimer onTimer;
+    private final OnTimer onTimer;
     private float internalTimer = 0.0f;
 
     private boolean repeat = false;
