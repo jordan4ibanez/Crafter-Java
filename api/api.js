@@ -40,9 +40,9 @@ const DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 const BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
 
 // Script actions
-const onJoin = Java.type("org.crafter.engine.api.actions.on_join.OnJoin");
-const onTick = Java.type("org.crafter.engine.api.actions.on_tick.OnTick");
-const onTimer = Java.type("org.crafter.engine.api.actions.on_timer.OnTimer");
+const OnJoin = Java.type("org.crafter.engine.api.actions.on_join.OnJoin");
+const OnTick = Java.type("org.crafter.engine.api.actions.on_tick.OnTick");
+const OnTimer = Java.type("org.crafter.engine.api.actions.on_timer.OnTimer");
 
 // JOML types
 //
@@ -66,7 +66,8 @@ const crafter = [];
     const BlockDefinitionContainer = Java.type("org.crafter.engine.world.block.BlockDefinitionContainer");
     const BiomeDefinitionContainer = Java.type("org.crafter.engine.world.biome.BiomeDefinitionContainer");
     const API = Java.type("org.crafter.engine.api.API");
-    const ChunkStorage = Java.type("org.crafter.engine.world.chunk.ChunkStorage")
+    const ChunkStorage = Java.type("org.crafter.engine.world.chunk.ChunkStorage");
+    const ActionStorage = Java.type("org.crafter.engine.api.ActionStorage");
 
     // Javascript level Block Definition registration function.
     // This is why I avoid singletons, cannot reduce this.
@@ -135,6 +136,23 @@ const crafter = [];
     // Set a block's state using a raw in world position. (Using this in bulk can be very expensive)
     // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockState = ChunkStorage.setBlockState;
+
+    //fixme: forgot to implement the bulk api and additional helpers!
+
+    // Run some logic when a player joins the game.
+    // Parameters: [OnJoin]
+    crafter.registerOnJoin = ActionStorage.registerOnJoin;
+
+    // Run some logic every game tick.
+    // Parameters: [OnTick]
+    crafter.registerOnTick = ActionStorage.registerOnTick;
+
+    // Run some logic at X second intervals. Or, execute it after X seconds if repeat is off.
+    // Parameters:
+    // [float] interval OR delay. (depends if repeat is on)
+    // [OnTimer] OnTimer function.
+    // [boolean] Repeat. If true, this function will run every X seconds.
+    crafter.registerOnTimer = ActionStorage.registerOnTimer;
 
 }()
 
