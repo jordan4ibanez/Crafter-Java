@@ -18,15 +18,28 @@
 package org.crafter.engine.api.actions.on_timer;
 
 public class OnTimerShell {
-    private float internalTimer = 0;
 
-    // OnTimer functional interface goes here
+    private OnTimer onTimer;
+    private float internalTimer = 0.0f;
 
-    // tick down memory
+    private boolean repeat = false;
 
-    // add repeat timer
+    public OnTimerShell(OnTimer onTimer, float timer, boolean repeat) {
+        this.onTimer = onTimer;
+        internalTimer = timer;
+        this.repeat = repeat;
+    }
 
-    //etc etc
+    public boolean tickDown(float delta) {
+        internalTimer -= delta;
+        return internalTimer <= 0;
+    }
 
+    public void execute() {
+        onTimer.execute();
+    }
 
+    public boolean doesRepeat() {
+        return repeat;
+    }
 }
