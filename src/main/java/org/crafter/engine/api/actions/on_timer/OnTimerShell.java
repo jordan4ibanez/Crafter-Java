@@ -19,19 +19,26 @@ package org.crafter.engine.api.actions.on_timer;
 
 public class OnTimerShell {
 
+    private final float timerInterval;
     private float internalTimer = 0.0f;
     private boolean repeat = false;
     private final OnTimer onTimer;
 
     public OnTimerShell(float timer, boolean repeat, OnTimer onTimer) {
         internalTimer = timer;
+        timerInterval = timer;
         this.repeat = repeat;
         this.onTimer = onTimer;
     }
 
     public boolean tickDown(float delta) {
         internalTimer -= delta;
-        return internalTimer <= 0;
+        final boolean executionReady = internalTimer <= 0;
+        // If this timer repeats, this will automatically reset it's timer
+        if (executionReady) {
+            internalTimer += timerInterval;
+        }
+        return executionReady;
     }
 
     public void execute() {
