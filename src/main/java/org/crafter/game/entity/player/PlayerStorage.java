@@ -17,6 +17,8 @@
  */
 package org.crafter.game.entity.player;
 
+import org.crafter.engine.api.ActionStorage;
+
 import java.util.HashMap;
 
 /**
@@ -47,6 +49,9 @@ public final class PlayerStorage {
         final String playerType = clientPlayer ? "Client" : "External";
 
         System.out.println("PlayerStorage: Added new (" + playerType + ") player into world. Name: (" + name + ")");
+
+        // Execute all onJoin functions defined by the ECMAScript API.
+        ActionStorage.executeOnJoin(player);
     }
 
 
