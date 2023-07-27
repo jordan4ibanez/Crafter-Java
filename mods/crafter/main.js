@@ -17,7 +17,7 @@
  */
 
 const modDir = crafter.getCurrentModDirectory() + "/";
-const modFiles = ["blocks", "biomes"]
+const modFiles = ["blocks", "biomes", "scriptingTest"];
 
 // Load up all the separate mod files.
 for (const modFile of modFiles) {
