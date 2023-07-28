@@ -39,7 +39,7 @@ const math = Java.type("org.joml.Math");
 const BlockDefinition = Java.type("org.crafter.engine.world.block.BlockDefinition");
 const DrawType = Java.type("org.crafter.engine.world.block.DrawType");
 const BiomeDefinition = Java.type("org.crafter.engine.world.biome.BiomeDefinition");
-
+const Player = Java.type("org.crafter.game.entity.player.Player");
 // Script actions
 const OnJoin = Java.type("org.crafter.engine.api.actions.on_join.OnJoin");
 const OnTick = Java.type("org.crafter.engine.api.actions.on_tick.OnTick");
@@ -97,7 +97,7 @@ const blockData = []
     // Gets if a chunk is loaded in a position in the world.
     // Parameters: [x,y,z or Vector3f]
     // Returns: boolean
-    crafter.chunkIsLoaded = ChunkStorage.chunkIsLoaded;
+    crafter.isChunkLoaded = ChunkStorage.isChunkLoaded;
 
     // Gets an iterable collection of all players currently online.
     // Returns: Collection<Player>

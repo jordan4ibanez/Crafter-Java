@@ -104,7 +104,7 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      * @return True or false. True if the chunk is loaded.
      */
-    public static synchronized boolean chunkIsLoaded(final Vector3fc position) {
+    public static synchronized boolean isChunkLoaded(final Vector3fc position) {
         calculateChunkPosition(position);
         return container.containsKey(workerVector2i);
     }
@@ -117,7 +117,7 @@ public final class ChunkStorage {
      * @param z The raw in world Z position.
      * @return True or false. True if the chunk is loaded.
      */
-    public static synchronized boolean chunkIsLoaded(final float x, final float y, final float z) {
+    public static synchronized boolean isChunkLoaded(final float x, final float y, final float z) {
         calculateChunkPosition(positionWorker.set(x,y,z));
         return container.containsKey(workerVector2i);
     }
