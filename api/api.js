@@ -63,6 +63,9 @@ const blockManipulator = [];
 // Very similar to minetest's api table, basically a clone of it in JS.
 const crafter = [];
 
+// Similar component to minetest's block manipulator data worker, but integrated into it's own table.
+const blockData = []
+
 // Auto executing lambda localized variable scope discards
 !function(){
 
@@ -73,6 +76,7 @@ const crafter = [];
     const ChunkStorage = Java.type("org.crafter.engine.world.chunk.ChunkStorage");
     const ActionStorage = Java.type("org.crafter.engine.api.ActionStorage");
     const PlayerStorage = Java.type("org.crafter.game.entity.player.PlayerStorage");
+    const Chunk = Java.type("org.crafter.engine.world.chunk.Chunk");
 
     // Javascript level Block Definition registration function.
     // This is why I avoid singletons, cannot reduce this.
@@ -168,22 +172,55 @@ const crafter = [];
     //fixme ---- BEGIN BLOCK MANIPULATOR API ----
 
     // Set the min and max positions of the Block Manipulator.
-    // [Vector3i] [Vector3i] OR  min: [int] [int] [int] max: [int] [int] [int]
+    // Parameters: [Vector3i] [Vector3i] OR  min: [int] [int] [int] max: [int] [int] [int]
     blockManipulator.setPositions = ChunkStorage.setBlockManipulatorPositions;
 
     // Make the block manipulator read the map.
     blockManipulator.readData = ChunkStorage.blockManipulatorReadData;
 
     // Get RAW data from the Block Manipulator.
-    // [Vector3i] OR [int] [int] [int]
+    // Parameters: [Vector3i] OR [int] [int] [int]
     blockManipulator.getData = ChunkStorage.getBlockManipulatorData;
 
     // Set RAW data into the Block Manipulator.
-    // [Vector3i] [int] OR [int] [int] [int] [int]
+    // Parameters: [Vector3i] [int] OR [int] [int] [int] [int]
     blockManipulator.setData = ChunkStorage.setBlockManipulatorData;
 
     // Write the Block Manipulator's data into the map.
     blockManipulator.writeData = ChunkStorage.writeManipulatorWriteData;
+
+    //fixme ----- BEGIN BLOCK DATA MANIPULATOR API -----
+
+    // Get the Block ID from raw Block data.
+    // Parameters: [int] Raw block data.
+    // Returns: [int] Block ID.
+    blockData.getID = Chunk.getBlockID;
+
+    // Get the Block light level from raw Block data.
+    // Parameters: [int] Raw block data.
+    // Returns: [int] Block light level.
+    blockData.getLightLevel = Chunk.getBlockLightLevel;
+
+    // Get the Block state from raw Block data.
+    // Parameters: [int] Raw block data.
+    // Returns: [int] Block state.
+    blockData.getState = Chunk.getBlockState;
+
+    // Set the Block ID into raw Block data.
+    // Parameters: [int] Raw data [int] New Block ID.
+    // Returns: [int] Manipulated raw Block data.
+    blockData.setID = Chunk.setBlockID
+
+    // Set the Block light level into raw Block data.
+    // Parameters: [int] Raw data [int] New Block light level.
+    // Returns: [int] Manipulated raw Block data.
+    blockData.setLightLevel = Chunk.setBlockLight;
+
+    // Set the Block state into raw Block data.
+    // Parameters: [int] Raw data [int] New Block state.
+    // Returns: [int] Manipulated raw Block data.
+    blockData.setState = Chunk.setBlockState;
+
 }()
 
 // Air is reserved here
