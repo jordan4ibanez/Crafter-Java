@@ -93,6 +93,12 @@ const blockDefinition = [];
         BiomeDefinitionContainer.getMainInstance().registerBiome(newBiomeDefinition);
     }
 
+    //FIXME!!! THIS NEEDS TO BE FLESHED OUT!
+    //FIXME!!! INCLUDE ALL THE METHODS FROM THE BLOCK DEFINITIONS!
+    blockDefinition.getID(const input) {
+        return BlockDefinitionContainer.getMainInstance().getDefinition().getID();
+    }
+
     // Will get the mod directory of the current mod.
     // Returns: String
     crafter.getCurrentModDirectory = API.getCurrentModDirectory;
