@@ -41,3 +41,9 @@ crafter.registerBlock(
         .setReadableName("Cobblestone")
         .setTextures(["cobble.png","cobble.png","cobble.png","cobble.png","cobble.png","cobble.png"])
 );
+
+crafter.registerBlock(
+    new BlockDefinition("crafter:brick")
+        .setReadableName("Brick")
+        .setTextures(["brick.png","brick.png","brick.png","brick.png","brick.png","brick.png"])
+);

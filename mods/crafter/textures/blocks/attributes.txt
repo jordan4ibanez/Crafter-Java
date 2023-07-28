@@ -1,0 +1,5 @@
+Brick - Minetest
+
+todo: redo literally every texture so it's known where they came from
+Pretty sure I remade a few of these, I made the diamond, I made the tools.
+but still, let's go again.
