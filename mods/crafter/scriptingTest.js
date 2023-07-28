@@ -72,11 +72,20 @@ crafter.registerOnTimer(
             blockManipulator.setPositions(min,max);
             blockManipulator.readData();
 
+            const brickID = blockDefinition.getID("crafter:brick");
+            const grassID = blockDefinition.getID("crafter:grass");
+
+            print("brick id is: " + brickID);
+
             for (x = position.x - distance; x <= position.x + distance; x += distance) {
                 for (z = position.z - distance; z <= position.z + distance; z += distance) {
                     for (y = position.y - distance; y <= position.y + distance; y += distance) {
                         var rawData = blockManipulator.getData(x,y,z);
-
+                        if (blockData.getID(rawData) != grassID) {
+                            continue;
+                        }
+                        rawData = blockData.setID(rawData, brickID);
+                        blockManipulator.setData(x,y,z);
                     }
                 }
             }
