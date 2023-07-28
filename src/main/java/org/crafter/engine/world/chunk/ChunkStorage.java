@@ -18,6 +18,7 @@
 package org.crafter.engine.world.chunk;
 
 import org.crafter.engine.world.block.BlockDefinitionContainer;
+import org.crafter.engine.world_generation.chunk_mesh_generation.ChunkMeshGenerator;
 import org.joml.*;
 import org.joml.Math;
 
@@ -729,6 +730,7 @@ public final class ChunkStorage {
         BlockDefinitionContainer.getMainInstance().checkExistence(newID);
         internalCheckLightLevelForRAW(Chunk.getBlockLightLevel(rawData));
         container.get(workerVector2i).setBlockData(workerVector3i, rawData);
+        internalPushChunkMeshUpdate();
     }
 
     /**
@@ -742,6 +744,7 @@ public final class ChunkStorage {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockID(currentChunk.getBlockData(workerVector3i), newID);
         currentChunk.setBlockData(workerVector3i, workerData);
+        internalPushChunkMeshUpdate();
     }
 
     /**
@@ -770,6 +773,7 @@ public final class ChunkStorage {
         // Todo: optimize this - Can get a main instance once, then talk to the internal pointer automatically without having to get it every time
         final int newID = BlockDefinitionContainer.getMainInstance().getDefinition(newName).getID();
         internalSetBlockIDUnchecked(newID);
+        internalPushChunkMeshUpdate();
     }
 
     /**
@@ -780,6 +784,7 @@ public final class ChunkStorage {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockLightLevel(currentChunk.getBlockData(workerVector3i), newLightLevel);
         currentChunk.setBlockData(workerVector3i, workerData);
+        internalPushChunkMeshUpdate();
     }
 
     /**
@@ -790,6 +795,15 @@ public final class ChunkStorage {
         final Chunk currentChunk = container.get(workerVector2i);
         final int workerData = Chunk.setBlockState(currentChunk.getBlockData(workerVector3i), newState);
         currentChunk.setBlockData(workerVector3i, workerData);
+        internalPushChunkMeshUpdate();
+    }
+
+    /**
+     * Automatically pushes out chunk mesh update requests.
+     */
+    private static void internalPushChunkMeshUpdate() {
+        // System.out.println("Y is: " + workerVector3i.y() / Chunk.getStackHeight());
+        ChunkMeshGenerator.pushRequest(workerVector2i.x(), workerVector3i.y() / Chunk.getStackHeight(), workerVector2i.y());
     }
 
     /**
@@ -810,8 +824,8 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      */
     private static void calculateChunkPosition(final Vector3fc position) {
-        final int chunkX = toChunkX(position.x());
-        final int chunkZ = toChunkZ(position.z());
+        final int chunkX = toChunkX(Math.floor(position.x()));
+        final int chunkZ = toChunkZ(Math.floor(position.z()));
         workerVector2i.set(chunkX, chunkZ);
     }
 
@@ -821,8 +835,8 @@ public final class ChunkStorage {
      * @param position The raw in world position.
      */
     private static void calculateInternalPosition(final Vector3fc position) {
-        final int internalChunkX = internalX(position.x());
-        final int internalChunkZ = internalZ(position.z());
+        final int internalChunkX = internalX(Math.floor(position.x()));
+        final int internalChunkZ = internalZ(Math.floor(position.z()));
         final int internalChunkY = (int) Math.floor(position.y());
         workerVector3i.set(internalChunkX,internalChunkY,internalChunkZ);
     }
