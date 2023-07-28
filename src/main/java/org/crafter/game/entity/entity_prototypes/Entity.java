@@ -38,7 +38,7 @@ public class Entity extends PointEntity{
     public Entity() { // number one :P
     }
 
-    public Vector2f getSize() {
+    public Vector2fc getSize() {
         return size;
     }
     public void setSize(float x, float y) {
