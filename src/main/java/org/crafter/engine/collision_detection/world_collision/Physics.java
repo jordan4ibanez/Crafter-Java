@@ -49,6 +49,8 @@ public final class Physics {
     private static final int[] collisionOrder = new int[]{1,0,2};
     private static final Vector3f blockPosition = new Vector3f();
     private static final Vector2f blockSize = new Vector2f();
+    private static final Vector3f currentPosition = new Vector3f();
+    private static final Vector3f currentVelocity = new Vector3f();
 
     private Physics(){}
 
@@ -58,7 +60,7 @@ public final class Physics {
      */
     public static void entityPhysics(Entity entity) {
 
-        Vector3f currentPosition = entity.getPosition();
+        currentPosition.set(entity.getPosition());
 
         // If the chunk is unloaded, the entity gets frozen in place until it's loaded.
         if (!ChunkStorage.isChunkLoaded(currentPosition)) {
@@ -71,7 +73,7 @@ public final class Physics {
             delta = MAX_DELTA;
         }
 
-        Vector3f currentVelocity = entity.getVelocity();
+        currentVelocity.set(entity.getVelocity());
 
         // Apply gravity
         currentVelocity.y -= entity.getGravity() * delta;
@@ -132,6 +134,9 @@ public final class Physics {
         for (int axis : collisionOrder) {
             runCollisionDetection(delta, entity, currentPosition, currentVelocity, axis);
         }
+
+        entity.setPosition(currentPosition);
+        entity.setVelocity(currentVelocity);
 
     }
 
