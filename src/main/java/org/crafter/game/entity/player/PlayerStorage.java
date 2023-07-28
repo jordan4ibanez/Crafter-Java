@@ -19,6 +19,7 @@ package org.crafter.game.entity.player;
 
 import org.crafter.engine.api.ActionStorage;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -74,6 +75,14 @@ public final class PlayerStorage {
     }
     public static Player getClientPlayer() {
         return container.get(clientPlayerName);
+    }
+
+    /**
+     * Get all players currently online.
+     * @return An iterable collection of all players currently online.
+     */
+    public static Collection<Player> getConnectedPlayers() {
+        return container.values();
     }
 
 }

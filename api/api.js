@@ -72,6 +72,7 @@ const crafter = [];
     const API = Java.type("org.crafter.engine.api.API");
     const ChunkStorage = Java.type("org.crafter.engine.world.chunk.ChunkStorage");
     const ActionStorage = Java.type("org.crafter.engine.api.ActionStorage");
+    const PlayerStorage = Java.type("org.crafter.game.entity.player.PlayerStorage");
 
     // Javascript level Block Definition registration function.
     // This is why I avoid singletons, cannot reduce this.
@@ -93,6 +94,12 @@ const crafter = [];
     // Parameters: [x,y,z or Vector3f]
     // Returns: boolean
     crafter.chunkIsLoaded = ChunkStorage.chunkIsLoaded;
+
+    // Gets an iterable collection of all players currently online.
+    // Returns: Collection<Player>
+    crafter.getConnectedPlayers = PlayerStorage.getConnectedPlayers;
+
+    //fixme ----- BEGIN SINGLE BLOCK API -----
 
     // Get a block's RAW data using a raw in world position. (Using this in bulk can be very expensive)
     // ONLY USE THIS IF YOU KNOW WHAT YOU ARE DOING!
@@ -141,6 +148,8 @@ const crafter = [];
     // Parameters: [x,y,z or Vector3f] [integer]
     crafter.setBlockState = ChunkStorage.setBlockState;
 
+    //fixme ----- BEGIN ACTIONS API -----
+
     // Run some logic when a player joins the game.
     // Parameters: [OnJoin]
     crafter.registerOnJoin = ActionStorage.registerOnJoin;
@@ -156,7 +165,7 @@ const crafter = [];
     // [OnTimer] OnTimer function.
     crafter.registerOnTimer = ActionStorage.registerOnTimer;
 
-    //fixme ---- BEGIN BLOCK MANIPULATOR ----
+    //fixme ---- BEGIN BLOCK MANIPULATOR API ----
 
     // Set the min and max positions of the Block Manipulator.
     // [Vector3i] [Vector3i] OR  min: [int] [int] [int] max: [int] [int] [int]
