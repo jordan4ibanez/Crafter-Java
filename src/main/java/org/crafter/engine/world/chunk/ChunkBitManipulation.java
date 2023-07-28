@@ -85,7 +85,7 @@ public abstract class ChunkBitManipulation {
     }
     public static int setBlockState(int input, int newState) {
         if (newState > 15 || newState < 0) {
-            throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newState + ")");
+            throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for state! Attempted to input value: (" + newState + ")");
         }
         int blockID = parseBlockID(input);
         int light = parseLightLevel(input);
