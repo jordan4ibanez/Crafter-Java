@@ -61,7 +61,7 @@ public final class Physics {
         Vector3f currentPosition = entity.getPosition();
 
         // If the chunk is unloaded, the entity gets frozen in place until it's loaded.
-        if (!ChunkStorage.chunkIsLoaded(currentPosition)) {
+        if (!ChunkStorage.isChunkLoaded(currentPosition)) {
             return;
         }
 
