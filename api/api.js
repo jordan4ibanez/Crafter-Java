@@ -80,6 +80,7 @@ const blockDefinition = [];
     const ActionStorage = Java.type("org.crafter.engine.api.ActionStorage");
     const PlayerStorage = Java.type("org.crafter.game.entity.player.PlayerStorage");
     const Chunk = Java.type("org.crafter.engine.world.chunk.Chunk");
+    const BitManipulation = Java.type("org.crafter.engine.world.chunk.ChunkBitManipulation")
 
     // Javascript level Block Definition registration function.
     // This is why I avoid singletons, cannot reduce this.
@@ -203,32 +204,34 @@ const blockDefinition = [];
     // Get the Block ID from raw Block data.
     // Parameters: [int] Raw block data.
     // Returns: [int] Block ID.
-    blockData.getID = Chunk.getBlockID;
+    blockData.getID = BitManipulation.getBlockID;
+
+    print("COOL TEST = " + blockData.getID)
 
     // Get the Block light level from raw Block data.
     // Parameters: [int] Raw block data.
     // Returns: [int] Block light level.
-    blockData.getLightLevel = Chunk.getBlockLightLevel;
+    blockData.getLightLevel = BitManipulation.getBlockLightLevel;
 
     // Get the Block state from raw Block data.
     // Parameters: [int] Raw block data.
     // Returns: [int] Block state.
-    blockData.getState = Chunk.getBlockState;
+    blockData.getState = BitManipulation.getBlockState;
 
     // Set the Block ID into raw Block data.
     // Parameters: [int] Raw data [int] New Block ID.
     // Returns: [int] Manipulated raw Block data.
-    blockData.setID = Chunk.setBlockID;
+    blockData.setID = BitManipulation.setBlockID;
 
     // Set the Block light level into raw Block data.
     // Parameters: [int] Raw data [int] New Block light level.
     // Returns: [int] Manipulated raw Block data.
-    blockData.setLightLevel = Chunk.setBlockLightLevel;
+    blockData.setLightLevel = BitManipulation.setBlockLightLevel;
 
     // Set the Block state into raw Block data.
     // Parameters: [int] Raw data [int] New Block state.
     // Returns: [int] Manipulated raw Block data.
-    blockData.setState = Chunk.setBlockState;
+    blockData.setState = BitManipulation.setBlockState;
 
 }()
 

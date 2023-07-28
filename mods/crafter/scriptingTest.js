@@ -54,6 +54,7 @@ crafter.registerOnTimer(
                     }
                 }
             }
+            position.floor();
 
             const min = new Vector3i(
                 math.floor(position.x - distance),
@@ -77,18 +78,22 @@ crafter.registerOnTimer(
 
             print("brick id is: " + brickID);
 
-            for (x = position.x - distance; x <= position.x + distance; x += distance) {
-                for (z = position.z - distance; z <= position.z + distance; z += distance) {
-                    for (y = position.y - distance; y <= position.y + distance; y += distance) {
+            for (x = position.x - distance; x <= position.x + distance; x++) {
+                for (z = position.z - distance; z <= position.z + distance; z++) {
+                    for (y = position.y - distance; y <= position.y + distance; y++) {
+
                         var rawData = blockManipulator.getData(x,y,z);
                         if (blockData.getID(rawData) != grassID) {
                             continue;
                         }
                         rawData = blockData.setID(rawData, brickID);
-                        blockManipulator.setData(x,y,z);
+                        blockManipulator.setData(x,y,z, rawData);
+                        print("set " + x + ", " + y + ", " + z + " to brick!");
                     }
                 }
             }
+
+            blockManipulator.writeData();
 
 //            if (crafter.isChunkLoaded(position)) {
 //                position.y -= 1;
