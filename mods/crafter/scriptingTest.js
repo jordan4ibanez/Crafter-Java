@@ -38,7 +38,7 @@
 
 // I call this one "brick walker"
 crafter.registerOnTimer(
-    0.5,
+    0.1,
     true,
     () => {
         // 2 ways to iterate
@@ -68,7 +68,7 @@ crafter.registerOnTimer(
                 math.floor(position.z + distance)
             );
 
-            print("hi")
+//            print("hi")
 
             blockManipulator.setPositions(min,max);
             blockManipulator.readData();
@@ -76,7 +76,8 @@ crafter.registerOnTimer(
             const brickID = blockDefinition.getID("crafter:brick");
             const grassID = blockDefinition.getID("crafter:grass");
 
-            print("brick id is: " + brickID);
+//            print("brick id is: " + brickID);
+            var changed = false;
 
             for (x = position.x - distance; x <= position.x + distance; x++) {
                 for (z = position.z - distance; z <= position.z + distance; z++) {
@@ -86,14 +87,17 @@ crafter.registerOnTimer(
                         if (blockData.getID(rawData) != grassID) {
                             continue;
                         }
+                        changed = true;
                         rawData = blockData.setID(rawData, brickID);
                         blockManipulator.setData(x,y,z, rawData);
-                        print("set " + x + ", " + y + ", " + z + " to brick!");
+//                        print("set " + x + ", " + y + ", " + z + " to brick!");
                     }
                 }
             }
-
-            blockManipulator.writeData();
+            // No use in writing the data if we didn't change anything!
+            if (changed) {
+                blockManipulator.writeData();
+            }
 
 //            if (crafter.isChunkLoaded(position)) {
 //                position.y -= 1;
