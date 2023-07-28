@@ -209,12 +209,12 @@ const blockData = []
     // Set the Block ID into raw Block data.
     // Parameters: [int] Raw data [int] New Block ID.
     // Returns: [int] Manipulated raw Block data.
-    blockData.setID = Chunk.setBlockID
+    blockData.setID = Chunk.setBlockID;
 
     // Set the Block light level into raw Block data.
     // Parameters: [int] Raw data [int] New Block light level.
     // Returns: [int] Manipulated raw Block data.
-    blockData.setLightLevel = Chunk.setBlockLight;
+    blockData.setLightLevel = Chunk.setBlockLightLevel;
 
     // Set the Block state into raw Block data.
     // Parameters: [int] Raw data [int] New Block state.
