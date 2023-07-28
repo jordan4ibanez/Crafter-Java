@@ -41,7 +41,7 @@ public class PointEntity {
     public PointEntity() {
     }
 
-    public Vector3f getPosition() {
+    public Vector3fc getPosition() {
         return position;
     }
     public void setPosition(float x, float y, float z) {
@@ -51,7 +51,7 @@ public class PointEntity {
         this.position.set(position);
     }
 
-    public Vector3f getVelocity() {
+    public Vector3fc getVelocity() {
         return velocity;
     }
     public void setVelocity(float x, float y, float z) {
