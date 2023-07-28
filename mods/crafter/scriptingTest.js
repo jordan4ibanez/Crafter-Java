@@ -45,7 +45,12 @@ crafter.registerOnTimer(
 
         // Functional
         crafter.getConnectedPlayers().forEach((player) => {
-            print(player.getName());
+            const position = new Vector3f(player.getPosition());
+            if (crafter.isChunkLoaded(position)) {
+                position.y -= 1;
+                crafter.setBlockName(position, "crafter:brick");
+//                print("bricked!" + math.random())
+            }
         })
 
         // Nashorn OOP style
