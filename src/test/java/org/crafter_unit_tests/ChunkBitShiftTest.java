@@ -49,7 +49,7 @@ public class ChunkBitShiftTest {
 
         for (int i = 0; i < testAmount; i++) {
             final int chosenLight = random.nextInt(15);
-            final int testBlock = Chunk.setBlockLight(0, chosenLight);
+            final int testBlock = Chunk.setBlockLightLevel(0, chosenLight);
             final int gottenLight = Chunk.getBlockLightLevel(testBlock);
             assertEquals(chosenLight, gottenLight);
         }
@@ -88,7 +88,7 @@ public class ChunkBitShiftTest {
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
 
-            testBlock = Chunk.setBlockLight(testBlock, chosenLight);
+            testBlock = Chunk.setBlockLightLevel(testBlock, chosenLight);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
             assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));
@@ -101,7 +101,7 @@ public class ChunkBitShiftTest {
 
             // Now we're going in reverse order to double-check
 
-            testBlock = Chunk.setBlockLight(testBlock, chosenLight);
+            testBlock = Chunk.setBlockLightLevel(testBlock, chosenLight);
 
             assertEquals(chosenID, Chunk.getBlockID(testBlock));
             assertEquals(chosenLight, Chunk.getBlockLightLevel(testBlock));

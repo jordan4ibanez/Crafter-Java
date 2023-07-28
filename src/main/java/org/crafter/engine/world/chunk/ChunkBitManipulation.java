@@ -74,12 +74,12 @@ public abstract class ChunkBitManipulation {
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
-    public static int setBlockLight(int input, int newLight) {
-        if (newLight > 15 || newLight < 0) {
-            throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light! Attempted to input value: (" + newLight + ")" );
+    public static int setBlockLightLevel(int input, int newLightLevel) {
+        if (newLightLevel > 15 || newLightLevel < 0) {
+            throw new RuntimeException("ChunkBitManipulation: Attempted to exceed 4 bit limit for light level! Attempted to input value: (" + newLightLevel + ")" );
         }
         int blockID = parseBlockID(input);
-        int light = shiftLight(newLight);
+        int light = shiftLightLevel(newLightLevel);
         int state = parseBlockState(input);
         return combine(blockID, light, state);
     }
@@ -122,7 +122,7 @@ public abstract class ChunkBitManipulation {
     private static int shiftBlock(int input) {
         return input << 16;
     }
-    private static int shiftLight(int input) {
+    private static int shiftLightLevel(int input) {
         return input << 12;
     }
     private static int shiftState(int input) {

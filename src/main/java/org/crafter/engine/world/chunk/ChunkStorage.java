@@ -778,7 +778,7 @@ public final class ChunkStorage {
      */
     private static void internalSetBlockLightLevel(final int newLightLevel) {
         final Chunk currentChunk = container.get(workerVector2i);
-        final int workerData = Chunk.setBlockLight(currentChunk.getBlockData(workerVector3i), newLightLevel);
+        final int workerData = Chunk.setBlockLightLevel(currentChunk.getBlockData(workerVector3i), newLightLevel);
         currentChunk.setBlockData(workerVector3i, workerData);
     }
 
