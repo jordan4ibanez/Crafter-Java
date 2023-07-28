@@ -500,6 +500,8 @@ public final class ChunkStorage {
         final int chunkZMin = toChunkZ(blockManipulatorMin.z());
         final int chunkZMax = toChunkZ(blockManipulatorMax.z());
 
+
+
         //TODO: FORCE LOAD UP MAP CHUNKS!
 
         // fixme: this is a highly unoptimized prototype procedure to ensure this works
@@ -528,11 +530,22 @@ public final class ChunkStorage {
                     }
                 }
 
-                // Placeholder
-                System.out.println("BlockManipulator: Writing chunk (" + chunkX + " " + chunkZ + ")");
+                // This debug can get really REALLY verbose!
+//                System.out.println("BlockManipulator: Writing chunk (" + chunkX + " " + chunkZ + ")");
 
-                //todo: this is where chunk updates get dispatched
-                // Dispatch chunks here ()
+                // Impossible starting point, nothing will equal this.
+                int oldY = -15;
+
+                for (int y = blockManipulatorMin.y(); y <= blockManipulatorMax.y(); y ++) {
+                    final int yStack = y / Chunk.getStackHeight();
+                    if (y != oldY) {
+                        oldY = yStack;
+                    } else {
+                        continue;
+                    }
+                    internalBlockManipulatorPushMeshUpdate(chunkX, yStack, chunkZ);
+                }
+
             }
         }
     }
@@ -799,6 +812,17 @@ public final class ChunkStorage {
     }
 
     /**
+     * INTERNAL ONLY. BULK API ONLY!
+     * @param x Chunk X.
+     * @param y Chunk stack position.
+     * @param z Chunk Z.
+     */
+    private static void internalBlockManipulatorPushMeshUpdate(final int x, final int y, final int z) {
+        ChunkMeshGenerator.pushRequest(x, y, z);
+    }
+
+    /**
+     * INTERNAL ONLY. SINGLE POINT API ONLY!
      * Automatically pushes out chunk mesh update requests.
      */
     private static void internalPushChunkMeshUpdate() {
