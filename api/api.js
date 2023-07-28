@@ -64,7 +64,10 @@ const blockManipulator = [];
 const crafter = [];
 
 // Similar component to minetest's block manipulator data worker, but integrated into it's own table.
-const blockData = []
+const blockData = [];
+
+// Stores functions for the Block Definition Container.
+const blockDefinition = [];
 
 // Auto executing lambda localized variable scope discards
 !function(){
