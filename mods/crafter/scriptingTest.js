@@ -46,11 +46,46 @@ crafter.registerOnTimer(
         // Functional
         crafter.getConnectedPlayers().forEach((player) => {
             const position = new Vector3f(player.getPosition());
-            if (crafter.isChunkLoaded(position)) {
-                position.y -= 1;
-                crafter.setBlockName(position, "crafter:brick");
-//                print("bricked!" + math.random())
+            const distance = 5;
+            for (x = position.x - distance; x <= position.x + distance; x += distance) {
+                for (z = position.z - distance; z <= position.z + distance; z += distance) {
+                    if (!crafter.isChunkLoaded(position.x + x, position.y, position.z + z)) {
+                        return;
+                    }
+                }
             }
+
+            const min = new Vector3i(
+                math.floor(position.x - distance),
+                math.floor(position.y - distance),
+                math.floor(position.z - distance)
+            );
+
+            const max = new Vector3i(
+                math.floor(position.x + distance),
+                math.floor(position.y + distance),
+                math.floor(position.z + distance)
+            );
+
+            print("hi")
+
+            blockManipulator.setPositions(min,max);
+            blockManipulator.readData();
+
+            for (x = position.x - distance; x <= position.x + distance; x += distance) {
+                for (z = position.z - distance; z <= position.z + distance; z += distance) {
+                    for (y = position.y - distance; y <= position.y + distance; y += distance) {
+                        var rawData = blockManipulator.getData(x,y,z);
+
+                    }
+                }
+            }
+
+//            if (crafter.isChunkLoaded(position)) {
+//                position.y -= 1;
+//                crafter.setBlockName(position, "crafter:brick");
+////                print("bricked!" + math.random())
+//            }
         })
 
         // Nashorn OOP style
