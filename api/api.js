@@ -95,8 +95,8 @@ const blockDefinition = [];
 
     //FIXME!!! THIS NEEDS TO BE FLESHED OUT!
     //FIXME!!! INCLUDE ALL THE METHODS FROM THE BLOCK DEFINITIONS!
-    blockDefinition.getID(const input) {
-        return BlockDefinitionContainer.getMainInstance().getDefinition().getID();
+    blockDefinition.getID = function(input) {
+        return BlockDefinitionContainer.getMainInstance().getDefinition(input).getID();
     }
 
     // Will get the mod directory of the current mod.
