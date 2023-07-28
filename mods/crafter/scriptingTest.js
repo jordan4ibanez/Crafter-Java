@@ -112,3 +112,27 @@ crafter.registerOnTimer(
 //        }
     }
 )
+
+
+crafter.registerOnTimer(
+    0.05,
+    true,
+    () => {
+        crafter.getConnectedPlayers().forEach((player) => {
+
+            const position = new Vector3f(player.getPosition());
+
+            // If this chunk isn't loaded then, return!
+            if (!crafter.isChunkLoaded(position)) {
+                return;
+            }
+
+            position.y -= 1;
+
+            crafter.setBlockName(position, "crafter:stone");
+
+            print("stoney")
+
+        })
+    }
+)
