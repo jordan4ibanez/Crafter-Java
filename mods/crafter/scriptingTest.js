@@ -131,7 +131,7 @@ crafter.registerOnTimer(
 
             crafter.setBlockName(position, "crafter:stone");
 
-            print("stoney")
+//            print("stoney")
 
         })
     }
