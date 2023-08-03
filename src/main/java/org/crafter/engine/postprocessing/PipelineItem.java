@@ -44,13 +44,13 @@ public class PipelineItem implements AutoCloseable {
     private void genRect() {
         final float[] coords = new float[]{
                 // Coords      Tex coords
-                1, -1,         1, 0,
-                -1, -1,        0, 0,
                 -1,  1,        0, 1,
-
-                1,  1,         1, 1,
+                -1, -1,        0, 0,
                 1, -1,         1, 0,
-                -1, 1,         0, 1
+
+                -1, 1,         0, 1,
+                1, -1,         1, 0,
+                1,  1,         1, 1,
         };
 
         this.rectVAO = glGenVertexArrays();
