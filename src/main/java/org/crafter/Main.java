@@ -76,6 +76,8 @@ public class Main {
                 postProcessing.start();
                 mainLoop();
                 postProcessing.end();
+
+                postProcessing.update();
             }
         } catch (Exception e) {
             // Game must shut down external threads or it WILL hang

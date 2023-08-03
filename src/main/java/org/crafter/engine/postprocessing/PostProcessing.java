@@ -70,6 +70,15 @@ public class PostProcessing implements AutoCloseable {
     }
 
     /**
+     * Updates all pipeline items. Changes the texture size if the window is resized.
+     */
+    public void update() {
+        for (PipelineItem item : this.getPipeline()) {
+            item.update();
+        }
+    }
+
+    /**
      * Closes all pipeline items.
      */
     @Override
