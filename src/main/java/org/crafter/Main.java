@@ -25,6 +25,8 @@ import org.crafter.engine.controls.Mouse;
 import org.crafter.engine.delta.Delta;
 import org.crafter.engine.gui.font.Font;
 import org.crafter.engine.mesh.MeshStorage;
+import org.crafter.engine.postprocessing.PipelineItem;
+import org.crafter.engine.postprocessing.PostProcessing;
 import org.crafter.engine.shader.ShaderStorage;
 import org.crafter.engine.texture.TextureStorage;
 import org.crafter.engine.window.Window;
@@ -67,9 +69,13 @@ public class Main {
 
         initialize();
 
+        PostProcessing postProcessing = new PostProcessing();
+
         try {
             while(!Window.shouldClose()) {
+                postProcessing.start();
                 mainLoop();
+                postProcessing.end();
             }
         } catch (Exception e) {
             // Game must shut down external threads or it WILL hang
@@ -99,6 +105,9 @@ public class Main {
 
         ShaderStorage.createShader("2d", "shaders/2d_vertex.vert", "shaders/2d_fragment.frag");
         ShaderStorage.createUniform("2d", new String[]{"cameraMatrix", "objectMatrix"});
+
+        // Used for post-processing
+        ShaderStorage.createShader("2d_do_nothing", "shaders/2d_do_nothing.vert", "shaders/2d_do_nothing.frag");
 
         Font.createFont("fonts/totally_original", "mc", true);
         Font.setShadowOffset(0.75f,0.75f);
