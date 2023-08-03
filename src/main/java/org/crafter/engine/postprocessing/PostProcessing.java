@@ -1,5 +1,8 @@
 package org.crafter.engine.postprocessing;
 
+import org.crafter.engine.window.Window;
+import org.joml.Vector2f;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class PostProcessing implements AutoCloseable {
     private final List<PipelineItem> pipeline;
+    private Vector2f windowSize;
 
     public PostProcessing() {
         this.pipeline = new ArrayList<>();
@@ -70,12 +74,24 @@ public class PostProcessing implements AutoCloseable {
     }
 
     /**
-     * Updates all pipeline items. Changes the texture size if the window is resized.
+     * Changes the texture size if the window is resized.
      */
     public void update() {
-        for (PipelineItem item : this.getPipeline()) {
-            item.update();
+        // Since Window.wasResized() always evaluates to false this is my workaround
+
+        if (this.windowSize == null) {
+            this.windowSize = Window.getWindowSize();
         }
+
+        if (this.windowSize.equals(Window.getWindowSize())) {
+            return;
+        }
+
+        for (PipelineItem item : this.getPipeline()) {
+            item.refresh();
+        }
+
+        this.windowSize = Window.getWindowSize();
     }
 
     /**

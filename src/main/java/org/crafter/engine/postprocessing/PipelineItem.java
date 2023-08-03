@@ -117,11 +117,7 @@ public class PipelineItem implements AutoCloseable {
     /**
      * Changes the frame buffer texture size to the window's new size if it is rescaled
      */
-    public void update() {
-        if (!Window.wasResized()) {
-            return;
-        }
-
+    public void refresh() {
         this.refreshFramebufferTexture();
     }
 
